@@ -7,21 +7,17 @@
 
 import SwiftUI
 import KakaoSDKAuth
-import KakaoSDKCommon
 import KakaoSDKUser
+import KakaoSDKCommon
 
 @main
 struct SachosaengApp: App {
-    
     init() {
-        if let test1 = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
-            print(test1)
-            //testsadsadeasdsadsad
+        if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
+            KakaoSDK.initSDK(appKey: kakaoAppKey)
         }
     }
-    
     var body: some Scene {
-        
         WindowGroup {
             ContentView()
         }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		366057A52BC41C80004F8216 /* KakaoAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366057A42BC41C80004F8216 /* KakaoAuthService.swift */; };
+		36CBA1512BC4423B0073C50C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 36CBA1502BC4423B0073C50C /* .swiftlint.yml */; };
+		36CBA1532BC45C510073C50C /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CBA1522BC45C510073C50C /* SignView.swift */; };
 		36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01642BC400E400050CC7 /* SachosaengApp.swift */; };
 		36EB01672BC400E400050CC7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01662BC400E400050CC7 /* ContentView.swift */; };
 		36EB01692BC400E500050CC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36EB01682BC400E500050CC7 /* Assets.xcassets */; };
@@ -17,13 +20,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		366057A42BC41C80004F8216 /* KakaoAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthService.swift; sourceTree = "<group>"; };
+		36CBA1502BC4423B0073C50C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		36CBA1522BC45C510073C50C /* SignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		36EB01612BC400E400050CC7 /* Sachosaeng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sachosaeng.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36EB01642BC400E400050CC7 /* SachosaengApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SachosaengApp.swift; sourceTree = "<group>"; };
 		36EB01662BC400E400050CC7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		36EB01682BC400E500050CC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36EB016B2BC400E500050CC7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		36EB01722BC4012F00050CC7 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		36EB01732BC401BE00050CC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		36EB01732BC401BE00050CC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,14 +49,47 @@
 		366057A32BC41260004F8216 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				36EB01662BC400E400050CC7 /* ContentView.swift */,
+				36CBA1522BC45C510073C50C /* SignView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		366057A62BC4306C004F8216 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				366057A42BC41C80004F8216 /* KakaoAuthService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		36CBA1582BC45FB50073C50C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		36CBA1592BC45FC00073C50C /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				36EB01722BC4012F00050CC7 /* Config.xcconfig */,
+				36CBA1502BC4423B0073C50C /* .swiftlint.yml */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		36CBA15A2BC460E80073C50C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		36EB01582BC400E400050CC7 = {
 			isa = PBXGroup;
 			children = (
-				36EB01722BC4012F00050CC7 /* Config.xcconfig */,
+				36EB01642BC400E400050CC7 /* SachosaengApp.swift */,
 				36EB01632BC400E400050CC7 /* Sachosaeng */,
 				36EB01622BC400E400050CC7 /* Products */,
 			);
@@ -67,11 +106,13 @@
 		36EB01632BC400E400050CC7 /* Sachosaeng */ = {
 			isa = PBXGroup;
 			children = (
-				36EB01732BC401BE00050CC7 /* Info.plist */,
-				36EB01642BC400E400050CC7 /* SachosaengApp.swift */,
-				36EB01662BC400E400050CC7 /* ContentView.swift */,
+				36CBA15A2BC460E80073C50C /* Extension */,
+				36CBA1592BC45FC00073C50C /* Config */,
+				36CBA1582BC45FB50073C50C /* Model */,
+				366057A62BC4306C004F8216 /* Service */,
 				366057A32BC41260004F8216 /* View */,
 				36EB01682BC400E500050CC7 /* Assets.xcassets */,
+				36EB01732BC401BE00050CC7 /* Info.plist */,
 				36EB016A2BC400E500050CC7 /* Preview Content */,
 			);
 			path = Sachosaeng;
@@ -95,6 +136,7 @@
 				36EB015D2BC400E400050CC7 /* Sources */,
 				36EB015E2BC400E400050CC7 /* Frameworks */,
 				36EB015F2BC400E400050CC7 /* Resources */,
+				36CBA14F2BC4420B0073C50C /* SwiftLint Script */,
 			);
 			buildRules = (
 			);
@@ -151,6 +193,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36CBA1512BC4423B0073C50C /* .swiftlint.yml in Resources */,
 				36EB016C2BC400E500050CC7 /* Preview Assets.xcassets in Resources */,
 				36EB01692BC400E500050CC7 /* Assets.xcassets in Resources */,
 			);
@@ -158,13 +201,37 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		36CBA14F2BC4420B0073C50C /* SwiftLint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		36EB015D2BC400E400050CC7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				36EB01672BC400E400050CC7 /* ContentView.swift in Sources */,
+				36CBA1532BC45C510073C50C /* SignView.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
+				366057A52BC41C80004F8216 /* KakaoAuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,7 +290,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -280,7 +347,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -301,6 +368,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Sachosaeng/Preview Content\"";
 				DEVELOPMENT_TEAM = S5UCK9GBFJ;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sachosaeng/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
@@ -314,7 +382,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.dasom8899981.Sachosaeng;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.dasom8899981.Sachosaeng3904;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -333,6 +401,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Sachosaeng/Preview Content\"";
 				DEVELOPMENT_TEAM = S5UCK9GBFJ;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sachosaeng/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
@@ -346,7 +415,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.dasom8899981.Sachosaeng;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.dasom8899981.Sachosaeng3904;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

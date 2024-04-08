@@ -19,6 +19,7 @@
 		36EB01662BC400E400050CC7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		36EB01682BC400E500050CC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36EB016B2BC400E500050CC7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		36EB01722BC4012F00050CC7 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +36,7 @@
 		36EB01582BC400E400050CC7 = {
 			isa = PBXGroup;
 			children = (
+				36EB01722BC4012F00050CC7 /* Config.xcconfig */,
 				36EB01632BC400E400050CC7 /* Sachosaeng */,
 				36EB01622BC400E400050CC7 /* Products */,
 			);

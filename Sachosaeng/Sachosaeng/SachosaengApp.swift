@@ -16,6 +16,7 @@ struct SachosaengApp: App {
     init() {
         if let test1 = Bundle.main.path(forAuxiliaryExecutable: "test") {
             print(test1)
+            /sadsada/
         }
     }
     var body: some Scene {

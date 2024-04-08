@@ -16,7 +16,7 @@ struct SachosaengApp: App {
     init() {
         if let test1 = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
             print(test1)
-            //test
+            //testsadsadeasdsadsad
         }
     }
     

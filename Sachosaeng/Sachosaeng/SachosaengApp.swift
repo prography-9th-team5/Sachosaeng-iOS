@@ -14,8 +14,8 @@ import KakaoSDKUser
 struct SachosaengApp: App {
     
     init() {
-        if let test = Bundle.main.path(forAuxiliaryExecutable: "test") {
-            print(test)
+        if let test1 = Bundle.main.path(forAuxiliaryExecutable: "test") {
+            print(test1)
         }
     }
     var body: some Scene {

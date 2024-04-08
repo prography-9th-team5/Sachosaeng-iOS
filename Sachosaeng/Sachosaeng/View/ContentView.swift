@@ -8,21 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    var kakao = KakaoAuthService()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-            Button {
-                kakao.loginWithKakaoAccount()
-            } label: {
-                Text("테스트")
-            }
-
+        TabView {
+            SignView()
+                .tabItem {
+                    Image(systemName: "bolt")
+                }
         }
-        .padding()
     }
 }
 

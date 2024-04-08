@@ -7,8 +7,8 @@
 
 import SwiftUI
 import KakaoSDKAuth
-import KakaoSDKCommon
 import KakaoSDKUser
+import KakaoSDKCommon
 
 @main
 struct SachosaengApp: App {

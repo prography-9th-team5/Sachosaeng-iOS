@@ -6,10 +6,20 @@
 //
 
 import SwiftUI
+import KakaoSDKAuth
+import KakaoSDKCommon
+import KakaoSDKUser
 
 @main
 struct SachosaengApp: App {
+    
+    init() {
+        if let test = Bundle.main.path(forAuxiliaryExecutable: "test") {
+            print(test)
+        }
+    }
     var body: some Scene {
+        
         WindowGroup {
             ContentView()
         }

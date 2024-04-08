@@ -94,8 +94,11 @@ iOSInjectionProject/
 .DS_Store
 *.xcconfig
 /**/*.plist
+
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
+**/xcshareddate/WorkspaceSettings.xcsettings
+# End of https://www.toptal.com/developers/gitignore/api/xcode

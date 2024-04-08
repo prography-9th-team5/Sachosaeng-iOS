@@ -40,6 +40,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		366057A32BC41260004F8216 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		36EB01582BC400E400050CC7 = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +70,7 @@
 				36EB01732BC401BE00050CC7 /* Info.plist */,
 				36EB01642BC400E400050CC7 /* SachosaengApp.swift */,
 				36EB01662BC400E400050CC7 /* ContentView.swift */,
+				366057A32BC41260004F8216 /* View */,
 				36EB01682BC400E500050CC7 /* Assets.xcassets */,
 				36EB016A2BC400E500050CC7 /* Preview Content */,
 			);

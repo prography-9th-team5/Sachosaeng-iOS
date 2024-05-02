@@ -40,11 +40,13 @@ extension Color {
         static let pink = Color(red: 238, green: 70, blue: 151)
         static func primaryColorWithAlpha(_ color: Color) -> Color {
             switch color {
+            // swiftlint:disable all
             case PrimaryColor.red, PrimaryColor.orange, PrimaryColor.amber, PrimaryColor.green, PrimaryColor.mint, PrimaryColor.blue, PrimaryColor.indigo, PrimaryColor.purple, PrimaryColor.pink:
                 return color.opacity(0.12)
             default:
                 return color.opacity(0.20)
             }
+            // swiftlint:enable all
         }
     }
 }

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		366057A52BC41C80004F8216 /* KakaoAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366057A42BC41C80004F8216 /* KakaoAuthService.swift */; };
+		3663D3DC2BE317EE007AA77A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DB2BE317EE007AA77A /* GoogleSignIn */; };
+		3663D3DE2BE317EE007AA77A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DD2BE317EE007AA77A /* GoogleSignInSwift */; };
+		3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */; };
 		36CBA1512BC4423B0073C50C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 36CBA1502BC4423B0073C50C /* .swiftlint.yml */; };
 		36CBA1532BC45C510073C50C /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CBA1522BC45C510073C50C /* SignView.swift */; };
 		36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01642BC400E400050CC7 /* SachosaengApp.swift */; };
@@ -21,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		366057A42BC41C80004F8216 /* KakaoAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthService.swift; sourceTree = "<group>"; };
+		3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		36CBA1502BC4423B0073C50C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		36CBA1522BC45C510073C50C /* SignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		36EB01612BC400E400050CC7 /* Sachosaeng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sachosaeng.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,7 +41,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3663D3DE2BE317EE007AA77A /* GoogleSignInSwift in Frameworks */,
 				36EB01762BC4030B00050CC7 /* KakaoSDK in Frameworks */,
+				3663D3DC2BE317EE007AA77A /* GoogleSignIn in Frameworks */,
 				36EB01782BC4030B00050CC7 /* KakaoSDKAuth in Frameworks */,
 				36EB017A2BC4030B00050CC7 /* KakaoSDKUser in Frameworks */,
 			);
@@ -82,6 +88,7 @@
 		36CBA15A2BC460E80073C50C /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -147,6 +154,8 @@
 				36EB01752BC4030B00050CC7 /* KakaoSDK */,
 				36EB01772BC4030B00050CC7 /* KakaoSDKAuth */,
 				36EB01792BC4030B00050CC7 /* KakaoSDKUser */,
+				3663D3DB2BE317EE007AA77A /* GoogleSignIn */,
+				3663D3DD2BE317EE007AA77A /* GoogleSignInSwift */,
 			);
 			productName = Sachosaeng;
 			productReference = 36EB01612BC400E400050CC7 /* Sachosaeng.app */;
@@ -178,6 +187,7 @@
 			mainGroup = 36EB01582BC400E400050CC7;
 			packageReferences = (
 				36EB01742BC4030B00050CC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				3663D3DA2BE317EE007AA77A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 36EB01622BC400E400050CC7 /* Products */;
 			projectDirPath = "";
@@ -232,6 +242,7 @@
 				36CBA1532BC45C510073C50C /* SignView.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
 				366057A52BC41C80004F8216 /* KakaoAuthService.swift in Sources */,
+				3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +458,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3663D3DA2BE317EE007AA77A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 		36EB01742BC4030B00050CC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
@@ -458,6 +477,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3663D3DB2BE317EE007AA77A /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3663D3DA2BE317EE007AA77A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		3663D3DD2BE317EE007AA77A /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3663D3DA2BE317EE007AA77A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
 		36EB01752BC4030B00050CC7 /* KakaoSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 36EB01742BC4030B00050CC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;

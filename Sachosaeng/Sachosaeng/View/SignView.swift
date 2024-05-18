@@ -9,7 +9,12 @@ import SwiftUI
 
 struct SignView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button {
+            KakaoAuthService().loginWithKakaoAccount()
+        } label: {
+            Text("sss")
+        }
+
     }
 }
 

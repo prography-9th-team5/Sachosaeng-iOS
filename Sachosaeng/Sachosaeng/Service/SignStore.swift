@@ -10,9 +10,10 @@ import KakaoSDKUser
 import KakaoSDKAuth
 import KakaoSDKCommon
 import Alamofire
+import AuthenticationServices
 
-final class KakaoAuthService {
-    /// 카카오 로그인 시도
+final class SignStore {
+    
     func loginWithKakaoAccount() {
         if UserApi.isKakaoTalkLoginAvailable() {
             UserApi.shared.loginWithKakaoTalk { _, error in
@@ -47,7 +48,7 @@ final class KakaoAuthService {
             }
         }
     }
-    /// 카카오톡 로그아웃 시키기 
+    /// 카카오톡 로그아웃 시키기
     func logout() {
         UserApi.shared.logout { error in
             if let error = error {

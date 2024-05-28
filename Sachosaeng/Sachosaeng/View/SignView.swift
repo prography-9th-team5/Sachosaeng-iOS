@@ -6,15 +6,19 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct SignView: View {
+    private var signStore = SignStore()
     var body: some View {
-        Button {
-            KakaoAuthService().loginWithKakaoAccount()
-        } label: {
-            Text("sss")
+        VStack {
+            Button {
+                signStore.loginWithKakaoAccount()
+            } label: {
+                Text("sss")
+            }
+            AppleSignInButton()
         }
-
     }
 }
 

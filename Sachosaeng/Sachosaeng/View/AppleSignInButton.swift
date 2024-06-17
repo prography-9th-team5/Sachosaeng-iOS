@@ -29,7 +29,7 @@ struct AppleSignInButton: View {
                                 let identityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
                                 let authrizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8)
                                 print("userIdentifier: \(userIdentifier)")
-                                print("fullName: \(fullName)")
+//                                print("fullName: \(fullName)")
                                 print("name: \(name)")
                                 print("email: \(String(describing: email))")
                                 print("identityToken: \(String(describing: identityToken))")

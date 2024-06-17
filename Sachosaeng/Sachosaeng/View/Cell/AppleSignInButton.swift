@@ -43,7 +43,5 @@ struct AppleSignInButton: View {
                 }
             }
         )
-        .frame(width : UIScreen.main.bounds.width * 0.9, height:50)
-        .cornerRadius(5)
     }
 }

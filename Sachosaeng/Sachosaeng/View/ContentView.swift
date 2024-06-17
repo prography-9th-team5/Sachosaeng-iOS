@@ -12,7 +12,7 @@ struct ContentView: View {
         TabView {
             SignView()
                 .tabItem {
-                    Image(systemName: "bolt")
+                    Image(systemName: ".")
                 }
         }
     }

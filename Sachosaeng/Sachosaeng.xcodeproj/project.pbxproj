@@ -60,8 +60,7 @@
 			children = (
 				36CBA1522BC45C510073C50C /* SignView.swift */,
 				36EB01662BC400E400050CC7 /* ContentView.swift */,
-				36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */,
-				36F8C37E2C1FFD33002B4AD7 /* Launch Screen.storyboard */,
+				36F8C3802C200982002B4AD7 /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -84,6 +83,7 @@
 		36CBA1592BC45FC00073C50C /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				36F8C37E2C1FFD33002B4AD7 /* Launch Screen.storyboard */,
 				36EB01722BC4012F00050CC7 /* Config.xcconfig */,
 			);
 			path = Config;
@@ -117,7 +117,6 @@
 		36EB01632BC400E400050CC7 /* Sachosaeng */ = {
 			isa = PBXGroup;
 			children = (
-				36EAD7322C05BE440052FB6F /* Sachosaeng.entitlements */,
 				36CBA15A2BC460E80073C50C /* Extension */,
 				36CBA1592BC45FC00073C50C /* Config */,
 				36CBA1582BC45FB50073C50C /* Model */,
@@ -125,6 +124,7 @@
 				366057A32BC41260004F8216 /* View */,
 				36EB01682BC400E500050CC7 /* Assets.xcassets */,
 				36EB01732BC401BE00050CC7 /* Info.plist */,
+				36EAD7322C05BE440052FB6F /* Sachosaeng.entitlements */,
 				36EB016A2BC400E500050CC7 /* Preview Content */,
 			);
 			path = Sachosaeng;
@@ -136,6 +136,14 @@
 				36EB016B2BC400E500050CC7 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		36F8C3802C200982002B4AD7 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

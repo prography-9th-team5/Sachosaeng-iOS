@@ -10,9 +10,10 @@ import KakaoSDKUser
 import KakaoSDKAuth
 import KakaoSDKCommon
 import Alamofire
+import AuthenticationServices
 
-final class KakaoAuthService {
-    /// 카카오 로그인 시도
+final class SignStore {
+    
     func loginWithKakaoAccount() {
         if UserApi.isKakaoTalkLoginAvailable() {
             UserApi.shared.loginWithKakaoTalk { _, error in
@@ -43,10 +44,11 @@ final class KakaoAuthService {
                 print("유저데이터 가져오는데 실패했습니다. \(String(describing: error))")
             } else {
                 print("닉네임찾기 \(user?.kakaoAccount?.profile?.nickname ?? "몰루")" )
+                print("이메일찾기 \(user?.kakaoAccount?.email ?? "몰루")" )
             }
         }
     }
-    /// 카카오톡 로그아웃 시키기 
+    /// 카카오톡 로그아웃 시키기
     func logout() {
         UserApi.shared.logout { error in
             if let error = error {

@@ -11,6 +11,7 @@ import KakaoSDKAuth
 import KakaoSDKCommon
 import Alamofire
 import AuthenticationServices
+import GoogleSignIn
 
 final class SignStore {
     
@@ -19,7 +20,7 @@ final class SignStore {
             UserApi.shared.loginWithKakaoTalk { _, error in
                 if let error = error {
                     print("=================에러1===============")
-                    print("if loginWithKakaoAccount \(error)")
+                    print("if loginWithKakaoAccount \(error.localizedDescription)")
                 } else {
                     self.getUser()
                 }
@@ -54,6 +55,14 @@ final class SignStore {
             if let error = error {
                 print(error)
             }
+        }
+    }
+    
+    func signInGoolge() {
+        guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else { return }
+        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, err in
+
+            
         }
     }
 }

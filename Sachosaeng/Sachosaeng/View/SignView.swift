@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleSignInSwift
 
 enum PhoneSpace {
     static let screenWidth = UIScreen.main.bounds.width
@@ -19,6 +20,18 @@ struct SignView: View {
             Text("테스트")
                 .font(.createFont(weight: .thin, size: 28))
             Spacer()
+            ZStack {
+                Image("appleLogin")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                AppleSignInButton()
+                    .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                    .blendMode(.overlay)
+                    .opacity(0.02)
+                    .allowsHitTesting(true)
+            } //: ZStack
+            
             Button {
                 signStore.loginWithKakaoAccount()
             } label: {
@@ -27,12 +40,15 @@ struct SignView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: PhoneSpace.screenWidth - 40, height: 55)
             }
+            
             ZStack {
-                Image("appleLogin")
+                Image("googleLogin")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: PhoneSpace.screenWidth - 40, height: 55)
-                AppleSignInButton()
+                GoogleSignInButton {
+                    signStore.signInGoolge()
+                }
                     .frame(width: PhoneSpace.screenWidth - 40, height: 55)
                     .blendMode(.overlay)
                     .opacity(0.02)

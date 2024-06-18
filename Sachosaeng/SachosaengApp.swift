@@ -9,6 +9,7 @@ import SwiftUI
 import KakaoSDKAuth
 import KakaoSDKUser
 import KakaoSDKCommon
+import GoogleSignIn
 
 @main
 struct SachosaengApp: App {
@@ -20,6 +21,9 @@ struct SachosaengApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onOpenURL(perform: { url in
+                    GIDSignIn.sharedInstance.handle(url)
+                })
         }
     }
 }

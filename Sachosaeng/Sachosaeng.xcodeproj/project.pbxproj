@@ -99,6 +99,13 @@
 			path = Pretendard;
 			sourceTree = "<group>";
 		};
+		36562FB82C21697A004D1836 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		366057A32BC41260004F8216 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				36562FA02C210AE0004D1836 /* Resource */,
+				36562FB82C21697A004D1836 /* Utility */,
 				36CBA15A2BC460E80073C50C /* Extension */,
 				36CBA1592BC45FC00073C50C /* Config */,
 				36CBA1582BC45FB50073C50C /* Model */,
@@ -456,6 +464,7 @@
 				INFOPLIST_FILE = Sachosaeng/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
@@ -496,6 +505,7 @@
 				INFOPLIST_FILE = Sachosaeng/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";

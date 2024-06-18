@@ -102,8 +102,8 @@
 		366057A32BC41260004F8216 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				36CBA1522BC45C510073C50C /* SignView.swift */,
 				36EB01662BC400E400050CC7 /* ContentView.swift */,
+				36CBA1522BC45C510073C50C /* SignView.swift */,
 				36F8C3802C200982002B4AD7 /* Cell */,
 			);
 			path = View;

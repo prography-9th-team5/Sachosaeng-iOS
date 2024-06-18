@@ -16,6 +16,7 @@
 		36562FB12C210B80004D1836 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA82C210B80004D1836 /* Pretendard-Regular.otf */; };
 		36562FB22C210B80004D1836 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA92C210B80004D1836 /* Pretendard-Thin.otf */; };
 		36562FB32C210B80004D1836 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FAA2C210B80004D1836 /* Pretendard-Light.otf */; };
+		36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36562FB42C210BA6004D1836 /* FontExtension.swift */; };
 		366057A52BC41C80004F8216 /* SignStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366057A42BC41C80004F8216 /* SignStore.swift */; };
 		3663D3DC2BE317EE007AA77A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DB2BE317EE007AA77A /* GoogleSignIn */; };
 		3663D3DE2BE317EE007AA77A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DD2BE317EE007AA77A /* GoogleSignInSwift */; };
@@ -42,6 +43,7 @@
 		36562FA82C210B80004D1836 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		36562FA92C210B80004D1836 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		36562FAA2C210B80004D1836 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
+		36562FB42C210BA6004D1836 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		366057A42BC41C80004F8216 /* SignStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignStore.swift; sourceTree = "<group>"; };
 		3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		36CBA1522BC45C510073C50C /* SignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */,
+				36562FB42C210BA6004D1836 /* FontExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 			files = (
 				36EB01672BC400E400050CC7 /* ContentView.swift in Sources */,
 				36CBA1532BC45C510073C50C /* SignView.swift in Sources */,
+				36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
 				36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */,

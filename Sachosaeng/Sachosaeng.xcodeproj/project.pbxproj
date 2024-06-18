@@ -109,12 +109,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		366057A62BC4306C004F8216 /* Service */ = {
+		366057A62BC4306C004F8216 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				366057A42BC41C80004F8216 /* SignStore.swift */,
 			);
-			path = Service;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		36CBA1582BC45FB50073C50C /* Model */ = {
@@ -166,7 +166,7 @@
 				36CBA15A2BC460E80073C50C /* Extension */,
 				36CBA1592BC45FC00073C50C /* Config */,
 				36CBA1582BC45FB50073C50C /* Model */,
-				366057A62BC4306C004F8216 /* Service */,
+				366057A62BC4306C004F8216 /* ViewModel */,
 				366057A32BC41260004F8216 /* View */,
 				36EB01682BC400E500050CC7 /* Assets.xcassets */,
 				36EB01732BC401BE00050CC7 /* Info.plist */,

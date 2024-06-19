@@ -58,6 +58,7 @@ final class SignStore {
         }
     }
     
+    /// 구글로그인(미완성: 메서드 완성시켜야함)
     func signInGoolge() {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else { return }
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, err in

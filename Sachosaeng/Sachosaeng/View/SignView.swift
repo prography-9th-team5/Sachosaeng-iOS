@@ -17,27 +17,13 @@ struct SignView: View {
     private var signStore = SignStore()
     var body: some View {
         VStack {
-            Group {
-                HStack {
-                    Text("사초생과 함께\n사회생활 고민을 풀어봐요!")
-                        .font(.createFont(weight: .medium, size: 26))
-                        .foregroundStyle(CustomColor.GrayScaleColor.black)
-                        .lineSpacing(10)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 5)
-                .padding(.top, 50)
-                HStack {
-                    Text("사회초년생 집단지성 투표 플랫폼")
-                        .font(.createFont(weight: .light, size: 16))
-                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 5)
-                
-            } //: Group
+            Spacer()
+            CommonTitle(top: "사초생과 함께",
+                        topFont: .medium,
+                        middle: "사회생활 고민을 풀어봐요!",
+                        middleFont: .medium,
+                        footer: "사회초년생 집단지성 투표 플랫폼",
+                        footerFont: .light)
             
             Spacer()
             TempImageView(isBorder: true, width: PhoneSpace.screenWidth - 100, height: PhoneSpace.screenWidth - 100)

@@ -14,7 +14,6 @@ struct UserOccupationView: View {
     @State var isSelected: Bool = false
     
     // MARK: - Body
-
     var body: some View {
         VStack {
             Group {
@@ -25,34 +24,21 @@ struct UserOccupationView: View {
                     Spacer()
                     Button(action: {
                         
-
                     }, label: {
                         Text("SKIP")
                             .font(.createFont(weight: .light, size: 16))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs5)
-                        
                     })
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 5)
                 .padding(.top, 50)
-                
-                HStack {
-                    Text("당신은 어떤!\n사회초녕생인가요?")
-                        .font(.createFont(weight: .medium, size: 26))
-                        .lineSpacing(10)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 5)
-                HStack {
-                    Text("*하나만 선택해 주세요")
-                        .font(.createFont(weight: .light, size: 16))
-                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 5)
+                CommonTitle(top: "당신은 어떤",
+                            topFont: .medium,
+                            middle: "사회초년생인가요?",
+                            middleFont: .black,
+                            footer: "*하나만 선택해 주세요",
+                            footerFont: .light)
             } //: Group
             
             Spacer()
@@ -89,9 +75,6 @@ struct UserOccupationView: View {
             .foregroundStyle(CustomColor.GrayScaleColor.white)
             .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
             .cornerRadius(4)
-            
-            
-            
         } //: Vstack
     }
 }

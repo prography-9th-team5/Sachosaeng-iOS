@@ -32,7 +32,7 @@ struct UserOccupationView: View {
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 5)
-                .padding(.top, 50)
+                .padding(.top, 30)
                 CommonTitle(top: "당신은 어떤",
                             topFont: .medium,
                             middle: "사회초년생인가요?",

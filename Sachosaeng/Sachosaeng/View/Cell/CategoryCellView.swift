@@ -10,17 +10,8 @@ import SwiftUI
 struct CategoryCellView: View {
     
     @Binding var isSelected: Bool
-    let occupationNumber: Int
-    let occupationImage: [Image] = [Image("mungmungE"), Image("mungmungE"), Image("mungmungE"), Image("mungmungE")]
-    let occupationDescription: [String] = ["학생", "취업준비생", "1~3년차 직장인", "기타"]
-    
+    var categoryNumber: Int
     var body: some View {
-//        Image("mungmungE")
-//            .resizable()
-//            .scaledToFit()
-//            .clipShape(.circle)
-//            .overlay(Circle().stroke(Color.white, lineWidth: 1))
-//            .frame(width: 104, height: 84)
         VStack {
             TempImageView(isBorder: true, width: 104, height: 84)
                 .clipShape(.circle)
@@ -31,3 +22,4 @@ struct CategoryCellView: View {
         }
     }
 }
+// TODO: 이미지 받으면 변경 예정

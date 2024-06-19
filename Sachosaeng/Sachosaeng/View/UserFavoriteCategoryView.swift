@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct UserFavoriteCategoryView: View {
+    
+    // MARK: - Properties
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var selectedCategories: [Bool] = Array(repeating: false, count: 10) // 난중에 갯수에 맞춰서 바꿀거
@@ -19,6 +21,7 @@ struct UserFavoriteCategoryView: View {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }
     
+    // MARK: - Body
     var body: some View {
         VStack {
             Group {
@@ -28,7 +31,7 @@ struct UserFavoriteCategoryView: View {
                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                     Spacer()
                     Button(action: {
-                        
+                        // TODO: 유저정보 저장
                     }, label: {
                         Text("SKIP")
                             .font(.createFont(weight: .light, size: 16))
@@ -53,7 +56,7 @@ struct UserFavoriteCategoryView: View {
                             selectedCategories[num].toggle()
                             
                         }, label: {
-                            CategoryCellView(isSelected: $selectedCategories[num], occupationNumber: num)
+                            CategoryCellView(isSelected: $selectedCategories[num], categoryNumber: num)
                                 .padding(20)
                         })
                     }
@@ -64,7 +67,7 @@ struct UserFavoriteCategoryView: View {
             } //: ScrollView
             Spacer()
             Button(action: {
-                
+                // TODO: 유저정보 저장
             }, label: {
                 Text("사초생 시작")
                     .font(.createFont(weight: .medium, size: 16))
@@ -75,6 +78,7 @@ struct UserFavoriteCategoryView: View {
             .cornerRadius(4)
             Spacer()
         } //:Vstack
+        .navigationBarBackButtonHidden(true)
     }
 }
 

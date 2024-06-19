@@ -70,3 +70,4 @@ struct SignView: View {
 #Preview {
     SignView()
 }
+// TODO: 로그인기능을 백이랑 연결하는 작업 해야함 (기능 제대로 구현 하기)

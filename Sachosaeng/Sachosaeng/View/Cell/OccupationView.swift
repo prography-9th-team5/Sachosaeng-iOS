@@ -28,3 +28,4 @@ struct OccupationView: View {
 #Preview {
     OccupationView(isSelected: .constant(true), occupationNumber: 1)
 }
+// TODO: 이미지 받으면 변경예정 

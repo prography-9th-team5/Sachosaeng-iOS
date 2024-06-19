@@ -21,7 +21,6 @@ struct OccupationView: View {
             Text(occupationDescription[occupationNumber])
                 .foregroundStyle(CustomColor.GrayScaleColor.black)
                 .font(isSelected ? .createFont(weight: .extraBold, size: 16) : .createFont(weight: .medium, size: 16))
-                
         }
     }
 }

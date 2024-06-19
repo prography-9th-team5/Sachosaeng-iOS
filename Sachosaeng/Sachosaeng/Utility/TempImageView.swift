@@ -27,7 +27,6 @@ struct TempImageView: View {
                     .padding([.bottom, .leading], 10),
                 alignment: .bottomLeading
             )
-            
     }
 }
 

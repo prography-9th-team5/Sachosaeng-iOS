@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TempImageView: View {
+    var isBorder: Bool
     var width: CGFloat
     var height: CGFloat
     var body: some View {
@@ -15,7 +16,7 @@ struct TempImageView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: width, height: height)
-            .border(Color.black, width: 2)
+            .border(Color.black, width: isBorder ? 5 : 0)
             .overlay(
                 Text("Width: \(Int(width)), Height: \(Int(height))")
                     .font(.caption)
@@ -26,9 +27,10 @@ struct TempImageView: View {
                     .padding([.bottom, .leading], 10),
                 alignment: .bottomLeading
             )
+            
     }
 }
 
 #Preview {
-    TempImageView(width: 400, height: 400)
+    TempImageView(isBorder: true, width: 400, height: 400)
 }

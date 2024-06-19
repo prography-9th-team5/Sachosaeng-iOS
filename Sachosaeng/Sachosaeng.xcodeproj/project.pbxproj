@@ -23,6 +23,7 @@
 		3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */; };
 		36842BF52C2298E00023473D /* TempImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36842BF42C2298E00023473D /* TempImageView.swift */; };
 		36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36842BF62C22B2CB0023473D /* UserOccupationView.swift */; };
+		36842BF92C22BA990023473D /* OccupationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36842BF82C22BA990023473D /* OccupationView.swift */; };
 		36CBA1532BC45C510073C50C /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CBA1522BC45C510073C50C /* SignView.swift */; };
 		36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */; };
 		36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01642BC400E400050CC7 /* SachosaengApp.swift */; };
@@ -50,6 +51,7 @@
 		3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		36842BF42C2298E00023473D /* TempImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempImageView.swift; sourceTree = "<group>"; };
 		36842BF62C22B2CB0023473D /* UserOccupationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOccupationView.swift; sourceTree = "<group>"; };
+		36842BF82C22BA990023473D /* OccupationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccupationView.swift; sourceTree = "<group>"; };
 		36CBA1522BC45C510073C50C /* SignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		36EAD7322C05BE440052FB6F /* Sachosaeng.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sachosaeng.entitlements; sourceTree = "<group>"; };
 		36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInButton.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */,
+				36842BF82C22BA990023473D /* OccupationView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				36EB01672BC400E400050CC7 /* ContentView.swift in Sources */,
 				36CBA1532BC45C510073C50C /* SignView.swift in Sources */,
 				36842BF52C2298E00023473D /* TempImageView.swift in Sources */,
+				36842BF92C22BA990023473D /* OccupationView.swift in Sources */,
 				36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,

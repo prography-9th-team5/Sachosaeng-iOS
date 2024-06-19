@@ -19,24 +19,15 @@ struct SignView: View {
         VStack {
             Group {
                 HStack {
-                    Text("사초생과 함께")
+                    Text("사초생과 함께\n사회생활 고민을 풀어봐요!")
                         .font(.createFont(weight: .medium, size: 26))
                         .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        .lineSpacing(10)
                     Spacer()
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 5)
                 .padding(.top, 50)
-                
-                HStack {
-                    Text("사회생활 고민을 풀어봐요!")
-                        .font(.createFont(weight: .medium, size: 26))
-                        .foregroundStyle(CustomColor.GrayScaleColor.black)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 5)
-                
                 HStack {
                     Text("사회초년생 집단지성 투표 플랫폼")
                         .font(.createFont(weight: .light, size: 16))
@@ -49,7 +40,7 @@ struct SignView: View {
             } //: Group
             
             Spacer()
-            TempImageView(width: PhoneSpace.screenWidth - 100, height: PhoneSpace.screenWidth - 100)
+            TempImageView(isBorder: true, width: PhoneSpace.screenWidth - 100, height: PhoneSpace.screenWidth - 100)
             Spacer()
             
             ZStack {

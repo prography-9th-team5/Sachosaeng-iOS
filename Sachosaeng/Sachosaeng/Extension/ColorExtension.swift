@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomColor {
     struct GrayScaleColor {
         /// 텍스트, First card 배경색에 쓰임
-        static let white = Color(red: 0.0 / 255.0, green: 0.0 / 255.0, blue: 0.0 / 255.0)
+        static let white = Color(red: 1, green: 1, blue: 1)
         /// 프레임 배경색에 쓰임
         static let gs1 = Color(red: 249.0 / 255.0, green: 250.0 / 255.0, blue: 251.0 / 255.0)
         /// Second card 배경색, Tap bar 배경색에 쓰임

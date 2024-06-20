@@ -16,53 +16,60 @@ enum PhoneSpace {
 struct SignView: View {
     private var signStore = SignStore()
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Spacer()
             CommonTitle(top: "사초생과 함께",
-                        topFont: .medium,
+                        topFont: .bold,
                         middle: "사회생활 고민을 풀어봐요!",
-                        middleFont: .medium,
+                        middleFont: .bold,
                         footer: "사회초년생 집단지성 투표 플랫폼",
-                        footerFont: .light)
+                        footerFont: .medium)
             
             Spacer()
-            TempImageView(isBorder: true, width: PhoneSpace.screenWidth - 100, height: PhoneSpace.screenWidth - 100)
+            TempImageView(isBorder: true,
+                          width: PhoneSpace.screenWidth - 100,
+                          height: PhoneSpace.screenWidth - 100)
             Spacer()
             
-            ZStack {
-                Image("appleLogin")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: PhoneSpace.screenWidth - 40, height: 55)
-                AppleSignInButton()
+            VStack(spacing: 0) {
+                ZStack {
+                    Image("appleLogin")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                    AppleSignInButton()
+                        .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                        .blendMode(.overlay)
+                        .opacity(0.02)
+                        .allowsHitTesting(true)
+                } //: ZStack
+                .padding(.bottom, 8)
+                Button {
+                    signStore.loginWithKakaoAccount()
+                } label: {
+                    Image("kakaoLogin")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                }
+                .padding(.bottom, 8)
+
+                ZStack {
+                    Image("googleLogin")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                    GoogleSignInButton {
+                        signStore.signInGoolge()
+                    }
                     .frame(width: PhoneSpace.screenWidth - 40, height: 55)
                     .blendMode(.overlay)
                     .opacity(0.02)
                     .allowsHitTesting(true)
-            } //: ZStack
-            
-            Button {
-                signStore.loginWithKakaoAccount()
-            } label: {
-                Image("kakaoLogin")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: PhoneSpace.screenWidth - 40, height: 55)
-            }
-            
-            ZStack {
-                Image("googleLogin")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: PhoneSpace.screenWidth - 40, height: 55)
-                GoogleSignInButton {
-                    signStore.signInGoolge()
-                }
-                .frame(width: PhoneSpace.screenWidth - 40, height: 55)
-                .blendMode(.overlay)
-                .opacity(0.02)
-                .allowsHitTesting(true)
-            } //: ZStack
+                } //: ZStack
+                .padding(.bottom, 8)
+            } //: Vstack
+            .padding(.horizontal, 20)
         }
     }
 }

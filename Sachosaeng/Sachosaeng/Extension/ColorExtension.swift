@@ -26,6 +26,7 @@ struct CustomColor {
         /// card 타이틀, card 본문, 선택된 아이콘에 쓰임
         static let black = Color(red: 12.0 / 255.0, green: 17.0 / 255.0, blue: 29.0 / 255.0)
     }
+    
     struct PrimaryColor {
         static let red = Color(red: 240.0 / 255.0, green: 68.0 / 255.0, blue: 56.0 / 255.0)
         static let orange = Color(red: 251.0 / 255.0, green: 101.0 / 255.0, blue: 20.0 / 255.0)
@@ -38,15 +39,14 @@ struct CustomColor {
         static let indigo = Color(red: 71.0 / 255.0, green: 85.0 / 255.0, blue: 174.0 / 255.0)
         static let purple = Color(red: 122.0 / 255.0, green: 90.0 / 255.0, blue: 248.0 / 255.0)
         static let pink = Color(red: 238.0 / 255.0, green: 70.0 / 255.0, blue: 151.0 / 255.0)
+        
         static func primaryColorWithAlpha(_ color: Color) -> Color {
             switch color {
-            // swiftlint:disable all
             case PrimaryColor.red, PrimaryColor.orange, PrimaryColor.amber, PrimaryColor.green, PrimaryColor.mint, PrimaryColor.blue, PrimaryColor.indigo, PrimaryColor.purple, PrimaryColor.pink:
                 return color.opacity(0.12)
             default:
                 return color.opacity(0.20)
             }
-            // swiftlint:enable all
         }
     }
 }

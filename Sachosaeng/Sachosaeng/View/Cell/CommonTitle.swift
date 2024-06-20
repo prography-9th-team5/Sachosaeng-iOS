@@ -14,23 +14,25 @@ struct CommonTitle: View {
     var middleFont: Font.FontWeight
     var footer: String
     var footerFont: Font.FontWeight
+    let lineHeight: CGFloat = 1.3 // 130%
     
     var body: some View {
-        Group {
+        VStack(spacing: 0) {
             HStack {
                 Text(top)
                     .font(.createFont(weight: topFont, size: 26))
                 Spacer()
             }
             .padding(.horizontal)
-            .padding(.vertical, 5)
+            .padding(.bottom, 26 * (lineHeight - 1))
+
             HStack {
                 Text(middle)
                     .font(.createFont(weight: middleFont, size: 26))
                 Spacer()
             }
             .padding(.horizontal)
-            .padding(.vertical, 5)
+            
             HStack {
                 Text(footer)
                     .font(.createFont(weight: footerFont, size: 16))
@@ -38,11 +40,11 @@ struct CommonTitle: View {
                 Spacer()
             }
             .padding(.horizontal)
-            .padding(.vertical, 5)
+            .padding(.top, 18)
         } //: Group
     }
 }
 
 #Preview {
-    CommonTitle(top: "top",  topFont: .bold, middle: "middle",middleFont: .black, footer: "footer", footerFont: .black)
+    CommonTitle(top: "사초생과 함께",  topFont: .bold, middle: "사회생활 고민을 풀어봐요!",middleFont: .bold, footer: "사회초년생 집단지성 투표 플랫폼", footerFont: .medium)
 }

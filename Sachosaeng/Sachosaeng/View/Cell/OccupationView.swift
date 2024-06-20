@@ -20,7 +20,9 @@ struct OccupationView: View {
                 .border(Color.black, width: isSelected ? 1 : 0)
             Text(occupationDescription[occupationNumber])
                 .foregroundStyle(CustomColor.GrayScaleColor.black)
-                .font(isSelected ? .createFont(weight: .extraBold, size: 16) : .createFont(weight: .medium, size: 16))
+                .font(isSelected 
+                    ? .createFont(weight: .extraBold, size: 16)
+                    : .createFont(weight: .medium, size: 16) )
         }
     }
 }

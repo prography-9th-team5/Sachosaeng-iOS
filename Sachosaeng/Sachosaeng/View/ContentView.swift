@@ -10,9 +10,6 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         SignView()
-            .tabItem {
-                Image(systemName: ".")
-            }
     }
 }
 

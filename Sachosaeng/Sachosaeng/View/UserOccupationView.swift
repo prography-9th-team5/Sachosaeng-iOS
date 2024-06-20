@@ -16,40 +16,31 @@ struct UserOccupationView: View {
     // MARK: - Body
     var body: some View {
         NavigationStack {
-            VStack {
-                Group {
-                    HStack {
-                        Text("1/2")
-                            .font(.createFont(weight: .light, size: 16))
-                            .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                        Spacer()
-                        NavigationLink {
-                            // TODO: 유저정보 저장
-                            UserFavoriteCategoryView()
-                        } label: {
-                            Text("SKIP")
-                                .font(.createFont(weight: .light, size: 16))
-                                .foregroundStyle(CustomColor.GrayScaleColor.gs5)
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.vertical, 5)
-                    .padding(.top, 30)
+            VStack(spacing: 0) {
+                HStack(spacing: 0, content: {
+                    CustomSliderProgressBarView(progress: 1, isHide: false)
+                        .padding(.trailing, 12)
+                    CustomSliderProgressBarView(progress: 0, isHide: true)
+                })
+                .padding(.bottom, 32)
+                .padding(.top, 10.9)
+                .padding(.horizontal, 20)
+                
+                HStack(spacing: 0) {
                     CommonTitle(top: "당신은 어떤",
                                 topFont: .medium,
                                 middle: "사회초년생인가요?",
                                 middleFont: .black,
                                 footer: "*하나만 선택해 주세요",
                                 footerFont: .light)
-                } //: Group
-                
-                Spacer()
+                }
+                .frame(height: 100)
                 
                 ForEach(0..<2) { row in
                     HStack(spacing: 10) {
                         ForEach(0..<2) { column in
                             let occupationNumber = row * 2 + column
-                            Button(action: {
+                            Button {
                                 selectedOccupations[occupationNumber] = true
                                 isSelected = true
                                 // TODO: 유저가 고른 직종 유저 데이터에 넣기
@@ -58,17 +49,19 @@ struct UserOccupationView: View {
                                         selectedOccupations[index] = false
                                     }
                                 }
-                            }, label: {
+                            } label: {
                                 OccupationView(isSelected: $selectedOccupations[occupationNumber], occupationNumber: occupationNumber)
-                            })
+                            }
                         }
                     }
                     .padding()
                 }
+                .padding(.top, 27)
                 
                 Spacer()
+                
                 NavigationLink {
-                    // TODO: 유저정보 저장 
+                    // TODO: 유저정보 저장
                     UserFavoriteCategoryView()
                 } label: {
                     Text("다음")

@@ -23,42 +23,47 @@ struct UserFavoriteCategoryView: View {
     
     // MARK: - Body
     var body: some View {
-        VStack {
-            Group {
-                HStack {
-                    Text("2/2")
-                        .font(.createFont(weight: .light, size: 16))
-                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                    Spacer()
-                    Button(action: {
-                        // TODO: 유저정보 저장
-                    }, label: {
-                        Text("SKIP")
-                            .font(.createFont(weight: .light, size: 16))
-                            .foregroundStyle(CustomColor.GrayScaleColor.gs5)
-                    })
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 5)
-                .padding(.top, 30)
+        VStack(spacing: 0) {
+            HStack(spacing: 0, content: {
+                CustomSliderProgressBarView(progress: 1, isHide: true)
+                    .padding(.trailing, 12)
+                CustomSliderProgressBarView(progress: 1, isHide: false)
+            })
+            .padding(.bottom, 32)
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
+
+            HStack(spacing: 0) {
                 CommonTitle(top: "선호하는 카테고리를",
                             topFont: .medium,
                             middle: "모두 선택해 주세요",
                             middleFont: .black,
                             footer: "*복수 선택이 가능해요",
                             footerFont: .light)
+                
+                VStack(spacing: 0) {
+                    Button {
+                    // TODO: 유저정보 저장
+                    } label: {
+                        Text("SKIP")
+                            .font(.createFont(weight: .light, size: 16))
+                            .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                    }
+                    .padding(.trailing, 20)
+                    Spacer()
+                }
             }
-            
+            .frame(height: 100)
+                
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
                     ForEach(0..<10) { num in
-                        Button(action: {
+                        Button {
                             selectedCategories[num].toggle()
-                            
-                        }, label: {
+                        } label: {
                             CategoryCellView(isSelected: $selectedCategories[num], categoryNumber: num)
                                 .padding(20)
-                        })
+                        }
                     }
                 }).onAppear() {
                     gridSwitch()
@@ -66,12 +71,12 @@ struct UserFavoriteCategoryView: View {
                 .padding(20)
             } //: ScrollView
             Spacer()
-            Button(action: {
+            Button {
                 // TODO: 유저정보 저장
-            }, label: {
+            } label: {
                 Text("사초생 시작")
                     .font(.createFont(weight: .medium, size: 16))
-            })
+            }
             .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
             .foregroundStyle(CustomColor.GrayScaleColor.white)
             .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)

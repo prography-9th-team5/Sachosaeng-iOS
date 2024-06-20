@@ -26,7 +26,9 @@ struct SignView: View {
                         footerFont: .medium)
             
             Spacer()
-            TempImageView(isBorder: true, width: PhoneSpace.screenWidth - 100, height: PhoneSpace.screenWidth - 100)
+            TempImageView(isBorder: true,
+                          width: PhoneSpace.screenWidth - 100,
+                          height: PhoneSpace.screenWidth - 100)
             Spacer()
             
             VStack(spacing: 0) {
@@ -66,7 +68,6 @@ struct SignView: View {
                     .allowsHitTesting(true)
                 } //: ZStack
                 .padding(.bottom, 8)
-
             } //: Vstack
             .padding(.horizontal, 20)
         }

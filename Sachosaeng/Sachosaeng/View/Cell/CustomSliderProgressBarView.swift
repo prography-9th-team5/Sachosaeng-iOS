@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomSliderProgressBarView: View {
     var progress: CGFloat
-    var isHide: Bool
+    var isImageHide: Bool
     var body: some View {
         HStack(spacing: 0) {
             GeometryReader { geometry in
@@ -27,7 +27,7 @@ struct CustomSliderProgressBarView: View {
             }
             .frame(height: 8)
             .overlay(alignment: .trailing) {
-                if !isHide {
+                if !isImageHide {
                     Image("Progressbaricon")
                         .resizable()
                         .scaledToFit()
@@ -39,5 +39,5 @@ struct CustomSliderProgressBarView: View {
 }
 
 #Preview {
-    CustomSliderProgressBarView(progress: 1, isHide: false)
+    CustomSliderProgressBarView(progress: 1, isImageHide: false)
 }

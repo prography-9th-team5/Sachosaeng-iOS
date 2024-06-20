@@ -18,9 +18,9 @@ struct UserOccupationView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 HStack(spacing: 0, content: {
-                    CustomSliderProgressBarView(progress: 1, isHide: false)
+                    CustomSliderProgressBarView(progress: 1, isImageHide: false)
                         .padding(.trailing, 12)
-                    CustomSliderProgressBarView(progress: 0, isHide: true)
+                    CustomSliderProgressBarView(progress: 0, isImageHide: true)
                 })
                 .padding(.bottom, 32)
                 .padding(.top, 10.9)

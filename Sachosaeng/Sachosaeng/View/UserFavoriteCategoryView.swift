@@ -25,9 +25,9 @@ struct UserFavoriteCategoryView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0, content: {
-                CustomSliderProgressBarView(progress: 1, isHide: true)
+                CustomSliderProgressBarView(progress: 1, isImageHide: true)
                     .padding(.trailing, 12)
-                CustomSliderProgressBarView(progress: 1, isHide: false)
+                CustomSliderProgressBarView(progress: 1, isImageHide: false)
             })
             .padding(.bottom, 32)
             .padding(.top, 10)
@@ -79,7 +79,9 @@ struct UserFavoriteCategoryView: View {
             }
             .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
             .foregroundStyle(CustomColor.GrayScaleColor.white)
-            .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
+            .background(isSelected 
+                        ? CustomColor.GrayScaleColor.black
+                        : CustomColor.GrayScaleColor.gs4)
             .cornerRadius(4)
             Spacer()
         } //:Vstack

@@ -11,6 +11,7 @@ struct TempImageView: View {
     var isBorder: Bool
     var width: CGFloat
     var height: CGFloat
+    
     var body: some View {
         Image("mungmungE")
             .resizable()

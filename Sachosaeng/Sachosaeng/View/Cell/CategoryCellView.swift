@@ -17,7 +17,9 @@ struct CategoryCellView: View {
                 .clipShape(.circle)
                 .overlay(Circle().stroke(Color.white, lineWidth: 1))
             Text("카테고리")
-                .font(isSelected ? .createFont(weight: .extraBold, size: 16) : .createFont(weight: .medium, size: 16))
+                .font(isSelected 
+                      ? .createFont(weight: .extraBold, size: 16)
+                      : .createFont(weight: .medium, size: 16) )
                 .foregroundStyle(CustomColor.GrayScaleColor.black)
         }
     }

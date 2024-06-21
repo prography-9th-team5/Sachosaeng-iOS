@@ -23,7 +23,7 @@ struct SignView: View {
                         middle: "사회생활 고민을 풀어봐요!",
                         middleFont: .bold,
                         footer: "사회초년생 집단지성 투표 플랫폼",
-                        footerFont: .medium)
+                        footerFont: .medium, isSuccessView: true)
             
             Spacer()
             TempImageView(isBorder: true,

@@ -14,19 +14,23 @@ struct CommonTitle: View {
     var middleFont: Font.FontWeight
     var footer: String
     var footerFont: Font.FontWeight
-    let lineHeight: CGFloat = 1.3 // 130%
+    var isSuccessView: Bool
+    private let lineHeight: CGFloat = 1.3 // 130%
     
     var body: some View {
         VStack(spacing: 0) {
             HStack {
+                if isSuccessView { Spacer() }
                 Text(top)
                     .font(.createFont(weight: topFont, size: 26))
+                
                 Spacer()
             }
             .padding(.horizontal)
             .padding(.bottom, 26 * (lineHeight - 1))
 
             HStack {
+                if isSuccessView { Spacer() }
                 Text(middle)
                     .font(.createFont(weight: middleFont, size: 26))
                 Spacer()
@@ -34,6 +38,7 @@ struct CommonTitle: View {
             .padding(.horizontal)
             
             HStack {
+                if isSuccessView { Spacer() }
                 Text(footer)
                     .font(.createFont(weight: footerFont, size: 16))
                     .foregroundStyle(CustomColor.GrayScaleColor.gs6)
@@ -46,5 +51,5 @@ struct CommonTitle: View {
 }
 
 #Preview {
-    CommonTitle(top: "사초생과 함께",  topFont: .bold, middle: "사회생활 고민을 풀어봐요!",middleFont: .bold, footer: "사회초년생 집단지성 투표 플랫폼", footerFont: .medium)
+    CommonTitle(top: "사초생과 함께",  topFont: .bold, middle: "사회생활 고민을 풀어봐요!",middleFont: .bold, footer: "사회초년생 집단지성 투표 플랫폼", footerFont: .medium, isSuccessView: true)
 }

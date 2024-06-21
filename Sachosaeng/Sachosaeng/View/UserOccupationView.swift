@@ -32,7 +32,7 @@ struct UserOccupationView: View {
                                 middle: "사회초년생인가요?",
                                 middleFont: .black,
                                 footer: "*하나만 선택해 주세요",
-                                footerFont: .light)
+                                footerFont: .light, isSuccessView: true)
                 }
                 .frame(height: 100)
                 

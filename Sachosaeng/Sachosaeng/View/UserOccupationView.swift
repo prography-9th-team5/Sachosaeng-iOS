@@ -12,7 +12,6 @@ struct UserOccupationView: View {
     // MARK: - Properties
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
     @State var isSelected: Bool = false
-    
     // MARK: - Body
     var body: some View {
         NavigationStack {

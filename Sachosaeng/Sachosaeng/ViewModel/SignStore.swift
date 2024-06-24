@@ -59,27 +59,22 @@ final class SignStore {
     }
     
     /// 구글로그인(미완성: 메서드 완성시켜야함)
+    func signInGoogle(completion: @escaping (Bool) -> Void) {
+        guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
+            completion(false)
+            return
+        }
 
-    
-        func signInGoogle(completion: @escaping (Bool) -> Void) {
-            guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
+        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
+            if let error = error {
+                print("Google Sign-In Error: \(error.localizedDescription)")
                 completion(false)
-                return
-            }
-
-            GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
-                if let error = error {
-                    print("Google Sign-In Error: \(error.localizedDescription)")
-                    completion(false)
-                } else if let signInResult = signInResult {
-                    // You can use signInResult.user to access the signed-in user's information
-                    print("Google Sign-In Success: \(signInResult.user.profile?.name ?? "No Name")")
-                    completion(true)
-                } else {
-                    completion(false)
-                }
+            } else if let signInResult = signInResult {
+                print("Google Sign-In Success: \(signInResult.user.profile?.name ?? "No Name")")
+                completion(true)
+            } else {
+                completion(false)
             }
         }
-    
-
+    }
 }

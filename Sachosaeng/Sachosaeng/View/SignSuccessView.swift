@@ -10,7 +10,6 @@ import SwiftUI
 struct SignSuccessView: View {
     var body: some View {
         VStack(spacing: 0) {
-            Spacer()
             HStack(spacing: 0) {
                 CommonTitle(top: "랜덤이름님!",
                             topFont: .bold,
@@ -26,7 +25,9 @@ struct SignSuccessView: View {
                           height: PhoneSpace.screenWidth - 100)
             Spacer()
 
-        }
+        }        
+        .padding(.top, 70)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

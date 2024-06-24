@@ -71,8 +71,8 @@ struct UserFavoriteCategoryView: View {
                 .padding(20)
             } //: ScrollView
             Spacer()
-            Button {
-                // TODO: 유저정보 저장
+            NavigationLink {
+                SignSuccessView()
             } label: {
                 Text("사초생 시작")
                     .font(.createFont(weight: .medium, size: 16))

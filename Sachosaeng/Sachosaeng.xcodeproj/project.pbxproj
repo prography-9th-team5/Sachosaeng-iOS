@@ -167,6 +167,7 @@
 		36696B662C2B762F006BFCC0 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				366DFE702C2B42B1009CD87E /* VoteListCellView.swift */,
 				36696B632C2B6900006BFCC0 /* CategoryModal.swift */,
 			);
 			path = Cell;
@@ -250,7 +251,6 @@
 				36842BF82C22BA990023473D /* OccupationView.swift */,
 				36842BFC2C22D01A0023473D /* CommonTitle.swift */,
 				364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */,
-				366DFE702C2B42B1009CD87E /* VoteListCellView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";

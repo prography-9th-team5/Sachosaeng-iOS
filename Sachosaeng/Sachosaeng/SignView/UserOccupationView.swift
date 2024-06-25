@@ -12,7 +12,6 @@ struct UserOccupationView: View {
     // MARK: - Properties
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
     @State var isSelected: Bool = false
-    
     // MARK: - Body
     var body: some View {
         NavigationStack {
@@ -32,7 +31,7 @@ struct UserOccupationView: View {
                                 middle: "사회초년생인가요?",
                                 middleFont: .black,
                                 footer: "*하나만 선택해 주세요",
-                                footerFont: .light)
+                                footerFont: .light, isSuccessView: true)
                 }
                 .frame(height: 100)
                 

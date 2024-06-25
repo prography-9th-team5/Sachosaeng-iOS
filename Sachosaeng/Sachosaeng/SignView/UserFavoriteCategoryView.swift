@@ -39,7 +39,7 @@ struct UserFavoriteCategoryView: View {
                             middle: "모두 선택해 주세요",
                             middleFont: .black,
                             footer: "*복수 선택이 가능해요",
-                            footerFont: .light)
+                            footerFont: .light, isSuccessView: false)
                 
                 VStack(spacing: 0) {
                     Button {
@@ -71,8 +71,8 @@ struct UserFavoriteCategoryView: View {
                 .padding(20)
             } //: ScrollView
             Spacer()
-            Button {
-                // TODO: 유저정보 저장
+            NavigationLink {
+                SignSuccessView()
             } label: {
                 Text("사초생 시작")
                     .font(.createFont(weight: .medium, size: 16))

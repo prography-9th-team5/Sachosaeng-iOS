@@ -59,11 +59,22 @@ final class SignStore {
     }
     
     /// 구글로그인(미완성: 메서드 완성시켜야함)
-    func signInGoolge() {
-        guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else { return }
-        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, err in
+    func signInGoogle(completion: @escaping (Bool) -> Void) {
+        guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
+            completion(false)
+            return
+        }
 
-            
+        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
+            if let error = error {
+                print("Google Sign-In Error: \(error.localizedDescription)")
+                completion(false)
+            } else if let signInResult = signInResult {
+                print("Google Sign-In Success: \(signInResult.user.profile?.name ?? "No Name")")
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
     }
 }

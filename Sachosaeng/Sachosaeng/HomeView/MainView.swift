@@ -32,7 +32,7 @@ struct MainView: View {
                 Button {
                     switchTab = .home
                 } label: {
-                    Image(systemName: "house")
+                    Image("HomeTab")
                 }
                 
                 Spacer()
@@ -40,17 +40,19 @@ struct MainView: View {
                 Button {
                     switchTab = .setting
                 } label: {
-                    Image(systemName: "house")
+                    Image("HomeTab")
+                        .foregroundStyle(CustomColor.GrayScaleColor.gs4)
                 }
                 Spacer()
 
             }
-            .frame(height: 50)
-            .cornerRadius(15, corners: [.topLeft, .topRight])
-            .ignoresSafeArea()
+            .frame(height: 76)
             .background(CustomColor.GrayScaleColor.gs4)
+            .cornerRadius(15, corners: [.topLeft, .topRight])
             
-        }.navigationBarBackButtonHidden(true)
+        }
+        .navigationBarBackButtonHidden(true)
+        .ignoresSafeArea()
     }
 }
 

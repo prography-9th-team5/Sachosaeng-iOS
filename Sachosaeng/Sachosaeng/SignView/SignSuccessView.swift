@@ -26,7 +26,7 @@ struct SignSuccessView: View {
                               width: PhoneSpace.screenWidth - 100,
                               height: PhoneSpace.screenWidth - 100)
                 Spacer()
-
+                
             }
             .padding(.top, 70)
             .navigationBarBackButtonHidden(true)
@@ -35,11 +35,9 @@ struct SignSuccessView: View {
                     isActive = true
                 }
             }
-            .background(NavigationLink(
-                destination: MainView(),
-                isActive: $isActive) {
-                EmptyView()
-            })
+            .navigationDestination(isPresented: $isActive) {
+                MainView()
+            }
         }
 
 }

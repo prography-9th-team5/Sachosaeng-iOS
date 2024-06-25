@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State var categoryName: String = "전체"
+    @State var isSheet: Bool = false
     private var categoryButtonName: String = "카테고리 변경"
     
     var body: some View {
@@ -20,7 +21,7 @@ struct HomeView: View {
                             .font(.createFont(weight: .bold, size: 26))
                             .padding(.trailing, 12)
                         Button {
-                            
+                            isSheet = true
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
@@ -57,8 +58,16 @@ struct HomeView: View {
                             .padding(.bottom, 36)
                     } //: ScrollView
                 }
-                
             }
+            .sheet(isPresented: $isSheet, content: {
+                GeometryReader { geometry in
+                    CategoryModal()
+                        .cornerRadius(12)
+                        .presentationDetents([.height(520), .height(520)])
+                        
+                }
+            })
+
         }
     }
 }

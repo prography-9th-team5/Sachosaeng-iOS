@@ -23,6 +23,7 @@
 		3663D3DC2BE317EE007AA77A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DB2BE317EE007AA77A /* GoogleSignIn */; };
 		3663D3DE2BE317EE007AA77A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DD2BE317EE007AA77A /* GoogleSignInSwift */; };
 		3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */; };
+		36696B642C2B6900006BFCC0 /* CategoryModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36696B632C2B6900006BFCC0 /* CategoryModal.swift */; };
 		366DFE712C2B42B1009CD87E /* VoteListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE702C2B42B1009CD87E /* VoteListCellView.swift */; };
 		366DFE732C2B43DB009CD87E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE722C2B43DB009CD87E /* MainView.swift */; };
 		366DFE752C2B4B86009CD87E /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE742C2B4B86009CD87E /* Vote.swift */; };
@@ -60,6 +61,7 @@
 		36562FB42C210BA6004D1836 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		366057A42BC41C80004F8216 /* SignStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignStore.swift; sourceTree = "<group>"; };
 		3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		36696B632C2B6900006BFCC0 /* CategoryModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModal.swift; sourceTree = "<group>"; };
 		366DFE702C2B42B1009CD87E /* VoteListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteListCellView.swift; sourceTree = "<group>"; };
 		366DFE722C2B43DB009CD87E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		366DFE742C2B4B86009CD87E /* Vote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
@@ -131,7 +133,7 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		366057A32BC41260004F8216 /* View */ = {
+		366057A32BC41260004F8216 /* SignView */ = {
 			isa = PBXGroup;
 			children = (
 				36EB01662BC400E400050CC7 /* ContentView.swift */,
@@ -139,11 +141,9 @@
 				36842BF62C22B2CB0023473D /* UserOccupationView.swift */,
 				36842BFA2C22C9FF0023473D /* UserFavoriteCategoryView.swift */,
 				363B66772C25A7E30098B0C1 /* SignSuccessView.swift */,
-				366DFE722C2B43DB009CD87E /* MainView.swift */,
-				36BA20492C294BDC006C54E6 /* HomeView.swift */,
 				36F8C3802C200982002B4AD7 /* Cell */,
 			);
-			path = View;
+			path = SignView;
 			sourceTree = "<group>";
 		};
 		366057A62BC4306C004F8216 /* ViewModel */ = {
@@ -152,6 +152,24 @@
 				366057A42BC41C80004F8216 /* SignStore.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		36696B652C2B7620006BFCC0 /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				366DFE722C2B43DB009CD87E /* MainView.swift */,
+				36BA20492C294BDC006C54E6 /* HomeView.swift */,
+				36696B662C2B762F006BFCC0 /* Cell */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		36696B662C2B762F006BFCC0 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				36696B632C2B6900006BFCC0 /* CategoryModal.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		36CBA1582BC45FB50073C50C /* Model */ = {
@@ -206,7 +224,8 @@
 				36CBA1592BC45FC00073C50C /* Config */,
 				36CBA1582BC45FB50073C50C /* Model */,
 				366057A62BC4306C004F8216 /* ViewModel */,
-				366057A32BC41260004F8216 /* View */,
+				366057A32BC41260004F8216 /* SignView */,
+				36696B652C2B7620006BFCC0 /* HomeView */,
 				36EB01682BC400E500050CC7 /* Assets.xcassets */,
 				36EB01732BC401BE00050CC7 /* Info.plist */,
 				36EAD7322C05BE440052FB6F /* Sachosaeng.entitlements */,
@@ -364,6 +383,7 @@
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
 				36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */,
 				36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */,
+				36696B642C2B6900006BFCC0 /* CategoryModal.swift in Sources */,
 				363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */,
 				366DFE712C2B42B1009CD87E /* VoteListCellView.swift in Sources */,
 				36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */,

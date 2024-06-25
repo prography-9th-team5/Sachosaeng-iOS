@@ -14,7 +14,9 @@ struct MainView: View {
                 .tabItem {
                     Image(systemName: "house.fill")
                 }
-        }
+        }           
+        .navigationBarBackButtonHidden(true)
+
     }
 }
 

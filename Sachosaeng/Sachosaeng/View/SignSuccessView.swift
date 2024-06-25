@@ -8,29 +8,45 @@
 import SwiftUI
 
 struct SignSuccessView: View {
-    var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                CommonTitle(top: "랜덤이름님!",
-                            topFont: .bold,
-                            middle: "사초생에 오신 걸 환영해요",
-                            middleFont: .medium,
-                            footer: "회원가입 완료",
-                            footerFont: .medium, isSuccessView: true)
-            }
-            .frame(height: 100)
-            .padding(.bottom, 45)
-            TempImageView(isBorder: true,
-                          width: PhoneSpace.screenWidth - 100,
-                          height: PhoneSpace.screenWidth - 100)
-            Spacer()
+    @State private var isActive: Bool = false
 
-        }        
-        .padding(.top, 70)
-        .navigationBarBackButtonHidden(true)
-    }
+    var body: some View {
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    CommonTitle(top: "랜덤이름님!",
+                                topFont: .bold,
+                                middle: "사초생에 오신 걸 환영해요",
+                                middleFont: .medium,
+                                footer: "회원가입 완료",
+                                footerFont: .medium, isSuccessView: true)
+                }
+                .frame(height: 100)
+                .padding(.bottom, 45)
+                TempImageView(isBorder: true,
+                              width: PhoneSpace.screenWidth - 100,
+                              height: PhoneSpace.screenWidth - 100)
+                Spacer()
+
+            }
+            .padding(.top, 70)
+            .navigationBarBackButtonHidden(true)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    isActive = true
+                }
+            }
+            .background(NavigationLink(
+                destination: MainView(),
+                isActive: $isActive) {
+                EmptyView()
+            })
+        }
+
 }
 
-#Preview {
-    SignSuccessView()
+
+struct SignSuccessView_Previews: PreviewProvider {
+    static var previews: some View {
+        SignSuccessView()
+    }
 }

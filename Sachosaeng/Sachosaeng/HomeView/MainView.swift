@@ -46,9 +46,9 @@ struct MainView: View {
 
             }
             .frame(height: 50)
-            .background(CustomColor.GrayScaleColor.gs4)
             .cornerRadius(15, corners: [.topLeft, .topRight])
-            .ignoresSafeArea(edges: .bottom)
+            .ignoresSafeArea()
+            .background(CustomColor.GrayScaleColor.gs4)
             
         }.navigationBarBackButtonHidden(true)
     }

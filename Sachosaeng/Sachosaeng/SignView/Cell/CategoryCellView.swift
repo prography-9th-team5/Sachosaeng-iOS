@@ -25,3 +25,7 @@ struct CategoryCellView: View {
     }
 }
 // TODO: 이미지 받으면 변경 예정
+
+#Preview {
+    CategoryCellView(isSelected: .constant(true), categoryNumber: 2)
+}

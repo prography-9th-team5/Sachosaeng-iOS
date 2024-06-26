@@ -21,12 +21,11 @@ struct MainView: View {
                 case .home:
                     HomeView()
                 case .setting:
-                    SignView()
+                    UserOccupationView()
             }
             
-            Spacer() // 상단 콘텐츠를 위로 밀어 올리기 위한 Spacer
+            Spacer()
             
-            // 하단 탭바 영역
             HStack(spacing: 0) {
                 Spacer()
                 Button {

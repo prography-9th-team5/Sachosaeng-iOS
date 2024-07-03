@@ -8,18 +8,12 @@
 import SwiftUI
 
 struct UserFavoriteCategoryView: View {
-    
     // MARK: - Properties
+    @ObservedObject var categoryStore: CategoryStore = CategoryStore()
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
-    @State private var selectedCategories: [Bool] = Array(repeating: false, count: 10) // 난중에 갯수에 맞춰서 바꿀거
-    private var isSelected: Bool {
-        return selectedCategories.contains(true)
-    }
-    
-    private func gridSwitch() {
-        gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
-    }
+    @State private var selectedCategories: [Bool] = []
+    @State private var tapCount = 0
     
     // MARK: - Body
     var body: some View {
@@ -57,15 +51,17 @@ struct UserFavoriteCategoryView: View {
                 
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
-                    ForEach(0..<10) { num in
+                    ForEach(categoryStore.categories, id: \.self) { category in
                         Button {
-                            selectedCategories[num].toggle()
+//                           print("\(categoryStore.categories.count) 버튼클릭")
                         } label: {
-                            CategoryCellView(isSelected: $selectedCategories[num], categoryNumber: num)
+                            CategoryCellView(
+                                tapCount: $tapCount, category: category, categoryNumber: category.categoryId)
                                 .padding(20)
                         }
                     }
                 }).onAppear() {
+//                    print("\(categoryStore.categories.count) 온어피어")
                     gridSwitch()
                 }
                 .padding(20)
@@ -79,16 +75,37 @@ struct UserFavoriteCategoryView: View {
             }
             .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
             .foregroundStyle(CustomColor.GrayScaleColor.white)
-            .background(isSelected 
+            .background(tapCount > 0
                         ? CustomColor.GrayScaleColor.black
                         : CustomColor.GrayScaleColor.gs4)
             .cornerRadius(4)
+            .disabled(tapCount > 0)
             Spacer()
         } //:Vstack
         .navigationBarBackButtonHidden(true)
+        .onAppear(perform: {
+            Task {
+                await categoryStore.fetchCategories()
+                print(categoryStore.categoryCount)
+                selectedCategories = Array(repeating: false, count: 11)
+                //                print(categoryStore.categories)
+            }
+        })
     }
 }
 
 #Preview {
-    UserFavoriteCategoryView()
+    NavigationStack {
+        UserFavoriteCategoryView()
+    }
+}
+
+extension UserFavoriteCategoryView {
+    private var isSelected: Bool {
+        return selectedCategories.contains(true)
+    }
+    
+    private func gridSwitch() {
+        gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
+    }
 }

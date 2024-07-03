@@ -52,20 +52,17 @@ struct UserFavoriteCategoryView: View {
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
                     ForEach(categoryStore.categories, id: \.self) { category in
-                        Button {
-//                           print("\(categoryStore.categories.count) 버튼클릭")
-                        } label: {
-                            CategoryCellView(
-                                tapCount: $tapCount, category: category, categoryNumber: category.categoryId)
-                                .padding(20)
-                        }
+                        CategoryCellView(
+                            tapCount: $tapCount, category: category, categoryNumber: category.categoryId)
+                            .padding(20)
                     }
                 }).onAppear() {
-//                    print("\(categoryStore.categories.count) 온어피어")
                     gridSwitch()
                 }
                 .padding(20)
             } //: ScrollView
+            .scrollIndicators(.hidden)
+            
             Spacer()
             NavigationLink {
                 SignSuccessView()
@@ -83,14 +80,11 @@ struct UserFavoriteCategoryView: View {
             Spacer()
         } //:Vstack
         .navigationBarBackButtonHidden(true)
-        .onAppear(perform: {
+        .onAppear {
             Task {
                 await categoryStore.fetchCategories()
-                print(categoryStore.categoryCount)
-                selectedCategories = Array(repeating: false, count: 11)
-                //                print(categoryStore.categories)
             }
-        })
+        }
     }
 }
 
@@ -101,10 +95,6 @@ struct UserFavoriteCategoryView: View {
 }
 
 extension UserFavoriteCategoryView {
-    private var isSelected: Bool {
-        return selectedCategories.contains(true)
-    }
-    
     private func gridSwitch() {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }

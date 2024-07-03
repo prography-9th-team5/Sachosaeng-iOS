@@ -9,7 +9,6 @@ import Foundation
 
 class CategoryStore: ObservableObject {
     @Published var categories = [Category]()
-    @Published var categoryCount: Int = 0
 
     func fetchCategories() async {
         guard let url = URL(string: "https://sachosaeng.store/categories") else { return }
@@ -28,9 +27,6 @@ class CategoryStore: ObservableObject {
             do {
                 let decodedResponse = try JSONDecoder().decode(Response.self, from: data)
                 self.categories = decodedResponse.data
-                self.categoryCount = self.categories.count
-//                print(self.categoryCount)
-                
             } catch {
                 print("Error decoding response: \(error)")
             }

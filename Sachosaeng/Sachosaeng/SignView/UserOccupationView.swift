@@ -12,6 +12,7 @@ struct UserOccupationView: View {
     // MARK: - Properties
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
     @State var isSelected: Bool = false
+    @State var isFirstJoin: Bool = false
     // MARK: - Body
     var body: some View {
         NavigationStack {
@@ -26,12 +27,12 @@ struct UserOccupationView: View {
                 .padding(.horizontal, 20)
                 
                 HStack(spacing: 0) {
-                    CommonTitle(top: "당신은 어떤",
+                    CommonTitle(top: "어떤 사회초년생에",
                                 topFont: .medium,
-                                middle: "사회초년생인가요?",
-                                middleFont: .black,
-                                footer: "*하나만 선택해 주세요",
-                                footerFont: .light, isSuccessView: true)
+                                middle: "해당되나요?",
+                                middleFont: .bold,
+                                footer: "*선택한 유형에 맞는 정보를 제공해 드려요",
+                                footerFont: .light, isSuccessView: false)
                 }
                 .frame(height: 100)
                 
@@ -42,6 +43,7 @@ struct UserOccupationView: View {
                             Button {
                                 selectedOccupations[occupationNumber] = true
                                 isSelected = true
+                                isFirstJoin = false
                                 // TODO: 유저가 고른 직종 유저 데이터에 넣기
                                 for index in 0..<selectedOccupations.count {
                                     if index != occupationNumber {
@@ -49,10 +51,17 @@ struct UserOccupationView: View {
                                     }
                                 }
                             } label: {
-                                OccupationView(isSelected: $selectedOccupations[occupationNumber], occupationNumber: occupationNumber)
+                                if isFirstJoin {
+                                    OccupationView(isSelected: .constant(true), occupationNumber: occupationNumber)
+                                } else {
+                                    OccupationView(isSelected: $selectedOccupations[occupationNumber], occupationNumber: occupationNumber)
+                                }
                             }
                         }
                     }
+                    .onAppear(perform: {
+                        isFirstJoin = true
+                    })
                     .padding()
                 }
                 .padding(.top, 27)

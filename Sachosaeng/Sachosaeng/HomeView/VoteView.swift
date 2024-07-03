@@ -50,7 +50,7 @@ struct VoteView: View {
                             .font(.createFont(weight: .bold, size: 18))
                             .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)
                             .padding(.bottom, 16)
-                            .fixedSize(horizontal: true, vertical: false)
+                            .fixedSize(horizontal: false, vertical: true)
                         
                         Text("1000명 참여 중")
                             .font(.createFont(weight: .medium, size: 14))

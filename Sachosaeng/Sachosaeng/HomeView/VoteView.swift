@@ -50,12 +50,14 @@ struct VoteView: View {
                             .font(.createFont(weight: .bold, size: 18))
                             .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)
                             .padding(.bottom, 16)
+                            .fixedSize(horizontal: true, vertical: false)
                         
                         Text("1000명 참여 중")
                             .font(.createFont(weight: .medium, size: 14))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                             .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)
                             .padding(.bottom, 25)
+                        
                         VStack(spacing: 8) {
                             ForEach(0..<4) { num in
                                 RoundedRectangle(cornerRadius: 4)

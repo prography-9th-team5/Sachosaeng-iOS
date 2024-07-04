@@ -4,8 +4,12 @@
 //
 //  Created by LJh on 6/24/24.
 //
-
+// TODO: 카테고리 변경 후 바뀌는거 작업해야함
 import SwiftUI
+
+//enum Category {
+//    
+//}
 
 struct HomeView: View {
     @State var categoryName: String = "전체"
@@ -21,6 +25,7 @@ struct HomeView: View {
                         .padding(.trailing, 12)
                     Button {
                         isSheet = true
+                        categoryName = "ㅈ"
                     } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
@@ -36,6 +41,15 @@ struct HomeView: View {
                                 .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                         }
                     }
+                    .sheet(isPresented: $isSheet, content: {
+                        GeometryReader { geometry in
+                            CategoryModal()
+                                .cornerRadius(12)
+                                .presentationDetents([.height(520), .height(520)])
+                            
+                        }
+                    })
+                    
                     Spacer()
                     Button {
                         
@@ -48,26 +62,26 @@ struct HomeView: View {
                 } //: Hstack
                 .padding(.all, 20)
                 
-                ScrollView(showsIndicators: false) {
-                    VoteListCellView(titleName: "# 인기 투표")
-                        .padding(.bottom, 36)
-                    VoteListCellView(titleName: "# 경조사 투표")
-                        .padding(.bottom, 36)
-                    VoteListCellView(titleName: "# 전화 통화 투표")
-                        .padding(.bottom, 36)
-                    Spacer()
-                } //: ScrollView
-                
+                if categoryName == "전체" {
+                    ScrollView(showsIndicators: false) {
+                        TodayVoteView()
+                        VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: true)
+                            .padding(.bottom, 36)
+                        VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
+                            .padding(.bottom, 36)
+                        VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
+                            .padding(.bottom, 36)
+                        Spacer()
+                    } //: ScrollView
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        VoteListCellView(titleName: "", isFavoriteVote: false)
+                        
+                        
+                    }
+                }
             }
         }
-        .sheet(isPresented: $isSheet, content: {
-            GeometryReader { geometry in
-                CategoryModal()
-                    .cornerRadius(12)
-                    .presentationDetents([.height(520), .height(520)])
-                
-            }
-        })
     }
 }
 

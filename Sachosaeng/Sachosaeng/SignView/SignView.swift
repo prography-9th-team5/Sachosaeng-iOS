@@ -15,22 +15,20 @@ enum PhoneSpace {
 
 struct SignView: View {
     private var signStore = SignStore()
-
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 Spacer()
-                CommonTitle(top: "사초생과 함께",
+                CommonTitle(top: "궁금했던 사회생활",
                             topFont: .bold,
-                            middle: "사회생활 고민을 풀어봐요!",
+                            middle: "사초생이 모두 알려줄게요",
                             middleFont: .bold,
-                            footer: "사회초년생 집단지성 투표 플랫폼",
-                            footerFont: .medium, isSuccessView: true)
+                            footer: "사회초년생 집단지성 투표 플랫폼, 사초생",
+                            footerFont: .medium, isSuccessView: false)
                 
                 Spacer()
-                TempImageView(isBorder: true,
-                              width: PhoneSpace.screenWidth - 100,
-                              height: PhoneSpace.screenWidth - 100)
+                
+                Image("Onboarding image")
                 Spacer()
                 
                 VStack(spacing: 0) {

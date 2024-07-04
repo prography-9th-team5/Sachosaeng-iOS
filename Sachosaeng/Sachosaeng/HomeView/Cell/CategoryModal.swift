@@ -26,12 +26,15 @@ struct CategoryModal: View {
                 .frame(width: 72, height: 6)
                 .padding(.bottom, 28)
                 .padding(.top, 20)
+            
             HStack(spacing: 0) {
                 HStack(spacing: 0) {
                     Button {
                         
                     } label: {
                         Text("내 카테고리")
+                            .font(.createFont(weight: .medium, size: 18))
+                            .foregroundStyle(CustomColor.GrayScaleColor.black)
                     }
                     .padding(.trailing, 24)
                     
@@ -39,23 +42,37 @@ struct CategoryModal: View {
                         
                     } label: {
                         Text("전체 카테고리")
+                            .font(.createFont(weight: .medium, size: 18))
+                            .foregroundStyle(CustomColor.GrayScaleColor.black)
                     }
                 }
                 Spacer()
             }
-            .padding(.leading, 20)
-            
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
                     ForEach(0..<10) { num in
                         Button {
+                            // TODO: 데이터 받고 재자업 
                         } label: {
-                            
+                            VStack(spacing: 0) {
+                                TempImageView(isBorder: true, width: 74, height: 74)
+                                    .clipShape(Circle())
+                                    .padding(.bottom, 10)
+                                Text("ㅂ;ㅈ;ㄴ;니스 매너")
+                                    .font(.createFont(weight: .bold, size: 16))
+                                    .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                    .lineLimit(1)
+                            }
                         }
                     }
                 })
+                .onAppear() {
+                    gridSwitch()
+                }
             }
+            .padding(.top, 27)
         }
+        .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
         
     }
 }

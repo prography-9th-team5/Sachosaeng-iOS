@@ -11,7 +11,7 @@ class CategoryStore: ObservableObject {
     @Published var categories = [Category]()
 
     func fetchCategories() async {
-        guard let url = URL(string: "https://sachosaeng.store/categories") else { return }
+        guard let url = URL(string: "https://sachosaeng.store/api/v1/categories") else { return }
 
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {

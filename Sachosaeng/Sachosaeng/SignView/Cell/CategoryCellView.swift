@@ -10,7 +10,7 @@ import SwiftUI
 struct CategoryCellView: View {
     
     @Binding var tapCount: Int
-    @State var isSelected: Bool = true
+    @State var isSelected: Bool = false
     @State var category: Category
     @State var categoryNumber: Int
     

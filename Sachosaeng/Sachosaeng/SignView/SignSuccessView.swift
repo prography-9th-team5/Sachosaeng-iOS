@@ -22,29 +22,36 @@ struct SignSuccessView: View {
                 }
                 .frame(height: 100)
                 .padding(.bottom, 45)
-                TempImageView(isBorder: true,
-                              width: PhoneSpace.screenWidth - 100,
-                              height: PhoneSpace.screenWidth - 100)
+                Image("온보딩_\(UserStore.shared.newUser.userType)")
+                    .frame(width: PhoneSpace.screenWidth - 100,
+                           height: PhoneSpace.screenWidth - 100)
                 Spacer()
                 
             }
             .padding(.top, 70)
             .navigationBarBackButtonHidden(true)
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     isActive = true
                 }
             }
             .navigationDestination(isPresented: $isActive) {
                 MainView()
+                    .navigationBarBackButtonHidden(true)
+                    .onAppear {
+                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                           let root = windowScene.windows.first?.rootViewController as? UINavigationController {
+                            root.popToRootViewController(animated: false)
+                        }
+                    }
             }
         }
 
 }
 
-
-struct SignSuccessView_Previews: PreviewProvider {
-    static var previews: some View {
+#Preview {
+    NavigationStack {
         SignSuccessView()
+        
     }
 }

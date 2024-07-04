@@ -76,7 +76,7 @@ struct UserFavoriteCategoryView: View {
                         ? CustomColor.GrayScaleColor.black
                         : CustomColor.GrayScaleColor.gs4)
             .cornerRadius(4)
-            .disabled(tapCount > 0)
+            .disabled(tapCount == 0)
             Spacer()
         } //:Vstack
         .navigationBarBackButtonHidden(true)

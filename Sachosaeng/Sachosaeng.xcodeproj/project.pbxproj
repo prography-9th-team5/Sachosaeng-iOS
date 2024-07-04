@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		360C2B1C2C35890D0000C0F8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B1B2C35890D0000C0F8 /* Category.swift */; };
 		360C2B202C35893B0000C0F8 /* CategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */; };
+		360C2B222C37184E0000C0F8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B212C37184E0000C0F8 /* User.swift */; };
+		360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B232C3718D80000C0F8 /* UserStore.swift */; };
 		363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B66772C25A7E30098B0C1 /* SignSuccessView.swift */; };
 		364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */; };
 		36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */; };
@@ -54,6 +56,8 @@
 /* Begin PBXFileReference section */
 		360C2B1B2C35890D0000C0F8 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStore.swift; sourceTree = "<group>"; };
+		360C2B212C37184E0000C0F8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		360C2B232C3718D80000C0F8 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		363B66772C25A7E30098B0C1 /* SignSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignSuccessView.swift; sourceTree = "<group>"; };
 		364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderProgressBarView.swift; sourceTree = "<group>"; };
 		36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 			children = (
 				366057A42BC41C80004F8216 /* SignStore.swift */,
 				360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */,
+				360C2B232C3718D80000C0F8 /* UserStore.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -191,6 +196,7 @@
 			children = (
 				366DFE742C2B4B86009CD87E /* Vote.swift */,
 				360C2B1B2C35890D0000C0F8 /* Category.swift */,
+				360C2B212C37184E0000C0F8 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				360C2B222C37184E0000C0F8 /* User.swift in Sources */,
 				36842BFB2C22C9FF0023473D /* UserFavoriteCategoryView.swift in Sources */,
 				366DFE732C2B43DB009CD87E /* MainView.swift in Sources */,
 				36EB01672BC400E400050CC7 /* ContentView.swift in Sources */,
@@ -399,6 +406,7 @@
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
 				36A81FDC2C2C8AC6006A9305 /* TodayVoteView.swift in Sources */,
 				36842BFD2C22D01A0023473D /* CommonTitle.swift in Sources */,
+				360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */,
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
 				36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */,
 				36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */,

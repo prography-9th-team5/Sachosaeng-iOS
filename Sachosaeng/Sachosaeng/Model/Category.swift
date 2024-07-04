@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Response: Codable {
+struct ResponseCategory: Codable {
     let code: Int
     let message: String
     let data: [Category]

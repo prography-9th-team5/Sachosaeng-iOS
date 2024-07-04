@@ -15,7 +15,6 @@ enum PhoneSpace {
 
 struct SignView: View {
     private var signStore = SignStore()
-
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {

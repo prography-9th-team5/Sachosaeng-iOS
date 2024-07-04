@@ -39,12 +39,13 @@ struct UserOccupationView: View {
                 ForEach(0..<2) { row in
                     HStack(spacing: 10) {
                         ForEach(0..<2) { column in
+                            let occupationDescription: [String] = ["학생", "취업준비생", "1~3년차 직장인", "기타"]
                             let occupationNumber = row * 2 + column
                             Button {
                                 selectedOccupations[occupationNumber] = true
                                 isSelected = true
                                 isFirstJoin = false
-                                // TODO: 유저가 고른 직종 유저 데이터에 넣기
+                                UserStore.shared.newUser.userType = occupationDescription[occupationNumber]
                                 for index in 0..<selectedOccupations.count {
                                     if index != occupationNumber {
                                         selectedOccupations[index] = false
@@ -79,6 +80,7 @@ struct UserOccupationView: View {
                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                 .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                 .cornerRadius(4)
+                .disabled(isFirstJoin)
                 .navigationBarBackButtonHidden(true)
             } //: Vstack
         }

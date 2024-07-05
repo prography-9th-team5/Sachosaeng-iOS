@@ -14,7 +14,7 @@ struct UserFavoriteCategoryView: View {
     @State private var gridColumn: Double = 3.0
     @State private var selectedCategories: [Bool] = []
     @State private var tapCount = 0
-    
+    @Binding var isSign: Bool
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
@@ -65,7 +65,8 @@ struct UserFavoriteCategoryView: View {
             
             Spacer()
             NavigationLink {
-                SignSuccessView()
+                SignSuccessView(isSign: $isSign)
+                    .navigationBarBackButtonHidden(true)
             } label: {
                 Text("사초생 시작")
                     .font(.createFont(weight: .medium, size: 16))
@@ -79,7 +80,6 @@ struct UserFavoriteCategoryView: View {
             .disabled(tapCount == 0)
             Spacer()
         } //:Vstack
-        .navigationBarBackButtonHidden(true)
         .onAppear {
             Task {
                 await categoryStore.fetchCategories()
@@ -88,11 +88,11 @@ struct UserFavoriteCategoryView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        UserFavoriteCategoryView()
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        UserFavoriteCategoryView()
+//    }
+//}
 
 extension UserFavoriteCategoryView {
     private func gridSwitch() {

@@ -81,7 +81,6 @@ struct VoteView: View {
             .cornerRadius(4)
         }
         .padding(.top, 26)
-        .navigationBarBackButtonHidden(true)
         .navigationTitle("# 경조사")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar() {

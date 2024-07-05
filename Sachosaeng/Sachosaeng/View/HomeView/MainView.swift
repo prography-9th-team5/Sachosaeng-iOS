@@ -9,20 +9,23 @@ import SwiftUI
 
 enum TabItem {
     case home
-    case setting
+    case vote
 }
 
 struct MainView: View {
+    @Binding var path: NavigationPath
     @State var switchTab: TabItem = .home
+    
     var body: some View {
         VStack {
             // 상단 콘텐츠 영역
             switch switchTab {
                 case .home:
-                    HomeView()
-                case .setting:
-                    UserOccupationView()
+                    HomeView(path: $path)
+                case .vote:
+                    VoteView()
             }
+            
             
             Spacer()
             
@@ -37,7 +40,7 @@ struct MainView: View {
                 Spacer()
 
                 Button {
-                    switchTab = .setting
+                    switchTab = .vote
                 } label: {
                     Image("HomeTab")
                         .foregroundStyle(CustomColor.GrayScaleColor.gs4)
@@ -56,5 +59,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainView(path: .constant(NavigationPath()))
 }

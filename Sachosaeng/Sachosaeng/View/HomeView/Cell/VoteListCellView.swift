@@ -38,7 +38,7 @@ struct VoteCell: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .frame(height: 60)
-                    .foregroundStyle(CustomColor.GrayScaleColor.gs2)
+                    .foregroundStyle(CustomColor.GrayScaleColor.white)
                 
                 HStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {

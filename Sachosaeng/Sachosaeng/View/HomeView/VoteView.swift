@@ -8,18 +8,7 @@
 import SwiftUI
 
 struct VoteView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var isSelected: Bool = false
-    var backButton : some View {
-        Button(
-            action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }) {
-                Image(systemName: "chevron.backward")
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(Color.black)
-            }
-    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -85,7 +74,7 @@ struct VoteView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar() {
             ToolbarItem(placement: .topBarLeading) {
-                backButton
+                
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {

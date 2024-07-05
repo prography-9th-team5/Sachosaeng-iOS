@@ -51,7 +51,9 @@ struct HomeView: View {
                         //                        }
                         if name == "MyPageView" {
                             MyPageView(path: $path)        
-                                .navigationBarBackButtonHidden()
+                                .customBackbutton {
+                                    path.removeLast()
+                                }
                         }
                     }
 //                    

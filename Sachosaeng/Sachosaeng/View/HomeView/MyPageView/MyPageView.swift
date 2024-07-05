@@ -33,11 +33,11 @@ struct MyPageView: View {
                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                         .frame(width: PhoneSpace.screenWidth - 40, height: 80)
                     HStack(spacing: 0) {
-                        Image("온보딩_학생")
+                        Image("온보딩_1~3년차 직장인")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 80)
-                        VStack(spacing: 0) {
+                        VStack(alignment: .leading, spacing: 0) {
                             // TODO: - 여기부분 디자인 적인 부분 수정 + 유저값에 따른 변화를 줘야함
                             Text("글자 글가즐가")
                                 .font(.createFont(weight: .medium, size: 12))
@@ -136,16 +136,6 @@ struct MyPageView: View {
             .scrollIndicators(.hidden)
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    Button {
-                        path.removeLast()
-                    } label: {
-                        Image("이전")
-                            .padding(.horizontal, 10)
-                    }
-                }
-            }
         }
         
     }

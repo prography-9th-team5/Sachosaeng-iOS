@@ -168,10 +168,19 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		366057A32BC41260004F8216 /* SignView */ = {
+		365A12022C38864700C18796 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				36EB01662BC400E400050CC7 /* ContentView.swift */,
+				366057A32BC41260004F8216 /* SignView */,
+				36696B652C2B7620006BFCC0 /* HomeView */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		366057A32BC41260004F8216 /* SignView */ = {
+			isa = PBXGroup;
+			children = (
 				36CBA1522BC45C510073C50C /* SignView.swift */,
 				36842BF62C22B2CB0023473D /* UserOccupationView.swift */,
 				36842BFA2C22C9FF0023473D /* UserFavoriteCategoryView.swift */,
@@ -268,8 +277,7 @@
 				36CBA1592BC45FC00073C50C /* Config */,
 				36CBA1582BC45FB50073C50C /* Model */,
 				366057A62BC4306C004F8216 /* ViewModel */,
-				366057A32BC41260004F8216 /* SignView */,
-				36696B652C2B7620006BFCC0 /* HomeView */,
+				365A12022C38864700C18796 /* View */,
 				36EB01682BC400E500050CC7 /* Assets.xcassets */,
 				36EB01732BC401BE00050CC7 /* Info.plist */,
 				36EAD7322C05BE440052FB6F /* Sachosaeng.entitlements */,

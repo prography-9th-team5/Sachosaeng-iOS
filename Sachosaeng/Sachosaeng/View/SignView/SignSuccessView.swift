@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignSuccessView: View {
     @State private var isActive: Bool = false
-
+    @Binding var isSign: Bool
     var body: some View {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
@@ -29,20 +29,17 @@ struct SignSuccessView: View {
                 
             }
             .padding(.top, 70)
-            .navigationBarBackButtonHidden(true)
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     isActive = true
+                    isSign = true
                 }
-            }
-            .navigationDestination(isPresented: $isActive) {
-                MainView()
             }
         }
 }
 
-#Preview {
-    NavigationStack {
-        SignSuccessView()
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        SignSuccessView()
+//    }
+//}

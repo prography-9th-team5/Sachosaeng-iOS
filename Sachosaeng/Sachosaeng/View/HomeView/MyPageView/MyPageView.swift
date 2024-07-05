@@ -21,18 +21,9 @@ enum settingOption: String, CaseIterable {
     case FAQ = "FAQ"
 }
 
-struct testView: View {
-    @Binding var path: NavigationPath
-    var body: some View {
-        VStack {
-            Text("sda")
-        }
-    }
-}
-
-
 struct MyPageView: View {
     @Binding var path: NavigationPath
+    
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.edgesIgnoringSafeArea(.all)
@@ -145,7 +136,6 @@ struct MyPageView: View {
             .scrollIndicators(.hidden)
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Button {

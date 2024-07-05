@@ -48,7 +48,11 @@ struct MyPageView: View {
                             .frame(height: 80)
                         VStack(spacing: 0) {
                             Text("글자 글가즐가")
+                                .font(.createFont(weight: .medium, size: 12))
+                                .foregroundStyle(CustomColor.GrayScaleColor.white)
                             Text("닉네임자리")
+                                .font(.createFont(weight: .bold, size: 18))
+                                .foregroundStyle(CustomColor.GrayScaleColor.white)
                         }
                     }
                 }
@@ -111,7 +115,9 @@ struct MyPageView: View {
                                                     .foregroundStyle(CustomColor.GrayScaleColor.gs2)
                                                     .padding(.trailing, 16)
                                                 HStack {
-                                                    Text("0.0.1")
+                                                    Text("v0.0.1")
+                                                        .font(.createFont(weight: .medium, size: 15))
+                                                        .foregroundStyle(CustomColor.GrayScaleColor.black)
                                                 }
                                                 .padding(.trailing, 16)
                                             }

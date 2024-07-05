@@ -11,6 +11,8 @@
 		360C2B202C35893B0000C0F8 /* CategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */; };
 		360C2B222C37184E0000C0F8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B212C37184E0000C0F8 /* User.swift */; };
 		360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B232C3718D80000C0F8 /* UserStore.swift */; };
+		360C2B272C372F330000C0F8 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B262C372F330000C0F8 /* MyPageView.swift */; };
+		360C2B2A2C3872AD0000C0F8 /* CommonBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B292C3872AD0000C0F8 /* CommonBackButton.swift */; };
 		363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B66772C25A7E30098B0C1 /* SignSuccessView.swift */; };
 		364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */; };
 		36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */; };
@@ -58,6 +60,8 @@
 		360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStore.swift; sourceTree = "<group>"; };
 		360C2B212C37184E0000C0F8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		360C2B232C3718D80000C0F8 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
+		360C2B262C372F330000C0F8 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		360C2B292C3872AD0000C0F8 /* CommonBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonBackButton.swift; sourceTree = "<group>"; };
 		363B66772C25A7E30098B0C1 /* SignSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignSuccessView.swift; sourceTree = "<group>"; };
 		364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderProgressBarView.swift; sourceTree = "<group>"; };
 		36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -115,6 +119,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		360C2B252C372F1D0000C0F8 /* MyPageView */ = {
+			isa = PBXGroup;
+			children = (
+				360C2B262C372F330000C0F8 /* MyPageView.swift */,
+				360C2B282C38702F0000C0F8 /* Cell */,
+			);
+			path = MyPageView;
+			sourceTree = "<group>";
+		};
+		360C2B282C38702F0000C0F8 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		36562FA02C210AE0004D1836 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				36842BF42C2298E00023473D /* TempImageView.swift */,
+				360C2B292C3872AD0000C0F8 /* CommonBackButton.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -176,6 +197,7 @@
 				366DFE722C2B43DB009CD87E /* MainView.swift */,
 				36BA20492C294BDC006C54E6 /* HomeView.swift */,
 				36A81FDD2C2CA31B006A9305 /* VoteView.swift */,
+				360C2B252C372F1D0000C0F8 /* MyPageView */,
 				36696B662C2B762F006BFCC0 /* Cell */,
 			);
 			path = HomeView;
@@ -408,10 +430,12 @@
 				36842BFD2C22D01A0023473D /* CommonTitle.swift in Sources */,
 				360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */,
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
+				360C2B2A2C3872AD0000C0F8 /* CommonBackButton.swift in Sources */,
 				36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */,
 				36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */,
 				36696B642C2B6900006BFCC0 /* CategoryModal.swift in Sources */,
 				363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */,
+				360C2B272C372F330000C0F8 /* MyPageView.swift in Sources */,
 				366DFE712C2B42B1009CD87E /* VoteListCellView.swift in Sources */,
 				36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */,
 				366DFE752C2B4B86009CD87E /* Vote.swift in Sources */,

@@ -37,21 +37,12 @@ struct SignSuccessView: View {
             }
             .navigationDestination(isPresented: $isActive) {
                 MainView()
-                    .navigationBarBackButtonHidden(true)
-                    .onAppear {
-                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                           let root = windowScene.windows.first?.rootViewController as? UINavigationController {
-                            root.popToRootViewController(animated: false)
-                        }
-                    }
             }
         }
-
 }
 
 #Preview {
     NavigationStack {
         SignSuccessView()
-        
     }
 }

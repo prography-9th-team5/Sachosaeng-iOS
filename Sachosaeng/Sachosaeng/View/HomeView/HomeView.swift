@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Binding var path: NavigationPath
+    @ObservedObject var categoryStore: CategoryStore = CategoryStore()
     @State var categoryName: String = "전체"
     @State var isSheet: Bool = false
     
@@ -27,13 +28,11 @@ struct HomeView: View {
                             .font(.createFont(weight: .medium, size: 14))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                     }
-                    .sheet(isPresented: $isSheet, content: {
-                        GeometryReader { geometry in
-                            CategoryModal()
-                                .cornerRadius(12)
-                                .presentationDetents([.height(688), .height(688)])
-                        }
-                    })
+                    .sheet(isPresented: $isSheet) {
+                        CategoryModal(categoryStore: categoryStore)
+                            .cornerRadius(12)
+                            .presentationDetents([.height(688), .height(688)])
+                    }
                     
                     Spacer()
                     Button {
@@ -46,17 +45,13 @@ struct HomeView: View {
                             .frame(width: 40, height: 40)
                     }
                     .navigationDestination(for: String.self) { name in
-                        //                        if name == "FAQ" {
-                        //                            testView(path: $path)
-                        //                        }
                         if name == "MyPageView" {
                             MyPageView(path: $path)        
                                 .customBackbutton {
                                     path.removeLast()
-                                }
+                            }
                         }
                     }
-//                    
                 } //: Hstack
                 .padding(.all, 20)
                 
@@ -77,6 +72,11 @@ struct HomeView: View {
                         VoteListCellView(titleName: "", isFavoriteVote: false)
                     }
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                await categoryStore.fetchCategories()
             }
         }
         

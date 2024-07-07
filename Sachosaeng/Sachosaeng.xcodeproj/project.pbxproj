@@ -205,8 +205,8 @@
 				366DFE722C2B43DB009CD87E /* MainView.swift */,
 				36BA20492C294BDC006C54E6 /* HomeView.swift */,
 				36A81FDD2C2CA31B006A9305 /* VoteView.swift */,
-				360C2B252C372F1D0000C0F8 /* MyPageView */,
 				36696B662C2B762F006BFCC0 /* Cell */,
+				360C2B252C372F1D0000C0F8 /* MyPageView */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";

@@ -48,7 +48,6 @@ struct MainView: View {
                 }
             }
             .frame(height: 76)
-//            .cornerRadius(15, corners: [.topLeft, .topRight])
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .background(CustomColor.GrayScaleColor.gs2)
         }

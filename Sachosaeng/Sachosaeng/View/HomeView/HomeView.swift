@@ -46,30 +46,40 @@ struct HomeView: View {
                     }
                     .navigationDestination(for: String.self) { name in
                         if name == "MyPageView" {
-                            MyPageView(path: $path)        
+                            MyPageView(path: $path)
                                 .customBackbutton {
                                     path.removeLast()
-                            }
+                                }
                         }
                     }
                 } //: Hstack
                 .padding(.all, 20)
-                
-                if categoryName == "전체" {
+                ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
-                        TodayVoteView()
-                            .padding(.bottom, 32)
-                        VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: true)
-                            .padding(.bottom, 36)
-                        VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
-                            .padding(.bottom, 36)
-                        VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
-                            .padding(.bottom, 36)
-                        Spacer()
+                        if categoryName == "전체" {
+                            TodayVoteView()
+                                .padding(.bottom, 32)
+                                .id("top")
+                            VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: true)
+                                .padding(.bottom, 36)
+                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
+                                .padding(.bottom, 36)
+                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
+                                .padding(.bottom, 36)
+                            Spacer()
+                            
+                        } else {
+                            VoteListCellView(titleName: "", isFavoriteVote: false)
+                        }
                     } //: ScrollView
-                } else {
-                    ScrollView(showsIndicators: false) {
-                        VoteListCellView(titleName: "", isFavoriteVote: false)
+                    .overlay(alignment: .bottomTrailing) {
+                        Button {
+                            withAnimation {
+                                proxy.scrollTo("top")
+                            }
+                        } label: {
+                            Image("Floating button")
+                        }
                     }
                 }
             }

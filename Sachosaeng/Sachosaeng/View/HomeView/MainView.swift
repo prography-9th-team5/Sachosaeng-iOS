@@ -9,7 +9,7 @@ import SwiftUI
 
 enum TabItem {
     case home
-    case vote
+    case bookMark
 }
 
 struct MainView: View {
@@ -17,41 +17,40 @@ struct MainView: View {
     @State var switchTab: TabItem = .home
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             // 상단 콘텐츠 영역
             switch switchTab {
                 case .home:
                     HomeView(path: $path)
-                case .vote:
-                    VoteView()
+                case .bookMark:
+                    EmptyView()
             }
             
-            
-            Spacer()
-            
-            HStack(spacing: 0) {
-                Spacer()
-                Button {
-                    switchTab = .home
-                } label: {
-                    Image("HomeTab")
-                }
-                
-                Spacer()
+            ZStack {
+                CustomColor.GrayScaleColor.gs4
+                HStack(spacing: 0) {
+                    Spacer()
+                    Button {
+                        switchTab = .home
+                    } label: {
+                        Image(switchTab == .home ? "HomeTab" : "HomeTab_off")
+                    }
+                    
+                    Spacer()
 
-                Button {
-                    switchTab = .vote
-                } label: {
-                    Image("HomeTab")
-                        .foregroundStyle(CustomColor.GrayScaleColor.gs4)
+                    Button {
+                        switchTab = .bookMark
+                    } label: {
+                        Image(switchTab == .bookMark ? "bookmark" : "bookmark_off")
+                            .foregroundStyle(CustomColor.GrayScaleColor.gs4)
+                    }
+                    Spacer()
                 }
-                Spacer()
-
             }
             .frame(height: 76)
-            .background(CustomColor.GrayScaleColor.gs4)
-            .cornerRadius(15, corners: [.topLeft, .topRight])
-            
+//            .cornerRadius(15, corners: [.topLeft, .topRight])
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            .background(CustomColor.GrayScaleColor.gs2)
         }
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)

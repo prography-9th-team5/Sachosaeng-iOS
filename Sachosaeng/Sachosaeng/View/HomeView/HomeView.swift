@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Binding var path: NavigationPath
-    @ObservedObject var categoryStore: CategoryStore = CategoryStore()
+    @StateObject var categoryStore: CategoryStore
     @State var categoryName: String = "전체"
     @State var isSheet: Bool = false
     
@@ -94,5 +94,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(path: .constant(NavigationPath()))
+    HomeView(path: .constant(NavigationPath()), categoryStore: CategoryStore())
 }

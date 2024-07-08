@@ -15,13 +15,13 @@ enum TabItem {
 struct MainView: View {
     @Binding var path: NavigationPath
     @State var switchTab: TabItem = .home
-    
+    @ObservedObject var categoryStore = CategoryStore()
     var body: some View {
         VStack(spacing: 0) {
             // 상단 콘텐츠 영역
             switch switchTab {
                 case .home:
-                    HomeView(path: $path)
+                    HomeView(path: $path, categoryStore: categoryStore)
                 case .bookMark:
                     EmptyView()
             }

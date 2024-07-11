@@ -88,11 +88,11 @@ struct UserFavoriteCategoryView: View {
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        UserFavoriteCategoryView()
-//    }
-//}
+#Preview {
+    NavigationStack {
+        UserFavoriteCategoryView(isSign: .constant(false))
+    }
+}
 
 extension UserFavoriteCategoryView {
     private func gridSwitch() {

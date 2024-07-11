@@ -12,7 +12,6 @@
 		360C2B222C37184E0000C0F8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B212C37184E0000C0F8 /* User.swift */; };
 		360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B232C3718D80000C0F8 /* UserStore.swift */; };
 		360C2B272C372F330000C0F8 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B262C372F330000C0F8 /* MyPageView.swift */; };
-		360C2B2A2C3872AD0000C0F8 /* CommonBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B292C3872AD0000C0F8 /* CommonBackButton.swift */; };
 		363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B66772C25A7E30098B0C1 /* SignSuccessView.swift */; };
 		364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */; };
 		36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */; };
@@ -25,6 +24,7 @@
 		36562FB22C210B80004D1836 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA92C210B80004D1836 /* Pretendard-Thin.otf */; };
 		36562FB32C210B80004D1836 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FAA2C210B80004D1836 /* Pretendard-Light.otf */; };
 		36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36562FB42C210BA6004D1836 /* FontExtension.swift */; };
+		365A12062C388EC500C18796 /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365A12052C388EC500C18796 /* ViewModifier.swift */; };
 		366057A52BC41C80004F8216 /* SignStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366057A42BC41C80004F8216 /* SignStore.swift */; };
 		3663D3DC2BE317EE007AA77A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DB2BE317EE007AA77A /* GoogleSignIn */; };
 		3663D3DE2BE317EE007AA77A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DD2BE317EE007AA77A /* GoogleSignInSwift */; };
@@ -61,7 +61,6 @@
 		360C2B212C37184E0000C0F8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		360C2B232C3718D80000C0F8 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		360C2B262C372F330000C0F8 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
-		360C2B292C3872AD0000C0F8 /* CommonBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonBackButton.swift; sourceTree = "<group>"; };
 		363B66772C25A7E30098B0C1 /* SignSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignSuccessView.swift; sourceTree = "<group>"; };
 		364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderProgressBarView.swift; sourceTree = "<group>"; };
 		36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		36562FA92C210B80004D1836 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		36562FAA2C210B80004D1836 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		36562FB42C210BA6004D1836 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
+		365A12052C388EC500C18796 /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
 		366057A42BC41C80004F8216 /* SignStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignStore.swift; sourceTree = "<group>"; };
 		3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		36696B632C2B6900006BFCC0 /* CategoryModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModal.swift; sourceTree = "<group>"; };
@@ -163,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				36842BF42C2298E00023473D /* TempImageView.swift */,
-				360C2B292C3872AD0000C0F8 /* CommonBackButton.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -206,8 +205,8 @@
 				366DFE722C2B43DB009CD87E /* MainView.swift */,
 				36BA20492C294BDC006C54E6 /* HomeView.swift */,
 				36A81FDD2C2CA31B006A9305 /* VoteView.swift */,
-				360C2B252C372F1D0000C0F8 /* MyPageView */,
 				36696B662C2B762F006BFCC0 /* Cell */,
+				360C2B252C372F1D0000C0F8 /* MyPageView */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -247,6 +246,7 @@
 				3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */,
 				36562FB42C210BA6004D1836 /* FontExtension.swift */,
 				36696B692C2B8241006BFCC0 /* ViewExtension.swift */,
+				365A12052C388EC500C18796 /* ViewModifier.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -425,6 +425,7 @@
 				36842BFB2C22C9FF0023473D /* UserFavoriteCategoryView.swift in Sources */,
 				366DFE732C2B43DB009CD87E /* MainView.swift in Sources */,
 				36EB01672BC400E400050CC7 /* ContentView.swift in Sources */,
+				365A12062C388EC500C18796 /* ViewModifier.swift in Sources */,
 				36696B6A2C2B8241006BFCC0 /* ViewExtension.swift in Sources */,
 				36A81FDE2C2CA31B006A9305 /* VoteView.swift in Sources */,
 				36842BFF2C22D8960023473D /* CategoryCellView.swift in Sources */,
@@ -438,7 +439,6 @@
 				36842BFD2C22D01A0023473D /* CommonTitle.swift in Sources */,
 				360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */,
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
-				360C2B2A2C3872AD0000C0F8 /* CommonBackButton.swift in Sources */,
 				36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */,
 				36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */,
 				36696B642C2B6900006BFCC0 /* CategoryModal.swift in Sources */,

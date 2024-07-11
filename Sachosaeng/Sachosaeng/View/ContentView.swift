@@ -19,7 +19,7 @@ struct ContentView: View {
             }
         case false:
             NavigationStack {
-                UserOccupationView(isSign: $isSign)
+                SignView(isSign: $isSign)
             }
         }
     }

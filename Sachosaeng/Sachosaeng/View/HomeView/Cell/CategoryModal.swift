@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct CategoryModal: View {
+    @StateObject var categoryStore: CategoryStore
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
-    @State private var selectedCategories: [Bool] = Array(repeating: false, count: 10) // 난중에 갯수에 맞춰서 바꿀거
-    private var isSelected: Bool {
-        return selectedCategories.contains(true)
-    }
-    
+    @State private var tapCount = 0
+    @State private var isMyCategory = true
+    @State private var isEdit = false
     private func gridSwitch() {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }
@@ -27,56 +26,91 @@ struct CategoryModal: View {
                 .padding(.bottom, 28)
                 .padding(.top, 20)
             
-            HStack(spacing: 0) {
+            VStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    Button {
-                        
-                    } label: {
-                        Text("내 카테고리")
-                            .font(.createFont(weight: .medium, size: 18))
-                            .foregroundStyle(CustomColor.GrayScaleColor.black)
-                    }
-                    .padding(.trailing, 24)
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("전체 카테고리")
-                            .font(.createFont(weight: .medium, size: 18))
-                            .foregroundStyle(CustomColor.GrayScaleColor.black)
-                    }
-                }
-                Spacer()
-            }
-            ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
-                    ForEach(0..<10) { num in
+                    HStack(spacing: 0) {
                         Button {
-                            // TODO: 데이터 받고 재자업 
+                            withAnimation {
+                                isMyCategory = true
+                                isEdit = false
+                            }
                         } label: {
-                            VStack(spacing: 0) {
-                                TempImageView(isBorder: true, width: 74, height: 74)
-                                    .clipShape(Circle())
-                                    .padding(.bottom, 10)
-                                Text("ㅂ;ㅈ;ㄴ;니스 매너")
-                                    .font(.createFont(weight: .bold, size: 16))
-                                    .foregroundStyle(CustomColor.GrayScaleColor.black)
-                                    .lineLimit(1)
+                            Text("내 카테고리")
+                                .font(.createFont(weight: isMyCategory ? .bold : .medium, size: 18))
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        }
+                        .padding(.trailing, 24)
+                        
+                        Button {
+                            withAnimation {
+                                isMyCategory = false
+                                isEdit = false
+                            }
+                        } label: {
+                            Text("전체 카테고리")
+                                .font(.createFont(weight: isMyCategory ? .medium : .bold, size: 18))
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        }
+                            Spacer()
+                        if isMyCategory  {
+                            Button {
+                                isEdit.toggle()
+                            } label: {
+                                Text("편집")
+                                    .font(.createFont(weight: .medium, size: 14))
+                                    .foregroundStyle(CustomColor.GrayScaleColor.gs5)
                             }
                         }
                     }
-                })
-                .onAppear() {
-                    gridSwitch()
+                    Spacer()
+                }
+                .padding(.leading, 1)
+                
+                HStack(spacing: 0) {
+                    RoundedRectangle(cornerRadius: 32.24)
+                        .foregroundStyle(.clear)
+                        .frame(width: isMyCategory ? 0 : 104.5, height: 2)
+                    RoundedRectangle(cornerRadius: 32.24)
+                        .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        .frame(width: isMyCategory ? 86 : 106, height: 2)
+                    Spacer()
+                }
+                .padding(.top, 14)
+            }
+            .padding(EdgeInsets(top: 0, leading: 18, bottom: 0, trailing: 20))
+            
+              
+            VStack {
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
+                        
+                        if isEdit {
+                            ForEach(categoryStore.categories) { category in
+                                Button {
+                                    // TODO: 데이터 받고 재자업
+                                } label: {
+                                    CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
+                                }
+                            }
+                        } else {
+                            // TODO: - 여기서는 사용자가 지정한 카테고리를 나타나게끔
+                        }
+                    })
+                    .onAppear {
+                        gridSwitch()
+                    }
+                }
+                .padding(.top, 28)
+                if isEdit {
+                    Text("완료")
+                        .font(.createFont(weight: .medium, size: 16))
+                        .modifier(DesignForNextWithTapCount(tapCount: $tapCount))
                 }
             }
-            .padding(.top, 27)
         }
-        .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
-        
     }
 }
 
 #Preview {
-    CategoryModal()
+    CategoryModal(categoryStore: CategoryStore())
 }

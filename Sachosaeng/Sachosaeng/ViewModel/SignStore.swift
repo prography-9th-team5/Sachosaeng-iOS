@@ -13,7 +13,7 @@ import Alamofire
 import AuthenticationServices
 import GoogleSignIn
 
-final class SignStore {
+final class SignStore: ObservableObject {
     
     func loginWithKakaoAccount() {
         if UserApi.isKakaoTalkLoginAvailable() {

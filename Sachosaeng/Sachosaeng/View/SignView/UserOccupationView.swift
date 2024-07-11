@@ -78,16 +78,15 @@ struct UserOccupationView: View {
                 Text("다음")
                     .font(.createFont(weight: .medium, size: 16))
             }
-            .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
-            .foregroundStyle(CustomColor.GrayScaleColor.white)
-            .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
-            .cornerRadius(4)
+            .modifier(DesignForNext(isSelected: $isSelected))
             .disabled(isFirstJoin)
         } //: Vstack
         
     }
 }
 
-//#Preview {
-//    UserOccupationView()
-//}
+#Preview {
+    NavigationStack {
+        UserOccupationView(isSign: .constant(false))
+    }
+}

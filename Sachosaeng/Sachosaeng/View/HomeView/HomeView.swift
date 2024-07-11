@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Binding var path: NavigationPath
+    @StateObject var categoryStore: CategoryStore
     @State var categoryName: String = "전체"
     @State var isSheet: Bool = false
     
@@ -27,13 +28,11 @@ struct HomeView: View {
                             .font(.createFont(weight: .medium, size: 14))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                     }
-                    .sheet(isPresented: $isSheet, content: {
-                        GeometryReader { geometry in
-                            CategoryModal()
-                                .cornerRadius(12)
-                                .presentationDetents([.height(688), .height(688)])
-                        }
-                    })
+                    .sheet(isPresented: $isSheet) {
+                        CategoryModal(categoryStore: categoryStore)
+                            .cornerRadius(12)
+                            .presentationDetents([.height(688), .height(688)])
+                    }
                     
                     Spacer()
                     Button {
@@ -46,35 +45,48 @@ struct HomeView: View {
                             .frame(width: 40, height: 40)
                     }
                     .navigationDestination(for: String.self) { name in
-                        //                        if name == "FAQ" {
-                        //                            testView(path: $path)
-                        //                        }
                         if name == "MyPageView" {
-                            MyPageView(path: $path)        
-                                .navigationBarBackButtonHidden()
+                            MyPageView(path: $path)
+                                .customBackbutton {
+                                    path.removeLast()
+                                }
                         }
                     }
-//                    
                 } //: Hstack
                 .padding(.all, 20)
-                
-                if categoryName == "전체" {
+                ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
-                        TodayVoteView()
-                            .padding(.bottom, 32)
-                        VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: true)
-                            .padding(.bottom, 36)
-                        VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
-                            .padding(.bottom, 36)
-                        VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
-                            .padding(.bottom, 36)
-                        Spacer()
+                        if categoryName == "전체" {
+                            TodayVoteView()
+                                .padding(.bottom, 32)
+                                .id("top")
+                            VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: true)
+                                .padding(.bottom, 36)
+                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
+                                .padding(.bottom, 36)
+                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
+                                .padding(.bottom, 36)
+                            Spacer()
+                            
+                        } else {
+                            VoteListCellView(titleName: "", isFavoriteVote: false)
+                        }
                     } //: ScrollView
-                } else {
-                    ScrollView(showsIndicators: false) {
-                        VoteListCellView(titleName: "", isFavoriteVote: false)
+                    .overlay(alignment: .bottomTrailing) {
+                        Button {
+                            withAnimation {
+                                proxy.scrollTo("top")
+                            }
+                        } label: {
+                            Image("Floating button")
+                        }
                     }
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                await categoryStore.fetchCategories()
             }
         }
         
@@ -82,5 +94,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(path: .constant(NavigationPath()))
+    HomeView(path: .constant(NavigationPath()), categoryStore: CategoryStore())
 }

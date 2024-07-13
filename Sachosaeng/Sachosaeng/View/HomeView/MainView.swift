@@ -18,7 +18,6 @@ struct MainView: View {
     @ObservedObject var categoryStore = CategoryStore()
     var body: some View {
         VStack(spacing: 0) {
-            // 상단 콘텐츠 영역
             switch switchTab {
                 case .home:
                     HomeView(path: $path, categoryStore: categoryStore)

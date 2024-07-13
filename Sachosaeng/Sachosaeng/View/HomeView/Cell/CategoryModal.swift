@@ -79,11 +79,9 @@ struct CategoryModal: View {
             }
             .padding(EdgeInsets(top: 0, leading: 18, bottom: 0, trailing: 20))
             
-              
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
-                    LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
-                        
+                    LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
                         if isEdit {
                             ForEach(categoryStore.categories) { category in
                                 Button {
@@ -96,16 +94,20 @@ struct CategoryModal: View {
                         } else {
                             // TODO: - 여기서는 사용자가 지정한 카테고리를 나타나게끔
                         }
-                    })
+                    }
                     .onAppear {
                         gridSwitch()
                     }
                 }
                 .padding(.top, 28)
                 if isEdit {
-                    Text("완료")
-                        .font(.createFont(weight: .medium, size: 16))
-                        .modifier(DesignForNextWithTapCount(tapCount: $tapCount))
+                    Button {
+                        
+                    } label: {
+                        Text("완료")
+                            .font(.createFont(weight: .medium, size: 16))
+                            .modifier(DesignForNextWithTapCount(tapCount: $tapCount))
+                    }
                 }
             }
         }

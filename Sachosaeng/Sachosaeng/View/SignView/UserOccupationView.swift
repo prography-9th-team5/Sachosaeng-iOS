@@ -18,11 +18,11 @@ struct UserOccupationView: View {
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 0, content: {
+            HStack(spacing: 0) {
                 CustomSliderProgressBarView(progress: 1, isImageHide: false)
                     .padding(.trailing, 12)
                 CustomSliderProgressBarView(progress: 0, isImageHide: true)
-            })
+            }
             .padding(.bottom, 32)
             .padding(.top, 10.9)
             .padding(.horizontal, 20)

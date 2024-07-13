@@ -26,18 +26,18 @@ struct UserFavoriteCategoryView: View {
             .padding(.bottom, 32)
             .padding(.top, 10)
             .padding(.horizontal, 20)
-
             HStack(spacing: 0) {
                 CommonTitle(top: "선호하는 카테고리를",
                             topFont: .bold,
                             middle: "모두 선택해 주세요",
-                            middleFont: .black,
+                            middleFont: .bold,
                             footer: "*복수 선택이 가능해요",
                             footerFont: .light, isSuccessView: false)
                 
                 VStack(spacing: 0) {
-                    Button {
-                    // TODO: 유저정보 저장
+                    NavigationLink {
+                        SignSuccessView(isSign: $isSign)
+                            .navigationBarBackButtonHidden(true)
                     } label: {
                         Text("SKIP")
                             .font(.createFont(weight: .light, size: 16))
@@ -50,13 +50,14 @@ struct UserFavoriteCategoryView: View {
             .frame(height: 100)
                 
             ScrollView {
-                LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
+                LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
                     ForEach(categoryStore.categories, id: \.self) { category in
                         CategoryCellView(
                             tapCount: $tapCount, category: category, categoryNumber: category.categoryId)
                         .padding(.bottom, 32)
                     }
-                }).onAppear() {
+                }
+                .onAppear {
                     gridSwitch()
                 }
                 

@@ -9,8 +9,7 @@ import SwiftUI
 
 enum myPageOption: String , CaseIterable {
     case changeName = "닉네임 변경"
-    case setfavorite = "관심사 설정"
-    case inquiry = "고민 문의"
+    case inquiry = "1:1 문의"
 }
 
 enum settingOption: String, CaseIterable {
@@ -56,7 +55,7 @@ struct MyPageView: View {
                         path.append(name.rawValue)
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
-                            .frame(width: PhoneSpace.screenHeight - 40,height: 60)
+                            .frame(width: PhoneSpace.screenHeight - 40, height: 60)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .overlay {
                                 HStack(spacing: 0) {
@@ -127,11 +126,14 @@ struct MyPageView: View {
                     
                 } label: {
                     HStack {
-                        Text("탈퇴하기")
+                        Text("로그아웃")
+                            .font(.createFont(weight: .medium, size: 16))
+                            .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                            .underline()
                         Spacer()
                     }
-                }.padding(20)
-                
+                }
+                .padding(20)
             }            
             .scrollIndicators(.hidden)
             .navigationTitle("마이페이지")

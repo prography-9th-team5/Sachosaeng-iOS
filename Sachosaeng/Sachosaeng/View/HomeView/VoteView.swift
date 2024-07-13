@@ -58,7 +58,7 @@ struct VoteView: View {
                                         ForEach(0..<4) { num in
                                             RoundedRectangle(cornerRadius: 4)
                                                 .frame(width: PhoneSpace.screenWidth - 80, height: 50)
-                                                .foregroundStyle(CustomColor.GrayScaleColor.gs3)
+                                                .foregroundStyle(selectedIndex == num ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.gs2)
                                                 .overlay(alignment: .leading) {
                                                     HStack(spacing: 0) {
                                                         Text("데이터 연결하면 바꿀거임 ")
@@ -107,7 +107,7 @@ struct VoteView: View {
                         
                     } //: Vstack
                     .padding(.top, 26)
-                    .navigationTitle("# 경조사")
+                    .navigationTitle("경조사")
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden()
                     .customBackbutton()
@@ -141,7 +141,7 @@ struct VoteView: View {
                Button {
                    isPressSuccessButton = true
                } label: {
-                   Text("확인")
+                   Text(isPressSuccessButton ? "다른 투표 보기" : "확인" )
                }
                .frame(width: PhoneSpace.screenWidth - 40, height: 47)
                .foregroundStyle(CustomColor.GrayScaleColor.white)

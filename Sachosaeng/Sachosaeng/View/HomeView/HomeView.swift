@@ -61,11 +61,11 @@ struct HomeView: View {
                                 .padding(.bottom, 32)
                                 .id("top")
                             VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: true)
-                                .padding(.bottom, 36)
+                                .padding(.bottom, 32)
                             VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
-                                .padding(.bottom, 36)
+                                .padding(.bottom, 32)
                             VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
-                                .padding(.bottom, 36)
+                                .padding(.bottom, 32)
                             Spacer()
                             
                         } else {

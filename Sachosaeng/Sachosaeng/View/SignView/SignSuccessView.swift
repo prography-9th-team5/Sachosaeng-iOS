@@ -16,7 +16,7 @@ struct SignSuccessView: View {
                     CommonTitle(top: "랜덤이름님!",
                                 topFont: .bold,
                                 middle: "사초생에 오신 걸 환영해요",
-                                middleFont: .medium,
+                                middleFont: .bold,
                                 footer: "회원가입 완료",
                                 footerFont: .medium, isSuccessView: true)
                 }
@@ -38,8 +38,8 @@ struct SignSuccessView: View {
         }
 }
 
-//#Preview {
-//    NavigationStack {
-//        SignSuccessView()
-//    }
-//}
+#Preview {
+    NavigationStack {
+        SignSuccessView(isSign: .constant(true))
+    }
+}

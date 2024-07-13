@@ -29,7 +29,7 @@ struct UserFavoriteCategoryView: View {
 
             HStack(spacing: 0) {
                 CommonTitle(top: "선호하는 카테고리를",
-                            topFont: .medium,
+                            topFont: .bold,
                             middle: "모두 선택해 주세요",
                             middleFont: .black,
                             footer: "*복수 선택이 가능해요",
@@ -54,21 +54,21 @@ struct UserFavoriteCategoryView: View {
                     ForEach(categoryStore.categories, id: \.self) { category in
                         CategoryCellView(
                             tapCount: $tapCount, category: category, categoryNumber: category.categoryId)
-                            .padding(20)
+                        .padding(.bottom, 32)
                     }
                 }).onAppear() {
                     gridSwitch()
                 }
-                .padding(20)
+                
             } //: ScrollView
             .scrollIndicators(.hidden)
+            .padding(.top, 44)
             
-            Spacer()
             NavigationLink {
                 SignSuccessView(isSign: $isSign)
                     .navigationBarBackButtonHidden(true)
             } label: {
-                Text("사초생 시작")
+                Text("시작")
                     .font(.createFont(weight: .medium, size: 16))
                     .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
                     .foregroundStyle(CustomColor.GrayScaleColor.white)
@@ -78,7 +78,6 @@ struct UserFavoriteCategoryView: View {
                     .cornerRadius(4)
             }
             .disabled(tapCount == 0)
-            
             Spacer()
         } //:Vstack
         .onAppear {

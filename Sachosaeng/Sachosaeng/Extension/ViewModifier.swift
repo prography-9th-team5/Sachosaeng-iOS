@@ -21,7 +21,7 @@ public struct CustomBackButton: ViewModifier {
                         action?()
                         dismiss()
                     } label: {
-                        Image(systemName: "chevron.left")
+                        Image("backButton")
                             .foregroundColor(.black)
                     }
                 }

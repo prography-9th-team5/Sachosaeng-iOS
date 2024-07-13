@@ -29,9 +29,9 @@ struct UserOccupationView: View {
             
             HStack(spacing: 0) {
                 CommonTitle(top: "어떤 사회초년생에",
-                            topFont: .medium,
+                            topFont: .bold,
                             middle: "해당되나요?",
-                            middleFont: .bold,
+                            middleFont: .black,
                             footer: "*선택한 유형에 맞는 정보를 제공해 드려요",
                             footerFont: .light, isSuccessView: false)
             }

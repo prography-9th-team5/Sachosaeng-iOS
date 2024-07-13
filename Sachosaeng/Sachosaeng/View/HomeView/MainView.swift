@@ -35,7 +35,8 @@ struct MainView: View {
                     } label: {
                         Image(switchTab == .home ? "HomeTab" : "HomeTab_off")
                     }
-                    
+                    .padding(.bottom, 30)
+                    .padding(.top, 18)
                     Spacer()
 
                     Button {
@@ -44,6 +45,8 @@ struct MainView: View {
                         Image(switchTab == .bookMark ? "bookmark" : "bookmark_off")
                             .foregroundStyle(CustomColor.GrayScaleColor.gs4)
                     }
+                    .padding(.bottom, 30)
+                    .padding(.top, 18)
                     Spacer()
                 }
             }

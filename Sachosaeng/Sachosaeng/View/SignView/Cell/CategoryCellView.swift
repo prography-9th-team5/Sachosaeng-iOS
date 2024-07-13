@@ -23,15 +23,12 @@ struct CategoryCellView: View {
                     
                 AsyncImage(url: URL(string: "\(category.iconUrl)"))
                 .frame(width: 32, height: 32)
-                .clipShape(Circle())
                 .grayscale(isSelected ? 0 : 1)
                 .opacity(isSelected ? 1 : 0.45)
             }
             Text("\(category.name)")
                 .font(.createFont(weight: .medium, size: 16) )
                 .foregroundStyle(CustomColor.GrayScaleColor.black)
-                
-                
         }
         .onTapGesture {
             isSelected.toggle()

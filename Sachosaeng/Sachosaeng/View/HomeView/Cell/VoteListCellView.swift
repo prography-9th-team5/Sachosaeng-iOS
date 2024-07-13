@@ -18,12 +18,14 @@ struct VoteListCellView: View {
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(CustomColor.GrayScaleColor.gs6)
                 Spacer()
-            }.padding(.horizontal, 20)
+            }
+            .padding(.bottom, 12)
             
             ForEach(Array(tempVoteList.enumerated()), id: \.element.id) { index, vote in
                 VoteCell(vote: vote, index: index + 1, isFavoriteVote: isFavoriteVote)
             }
         }
+        .padding(.horizontal, 20)
     }
 }
 
@@ -38,7 +40,7 @@ struct VoteCell: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .frame(height: 60)
-                    .foregroundStyle(CustomColor.GrayScaleColor.white)
+                    .foregroundStyle(CustomColor.GrayScaleColor.gs4)
                 
                 HStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
@@ -67,15 +69,14 @@ struct VoteCell: View {
                 }
             }
             .frame(height: 60)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 6)
+            .padding(.bottom, 6)
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: false)
+        VoteListCellView(titleName: "인기 투표", isFavoriteVote: false)
         
     }
 }

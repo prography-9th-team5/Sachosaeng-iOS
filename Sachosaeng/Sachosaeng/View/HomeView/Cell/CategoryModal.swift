@@ -80,7 +80,7 @@ struct CategoryModal: View {
             .padding(EdgeInsets(top: 0, leading: 18, bottom: 0, trailing: 20))
             
               
-            VStack {
+            VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
                     LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
                         
@@ -90,6 +90,7 @@ struct CategoryModal: View {
                                     // TODO: 데이터 받고 재자업
                                 } label: {
                                     CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
+                                        .padding(.bottom, 32)
                                 }
                             }
                         } else {

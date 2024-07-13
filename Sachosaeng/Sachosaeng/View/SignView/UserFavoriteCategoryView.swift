@@ -70,14 +70,15 @@ struct UserFavoriteCategoryView: View {
             } label: {
                 Text("사초생 시작")
                     .font(.createFont(weight: .medium, size: 16))
+                    .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
+                    .foregroundStyle(CustomColor.GrayScaleColor.white)
+                    .background(tapCount > 0
+                                ? CustomColor.GrayScaleColor.black
+                                : CustomColor.GrayScaleColor.gs4)
+                    .cornerRadius(4)
             }
-            .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
-            .foregroundStyle(CustomColor.GrayScaleColor.white)
-            .background(tapCount > 0
-                        ? CustomColor.GrayScaleColor.black
-                        : CustomColor.GrayScaleColor.gs4)
-            .cornerRadius(4)
             .disabled(tapCount == 0)
+            
             Spacer()
         } //:Vstack
         .onAppear {

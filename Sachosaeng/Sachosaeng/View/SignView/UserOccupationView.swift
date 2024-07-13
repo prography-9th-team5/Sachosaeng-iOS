@@ -42,6 +42,7 @@ struct UserOccupationView: View {
                     ForEach(0..<2) { column in
                         let occupationDescription: [String] = ["학생", "취업준비생", "1~3년차 직장인", "기타"]
                         let occupationNumber = row * 2 + column
+                        
                         Button {
                             selectedOccupations[occupationNumber] = true
                             isSelected = true
@@ -64,9 +65,10 @@ struct UserOccupationView: View {
                 .onAppear(perform: {
                     isFirstJoin = true
                 })
-                .padding()
             }
-            .padding(.top, 27)
+            .padding(.top, 44)
+            .padding(.horizontal, 20)
+            
             
             Spacer()
             
@@ -77,8 +79,8 @@ struct UserOccupationView: View {
             } label: {
                 Text("다음")
                     .font(.createFont(weight: .medium, size: 16))
+                    .modifier(DesignForNext(isSelected: $isSelected))
             }
-            .modifier(DesignForNext(isSelected: $isSelected))
             .disabled(isFirstJoin)
         } //: Vstack
         

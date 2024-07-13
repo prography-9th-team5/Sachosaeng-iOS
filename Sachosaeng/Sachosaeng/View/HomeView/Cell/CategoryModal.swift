@@ -37,7 +37,7 @@ struct CategoryModal: View {
                         } label: {
                             Text("내 카테고리")
                                 .font(.createFont(weight: isMyCategory ? .bold : .medium, size: 18))
-                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                .foregroundStyle(isMyCategory ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
                         }
                         .padding(.trailing, 24)
                         
@@ -49,7 +49,7 @@ struct CategoryModal: View {
                         } label: {
                             Text("전체 카테고리")
                                 .font(.createFont(weight: isMyCategory ? .medium : .bold, size: 18))
-                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                .foregroundStyle(isMyCategory ? CustomColor.GrayScaleColor.gs5 : CustomColor.GrayScaleColor.black)
                         }
                             Spacer()
                         if isMyCategory  {

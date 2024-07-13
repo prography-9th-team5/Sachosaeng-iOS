@@ -35,6 +35,7 @@ struct HomeView: View {
                     }
                     
                     Spacer()
+                    
                     Button {
                         path.append("MyPageView")
                         print(path)
@@ -54,6 +55,7 @@ struct HomeView: View {
                     }
                 } //: Hstack
                 .padding(.all, 20)
+                
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
@@ -89,7 +91,6 @@ struct HomeView: View {
                 await categoryStore.fetchCategories()
             }
         }
-        
     }
 }
 

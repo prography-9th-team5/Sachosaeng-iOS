@@ -14,6 +14,7 @@ struct CategoryModal: View {
     @State private var tapCount = 0
     @State private var isMyCategory = true
     @State private var isEdit = false
+    @State private var isAll = false
     private func gridSwitch() {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }
@@ -33,6 +34,7 @@ struct CategoryModal: View {
                             withAnimation {
                                 isMyCategory = true
                                 isEdit = false
+                                isAll = false
                             }
                         } label: {
                             Text("내 카테고리")
@@ -45,14 +47,17 @@ struct CategoryModal: View {
                             withAnimation {
                                 isMyCategory = false
                                 isEdit = false
+                                isAll = true
                             }
                         } label: {
                             Text("전체 카테고리")
                                 .font(.createFont(weight: isMyCategory ? .medium : .bold, size: 18))
                                 .foregroundStyle(isMyCategory ? CustomColor.GrayScaleColor.gs5 : CustomColor.GrayScaleColor.black)
                         }
-                            Spacer()
-                        if isMyCategory  {
+                        
+                        Spacer()
+                        
+                        if isMyCategory {
                             Button {
                                 isEdit.toggle()
                             } label: {
@@ -91,8 +96,18 @@ struct CategoryModal: View {
                                         .padding(.bottom, 32)
                                 }
                             }
+                        } else if isAll {
+                            ForEach(categoryStore.categories) { category in
+                                Button {
+                                    // TODO: 데이터 받고 재자업
+                                } label: {
+                                    CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
+                                        .padding(.bottom, 32)
+                                }
+                            }
                         } else {
                             // TODO: - 여기서는 사용자가 지정한 카테고리를 나타나게끔
+
                         }
                     }
                     .onAppear {

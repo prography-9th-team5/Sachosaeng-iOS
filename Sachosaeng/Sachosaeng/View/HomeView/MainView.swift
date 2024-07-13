@@ -16,6 +16,7 @@ struct MainView: View {
     @Binding var path: NavigationPath
     @State var switchTab: TabItem = .home
     @ObservedObject var categoryStore = CategoryStore()
+    
     var body: some View {
         VStack(spacing: 0) {
             switch switchTab {
@@ -36,6 +37,7 @@ struct MainView: View {
                     }
                     .padding(.bottom, 30)
                     .padding(.top, 18)
+                    
                     Spacer()
 
                     Button {

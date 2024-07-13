@@ -15,7 +15,7 @@ struct CommonTitle: View {
     var footer: String
     var footerFont: Font.FontWeight
     var isSuccessView: Bool
-    private let lineHeight: CGFloat = 1.338 // 130%
+    private let lineHeight: CGFloat = 1.338 //
     
     var body: some View {
         VStack(spacing: 0) {
@@ -26,7 +26,6 @@ struct CommonTitle: View {
                 
                 Spacer()
             }
-//            .padding(.horizontal, 20 * (lineHeight - 1))
             .padding(.bottom, 26 * (lineHeight - 1))
 
             HStack {
@@ -35,7 +34,6 @@ struct CommonTitle: View {
                     .font(.createFont(weight: middleFont, size: 26))
                 Spacer()
             }
-//            .padding(.horizontal, 20 * (lineHeight - 1))
 
             HStack {
                 if isSuccessView { Spacer() }
@@ -44,8 +42,8 @@ struct CommonTitle: View {
                     .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                 Spacer()
             }
-//            .padding(.horizontal, 20 * (lineHeight - 1))
             .padding(.top, 22 * (lineHeight - 1))
+            
         } //: Group
         .padding(.horizontal, 20)
     }

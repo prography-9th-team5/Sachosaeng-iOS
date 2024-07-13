@@ -62,13 +62,12 @@ struct UserOccupationView: View {
                         }
                     }
                 }
-                .onAppear(perform: {
+                .onAppear {
                     isFirstJoin = true
-                })
+                }
             }
             .padding(.top, 44)
             .padding(.horizontal, 20)
-            
             
             Spacer()
             
@@ -83,7 +82,6 @@ struct UserOccupationView: View {
             }
             .disabled(isFirstJoin)
         } //: Vstack
-        
     }
 }
 

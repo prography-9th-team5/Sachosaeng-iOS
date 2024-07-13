@@ -27,16 +27,13 @@ struct CustomSliderProgressBarView: View {
                         .frame(width: geometry.size.width * setProgress, height: geometry.size.height)
                         .cornerRadius(5)
                     
-                    if !isImageHide {
-                        Image("Progressbaricon")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 28, height: 28)
-                            .offset(x: geometry.size.width * setProgress - 20)
-                    } else {
-                        Image("")
-                            .frame(width: 28, height: 28)
-                    }
+                    Image("Progressbaricon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
+                        .offset(x: geometry.size.width * setProgress - 20)
+                        .opacity(isImageHide ? 0 : 1)
+                   
                 }
             }
             .frame(height: 8)

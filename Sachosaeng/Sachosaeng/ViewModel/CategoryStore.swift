@@ -7,10 +7,12 @@
 
 import Foundation
 
+@MainActor
 class CategoryStore: ObservableObject {
     @Published var categories = [Category]()
     
     func fetchCategories() async {
+        categories.removeAll()
         guard let url = URL(string: "https://sachosaeng.store/api/v1/categories") else { return }
 
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -36,8 +38,8 @@ class CategoryStore: ObservableObject {
         
         task.resume()
     }
-    
-    func addAllCategory() {
-        categories.insert(Category(categoryId: 999, name: "ALL", iconUrl: "https://www.figma.com/design/rSeqGRWceTWtAsv5wHVlfj/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9D%BC%ED%94%BC9%EA%B8%B0_5%ED%8C%80?node-id=1195-17074&t=kfaLMLN27SioWqGX-4", backgroundColor: "", textColor: ""), at: 0)
-    }
+//    
+//    func addAllCategory() {
+//        categories.insert(Category(categoryId: 999, name: "ALL", iconUrl: "allButton", backgroundColor: "", textColor: ""), at: 0)
+//    }
 }

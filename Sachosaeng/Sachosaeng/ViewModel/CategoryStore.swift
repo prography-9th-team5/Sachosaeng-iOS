@@ -30,6 +30,7 @@ class CategoryStore: ObservableObject {
                 let decodedResponse = try JSONDecoder().decode(ResponseCategory.self, from: data)
                 DispatchQueue.main.async {
                     self.categories = decodedResponse.data
+                    self.addAllCategory()
                 }
             } catch {
                 print("Error decoding response: \(error)")
@@ -39,7 +40,7 @@ class CategoryStore: ObservableObject {
         task.resume()
     }
 //    
-//    func addAllCategory() {
-//        categories.insert(Category(categoryId: 999, name: "ALL", iconUrl: "allButton", backgroundColor: "", textColor: ""), at: 0)
-//    }
+    func addAllCategory() {
+        categories.insert(Category(categoryId: 999, name: "ALL", iconUrl: "https://sachosaeng.store/icon/all-2x.png", backgroundColor: "", textColor: ""), at: 0)
+    }
 }

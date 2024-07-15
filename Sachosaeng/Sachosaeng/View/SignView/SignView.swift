@@ -30,6 +30,7 @@ struct SignView: View {
                 Spacer()
                 
                 Image("Onboarding image")
+                
                 Spacer()
                 
                 VStack(spacing: 0) {

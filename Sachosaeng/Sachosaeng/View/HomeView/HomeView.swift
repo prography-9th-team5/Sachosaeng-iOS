@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @Binding var path: NavigationPath
     @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
     @State var categoryName: String = "전체"
     @State var isSheet: Bool = false
     
@@ -59,18 +60,19 @@ struct HomeView: View {
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
-                            TodayVoteView()
+                            TodayVoteView(dailyVote: voteStore.dailyVote)
                                 .padding(.bottom, 32)
                                 .id("top")
-                            VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: true)
+                            VoteListCellView(votes: [voteStore.hotVotes.votes[0]] + [voteStore.dailyVote])
                                 .padding(.bottom, 32)
-                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
-                                .padding(.bottom, 32)
-                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
-                                .padding(.bottom, 32)
+                            
+//                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
+//                                .padding(.bottom, 32)
+//                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
+//                                .padding(.bottom, 32)
                             Spacer()
                         } else {
-                            VoteListCellView(titleName: "", isFavoriteVote: false)
+//                            VoteListCellView(titleName: "", isFavoriteVote: false)
                         }
                     } //: ScrollView
                     .overlay(alignment: .bottomTrailing) {
@@ -85,14 +87,11 @@ struct HomeView: View {
                 }
             }
         }
-        .onAppear {
-            Task {
-                await categoryStore.fetchCategories()
-            }
-        }
     }
 }
 
 #Preview {
-    HomeView(path: .constant(NavigationPath()), categoryStore: CategoryStore())
+    NavigationStack {
+        HomeView(path: .constant(NavigationPath()), categoryStore: CategoryStore(), voteStore: VoteStore())
+    }
 }

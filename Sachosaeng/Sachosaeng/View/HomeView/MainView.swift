@@ -16,12 +16,12 @@ struct MainView: View {
     @Binding var path: NavigationPath
     @State var switchTab: TabItem = .home
     @ObservedObject var categoryStore = CategoryStore()
-    
+    @ObservedObject var voteStore: VoteStore = VoteStore()
     var body: some View {
         VStack(spacing: 0) {
             switch switchTab {
                 case .home:
-                    HomeView(path: $path, categoryStore: categoryStore)
+                    HomeView(path: $path, categoryStore: categoryStore, voteStore: voteStore)
                 case .bookMark:
                     EmptyView()
             }
@@ -54,6 +54,13 @@ struct MainView: View {
             .frame(height: 76)
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .background(CustomColor.GrayScaleColor.gs2)
+        }
+        .onAppear {
+            Task {
+                await categoryStore.fetchCategories()
+                await voteStore.fetchDaily()
+                await voteStore.fetchHotVotes()
+            }
         }
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)

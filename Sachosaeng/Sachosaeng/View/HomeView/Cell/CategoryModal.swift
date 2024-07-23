@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryModal: View {
-    @StateObject var categoryStore: CategoryStore
+    @ObservedObject var categoryStore: CategoryStore
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var tapCount = 0
@@ -101,7 +101,7 @@ struct CategoryModal: View {
                                     }
                                 }
                             } else if isAll {
-                                ForEach(categoryStore.categories) { category in
+                                ForEach(categoryStore.allCatagory) { category in
                                     Button {
                                         // TODO: 데이터 받고 재자업
                                     } label: {
@@ -111,7 +111,6 @@ struct CategoryModal: View {
                                 }
                             } else {
                                 // TODO: - 여기서는 사용자가 지정한 카테고리를 나타나게끔
-                                
                             }
                         }
                         .onAppear {
@@ -130,6 +129,10 @@ struct CategoryModal: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            
+            print(categoryStore.allCatagory)
         }
     }
 }

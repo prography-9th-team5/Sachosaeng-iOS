@@ -12,7 +12,7 @@ struct ContentView: View {
     @State var path = NavigationPath()
     
     var body: some View {
-        switch isSign {
+        switch !isSign {
         case true:
             NavigationStack(path: $path) {
                 MainView(path: $path)

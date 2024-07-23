@@ -8,34 +8,34 @@
 import SwiftUI
 
 struct TodayVoteView: View {
-    @State var title: String = "친한사수 결혼식 축의금은 5만원이 적당해요"
+    var dailyVote: Vote
     
     var body: some View {
-        Button {
-            
+        NavigationLink {
+            VoteView(vote: dailyVote)
         } label: {
             VStack(spacing: 0) {
                 RoundedRectangle(cornerRadius: 8)
                     .foregroundStyle(CustomColor.GrayScaleColor.black)
-                    .frame(width: PhoneSpace.screenWidth - 40, height: 107)
+                    .frame(width: PhoneSpace.screenWidth - 40, height: 85)
                     .overlay(alignment: .topLeading) {
                         VStack(alignment: .leading, spacing: 0) {
                             Text("오늘의 투표")
                                 .font(.createFont(weight: .medium, size: 12))
-                                .foregroundStyle(CustomColor.GrayScaleColor.gs3)
+                                .foregroundStyle(CustomColor.GrayScaleColor.white)
                                 .frame(width: 69, height: 24)
                                 .background(CustomColor.GrayScaleColor.gs6)
                                 .cornerRadius(4, corners: .allCorners)
-                            .padding(.bottom, 12)
+                            .padding(.bottom, 10)
                             
-                            Text(title)
+                            Text(dailyVote.title)
                                 .font(.createFont(weight: .bold, size: 16))
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
-                                .padding(.bottom, 5)
+                                .padding(.bottom, 18)
                             
-                            Text("* 판단에 도움을 주기 위한 참고 자료로 활용해 주세요")
-                                .font(.createFont(weight: .bold, size: 12))
-                                .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+//                            Text("* 판단에 도움을 주기 위한 참고 자료로 활용해 주세요")
+//                                .font(.createFont(weight: .bold, size: 12))
+//                                .foregroundStyle(CustomColor.GrayScaleColor.gs5)
                         }
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 19, trailing: 20))
                     }
@@ -45,5 +45,5 @@ struct TodayVoteView: View {
 }
 
 #Preview {
-    TodayVoteView()
+    TodayVoteView(dailyVote: dummyVote)
 }

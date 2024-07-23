@@ -61,6 +61,6 @@ struct CategoryCellView: View {
 // TODO: 이미지 받으면 변경 예정
 
 #Preview {
-    CategoryCellView(tapCount: .constant(0), category: Category(categoryId: 4, name: "비지니스 매너", iconUrl: "https://sachosaeng.store/icon/resignation-and-job-change-32px-2x.png", backgroundColor: "#339FAF00", textColor: "#FF9FAF00"), categoryNumber: 2)
+    CategoryCellView(tapCount: .constant(0), category: Category(categoryId: 4, name: "비지니스 매너", iconUrl: "https://sachosaeng.store/icon/all-2x.png", backgroundColor: "#E4E7EC", textColor: "#FF9FAF00"), categoryNumber: 2)
 }
 

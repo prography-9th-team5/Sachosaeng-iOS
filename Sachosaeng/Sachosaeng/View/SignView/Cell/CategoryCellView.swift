@@ -17,8 +17,14 @@ struct CategoryCellView: View {
         VStack {
             ZStack {
                 Circle()
-                    .fill(Color(hex: isSelected ?  category.backgroundColor : "#F2F4F7" ))
+//                    .fill(Color(hex: isSelected ? category.backgroundColor : "#F2F4F7"))
+                    .fill(Color(hex: category.backgroundColor))
                     .frame(width: 72, height: 72)
+//                    .border(CustomColor.GrayScaleColor.black, width: 1.4)
+                    .overlay(
+                        Circle()
+                            .stroke(isSelected ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
+                    )
                     
                 AsyncImage(url: URL(string: "\(category.iconUrl)")) { phase in
                     switch phase {
@@ -29,8 +35,8 @@ struct CategoryCellView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 32, height: 32)
-                            .grayscale(isSelected ? 0 : 1)
-                            .opacity(isSelected ? 1 : 0.45)
+//                            .grayscale(isSelected ? 0 : 1)
+//                            .opacity(isSelected ? 1 : 0.45)
                     case .failure(let error):
                         Text("Failed to load image: \(error.localizedDescription)")
                     @unknown default:

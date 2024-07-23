@@ -21,9 +21,13 @@ struct OccupationView: View {
     
     var body: some View {
         VStack {
-            Image(isSelected ? "\(occupationDescription[occupationNumber])" : "\(occupationDescription[occupationNumber])_off")
+            Image("\(occupationDescription[occupationNumber])")
                 .resizable()
                 .scaledToFit()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(isSelected ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
+                )
             Text(occupationDescription[occupationNumber])
                 .foregroundStyle(CustomColor.GrayScaleColor.black)
                 .font(.createFont(weight: .medium, size: 16))

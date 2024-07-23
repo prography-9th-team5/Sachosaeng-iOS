@@ -23,8 +23,8 @@ struct SignSuccessView: View {
                 .frame(height: 100)
                 .padding(.bottom, 45)
                 Image("온보딩_\(UserStore.shared.newUser.userType)")
-                    .frame(width: PhoneSpace.screenWidth - 100,
-                           height: PhoneSpace.screenWidth - 100)
+                    .frame(width: 248,
+                           height: 248)
                 Spacer()
                 
             }

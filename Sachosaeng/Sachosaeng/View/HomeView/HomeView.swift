@@ -69,7 +69,6 @@ struct HomeView: View {
                             VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
                                 .padding(.bottom, 32)
                             Spacer()
-                            
                         } else {
                             VoteListCellView(titleName: "", isFavoriteVote: false)
                         }

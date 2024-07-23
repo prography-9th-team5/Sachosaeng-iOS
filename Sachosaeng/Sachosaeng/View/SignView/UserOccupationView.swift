@@ -14,7 +14,6 @@ struct UserOccupationView: View {
 
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
     @State var isSelected: Bool = false
-    @State var isFirstJoin: Bool = false
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
@@ -46,7 +45,6 @@ struct UserOccupationView: View {
                         Button {
                             selectedOccupations[occupationNumber] = true
                             isSelected = true
-                            isFirstJoin = false
                             UserStore.shared.newUser.userType = occupationDescription[occupationNumber]
                             for index in 0..<selectedOccupations.count {
                                 if index != occupationNumber {
@@ -54,33 +52,26 @@ struct UserOccupationView: View {
                                 }
                             }
                         } label: {
-                            if isFirstJoin {
-                                OccupationView(isSelected: .constant(true), occupationNumber: occupationNumber)
-                            } else {
-                                OccupationView(isSelected: $selectedOccupations[occupationNumber], occupationNumber: occupationNumber)
-                            }
+                            OccupationView(isSelected: $selectedOccupations[occupationNumber], occupationNumber: occupationNumber)
                         }
                     }
-                }
-                .onAppear {
-                    isFirstJoin = true
                 }
             }
             .padding(.top, 44)
             .padding(.horizontal, 20)
-            
+            .navigationTitle("1 유저타입 선택")
+            .navigationBarTitleDisplayMode(.inline)
             Spacer()
             
             NavigationLink {
-                // TODO: 유저정보 저장
                 UserFavoriteCategoryView(isSign: $isSign)
-                    .navigationBarBackButtonHidden(true)
+                    .customBackbutton()
             } label: {
                 Text("다음")
                     .font(.createFont(weight: .medium, size: 16))
                     .modifier(DesignForNext(isSelected: $isSelected))
             }
-            .disabled(isFirstJoin)
+            .disabled(!isSelected)
         } //: Vstack
     }
 }

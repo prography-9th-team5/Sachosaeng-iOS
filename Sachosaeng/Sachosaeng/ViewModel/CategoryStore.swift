@@ -30,7 +30,7 @@ class CategoryStore: ObservableObject {
                 let decodedResponse = try JSONDecoder().decode(ResponseCategory.self, from: data)
                 DispatchQueue.main.async {
                     self.categories = decodedResponse.data
-                    self.addAllCategory()
+//                    self.addAllCategory()
                 }
             } catch {
                 print("Error decoding response: \(error)")

@@ -15,6 +15,7 @@ struct CategoryModal: View {
     @State private var isMyCategory = true
     @State private var isEdit = false
     @State private var isAll = false
+    @State var isEmpty: Bool = true
     private func gridSwitch() {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }
@@ -86,32 +87,36 @@ struct CategoryModal: View {
             
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
-                    LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
-                        if isEdit {
-                            ForEach(categoryStore.categories) { category in
-                                Button {
-                                    // TODO: 데이터 받고 재자업
-                                } label: {
-                                    CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
-                                        .padding(.bottom, 32)
+                    if !isEmpty {
+                        Image("emptyIcon")
+                    } else {
+                        LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
+                            if isEdit {
+                                ForEach(categoryStore.categories) { category in
+                                    Button {
+                                        // TODO: 데이터 받고 재자업
+                                    } label: {
+                                        CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
+                                            .padding(.bottom, 32)
+                                    }
                                 }
-                            }
-                        } else if isAll {
-                            ForEach(categoryStore.categories) { category in
-                                Button {
-                                    // TODO: 데이터 받고 재자업
-                                } label: {
-                                    CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
-                                        .padding(.bottom, 32)
+                            } else if isAll {
+                                ForEach(categoryStore.categories) { category in
+                                    Button {
+                                        // TODO: 데이터 받고 재자업
+                                    } label: {
+                                        CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
+                                            .padding(.bottom, 32)
+                                    }
                                 }
+                            } else {
+                                // TODO: - 여기서는 사용자가 지정한 카테고리를 나타나게끔
+                                
                             }
-                        } else {
-                            // TODO: - 여기서는 사용자가 지정한 카테고리를 나타나게끔
-
                         }
-                    }
-                    .onAppear {
-                        gridSwitch()
+                        .onAppear {
+                            gridSwitch()
+                        }
                     }
                 }
                 .padding(.top, 28)

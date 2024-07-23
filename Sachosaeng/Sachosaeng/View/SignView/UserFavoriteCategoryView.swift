@@ -26,6 +26,7 @@ struct UserFavoriteCategoryView: View {
             .padding(.bottom, 32)
             .padding(.top, 10)
             .padding(.horizontal, 20)
+            
             HStack(spacing: 0) {
                 CommonTitle(top: "선호하는 카테고리를",
                             topFont: .bold,
@@ -50,20 +51,23 @@ struct UserFavoriteCategoryView: View {
             .frame(height: 100)
                 
             ScrollView {
+                Spacer()
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
                     ForEach(categoryStore.categories, id: \.self) { category in
                         CategoryCellView(
-                            tapCount: $tapCount, category: category, categoryNumber: category.categoryId)
+                            tapCount: $tapCount,
+                            category: category,
+                            categoryNumber: category.categoryId
+                        )
                         .padding(.bottom, 32)
                     }
                 }
                 .onAppear {
                     gridSwitch()
                 }
-                
             } //: ScrollView
             .scrollIndicators(.hidden)
-            .padding(.top, 44)
+            .padding(.top, 45)
             
             NavigationLink {
                 SignSuccessView(isSign: $isSign)
@@ -81,6 +85,8 @@ struct UserFavoriteCategoryView: View {
             .disabled(tapCount == 0)
             Spacer()
         } //:Vstack
+        .navigationTitle("2 카테고리 선택")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Task {
                 await categoryStore.fetchCategories()

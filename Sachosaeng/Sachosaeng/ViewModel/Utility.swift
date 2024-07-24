@@ -1,0 +1,34 @@
+//
+//  Utility.swift
+//  Sachosaeng
+//
+//  Created by LJh on 7/24/24.
+//
+
+import Foundation
+
+func fetchData<T: Codable>(from urlString: String, completion: @escaping (Result<T, Error>) -> Void) {
+    guard let url = URL(string: urlString) else {
+        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+        return
+    }
+    
+    let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        if let error = error {
+            completion(.failure(error))
+            return
+        }
+        
+        guard let data = data else {
+            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
+            return
+        }
+        do {
+            let decodedResponse = try JSONDecoder().decode(Response<T>.self, from: data)
+            completion(.success(decodedResponse.data))
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    task.resume()
+}

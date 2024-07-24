@@ -12,7 +12,6 @@ struct CategoryCellView: View {
     @State var isSelected: Bool = false
     @State var category: Category
     @State var categoryNumber: Int
-    
     var body: some View {
         VStack {
             ZStack {
@@ -45,7 +44,7 @@ struct CategoryCellView: View {
                 }
             }
             Text("\(category.name)")
-                .font(.createFont(weight: .medium, size: 16) )
+                .font(.createFont(weight: isSelected ? .bold : .medium, size: 16) )
                 .foregroundStyle(CustomColor.GrayScaleColor.black)
         }
         .onTapGesture {

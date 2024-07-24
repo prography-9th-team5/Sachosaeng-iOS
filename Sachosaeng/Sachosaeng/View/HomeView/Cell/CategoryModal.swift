@@ -15,7 +15,7 @@ struct CategoryModal: View {
     @State private var isMyCategory = true
     @State private var isEdit = false
     @State private var isAll = false
-    @State var isEmpty: Bool = true
+    @State var isEmpty: Bool = false // 사용자에 따라서 값 변경해야함
     private func gridSwitch() {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }
@@ -87,7 +87,7 @@ struct CategoryModal: View {
             
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
-                    if !isEmpty {
+                    if isEmpty {
                         Image("emptyIcon")
                     } else {
                         LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
@@ -129,10 +129,6 @@ struct CategoryModal: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            
-            print(categoryStore.allCatagory)
         }
     }
 }

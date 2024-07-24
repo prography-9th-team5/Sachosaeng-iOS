@@ -31,6 +31,16 @@ struct MyPageView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                         .frame(width: PhoneSpace.screenWidth - 40, height: 80)
+                        .overlay(alignment: .topTrailing) {
+                            NavigationLink {
+                                EditMyInfoView()
+                                    .customBackbutton()
+                            } label: {
+                                Image("settingMyInfoIcon")
+                                    .padding(16)
+                            }
+
+                        }
                     HStack(spacing: 0) {
                         Image("온보딩_1~3년차 직장인")
                             .resizable()
@@ -45,6 +55,7 @@ struct MyPageView: View {
                                 .font(.createFont(weight: .bold, size: 18))
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                         }
+                        
                     }
                 }
                 .padding(.top, 20)
@@ -55,7 +66,7 @@ struct MyPageView: View {
                         path.append(name.rawValue)
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
-                            .frame(width: PhoneSpace.screenHeight - 40, height: 60)
+                            .frame(width: PhoneSpace.screenWidth - 40, height: 60)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .overlay {
                                 HStack(spacing: 0) {
@@ -84,7 +95,7 @@ struct MyPageView: View {
                         path.append(name.rawValue)
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
-                            .frame(width: PhoneSpace.screenHeight - 40,height: 60)
+                            .frame(width: PhoneSpace.screenWidth - 40,height: 60)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .overlay {
                                 HStack(spacing: 0) {

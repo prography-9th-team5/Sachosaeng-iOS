@@ -7,12 +7,6 @@
 
 import Foundation
 
-struct ResponseCategory: Codable {
-    let code: Int
-    let message: String
-    let data: [Category]
-}
-
 struct Category: Codable, Identifiable, Hashable {
     let categoryId: Int
     let name: String
@@ -20,23 +14,11 @@ struct Category: Codable, Identifiable, Hashable {
     let backgroundColor: String
     let textColor: String
     var id: Int { categoryId }
-    
-    enum CodingKeys: String, CodingKey {
-        case categoryId = "categoryId"
-        case name = "name"
-        case iconUrl = "iconUrl"
-        case backgroundColor = "backgroundColor"
-        case textColor = "textColor"
-    }
 }
 
-struct ResponseAllCategory: Codable {
-    let code: Int
-    let message: String
-    let data: allCategory
-}
-struct allCategory: Codable {
+struct AllCategory: Codable {
     let iconUrl: String
     let backgroundColor: String
 }
+
 let dummyCategory = Category(categoryId: 1, name: "", iconUrl: "", backgroundColor: "", textColor: "")

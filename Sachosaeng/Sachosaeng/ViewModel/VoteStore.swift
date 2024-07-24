@@ -12,57 +12,30 @@ final class VoteStore: ObservableObject {
     @Published var dailyVote: Vote = dummyVote
     
     func fetchHotVotes() async {
-        guard let url = URL(string: "https://sachosaeng.store/api/v1/votes/hot") else { return }
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error fetching categories: \(error)")
-                return
-            }
-            guard let data = data else {
-                print("No data received")
-                return
-            }
-
-            do {
-                let decodedResponse = try JSONDecoder().decode(ResponseHotVote.self, from: data)
+        fetchData(from: "https://sachosaeng.store/api/v1/votes/hot") { (result: Result<HotVote, Error>) in
+            switch result {
+            case .success(let hotVotes):
                 DispatchQueue.main.async {
-                    let hotVote: HotVote = decodedResponse.data[0]
-                    self.hotVotes = dummyHotvote
-                    print("🎉 성공: fetchHotVotes() \(decodedResponse.data)")
-                    print("🎉 hotVotes: \(self.hotVotes)")
+                    self.hotVotes = hotVotes
+//                    print("🎉 성공: fetchHotVotes() \(self.hotVotes)")
                 }
-            } catch {
-                print("🚨에러: fetchHotVotes() 리스폰스 디코딩 실패 🚨: \(error)")
+            case .failure(let error):
+                print("🚨 에러: fetchHotVotes() 실패 🚨: \(error)")
             }
         }
-        task.resume()
     }
     
     func fetchDaily() async {
-        guard let url = URL(string: "https://sachosaeng.store/api/v1/votes/daily") else { return }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error fetching categories: \(error)")
-                return
-            }
-            guard let data = data else {
-                print("No data received")
-                return
-            }
-
-            do {
-                let decodedResponse = try JSONDecoder().decode(ResponseDailyVote.self, from: data)
+        fetchData(from: "https://sachosaeng.store/api/v1/votes/daily") { (result: Result<Vote, Error> ) in
+            switch result {
+            case .success(let dailyVote):
                 DispatchQueue.main.async {
-                    self.dailyVote = decodedResponse.data
-//                    print("🎉 성공: fetchDaily() \(decodedResponse.data)")
-//                    print("🎉 dailyVote: \(self.dailyVote)")
+                    self.dailyVote = dailyVote
+                    print("🎉 성공: fetchDaily() \(self.dailyVote)")
                 }
-            } catch {
-                print("🚨에러: fetchDaily() 리스폰스 디코딩 실패 🚨: \(error)")
+            case .failure(let error):
+                print("🚨 에러: fetchDaily() 실패 🚨: \(error)")
             }
         }
-        task.resume()
     }
 }

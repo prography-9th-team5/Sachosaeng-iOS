@@ -13,6 +13,7 @@ struct VoteView: View {
     @State var isBookmark: Bool = false
     @State var isPressSuccessButton: Bool = false
     @State private var selectedIndex: Int? = nil
+    @ObservedObject var voteStore: VoteStore = VoteStore()
     
     var body: some View {
        ZStack {  
@@ -166,6 +167,11 @@ struct VoteView: View {
                .cornerRadius(4)
            } //: Vstack
         } //: Zstack
+//       .onAppear {
+//           Task {
+//               await voteStore.fetchVoteDetail(voteId: vote.voteId)
+//           }
+//       }
     }
 }
 

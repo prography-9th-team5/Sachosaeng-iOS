@@ -11,6 +11,7 @@ import Foundation
 class CategoryStore: ObservableObject {
     @Published var categories = [Category]()
     @Published var allCatagory = [Category]()
+    var istest: Bool = false
     
     func fetchCategories() async {
         categories.removeAll()
@@ -24,7 +25,9 @@ class CategoryStore: ObservableObject {
                     self.fetchAllCategory()
                 }
             case .failure(let error):
-                print("🚨 에러: fetchCategories() 실패 🚨: \(error)")
+                if self.istest {
+                    print("🚨 에러: fetchCategories() 실패 🚨: \(error)")
+                }
             }
         }
     }
@@ -37,7 +40,9 @@ class CategoryStore: ObservableObject {
                     self.allCatagory.insert(Category(categoryId: 99999, name: "전체 보기", iconUrl: allCate.iconUrl, backgroundColor: allCate.backgroundColor, textColor: ""), at: 0)
                 }
             case .failure(let error):
-                print("🚨 에러: fetchAllCategory() 실패 🚨: \(error)")
+                if self.istest {
+                    print("🚨 에러: fetchAllCategory() 실패 🚨: \(error)")
+                }
             }
         }
     }

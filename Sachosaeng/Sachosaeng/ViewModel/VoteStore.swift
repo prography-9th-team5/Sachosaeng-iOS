@@ -10,7 +10,9 @@ import Foundation
 final class VoteStore: ObservableObject {
     @Published var hotVotes: HotVote = HotVote(category: dummyCategory, votes: [dummyVote])
     @Published var dailyVote: Vote = dummyVote
+    @Published var test = dummyVoteDetail
     
+    var istest: Bool = false
     func fetchHotVotes() async {
         fetchData(from: "https://sachosaeng.store/api/v1/votes/hot") { (result: Result<HotVote, Error>) in
             switch result {
@@ -20,7 +22,9 @@ final class VoteStore: ObservableObject {
 //                    print("🎉 성공: fetchHotVotes() \(self.hotVotes)")
                 }
             case .failure(let error):
-                print("🚨 에러: fetchHotVotes() 실패 🚨: \(error)")
+                if self.istest {
+                    print("🚨 에러: fetchHotVotes() 실패 🚨: \(error)")
+                }
             }
         }
     }
@@ -31,10 +35,31 @@ final class VoteStore: ObservableObject {
             case .success(let dailyVote):
                 DispatchQueue.main.async {
                     self.dailyVote = dailyVote
-                    print("🎉 성공: fetchDaily() \(self.dailyVote)")
+                    if self.istest {
+                        print("🎉 성공: fetchDaily() \(self.dailyVote)")
+                    }
                 }
             case .failure(let error):
-                print("🚨 에러: fetchDaily() 실패 🚨: \(error)")
+                if self.istest {
+                    print("🚨 에러: fetchDaily() 실패 🚨: \(error)")
+                }
+            }
+        }
+    }
+    func fetchVoteDetail(voteId: Int) async {
+        fetchData(from: "https://sachosaeng.store/api/v1/votes/{\(voteId)}") {(result: Result<VoteDetail, Error> ) in
+            switch result {
+            case .success(let result):
+                DispatchQueue.main.async {
+                    self.test = result
+                    if self.istest {
+                        print("🎉 성공: fetchVoteDetail() \(self.test)")
+                    }
+                }
+            case .failure(let error):
+                if self.istest {
+                    print("🚨 에러: fetchVoteDetail() 실패 🚨: \(error)")
+                }
             }
         }
     }

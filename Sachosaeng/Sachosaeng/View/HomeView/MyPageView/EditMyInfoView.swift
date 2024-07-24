@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct EditMyInfoView: View {
+    @Environment(\.dismiss) var dismiss
     @State private var selectedButtonIndex: Int? = nil
+    @State private var isSeleted: Bool = false
+    @State private var toast: Toast? = nil
     private let typeString: [String] = ["학생", "취준생", "1~3년차 직장인", "기타"]
     private var imageFrame = 127.54
     private let rows = [
@@ -69,9 +72,11 @@ struct EditMyInfoView: View {
                     ForEach(0..<4) { index in
                         Button {
                             selectedButtonIndex = index
+                            isSeleted = true
                         } label: {
                             RoundedRectangle(cornerRadius: 8)
-                                .frame(width: .infinity, height: 48)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 48)
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 8)
@@ -91,7 +96,8 @@ struct EditMyInfoView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                
+                .padding(.bottom, 35)
+                    
                 Button {
                     
                 } label: {
@@ -103,10 +109,23 @@ struct EditMyInfoView: View {
                         Spacer()
                     }
                 }
-                .padding(20)
+                .padding(.leading, 20)
                 Spacer()
                 }
+                
+                Button {
+                    toast = Toast(type: .saved, message: "저장되었습니다")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        dismiss()
+                    }
+                } label: {
+                    Text("완료")
+                        .font(.createFont(weight: .medium, size: 16))
+                        .modifier(DesignForNext(isSelected: $isSeleted))
+                }
+                
             }
+            .toastView(toast: $toast)
             .navigationTitle("내 정보 수정")
             .navigationBarTitleDisplayMode(.inline)
         }

@@ -32,14 +32,13 @@ struct MyPageView: View {
                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                         .frame(width: PhoneSpace.screenWidth - 40, height: 80)
                         .overlay(alignment: .topTrailing) {
-                            NavigationLink {
-                                EditMyInfoView()
-                                    .customBackbutton()
+                            Button {
+                                path.append("EditMyInfoView")
                             } label: {
                                 Image("settingMyInfoIcon")
                                     .padding(16)
                             }
-
+                            
                         }
                     HStack(spacing: 0) {
                         Image("온보딩_1~3년차 직장인")
@@ -145,7 +144,7 @@ struct MyPageView: View {
                     }
                 }
                 .padding(20)
-            }            
+            }
             .scrollIndicators(.hidden)
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)

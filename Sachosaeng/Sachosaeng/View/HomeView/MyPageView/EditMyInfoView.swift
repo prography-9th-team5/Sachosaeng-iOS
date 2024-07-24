@@ -9,11 +9,13 @@ import SwiftUI
 
 struct EditMyInfoView: View {
     @Environment(\.dismiss) var dismiss
-    @State private var selectedButtonIndex: Int? = nil
-    @State private var isSeleted: Bool = false
-    @State private var toast: Toast? = nil
+    @Binding var path: NavigationPath
+    @State var selectedButtonIndex: Int? = nil
+    @State var isSeleted: Bool = false
+    @State var isSeletedQuitButton: Bool = false
+    @State var toast: Toast? = nil
     private let typeString: [String] = ["학생", "취준생", "1~3년차 직장인", "기타"]
-    private var imageFrame = 127.54
+    private let imageFrame = 127.54
     private let rows = [
         GridItem(.fixed(48)),
         GridItem(.fixed(48))
@@ -99,7 +101,7 @@ struct EditMyInfoView: View {
                 .padding(.bottom, 35)
                     
                 Button {
-                    
+                    isSeletedQuitButton = true
                 } label: {
                     HStack {
                         Text("탈퇴하기")
@@ -125,7 +127,12 @@ struct EditMyInfoView: View {
                 }
                 
             }
-            .toastView(toast: $toast)
+            .showPopupView(isPresented: $isSeletedQuitButton, message: .quit, primaryAction: {
+                
+            }, secondaryAction: {
+                
+            })
+            .showToastView(toast: $toast)
             .navigationTitle("내 정보 수정")
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -134,7 +141,7 @@ struct EditMyInfoView: View {
 
 #Preview {
     NavigationStack {
-        EditMyInfoView()
+        EditMyInfoView(path: .constant(NavigationPath()))
         
     }
 }

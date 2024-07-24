@@ -39,7 +39,6 @@ struct HomeView: View {
                     
                     Button {
                         path.append("MyPageView")
-                        print(path)
                     } label: {
                         Image("Progressbaricon")
                             .resizable()
@@ -50,7 +49,14 @@ struct HomeView: View {
                         if name == "MyPageView" {
                             MyPageView(path: $path)
                                 .customBackbutton {
-                                    path.removeLast()
+                                    print("😿 현재 코드의 위치: MypageView에서 백버튼 누름\n😿네비게이션 패스의 갯수 \(path.count)")
+                                    print("😿 현재 코드의 위치: MypageView에서 백버튼 누름\n😿네비게이션 패스: \(path) \n😿")
+                                }
+                        } else if name == "EditMyInfoView" {
+                            EditMyInfoView(path: $path)
+                                .customBackbutton {
+                                    print("😿 현재 코드의 위치: EditMyInfoView에서 백버튼 누름\n😿네비게이션 패스의 갯수 \(path.count)")
+                                    print("😿 네비게이션 패스: \(path) \n😿")
                                 }
                         }
                     }

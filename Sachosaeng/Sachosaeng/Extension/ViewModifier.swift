@@ -53,9 +53,41 @@ public struct DesignForNextWithTapCount: ViewModifier {
             .disabled(tapCount == 0)
     }
 }
-
-extension View {
-    func toastView(toast: Binding<Toast?>) -> some View {
-        self.modifier(ToastModifier(toast: toast))
+struct PopupModifier: ViewModifier {
+    
+    @Binding var isPresented: Bool
+    let popupType: PopupType
+    let primaryAction: () -> Void
+    let secondaryAction: () -> Void
+    
+    func body(content: Content) -> some View {
+        ZStack {
+            content
+            ZStack {
+                if isPresented {
+                    Rectangle()
+                        .fill(.black.opacity(0.5))
+                        .blur(radius: isPresented ? 2 : 0)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            self.isPresented = false // 외부 영역 터치 시 내려감
+                        }
+                    
+                    PopupView(
+                        isPresented: self.$isPresented,
+                        popupType: self.popupType,
+                        primaryAction: self.primaryAction,
+                        secondaryAction: self.secondaryAction
+                    )
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+            .animation(
+                isPresented
+                ? .spring(response: 0.3)
+                : .none,
+                value: isPresented
+            )
+        }
     }
 }

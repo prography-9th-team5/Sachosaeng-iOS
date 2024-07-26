@@ -7,37 +7,39 @@
 
 import SwiftUI
 
+enum UserType: String, CaseIterable, Identifiable {
+    case student = "학생"
+    case jobSeeker = "취업준비생"
+    case workers = "1~3년차 직장인"
+    case etc = "기타"
+    var id: String { self.rawValue }
+}
+
 struct EditMyInfoView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @Environment(\.dismiss) var dismiss
-    @State private var selectedButtonIndex: Int? = nil
-    @State private var isSeleted: Bool = false
-    @State private var isSeletedQuitButton: Bool = false
+    @State private var selectedType: UserType?
+    @State private var isSelected: Bool = false
+    @State private var isSelectedQuitButton: Bool = false
     @State private var toast: Toast? = nil
-    private let typeString: [String] = ["학생", "취준생", "1~3년차 직장인", "기타"]
+    @State private var userTypeArray: [UserType] = UserType.allCases
     private let imageFrame = 127.54
-    private let rows = [
-        GridItem(.fixed(48)),
-        GridItem(.fixed(48))
-    ]
+    private let rows = [ GridItem(.fixed(48)), GridItem(.fixed(48))]
+    private let columns = [ GridItem(), GridItem()]
     
-    private let columns = [
-        GridItem(),
-        GridItem()
-    ]
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.edgesIgnoringSafeArea(.all)
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
-                    Image("온보딩_학생")
+                    Image("온보딩_\(selectedType?.rawValue ?? "학생")")
                         .resizable()
                         .scaledToFit()
                         .frame(width: imageFrame, height: imageFrame)
                         .padding(.top, 10)
                         .padding(.bottom, 26)
-                    Text("온보딩_학생")
+                    Text(selectedType?.rawValue ?? "유저의 정보를 받으면 바뀔 예정일거에요")
                         .font(.createFont(weight: .bold, size: 16))
                     
                 }
@@ -72,10 +74,10 @@ struct EditMyInfoView: View {
                 }
                 
                 LazyVGrid(columns: columns) {
-                    ForEach(0..<4) { index in
+                    ForEach(userTypeArray, id: \.self) { type in
                         Button {
-                            selectedButtonIndex = index
-                            isSeleted = true
+                            selectedType = type
+                            isSelected = true
                         } label: {
                             RoundedRectangle(cornerRadius: 8)
                                 .frame(maxWidth: .infinity)
@@ -83,17 +85,17 @@ struct EditMyInfoView: View {
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .stroke(selectedButtonIndex == index ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1)
+                                        .stroke(selectedType == type ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1)
                                 )
                             
                         }
                         .overlay(alignment: .leading) {
-                            Text(typeString[index])
+                            Text(type.rawValue)
                                 .font(.createFont(weight: .medium, size: 15))
                                 .padding(16)
                         }
                         .overlay(alignment: .trailing) {
-                            Image(selectedButtonIndex == index ? "check_on" : "check_off")
+                            Image(selectedType == type ? "check_on" : "check_off")
                                 .padding(16)
                         }
                     }
@@ -102,7 +104,7 @@ struct EditMyInfoView: View {
                 .padding(.bottom, 35)
                     
                 Button {
-                    isSeletedQuitButton = true
+                    isSelectedQuitButton = true
                 } label: {
                     HStack {
                         Text("탈퇴하기")
@@ -124,11 +126,11 @@ struct EditMyInfoView: View {
                 } label: {
                     Text("완료")
                         .font(.createFont(weight: .medium, size: 16))
-                        .modifier(DesignForNext(isSelected: $isSeleted))
+                        .modifier(DesignForNext(isSelected: $isSelected))
                 }
                 
             }
-            .showPopupView(isPresented: $isSeletedQuitButton, message: .quit, primaryAction: {
+            .showPopupView(isPresented: $isSelectedQuitButton, message: .quit, primaryAction: {
                 path.append("QuitView")
             }, secondaryAction: {
                 

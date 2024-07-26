@@ -87,6 +87,7 @@ struct CategoryModal: View {
             
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
+                    Spacer()
                     if isEmpty {
                         Image("emptyIcon")
                     } else {

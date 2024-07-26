@@ -27,6 +27,7 @@
 		365A12062C388EC500C18796 /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365A12052C388EC500C18796 /* ViewModifier.swift */; };
 		366053A72C533E03000A1D8D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366053A62C533E03000A1D8D /* CustomTextField.swift */; };
 		366053A92C538210000A1D8D /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366053A82C538210000A1D8D /* CustomTextEditor.swift */; };
+		366053AB2C53A243000A1D8D /* PathType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366053AA2C53A243000A1D8D /* PathType.swift */; };
 		366057A52BC41C80004F8216 /* SignStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366057A42BC41C80004F8216 /* SignStore.swift */; };
 		3663D3DC2BE317EE007AA77A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DB2BE317EE007AA77A /* GoogleSignIn */; };
 		3663D3DE2BE317EE007AA77A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DD2BE317EE007AA77A /* GoogleSignInSwift */; };
@@ -85,6 +86,7 @@
 		365A12052C388EC500C18796 /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
 		366053A62C533E03000A1D8D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		366053A82C538210000A1D8D /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
+		366053AA2C53A243000A1D8D /* PathType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathType.swift; sourceTree = "<group>"; };
 		366057A42BC41C80004F8216 /* SignStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignStore.swift; sourceTree = "<group>"; };
 		3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		36696B632C2B6900006BFCC0 /* CategoryModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModal.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				366DFE742C2B4B86009CD87E /* Vote.swift */,
 				360C2B1B2C35890D0000C0F8 /* Category.swift */,
 				360C2B212C37184E0000C0F8 /* User.swift */,
+				366053AA2C53A243000A1D8D /* PathType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
 				36A81FDC2C2C8AC6006A9305 /* TodayVoteView.swift in Sources */,
 				36842BFD2C22D01A0023473D /* CommonTitle.swift in Sources */,
+				366053AB2C53A243000A1D8D /* PathType.swift in Sources */,
 				360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */,
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
 				36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */,

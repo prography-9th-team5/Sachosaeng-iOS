@@ -21,6 +21,7 @@ struct CustomTextEditor: UIViewRepresentable {
     
     func updateUIView(_ uiView: UITextView, context: Context) {
         uiView.text = text
+        
     }
     
     func makeCoordinator() -> Coordinator {

@@ -29,7 +29,7 @@ struct SignView: View {
                         footer: "사회초년생 집단지성 투표 플랫폼, 사초생",
                         footerFont: .medium, isSuccessView: false)
             .onTapGesture {
-                path.append("UserOccupationView")
+                path.append(PathType.occupation)
             }
             
             Spacer()
@@ -80,17 +80,27 @@ struct SignView: View {
                 .padding(.bottom, 8)
             } //: Vstack
             .padding(.horizontal, 20)
-            .navigationDestination(for: String.self) { name in
-                if name == "UserOccupationView" {
+            .navigationDestination(for: PathType.self) { name in
+                if name == .occupation {
                     UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                         .navigationBarBackButtonHidden()
-                } else if name == "UserFavoriteCategoryView" {
+                }
+                if name == .favorite {
                     UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                         .customBackbutton()
-                } else if name == "SignSuccessView" {
+                }
+                if name == .signSuccess {
                     SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                         .navigationBarBackButtonHidden(true)
                 }
+                
+//                if name == "UserOccupationView" {
+//
+//                } else if name == "UserFavoriteCategoryView" {
+//
+//                } else if name == "SignSuccessView" {
+//
+//                }
                 
             }
         }

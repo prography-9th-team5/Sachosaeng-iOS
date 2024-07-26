@@ -73,7 +73,7 @@ struct UserFavoriteCategoryView: View {
             .padding(.top, 45)
             
             Button {
-                path.append("SignSuccessView")
+                path.append(PathType.signSuccess)
             } label: {
                 Text("시작")
                     .font(.createFont(weight: .medium, size: 16))

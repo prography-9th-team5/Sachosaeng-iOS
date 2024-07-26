@@ -43,15 +43,15 @@ struct HomeView: View {
                     Spacer()
                     
                     Button {
-                        path.append("MyPageView")
+                        path.append(PathType.myPage)
                     } label: {
                         Image("Progressbaricon")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                     }
-                    .navigationDestination(for: String.self) { name in
-                        if name == "MyPageView" {
+                    .navigationDestination(for: PathType.self) { name in
+                        if name == .myPage {
                             MyPageView(isSign: $isSign, path: $path)
                                 .customBackbutton {
                                     myLogPrint("""
@@ -59,7 +59,7 @@ struct HomeView: View {
                                           😿 네비게이션 패스: \(path)
                                           """, isTest: true)
                                 }
-                        } else if name == "EditMyInfoView" {
+                        } else if name == .info {
                             EditMyInfoView(isSign: $isSign, path: $path)
                                 .customBackbutton {
                                     myLogPrint("""
@@ -67,7 +67,7 @@ struct HomeView: View {
                                           😿 네비게이션 패스: \(path)
                                           """, isTest: true)
                                 }
-                        } else if name == "QuitView" {
+                        } else if name == .quit {
                             QuitView(isSign: $isSign, path: $path)
                                 .customBackbutton {
                                     myLogPrint("""

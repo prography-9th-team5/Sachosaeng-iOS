@@ -131,7 +131,7 @@ struct EditMyInfoView: View {
                 
             }
             .showPopupView(isPresented: $isSelectedQuitButton, message: .quit, primaryAction: {
-                path.append("QuitView")
+                path.append(PathType.quit)
             }, secondaryAction: {
                 
             })

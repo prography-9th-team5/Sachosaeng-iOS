@@ -66,7 +66,7 @@ struct UserOccupationView: View {
             Spacer()
             
             Button {
-                path.append("UserFavoriteCategoryView")
+                path.append(PathType.favorite)
             } label: {
                 Text("다음")
                     .font(.createFont(weight: .medium, size: 16))

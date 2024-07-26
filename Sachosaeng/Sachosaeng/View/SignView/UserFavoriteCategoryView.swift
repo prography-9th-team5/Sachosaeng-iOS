@@ -9,12 +9,15 @@ import SwiftUI
 
 struct UserFavoriteCategoryView: View {
     // MARK: - Properties
-    @ObservedObject var categoryStore: CategoryStore = CategoryStore()
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var signStore: SignStore
+    @Binding var isSign: Bool
+    @Binding var path: NavigationPath
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var selectedCategories: [Bool] = []
     @State private var tapCount = 0
-    @Binding var isSign: Bool
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
@@ -37,7 +40,7 @@ struct UserFavoriteCategoryView: View {
                 
                 VStack(spacing: 0) {
                     NavigationLink {
-                        SignSuccessView(isSign: $isSign)
+                        SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                             .navigationBarBackButtonHidden(true)
                     } label: {
                         Text("SKIP")
@@ -69,9 +72,8 @@ struct UserFavoriteCategoryView: View {
             .scrollIndicators(.hidden)
             .padding(.top, 45)
             
-            NavigationLink {
-                SignSuccessView(isSign: $isSign)
-                    .navigationBarBackButtonHidden(true)
+            Button {
+                path.append("SignSuccessView")
             } label: {
                 Text("시작")
                     .font(.createFont(weight: .medium, size: 16))
@@ -92,12 +94,6 @@ struct UserFavoriteCategoryView: View {
                 await categoryStore.fetchCategories()
             }
         }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        UserFavoriteCategoryView(isSign: .constant(false))
     }
 }
 

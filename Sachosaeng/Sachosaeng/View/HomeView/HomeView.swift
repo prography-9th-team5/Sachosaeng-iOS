@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum HomeViewFlowType {
+    
+}
+
 struct HomeView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
@@ -71,16 +75,7 @@ struct HomeView: View {
                                           😿 네비게이션 패스: \(path)
                                           """, isTest: true)
                                 }
-                        } else if name == "SignView" {
-                            SignView(path: $path, isSign: $isSign)
-                                .customBackbutton {
-                                    myLogPrint("""
-                                          😿 네비게이션 패스의 갯수: \(path.count)
-                                          😿 네비게이션 패스: \(path)
-                                          """, isTest: true)
-                                }
                         }
-                        
                     }
                     
                 } //: Hstack

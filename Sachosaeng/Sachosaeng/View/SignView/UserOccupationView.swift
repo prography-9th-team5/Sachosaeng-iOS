@@ -9,9 +9,11 @@ import SwiftUI
 
 struct UserOccupationView: View {
     
-    // MARK: - Properties
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var signStore: SignStore
     @Binding var isSign: Bool
-
+    @Binding var path: NavigationPath
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
     @State var isSelected: Bool = false
     // MARK: - Body
@@ -63,9 +65,8 @@ struct UserOccupationView: View {
             .navigationBarTitleDisplayMode(.inline)
             Spacer()
             
-            NavigationLink {
-                UserFavoriteCategoryView(isSign: $isSign)
-                    .customBackbutton()
+            Button {
+                path.append("UserFavoriteCategoryView")
             } label: {
                 Text("다음")
                     .font(.createFont(weight: .medium, size: 16))
@@ -76,8 +77,3 @@ struct UserOccupationView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        UserOccupationView(isSign: .constant(false))
-    }
-}

@@ -14,7 +14,9 @@ enum PhoneSpace {
 }
 
 struct SignView: View {
-    @ObservedObject var signStore = SignStore()
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var signStore: SignStore
     @Binding var path: NavigationPath
     @Binding var isSign: Bool
     var body: some View {
@@ -26,6 +28,9 @@ struct SignView: View {
                         middleFont: .bold,
                         footer: "사회초년생 집단지성 투표 플랫폼, 사초생",
                         footerFont: .medium, isSuccessView: false)
+            .onTapGesture {
+                path.append("UserOccupationView")
+            }
             
             Spacer()
             
@@ -75,11 +80,24 @@ struct SignView: View {
                 .padding(.bottom, 8)
             } //: Vstack
             .padding(.horizontal, 20)
+            .navigationDestination(for: String.self) { name in
+                if name == "UserOccupationView" {
+                    UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                        .navigationBarBackButtonHidden()
+                } else if name == "UserFavoriteCategoryView" {
+                    UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                        .customBackbutton()
+                } else if name == "SignSuccessView" {
+                    SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                        .navigationBarBackButtonHidden(true)
+                }
+                
+            }
         }
     }
 }
 
 #Preview {
-    SignView(path: .constant(NavigationPath()), isSign: .constant(true))
+    SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: .constant(NavigationPath()), isSign: .constant(false))
 }
 // TODO: 로그인기능을 백이랑 연결하는 작업 해야함 (기능 제대로 구현 하기)

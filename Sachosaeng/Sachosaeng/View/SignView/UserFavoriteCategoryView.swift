@@ -18,26 +18,27 @@ struct UserFavoriteCategoryView: View {
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 0, content: {
+            HStack(spacing: 0) {
                 CustomSliderProgressBarView(progress: 1, isImageHide: true)
                     .padding(.trailing, 12)
                 CustomSliderProgressBarView(progress: 1, isImageHide: false)
-            })
+            }
             .padding(.bottom, 32)
             .padding(.top, 10)
             .padding(.horizontal, 20)
-
+            
             HStack(spacing: 0) {
                 CommonTitle(top: "선호하는 카테고리를",
-                            topFont: .medium,
+                            topFont: .bold,
                             middle: "모두 선택해 주세요",
-                            middleFont: .black,
+                            middleFont: .bold,
                             footer: "*복수 선택이 가능해요",
                             footerFont: .light, isSuccessView: false)
                 
                 VStack(spacing: 0) {
-                    Button {
-                    // TODO: 유저정보 저장
+                    NavigationLink {
+                        SignSuccessView(isSign: $isSign)
+                            .navigationBarBackButtonHidden(true)
                     } label: {
                         Text("SKIP")
                             .font(.createFont(weight: .light, size: 16))
@@ -50,36 +51,42 @@ struct UserFavoriteCategoryView: View {
             .frame(height: 100)
                 
             ScrollView {
-                LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
+                Spacer()
+                LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
                     ForEach(categoryStore.categories, id: \.self) { category in
                         CategoryCellView(
-                            tapCount: $tapCount, category: category, categoryNumber: category.categoryId)
-                            .padding(20)
+                            tapCount: $tapCount,
+                            category: category,
+                            categoryNumber: category.categoryId
+                        )
+                        .padding(.bottom, 32)
                     }
-                }).onAppear() {
+                }
+                .onAppear {
                     gridSwitch()
                 }
-                .padding(20)
             } //: ScrollView
             .scrollIndicators(.hidden)
+            .padding(.top, 45)
             
-            Spacer()
             NavigationLink {
                 SignSuccessView(isSign: $isSign)
                     .navigationBarBackButtonHidden(true)
             } label: {
-                Text("사초생 시작")
+                Text("시작")
                     .font(.createFont(weight: .medium, size: 16))
+                    .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
+                    .foregroundStyle(CustomColor.GrayScaleColor.white)
+                    .background(tapCount > 0
+                                ? CustomColor.GrayScaleColor.black
+                                : CustomColor.GrayScaleColor.gs4)
+                    .cornerRadius(4)
             }
-            .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
-            .foregroundStyle(CustomColor.GrayScaleColor.white)
-            .background(tapCount > 0
-                        ? CustomColor.GrayScaleColor.black
-                        : CustomColor.GrayScaleColor.gs4)
-            .cornerRadius(4)
             .disabled(tapCount == 0)
             Spacer()
         } //:Vstack
+        .navigationTitle("2 카테고리 선택")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Task {
                 await categoryStore.fetchCategories()

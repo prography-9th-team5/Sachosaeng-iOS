@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct VoteView: View {
+    var vote: Vote
     @State var isSelected: Bool = false
     @State var isBookmark: Bool = false
     @State var isPressSuccessButton: Bool = false
     @State private var selectedIndex: Int? = nil
+    @ObservedObject var voteStore: VoteStore = VoteStore()
+    
     var body: some View {
        ZStack {  
            CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -20,12 +23,27 @@ struct VoteView: View {
                     VStack(spacing: 0) {
                         RoundedRectangle(cornerRadius: 0)
                             .cornerRadius(8, corners: [.topLeft, .topRight])
-                            .foregroundStyle(CustomColor.PrimaryColor.primaryColorWithAlpha(.red))
+                            .foregroundStyle(Color(hex: vote.category.backgroundColor))
                             .frame(width: PhoneSpace.screenWidth - 40, height: 68)
                             .overlay(alignment: .leading) {
-                                // TODO: - 앞전에 메인홈에서 카테고리이름대로 여기다가 넣어야함
-                                Image(systemName: "bolt")
-                                    .padding(.leading, 20)
+                                AsyncImage(url: URL(string: "\(vote.category.iconUrl)")) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 32, height: 32)
+                                            .padding()
+                //                            .grayscale(isSelected ? 0 : 1)
+                //                            .opacity(isSelected ? 1 : 0.45)
+                                    case .failure(let error):
+                                        Text("Failed to load image: \(error.localizedDescription)")
+                                    @unknown default:
+                                        Text("Unknown state")
+                                    }
+                                }
                             }
                             .overlay(alignment: .trailing) {
                                 Button {
@@ -42,13 +60,13 @@ struct VoteView: View {
                             .frame(width: PhoneSpace.screenWidth - 40, height: isPressSuccessButton ? 410 : 370)
                             .overlay(alignment: .top) {
                                 VStack(spacing: 0) {
-                                    Text("친한 사수 결혼식 축의금을 얼마 내면 좋을까요?")
+                                    Text(vote.title)
                                         .font(.createFont(weight: .bold, size: 18))
                                         .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)
                                         .padding(.bottom, 13)
                                         .fixedSize(horizontal: false, vertical: true)
                                     
-                                    Text("1000명 참여 중")
+                                    Text("\(vote.participantCount)명 참여 중")
                                         .font(.createFont(weight: .medium, size: 14))
                                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                                         .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)
@@ -58,10 +76,10 @@ struct VoteView: View {
                                         ForEach(0..<4) { num in
                                             RoundedRectangle(cornerRadius: 4)
                                                 .frame(width: PhoneSpace.screenWidth - 80, height: 50)
-                                                .foregroundStyle(CustomColor.GrayScaleColor.gs3)
+                                                .foregroundStyle(selectedIndex == num ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.gs2)
                                                 .overlay(alignment: .leading) {
                                                     HStack(spacing: 0) {
-                                                        Text("데이터 연결하면 바꿀거임 ")
+                                                        Text(vote.title)
                                                             .padding(.leading, 16)
                                                     }
                                                 }
@@ -107,7 +125,7 @@ struct VoteView: View {
                         
                     } //: Vstack
                     .padding(.top, 26)
-                    .navigationTitle("# 경조사")
+                    .navigationTitle("경조사")
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden()
                     .customBackbutton()
@@ -141,7 +159,7 @@ struct VoteView: View {
                Button {
                    isPressSuccessButton = true
                } label: {
-                   Text("확인")
+                   Text(isPressSuccessButton ? "다른 투표 보기" : "확인" )
                }
                .frame(width: PhoneSpace.screenWidth - 40, height: 47)
                .foregroundStyle(CustomColor.GrayScaleColor.white)
@@ -149,11 +167,16 @@ struct VoteView: View {
                .cornerRadius(4)
            } //: Vstack
         } //: Zstack
+//       .onAppear {
+//           Task {
+//               await voteStore.fetchVoteDetail(voteId: vote.voteId)
+//           }
+//       }
     }
 }
 
 #Preview {
     NavigationStack {
-        VoteView()
+        VoteView(vote: dummyVote)
     }
 }

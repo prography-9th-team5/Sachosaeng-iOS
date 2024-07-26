@@ -21,7 +21,7 @@ public struct CustomBackButton: ViewModifier {
                         action?()
                         dismiss()
                     } label: {
-                        Image(systemName: "chevron.left")
+                        Image("backButton")
                             .foregroundColor(.black)
                     }
                 }
@@ -51,5 +51,42 @@ public struct DesignForNextWithTapCount: ViewModifier {
                         : CustomColor.GrayScaleColor.gs4)
             .cornerRadius(4)
             .disabled(tapCount == 0)
+    }
+}
+public struct PopupModifier: ViewModifier {
+    @Binding var isPresented: Bool
+    let popupType: PopupType
+    let primaryAction: () -> Void
+    let secondaryAction: () -> Void
+    
+    public func body(content: Content) -> some View {
+        ZStack {
+            content
+            ZStack {
+                if isPresented {
+                    Rectangle()
+                        .fill(.black.opacity(0.5))
+                        .blur(radius: isPresented ? 2 : 0)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            self.isPresented = false
+                        }
+                    
+                    PopupView(
+                        isPresented: self.$isPresented,
+                        popupType: self.popupType,
+                        primaryAction: self.primaryAction,
+                        secondaryAction: self.secondaryAction
+                    )
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+            .animation(
+                isPresented
+                ? .spring(response: 0.3)
+                : .none,
+                value: isPresented
+            )
+        }
     }
 }

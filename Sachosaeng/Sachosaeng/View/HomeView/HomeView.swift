@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @StateObject var categoryStore: CategoryStore
-    @State var categoryName: String = "전체"
-    @State var isSheet: Bool = false
-    
+    @StateObject var voteStore: VoteStore
+    @State private var categoryName: String = "전체"
+    @State private var isSheet: Bool = false
+    private let isTest: Bool = false
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -35,9 +37,9 @@ struct HomeView: View {
                     }
                     
                     Spacer()
+                    
                     Button {
                         path.append("MyPageView")
-                        print(path)
                     } label: {
                         Image("Progressbaricon")
                             .resizable()
@@ -46,30 +48,60 @@ struct HomeView: View {
                     }
                     .navigationDestination(for: String.self) { name in
                         if name == "MyPageView" {
-                            MyPageView(path: $path)
+                            MyPageView(isSign: $isSign, path: $path)
                                 .customBackbutton {
-                                    path.removeLast()
+                                    myLogPrint("""
+                                          😿 네비게이션 패스의 갯수: \(path.count)
+                                          😿 네비게이션 패스: \(path)
+                                          """, isTest: true)
+                                }
+                        } else if name == "EditMyInfoView" {
+                            EditMyInfoView(isSign: $isSign, path: $path)
+                                .customBackbutton {
+                                    myLogPrint("""
+                                          😿 네비게이션 패스의 갯수: \(path.count)
+                                          😿 네비게이션 패스: \(path)
+                                          """, isTest: true)
+                                }
+                        } else if name == "QuitView" {
+                            QuitView(isSign: $isSign, path: $path)
+                                .customBackbutton {
+                                    myLogPrint("""
+                                          😿 네비게이션 패스의 갯수: \(path.count)
+                                          😿 네비게이션 패스: \(path)
+                                          """, isTest: true)
+                                }
+                        } else if name == "SignView" {
+                            SignView(path: $path, isSign: $isSign)
+                                .customBackbutton {
+                                    myLogPrint("""
+                                          😿 네비게이션 패스의 갯수: \(path.count)
+                                          😿 네비게이션 패스: \(path)
+                                          """, isTest: true)
                                 }
                         }
+                        
                     }
+                    
                 } //: Hstack
                 .padding(.all, 20)
+                
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
-                            TodayVoteView()
+                            TodayVoteView(dailyVote: voteStore.dailyVote)
                                 .padding(.bottom, 32)
                                 .id("top")
-                            VoteListCellView(titleName: "# 인기 투표", isFavoriteVote: true)
-                                .padding(.bottom, 36)
-                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
-                                .padding(.bottom, 36)
-                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
-                                .padding(.bottom, 36)
-                            Spacer()
+                            VoteListCellView(votes: voteStore.hotVotes.votes)
+                                .padding(.bottom, 32)
                             
+//                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
+//                                .padding(.bottom, 32)
+//                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
+//                                .padding(.bottom, 32)
+                            Spacer()
                         } else {
-                            VoteListCellView(titleName: "", isFavoriteVote: false)
+//                            VoteListCellView(titleName: "", isFavoriteVote: false)
                         }
                     } //: ScrollView
                     .overlay(alignment: .bottomTrailing) {
@@ -84,15 +116,11 @@ struct HomeView: View {
                 }
             }
         }
-        .onAppear {
-            Task {
-                await categoryStore.fetchCategories()
-            }
-        }
-        
     }
 }
 
 #Preview {
-    HomeView(path: .constant(NavigationPath()), categoryStore: CategoryStore())
+    NavigationStack {
+        HomeView(isSign: .constant(false), path: .constant(NavigationPath()), categoryStore: CategoryStore(), voteStore: VoteStore())
+    }
 }

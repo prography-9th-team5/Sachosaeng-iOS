@@ -7,37 +7,38 @@
 
 import Foundation
 
+@MainActor
 class CategoryStore: ObservableObject {
     @Published var categories = [Category]()
+    @Published var allCatagory = [Category]()
     
     func fetchCategories() async {
-        guard let url = URL(string: "https://sachosaeng.store/api/v1/categories") else { return }
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error fetching categories: \(error)")
-                return
-            }
-
-            guard let data = data else {
-                print("No data received")
-                return
-            }
-
-            do {
-                let decodedResponse = try JSONDecoder().decode(ResponseCategory.self, from: data)
+        categories.removeAll()
+        allCatagory.removeAll()
+        fetchData(from: "https://sachosaeng.store/api/v1/categories") { (result: Result<[Category], Error>) in
+            switch result {
+            case .success(let result):
                 DispatchQueue.main.async {
-                    self.categories = decodedResponse.data
+                    self.categories = result
+                    self.allCatagory = result
+                    self.fetchAllCategory()
                 }
-            } catch {
-                print("Error decoding response: \(error)")
+            case .failure(let error):
+                myLogPrint("🚨 에러: fetchCategories() 실패 🚨: \(error)", isTest: false)
             }
         }
-        
-        task.resume()
     }
     
-    func addAllCategory() {
-        categories.insert(Category(categoryId: 999, name: "ALL", iconUrl: "https://www.figma.com/design/rSeqGRWceTWtAsv5wHVlfj/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9D%BC%ED%94%BC9%EA%B8%B0_5%ED%8C%80?node-id=1195-17074&t=kfaLMLN27SioWqGX-4", backgroundColor: "", textColor: ""), at: 0)
+    func fetchAllCategory() {
+        fetchData(from: "https://sachosaeng.store/api/v1/categories/icon-data/all") { (result: Result<AllCategory, Error>) in
+            switch result {
+            case .success(let allCate):
+                DispatchQueue.main.async {
+                    self.allCatagory.insert(Category(categoryId: 99999, name: "전체 보기", iconUrl: allCate.iconUrl, backgroundColor: allCate.backgroundColor, textColor: ""), at: 0)
+                }
+            case .failure(let error):
+                myLogPrint("🚨 에러: fetchAllCategory() 실패 🚨: \(error)", isTest: false)
+            }
+        }
     }
 }

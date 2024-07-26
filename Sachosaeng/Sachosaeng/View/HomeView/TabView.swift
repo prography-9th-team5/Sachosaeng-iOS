@@ -12,16 +12,17 @@ enum TabItem {
     case bookMark
 }
 
-struct MainView: View {
+struct TabView: View {
+    @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State var switchTab: TabItem = .home
     @ObservedObject var categoryStore = CategoryStore()
+    @ObservedObject var voteStore: VoteStore = VoteStore()
     var body: some View {
         VStack(spacing: 0) {
-            // 상단 콘텐츠 영역
             switch switchTab {
                 case .home:
-                    HomeView(path: $path, categoryStore: categoryStore)
+                    HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore)
                 case .bookMark:
                     EmptyView()
             }
@@ -35,6 +36,8 @@ struct MainView: View {
                     } label: {
                         Image(switchTab == .home ? "HomeTab" : "HomeTab_off")
                     }
+                    .padding(.bottom, 30)
+                    .padding(.top, 18)
                     
                     Spacer()
 
@@ -44,6 +47,8 @@ struct MainView: View {
                         Image(switchTab == .bookMark ? "bookmark" : "bookmark_off")
                             .foregroundStyle(CustomColor.GrayScaleColor.gs4)
                     }
+                    .padding(.bottom, 30)
+                    .padding(.top, 18)
                     Spacer()
                 }
             }
@@ -51,11 +56,18 @@ struct MainView: View {
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .background(CustomColor.GrayScaleColor.gs2)
         }
+        .onAppear {
+            Task {
+                await categoryStore.fetchCategories()
+                await voteStore.fetchDaily()
+                await voteStore.fetchHotVotes()
+            }
+        }
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)
     }
 }
 
 #Preview {
-    MainView(path: .constant(NavigationPath()))
+    TabView(isSign: .constant(false), path: .constant(NavigationPath()))
 }

@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct CategoryModal: View {
-    @StateObject var categoryStore: CategoryStore
+    @ObservedObject var categoryStore: CategoryStore
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var tapCount = 0
     @State private var isMyCategory = true
     @State private var isEdit = false
+    @State private var isAll = false
+    @State var isEmpty: Bool = false // 사용자에 따라서 값 변경해야함
     private func gridSwitch() {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }
@@ -33,11 +35,12 @@ struct CategoryModal: View {
                             withAnimation {
                                 isMyCategory = true
                                 isEdit = false
+                                isAll = false
                             }
                         } label: {
                             Text("내 카테고리")
                                 .font(.createFont(weight: isMyCategory ? .bold : .medium, size: 18))
-                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                .foregroundStyle(isMyCategory ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
                         }
                         .padding(.trailing, 24)
                         
@@ -45,14 +48,17 @@ struct CategoryModal: View {
                             withAnimation {
                                 isMyCategory = false
                                 isEdit = false
+                                isAll = true
                             }
                         } label: {
                             Text("전체 카테고리")
                                 .font(.createFont(weight: isMyCategory ? .medium : .bold, size: 18))
-                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                .foregroundStyle(isMyCategory ? CustomColor.GrayScaleColor.gs5 : CustomColor.GrayScaleColor.black)
                         }
-                            Spacer()
-                        if isMyCategory  {
+                        
+                        Spacer()
+                        
+                        if isMyCategory {
                             Button {
                                 isEdit.toggle()
                             } label: {
@@ -79,32 +85,48 @@ struct CategoryModal: View {
             }
             .padding(EdgeInsets(top: 0, leading: 18, bottom: 0, trailing: 20))
             
-              
-            VStack {
+            VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
-                    LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10, content: {
-                        
-                        if isEdit {
-                            ForEach(categoryStore.categories) { category in
-                                Button {
-                                    // TODO: 데이터 받고 재자업
-                                } label: {
-                                    CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
+                    if isEmpty {
+                        Image("emptyIcon")
+                    } else {
+                        LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
+                            if isEdit {
+                                ForEach(categoryStore.categories) { category in
+                                    Button {
+                                        // TODO: 데이터 받고 재자업
+                                    } label: {
+                                        CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
+                                            .padding(.bottom, 32)
+                                    }
                                 }
+                            } else if isAll {
+                                ForEach(categoryStore.allCatagory) { category in
+                                    Button {
+                                        // TODO: 데이터 받고 재자업
+                                    } label: {
+                                        CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
+                                            .padding(.bottom, 32)
+                                    }
+                                }
+                            } else {
+                                // TODO: - 여기서는 사용자가 지정한 카테고리를 나타나게끔
                             }
-                        } else {
-                            // TODO: - 여기서는 사용자가 지정한 카테고리를 나타나게끔
                         }
-                    })
-                    .onAppear {
-                        gridSwitch()
+                        .onAppear {
+                            gridSwitch()
+                        }
                     }
                 }
                 .padding(.top, 28)
                 if isEdit {
-                    Text("완료")
-                        .font(.createFont(weight: .medium, size: 16))
-                        .modifier(DesignForNextWithTapCount(tapCount: $tapCount))
+                    Button {
+                        
+                    } label: {
+                        Text("완료")
+                            .font(.createFont(weight: .medium, size: 16))
+                            .modifier(DesignForNextWithTapCount(tapCount: $tapCount))
+                    }
                 }
             }
         }

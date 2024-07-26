@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
-    @State var categoryName: String = "전체"
-    @State var isSheet: Bool = false
-    
+    @State private var categoryName: String = "전체"
+    @State private var isSheet: Bool = false
+    private let isTest: Bool = false
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -47,19 +48,41 @@ struct HomeView: View {
                     }
                     .navigationDestination(for: String.self) { name in
                         if name == "MyPageView" {
-                            MyPageView(path: $path)
+                            MyPageView(isSign: $isSign, path: $path)
                                 .customBackbutton {
-                                    print("😿 현재 코드의 위치: MypageView에서 백버튼 누름\n😿네비게이션 패스의 갯수 \(path.count)")
-                                    print("😿 현재 코드의 위치: MypageView에서 백버튼 누름\n😿네비게이션 패스: \(path) \n😿")
+                                    myLogPrint("""
+                                          😿 네비게이션 패스의 갯수: \(path.count)
+                                          😿 네비게이션 패스: \(path)
+                                          """, isTest: true)
                                 }
                         } else if name == "EditMyInfoView" {
-                            EditMyInfoView(path: $path)
+                            EditMyInfoView(isSign: $isSign, path: $path)
                                 .customBackbutton {
-                                    print("😿 현재 코드의 위치: EditMyInfoView에서 백버튼 누름\n😿네비게이션 패스의 갯수 \(path.count)")
-                                    print("😿 네비게이션 패스: \(path) \n😿")
+                                    myLogPrint("""
+                                          😿 네비게이션 패스의 갯수: \(path.count)
+                                          😿 네비게이션 패스: \(path)
+                                          """, isTest: true)
+                                }
+                        } else if name == "QuitView" {
+                            QuitView(isSign: $isSign, path: $path)
+                                .customBackbutton {
+                                    myLogPrint("""
+                                          😿 네비게이션 패스의 갯수: \(path.count)
+                                          😿 네비게이션 패스: \(path)
+                                          """, isTest: true)
+                                }
+                        } else if name == "SignView" {
+                            SignView(path: $path, isSign: $isSign)
+                                .customBackbutton {
+                                    myLogPrint("""
+                                          😿 네비게이션 패스의 갯수: \(path.count)
+                                          😿 네비게이션 패스: \(path)
+                                          """, isTest: true)
                                 }
                         }
+                        
                     }
+                    
                 } //: Hstack
                 .padding(.all, 20)
                 
@@ -69,7 +92,7 @@ struct HomeView: View {
                             TodayVoteView(dailyVote: voteStore.dailyVote)
                                 .padding(.bottom, 32)
                                 .id("top")
-                            VoteListCellView(votes: [voteStore.hotVotes.votes[0]] + [voteStore.dailyVote])
+                            VoteListCellView(votes: voteStore.hotVotes.votes)
                                 .padding(.bottom, 32)
                             
 //                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
@@ -98,6 +121,6 @@ struct HomeView: View {
 
 #Preview {
     NavigationStack {
-        HomeView(path: .constant(NavigationPath()), categoryStore: CategoryStore(), voteStore: VoteStore())
+        HomeView(isSign: .constant(false), path: .constant(NavigationPath()), categoryStore: CategoryStore(), voteStore: VoteStore())
     }
 }

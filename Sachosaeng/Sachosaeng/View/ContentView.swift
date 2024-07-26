@@ -9,17 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     @State var isSign: Bool = false
-    @State var path = NavigationPath()
+    @State var path: NavigationPath = NavigationPath()
     
     var body: some View {
-        switch !isSign {
-        case true:
-            NavigationStack(path: $path) {
-                MainView(path: $path)
-            }
-        case false:
-            NavigationStack {
-                UserOccupationView(isSign: $isSign)
+        NavigationStack(path: $path) {
+            switch isSign {
+                case true:
+                    SignView(path: $path, isSign: $isSign)
+                case false:
+                    TabView(isSign: $isSign, path: $path)
             }
         }
     }

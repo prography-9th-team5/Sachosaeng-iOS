@@ -7,7 +7,7 @@
 
 import Foundation
 
-func fetchData<T: Codable>(from urlString: String, completion: @escaping (Result<T, Error>) -> Void) {
+public func fetchData<T: Codable>(from urlString: String, completion: @escaping (Result<T, Error>) -> Void) {
     guard let url = URL(string: urlString) else {
         completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
         return
@@ -31,4 +31,17 @@ func fetchData<T: Codable>(from urlString: String, completion: @escaping (Result
         }
     }
     task.resume()
+}
+
+public func myLogPrint(_ object: Any, isTest: Bool = true, filename: String = #file, _ line: Int = #line, _ funcname: String = #function) {
+    if isTest {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        print("""
+          ⭐️ Log!! : \(dateFormatter.string(from: Date()))
+          ⭐️ file: \(filename)
+          ⭐️ line: \(line) , ⭐️ func: \(funcname)
+          """)
+        print(object)
+    }
 }

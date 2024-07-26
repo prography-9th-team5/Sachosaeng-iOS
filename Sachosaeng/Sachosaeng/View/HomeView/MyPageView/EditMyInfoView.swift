@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct EditMyInfoView: View {
-    @Environment(\.dismiss) var dismiss
+    @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @State var selectedButtonIndex: Int? = nil
-    @State var isSeleted: Bool = false
-    @State var isSeletedQuitButton: Bool = false
-    @State var toast: Toast? = nil
+    @Environment(\.dismiss) var dismiss
+    @State private var selectedButtonIndex: Int? = nil
+    @State private var isSeleted: Bool = false
+    @State private var isSeletedQuitButton: Bool = false
+    @State private var toast: Toast? = nil
     private let typeString: [String] = ["학생", "취준생", "1~3년차 직장인", "기타"]
     private let imageFrame = 127.54
     private let rows = [
@@ -128,7 +129,7 @@ struct EditMyInfoView: View {
                 
             }
             .showPopupView(isPresented: $isSeletedQuitButton, message: .quit, primaryAction: {
-                
+                path.append("QuitView")
             }, secondaryAction: {
                 
             })
@@ -141,7 +142,7 @@ struct EditMyInfoView: View {
 
 #Preview {
     NavigationStack {
-        EditMyInfoView(path: .constant(NavigationPath()))
+        EditMyInfoView(isSign: .constant(false), path: .constant(NavigationPath()))
         
     }
 }

@@ -53,14 +53,13 @@ public struct DesignForNextWithTapCount: ViewModifier {
             .disabled(tapCount == 0)
     }
 }
-struct PopupModifier: ViewModifier {
-    
+public struct PopupModifier: ViewModifier {
     @Binding var isPresented: Bool
     let popupType: PopupType
     let primaryAction: () -> Void
     let secondaryAction: () -> Void
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         ZStack {
             content
             ZStack {
@@ -70,7 +69,7 @@ struct PopupModifier: ViewModifier {
                         .blur(radius: isPresented ? 2 : 0)
                         .ignoresSafeArea()
                         .onTapGesture {
-                            self.isPresented = false // 외부 영역 터치 시 내려감
+                            self.isPresented = false
                         }
                     
                     PopupView(

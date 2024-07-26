@@ -21,6 +21,7 @@ enum settingOption: String, CaseIterable {
 }
 
 struct MyPageView: View {
+    @Binding var isSign: Bool
     @Binding var path: NavigationPath
     
     var body: some View {
@@ -155,6 +156,6 @@ struct MyPageView: View {
 
 #Preview {
     NavigationStack {
-        MyPageView(path: .constant(NavigationPath()))
+        MyPageView(isSign: .constant(false), path: .constant(NavigationPath()))
     }
 }

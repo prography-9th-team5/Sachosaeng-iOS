@@ -12,7 +12,8 @@ enum TabItem {
     case bookMark
 }
 
-struct MainView: View {
+struct TabView: View {
+    @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State var switchTab: TabItem = .home
     @ObservedObject var categoryStore = CategoryStore()
@@ -21,7 +22,7 @@ struct MainView: View {
         VStack(spacing: 0) {
             switch switchTab {
                 case .home:
-                    HomeView(path: $path, categoryStore: categoryStore, voteStore: voteStore)
+                    HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore)
                 case .bookMark:
                     EmptyView()
             }
@@ -68,5 +69,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(path: .constant(NavigationPath()))
+    TabView(isSign: .constant(false), path: .constant(NavigationPath()))
 }

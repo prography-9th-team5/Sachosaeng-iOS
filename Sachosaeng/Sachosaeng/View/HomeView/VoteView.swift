@@ -9,6 +9,7 @@ import SwiftUI
 
 struct VoteView: View {
     var vote: Vote
+    @State private var toast: Toast? = nil
     @State var isSelected: Bool = false
     @State var isBookmark: Bool = false
     @State var isPressSuccessButton: Bool = false
@@ -158,6 +159,7 @@ struct VoteView: View {
                } //: ScrollView
                Button {
                    isPressSuccessButton = true
+                   toast = Toast(type: .success, message: "투표 완료!")
                } label: {
                    Text(isPressSuccessButton ? "다른 투표 보기" : "확인" )
                }
@@ -166,6 +168,7 @@ struct VoteView: View {
                .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                .cornerRadius(4)
            } //: Vstack
+           .showToastView(toast: $toast)
         } //: Zstack
 //       .onAppear {
 //           Task {

@@ -21,6 +21,7 @@ struct ContentView: View {
                 NavigationStack(path: $path) {
                     SignView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, path: $path, isSign: $isSign)
                 }
+                
             case false:
                 NavigationStack(path: $homePath) {
                     TabView(isSign: $isSign, path: $homePath)

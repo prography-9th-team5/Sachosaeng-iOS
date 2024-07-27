@@ -61,7 +61,8 @@ struct UserOccupationView: View {
             }
             .padding(.top, 44)
             .padding(.horizontal, 20)
-            .navigationTitle("1 유저타입 선택")
+            .navigationTitle("사초생 유형 선택")
+            .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6)
             .navigationBarTitleDisplayMode(.inline)
             Spacer()
             
@@ -77,3 +78,9 @@ struct UserOccupationView: View {
     }
 }
 
+#Preview {
+    NavigationStack {
+        UserOccupationView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), isSign: .constant(true), path: .constant(NavigationPath()), isSelected: true)
+    }
+    
+}

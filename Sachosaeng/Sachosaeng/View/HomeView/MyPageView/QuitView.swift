@@ -43,7 +43,7 @@ struct QuitView: View {
                         } label: {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(isTapped == type ? Color.black : Color.clear, lineWidth: 1)
-                                .frame(width: PhoneSpace.screenWidth - 40, height: 60)
+                                .frame(width: PhoneSpace.screenWidth - 42, height: 60)
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                                 .overlay(alignment: .leading) {
                                     HStack(spacing: 0) {
@@ -62,7 +62,7 @@ struct QuitView: View {
                         VStack {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 8)
-                                    .frame(width: UIScreen.main.bounds.width - 40, height: 105)
+                                    .frame(width: UIScreen.main.bounds.width - 42, height: 105)
                                     .padding(8)
                                     .foregroundStyle(CustomColor.GrayScaleColor.gs2)
                                 CustomTextEditor(text: $text)
@@ -94,6 +94,7 @@ struct QuitView: View {
                         .id("bottom")
                     }
                 } // : ScrollView
+                .frame(width: PhoneSpace.screenWidth )
                 .onChange(of: keyboardVisible) { newValue in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         withAnimation {
@@ -101,7 +102,7 @@ struct QuitView: View {
                         }
                     }
                 }
-                .scrollIndicators(.hidden)
+//                .scrollIndicators(.hidden)
             }
             Spacer()
             Button {

@@ -38,12 +38,12 @@ struct EditMyInfoView: View {
                         .scaledToFit()
                         .frame(width: imageFrame, height: imageFrame)
                         .padding(.top, 10)
-                        .padding(.bottom, 26)
+                        .padding(.bottom, 16)
                     Text(selectedType?.rawValue ?? "유저의 정보를 받으면 바뀔 예정일거에요")
                         .font(.createFont(weight: .bold, size: 16))
                     
                 }
-                .padding(.bottom, 48)
+                .padding(.bottom, 56)
                 
                 VStack(spacing: 0) {
                     HStack {

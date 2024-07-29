@@ -51,6 +51,7 @@ struct VoteView: View {
                                     isBookmark.toggle()
                                 } label: {
                                     Image(isBookmark ? "bookmark" : "bookmark_off")
+                                        .frame(width: 16, height: 18)
                                         .padding(.trailing, 20)
                                 }
                             }
@@ -58,7 +59,7 @@ struct VoteView: View {
                         RoundedRectangle(cornerRadius: 0)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .cornerRadius(8, corners: [.bottomLeft, .bottomRight])
-                            .frame(width: PhoneSpace.screenWidth - 40, height: isPressSuccessButton ? 410 : 370)
+                            .frame(width: PhoneSpace.screenWidth - 40, height: isPressSuccessButton ? 390 : 350)
                             .overlay(alignment: .top) {
                                 VStack(spacing: 0) {
                                     Text(vote.title)
@@ -84,7 +85,10 @@ struct VoteView: View {
                                                             .padding(.leading, 16)
                                                     }
                                                 }
-                                                .border(selectedIndex == num ? Color.black : Color.clear, width: 1)
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 4)
+                                                        .stroke(selectedIndex == num ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
+                                                }
                                                 .onTapGesture {
                                                     isSelected = true
                                                     selectedIndex = num
@@ -115,7 +119,6 @@ struct VoteView: View {
                                         .font(.createFont(weight: .medium, size: 14))
                                     Text("데이터 연결하면 바꿀거임")
                                         .font(.createFont(weight: .medium, size: 14))
-                                    
                                 }
                                 .padding(.leading, 4.5)
                                 Spacer()
@@ -130,22 +133,6 @@ struct VoteView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden()
                     .customBackbutton()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            
-                        }
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                
-                            } label: {
-                                Image("Progressbaricon")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 40, height: 40)
-                            }
-                        }
-                    }
-                   
 //                   if isPressSuccessButton {
 //                       VStack(spacing: 0) {
 //                           HStack {

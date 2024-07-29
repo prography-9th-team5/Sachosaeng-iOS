@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-enum HomeViewFlowType {
-    
-}
-
 struct HomeView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
@@ -33,11 +29,12 @@ struct HomeView: View {
                         Image("CategoryIcon")
                             .font(.createFont(weight: .medium, size: 14))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                            
                     }
                     .sheet(isPresented: $isSheet) {
                         CategoryModal(categoryStore: categoryStore)
                             .cornerRadius(12)
-                            .presentationDetents([.height(688), .height(688)])
+                            .presentationDetents([.height(688)])
                     }
                     
                     Spacer()
@@ -109,6 +106,10 @@ struct HomeView: View {
                         }
                     }
                 }
+            }
+            if isSheet {
+                CustomColor.GrayScaleColor.black.ignoresSafeArea()
+                    .opacity(0.7)
             }
         }
     }

@@ -20,6 +20,12 @@ struct ContentView: View {
             case true:
                 NavigationStack(path: $path) {
                     SignView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, path: $path, isSign: $isSign)
+                    
+                } 
+                .onAppear {
+                    Task {
+                        await categoryStore.fetchCategories()
+                    }
                 }
                 
             case false:

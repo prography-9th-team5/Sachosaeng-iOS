@@ -42,7 +42,7 @@ struct CommonTitle: View {
                     .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                 Spacer()
             }
-            .padding(.top, 22 * (lineHeight - 1))
+            .padding(.top, 14.5)
             
         } //: Group
         .padding(.horizontal, 20)

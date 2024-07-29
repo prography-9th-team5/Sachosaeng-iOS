@@ -9,11 +9,11 @@ import SwiftUI
 import UIKit
 extension View {
     @available(iOS 14, *)
-    func navigationBarTitleTextColor(_ color: Color) -> some View {
+    func navigationBarTitleTextColor(_ color: Color, _ font: UIFont.FontWeight, size: CGFloat) -> some View {
         let uiColor = UIColor(color)
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: uiColor ]
+        let font = UIFont.createFont(weight: font, size: size)
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: uiColor, .font: font ]
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: uiColor ]
-        
         return self
     }
     @available(iOS 14, *)

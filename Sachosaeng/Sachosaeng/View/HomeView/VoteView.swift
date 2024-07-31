@@ -68,7 +68,7 @@ struct VoteView: View {
                                         .padding(.bottom, 13)
                                         .fixedSize(horizontal: false, vertical: true)
                                     
-                                    Text("\(vote.participantCount)명 참여 중")
+                                    Text("\(vote.participantCount ?? 0)명 참여 중")
                                         .font(.createFont(weight: .medium, size: 14))
                                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                                         .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)

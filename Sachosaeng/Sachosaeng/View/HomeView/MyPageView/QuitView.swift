@@ -43,7 +43,7 @@ struct QuitView: View {
                         } label: {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(isTapped == type ? Color.black : Color.clear, lineWidth: 1)
-                                .frame(width: PhoneSpace.screenWidth - 42, height: 60)
+                                .frame(maxWidth: .infinity, minHeight: 60)
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                                 .overlay(alignment: .leading) {
                                     HStack(spacing: 0) {
@@ -55,6 +55,7 @@ struct QuitView: View {
                                             .foregroundStyle(CustomColor.GrayScaleColor.black)
                                     }
                                 }
+                                .padding(.horizontal, 20)
                         }
                     }
                     
@@ -89,7 +90,6 @@ struct QuitView: View {
                             .padding(.top, 5)
                             .frame(width: UIScreen.main.bounds.width - 40)
                             Spacer()
-                                
                         }
                         .id("bottom")
                     }
@@ -102,14 +102,18 @@ struct QuitView: View {
                         }
                     }
                 }
-//                .scrollIndicators(.hidden)
+                .scrollIndicators(.hidden)
             }
             Spacer()
             Button {
-                toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    isSign = true
-                    path = .init()
+                if keyboardVisible {
+                    hideKeyboard()
+                } else {
+                    toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        isSign = true
+                        path = .init()
+                    }
                 }
             } label: {
                 if keyboardVisible {
@@ -119,7 +123,7 @@ struct QuitView: View {
                         .frame(width: PhoneSpace.screenWidth, height: 47)
                         .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                 } else {
-                    Text("완료")
+                    Text("저장")
                         .font(.createFont(weight: .medium, size: 16))
                         .modifier(DesignForNext(isSelected: $isSelected))
                 }

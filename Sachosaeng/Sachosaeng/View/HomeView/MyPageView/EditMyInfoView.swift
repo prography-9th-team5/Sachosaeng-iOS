@@ -124,7 +124,7 @@ struct EditMyInfoView: View {
                         dismiss()
                     }
                 } label: {
-                    Text("완료")
+                    Text("저장")
                         .font(.createFont(weight: .medium, size: 16))
                         .modifier(DesignForNext(isSelected: $isSelected))
                 }

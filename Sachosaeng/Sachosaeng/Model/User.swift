@@ -19,6 +19,3 @@ struct User {
     var userType: String
     let userCategory: [Int]?
 }
-
-
-var tempUser = User(userId: 0, nickname: "temp", userType: "학생", userCategory: nil )

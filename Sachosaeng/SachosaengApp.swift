@@ -12,12 +12,18 @@ import KakaoSDKCommon
 import GoogleSignIn
 
 
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Thread.sleep(forTimeInterval: 2.0)
         return true
     }
-    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+            return AuthController.handleOpenUrl(url: url)
+        }
+        
+        return false
+    }
 }
 
 @main
@@ -28,11 +34,16 @@ struct SachosaengApp: App {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
         }
     }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .onOpenURL(perform: { url in
                     GIDSignIn.sharedInstance.handle(url)
+                    
+                    if AuthApi.isKakaoTalkLoginUrl(url) {
+                        _ = AuthController.handleOpenUrl(url: url)
+                    }
                 })
         }
     }

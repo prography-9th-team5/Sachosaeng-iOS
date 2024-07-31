@@ -35,12 +35,15 @@ struct SignView: View {
             Spacer()
             
             Image("Onboarding image")
+                .onTapGesture {
+                    signStore.logout()
+                }
             
             Spacer()
             
             VStack(spacing: 0) {
                 ZStack {
-                    Image("appleLogin")
+                    Image("AppleLoginButton")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
@@ -54,7 +57,7 @@ struct SignView: View {
                 Button {
                     signStore.loginWithKakaoAccount()
                 } label: {
-                    Image("kakaoLogin")
+                    Image("KakaoLoginButton")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
@@ -62,13 +65,14 @@ struct SignView: View {
                 .padding(.bottom, 8)
 
                 ZStack {
-                    Image("googleLogin")
+                    Image("GoogleLoginButton")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
                     GoogleSignInButton {
                         signStore.signInGoogle { success in
                             if success {
+                                signStore.authJoin()
                             }
                         }
                     }

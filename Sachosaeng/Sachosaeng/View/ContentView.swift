@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KakaoSDKAuth
 
 struct ContentView: View {
     @ObservedObject var categoryStore = CategoryStore()
@@ -16,12 +17,12 @@ struct ContentView: View {
     @State var homePath: NavigationPath = NavigationPath()
     
     var body: some View {
-        switch !isSign {
+        switch isSign {
             case true:
                 NavigationStack(path: $path) {
                     SignView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, path: $path, isSign: $isSign)
-                    
-                } 
+                        
+                }
                 .onAppear {
                     Task {
                         await categoryStore.fetchCategories()

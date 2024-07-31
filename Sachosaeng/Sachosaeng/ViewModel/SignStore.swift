@@ -17,72 +17,19 @@ final class SignStore: ObservableObject {
     @Published var nowSignEmail: String = ""
     
     func loginWithKakaoAccount() {
-//        AuthApi.shared.refreshToken { token, _ in
-//            print("토큰 갱신 : newToken = (newToken)")
-//        }
-        
-        if (AuthApi.hasToken()) {
-            myLogPrint("토큰있음")
-            UserApi.shared.accessTokenInfo { (_, error) in
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.loginWithKakaoTalk { oauthToken, err in
+                
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
                 if let error = error {
-                    if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
-                        if UserApi.isKakaoTalkLoginAvailable() {
-                            myLogPrint("카카오톡 있음")
-                            UserApi.shared.loginWithKakaoTalk(launchMethod: .CustomScheme) {(oauthToken, error) in
-                                if let error = error {
-                                    myLogPrint("if loginWithKakaoAccount \(error.localizedDescription)")
-                                } else {
-                                    myLogPrint("getuser 성공")
-                                    self.getUser()
-                                }
-                            }
-                        } else {
-                            myLogPrint("카카오톡 없음")
-                            UserApi.shared.loginWithKakaoAccount { (_, error) in
-                                if let error = error {
-                                    myLogPrint("if loginWithKakaoAccount \(error.localizedDescription)")
-                                } else {
-                                    self.getUser()
-                                    print("loginWithKakaoAccount() success.")
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        myLogPrint("기타입니다")
-                    }
-                }
-                else {
-                    myLogPrint("토큰 유효성 체크 성공(필요 시 토큰 갱신됨)")
+                    myLogPrint(error.localizedDescription)
+                } else {
+                    self.getUser()
                 }
             }
         }
-        else {
-            myLogPrint("토큰없음")
-            if UserApi.isKakaoTalkLoginAvailable() {
-                myLogPrint("카카오톡 있음")
-                UserApi.shared.loginWithKakaoTalk(launchMethod: .CustomScheme) {(oauthToken, error) in
-                    if let error = error {
-                        myLogPrint("if loginWithKakaoAccount \(error.localizedDescription)")
-                    } else {
-                        myLogPrint("getuser 성공")
-                        self.getUser()
-                    }
-                }
-            } else {
-                myLogPrint("카카오톡 없음")
-                UserApi.shared.loginWithKakaoAccount { (_, error) in
-                    if let error = error {
-                        myLogPrint("if loginWithKakaoAccount \(error.localizedDescription)")
-                    } else {
-                        self.getUser()
-                        print("loginWithKakaoAccount() success.")
-                    }
-                }
-            }
-        }
-        
-        
     }
     /// 유저 데이터 가져오기
     func getUser() {
@@ -98,12 +45,10 @@ final class SignStore: ObservableObject {
     /// 카카오톡 로그아웃 시키기
     func logout() {
         UserApi.shared.unlink {(error) in
-            if let error = error {
+            if error != nil {
                 print("kakaoUnLink error : (error.localizedDescription)")
             } else {
                 print("kakaoUnLink success.")
-        //                                UserDefaultsManager().removeAll(signInType: .kakao)
-        //                                completion(true)
             }
         }
     }

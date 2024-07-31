@@ -43,10 +43,18 @@ struct SignView: View {
             
             VStack(spacing: 0) {
                 ZStack {
-                    Image("AppleLoginButton")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    RoundedRectangle(cornerRadius: 4)
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                        .overlay(alignment: .center) {
+                            Text("Apple로 로그인")
+                                .font(.createFont(weight: .semiBold, size: 16))
+                                .foregroundStyle(.white)
+                        }
+                        .overlay(alignment: .leading) {
+                            Image("애플")
+                                .frame(width: 28, height: 28)
+                                .padding(12)
+                        }
                     AppleSignInButton()
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
                         .blendMode(.overlay)
@@ -57,18 +65,40 @@ struct SignView: View {
                 Button {
                     signStore.loginWithKakaoAccount()
                 } label: {
-                    Image("KakaoLoginButton")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    RoundedRectangle(cornerRadius: 4)
+                        .foregroundStyle(Color(hex: "#FEE500"))
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                        .overlay(alignment: .center) {
+                            Text("카카오로 로그인")
+                                .font(.createFont(weight: .semiBold, size: 16))
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        }
+                        .overlay(alignment: .leading) {
+                            Image("카카오")
+                                .frame(width: 28, height: 28)
+                                .padding(12)
+                        }
                 }
                 .padding(.bottom, 8)
 
                 ZStack {
-                    Image("GoogleLoginButton")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(CustomColor.GrayScaleColor.gs4, lineWidth: 1) // 1px 검정색 보더 추가
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs1) // 배경색
+                        )
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                        .overlay(alignment: .center) {
+                            Text("Google로 로그인")
+                                .font(.createFont(weight: .semiBold, size: 16))
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        }
+                        .overlay(alignment: .leading) {
+                            Image("구글")
+                                .frame(width: 28, height: 28)
+                                .padding(12)
+                        }
                     GoogleSignInButton {
                         signStore.signInGoogle { success in
                             if success {

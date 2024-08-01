@@ -34,7 +34,7 @@ struct MyPageView: View {
                         .frame(width: PhoneSpace.screenWidth - 40, height: 80)
                         .overlay(alignment: .topTrailing) {
                             Button {
-                                path.append("EditMyInfoView")
+                                path.append(PathType.info)
                             } label: {
                                 Image("settingMyInfoIcon")
                                     .padding(16)

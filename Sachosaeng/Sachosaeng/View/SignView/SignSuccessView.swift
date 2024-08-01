@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct SignSuccessView: View {
-    @State private var isActive: Bool = false
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var signStore: SignStore
     @Binding var isSign: Bool
+    @Binding var path: NavigationPath
+    @State private var isActive: Bool = false
     var body: some View {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
@@ -32,14 +36,9 @@ struct SignSuccessView: View {
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     isActive = true
-                    isSign = true
+                    path = .init()
+                    isSign = false
                 }
             }
         }
-}
-
-#Preview {
-    NavigationStack {
-        SignSuccessView(isSign: .constant(true))
-    }
 }

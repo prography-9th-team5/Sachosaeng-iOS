@@ -7,7 +7,7 @@
 import Foundation
 
 final class VoteStore: ObservableObject {
-    @Published var hotVotes: HotVote = HotVote(category: dummyCategory, votes: [dummyVote])
+    @Published var hotVotes: HotVote = HotVote(category: dummyHotCategory, votes: [dummyVote])
     @Published var dailyVote: Vote = dummyVote
     @Published var test = dummyVoteDetail
     
@@ -17,7 +17,7 @@ final class VoteStore: ObservableObject {
             case .success(let hotVotes):
                 DispatchQueue.main.async {
                     self.hotVotes = hotVotes
-                    myLogPrint("🎉 성공: \(self.hotVotes)", isTest: false)
+                    myLogPrint("🎉 성공: \(self.hotVotes)", isTest: true)
                 }
             case .failure(let error):
                 myLogPrint("🚨 에러: \(error)", isTest: false)
@@ -38,6 +38,7 @@ final class VoteStore: ObservableObject {
             }
         }
     }
+    
     func fetchVoteDetail(voteId: Int) async {
         fetchData(from: "https://sachosaeng.store/api/v1/votes/{\(voteId)}") {(result: Result<VoteDetail, Error> ) in
             switch result {

@@ -22,6 +22,7 @@ class CategoryStore: ObservableObject {
                     self.categories = result
                     self.allCatagory = result
                     self.fetchAllCategory()
+                    myLogPrint(result, isTest: false)
                 }
             case .failure(let error):
                 myLogPrint("🚨 에러: fetchCategories() 실패 🚨: \(error)", isTest: false)

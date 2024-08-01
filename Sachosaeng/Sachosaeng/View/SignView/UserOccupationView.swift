@@ -9,9 +9,11 @@ import SwiftUI
 
 struct UserOccupationView: View {
     
-    // MARK: - Properties
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var signStore: SignStore
     @Binding var isSign: Bool
-
+    @Binding var path: NavigationPath
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
     @State var isSelected: Bool = false
     // MARK: - Body
@@ -22,19 +24,17 @@ struct UserOccupationView: View {
                     .padding(.trailing, 12)
                 CustomSliderProgressBarView(progress: 0, isImageHide: true)
             }
-            .padding(.bottom, 32)
+            .padding(.bottom, 38)
             .padding(.top, 10.9)
             .padding(.horizontal, 20)
             
-            HStack(spacing: 0) {
-                CommonTitle(top: "어떤 사회초년생에",
-                            topFont: .bold,
-                            middle: "해당되나요?",
-                            middleFont: .black,
-                            footer: "*선택한 유형에 맞는 정보를 제공해 드려요",
-                            footerFont: .light, isSuccessView: false)
-            }
-            .frame(height: 100)
+            CommonTitle(top: "어떤 사회초년생에",
+                        topFont: .bold,
+                        middle: "해당되나요?",
+                        middleFont: .bold,
+                        footer: "*선택한 유형에 맞는 정보를 제공해 드려요",
+                        footerFont: .medium, isSuccessView: false)
+            
             
             ForEach(0..<2) { row in
                 HStack(spacing: 10) {
@@ -59,13 +59,13 @@ struct UserOccupationView: View {
             }
             .padding(.top, 44)
             .padding(.horizontal, 20)
-            .navigationTitle("1 유저타입 선택")
+            .navigationTitle("사초생 유형 선택")
+            .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 16)
             .navigationBarTitleDisplayMode(.inline)
             Spacer()
             
-            NavigationLink {
-                UserFavoriteCategoryView(isSign: $isSign)
-                    .customBackbutton()
+            Button {
+                path.append(PathType.favorite)
             } label: {
                 Text("다음")
                     .font(.createFont(weight: .medium, size: 16))
@@ -78,6 +78,7 @@ struct UserOccupationView: View {
 
 #Preview {
     NavigationStack {
-        UserOccupationView(isSign: .constant(false))
+        UserOccupationView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), isSign: .constant(true), path: .constant(NavigationPath()), isSelected: true)
     }
+    
 }

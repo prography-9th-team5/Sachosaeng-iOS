@@ -119,38 +119,38 @@ struct PopupView: View {
             .padding(.top, popupType.topOfFirstVtackPadding)
             
             Spacer()
-            HStack(spacing: 0) {
+            HStack(spacing: 8) {
                 if popupType != .dailyVote {
-                    Spacer()
                     Button {
                         primaryAction()
                         isPresented = false
                     } label: {
                         Text(popupType.primaryButtonText)
-                            .font(.createFont(weight: .bold, size: 16))
+                            .font(.createFont(weight: .semiBold, size: 16))
                             .frame(width: popupType.buttonFrameWitdh, height: 47)
                             .background(CustomColor.GrayScaleColor.gs4)
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                             .cornerRadius(4, corners: .allCorners)
                     }
-                    Spacer()
+                    
                 }
                 Button {
                     secondaryAction()
                     isPresented = false
                 } label: {
                     Text(popupType.secondaryButtonText)
-                        .font(.createFont(weight: .bold, size: 16))
+                        .font(.createFont(weight: .semiBold, size: 16))
                         .foregroundStyle(CustomColor.GrayScaleColor.white)
                         .frame(width: popupType.buttonFrameWitdh, height: 47)
                         .background(CustomColor.GrayScaleColor.black)
                         .cornerRadius(4, corners: .allCorners)
                 }
                 if popupType != .dailyVote {
-                    Spacer()
+                    
                 }
             }
             .padding(.bottom, 16)
+            .padding(.horizontal, 16)
         }
         .frame(width: 248, height: 248)
         .background(CustomColor.GrayScaleColor.gs3)

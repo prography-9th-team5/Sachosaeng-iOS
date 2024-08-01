@@ -14,7 +14,9 @@ enum PhoneSpace {
 }
 
 struct SignView: View {
-    @ObservedObject var signStore = SignStore()
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var signStore: SignStore
     @Binding var path: NavigationPath
     @Binding var isSign: Bool
     var body: some View {
@@ -26,19 +28,33 @@ struct SignView: View {
                         middleFont: .bold,
                         footer: "사회초년생 집단지성 투표 플랫폼, 사초생",
                         footerFont: .medium, isSuccessView: false)
+            .onTapGesture {
+                path.append(PathType.occupation)
+            }
             
             Spacer()
             
             Image("Onboarding image")
+                .onTapGesture {
+                    signStore.logout()
+                }
             
             Spacer()
             
             VStack(spacing: 0) {
                 ZStack {
-                    Image("appleLogin")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    RoundedRectangle(cornerRadius: 4)
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                        .overlay(alignment: .center) {
+                            Text("Apple로 로그인")
+                                .font(.createFont(weight: .semiBold, size: 16))
+                                .foregroundStyle(.white)
+                        }
+                        .overlay(alignment: .leading) {
+                            Image("애플")
+                                .frame(width: 28, height: 28)
+                                .padding(12)
+                        }
                     AppleSignInButton()
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
                         .blendMode(.overlay)
@@ -49,21 +65,44 @@ struct SignView: View {
                 Button {
                     signStore.loginWithKakaoAccount()
                 } label: {
-                    Image("kakaoLogin")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    RoundedRectangle(cornerRadius: 4)
+                        .foregroundStyle(Color(hex: "#FEE500"))
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                        .overlay(alignment: .center) {
+                            Text("카카오로 로그인")
+                                .font(.createFont(weight: .semiBold, size: 16))
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        }
+                        .overlay(alignment: .leading) {
+                            Image("카카오")
+                                .frame(width: 28, height: 28)
+                                .padding(12)
+                        }
                 }
                 .padding(.bottom, 8)
 
                 ZStack {
-                    Image("googleLogin")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(CustomColor.GrayScaleColor.gs4, lineWidth: 1) // 1px 검정색 보더 추가
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs1) // 배경색
+                        )
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                        .overlay(alignment: .center) {
+                            Text("Google로 로그인")
+                                .font(.createFont(weight: .semiBold, size: 16))
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        }
+                        .overlay(alignment: .leading) {
+                            Image("구글")
+                                .frame(width: 28, height: 28)
+                                .padding(12)
+                        }
                     GoogleSignInButton {
                         signStore.signInGoogle { success in
                             if success {
+                                signStore.authJoin()
                             }
                         }
                     }
@@ -75,11 +114,34 @@ struct SignView: View {
                 .padding(.bottom, 8)
             } //: Vstack
             .padding(.horizontal, 20)
+            .navigationDestination(for: PathType.self) { name in
+                if name == .occupation {
+                    UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                        .navigationBarBackButtonHidden()
+                }
+                if name == .favorite {
+                    UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                        .customBackbutton()
+                }
+                if name == .signSuccess {
+                    SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                        .navigationBarBackButtonHidden(true)
+                }
+                
+//                if name == "UserOccupationView" {
+//
+//                } else if name == "UserFavoriteCategoryView" {
+//
+//                } else if name == "SignSuccessView" {
+//
+//                }
+                
+            }
         }
     }
 }
 
 #Preview {
-    SignView(path: .constant(NavigationPath()), isSign: .constant(true))
+    SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: .constant(NavigationPath()), isSign: .constant(false))
 }
 // TODO: 로그인기능을 백이랑 연결하는 작업 해야함 (기능 제대로 구현 하기)

@@ -29,60 +29,51 @@ struct HomeView: View {
                         Image("CategoryIcon")
                             .font(.createFont(weight: .medium, size: 14))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                        
                     }
                     .sheet(isPresented: $isSheet) {
                         CategoryModal(categoryStore: categoryStore)
                             .cornerRadius(12)
-                            .presentationDetents([.height(688), .height(688)])
+                            .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                     }
                     
                     Spacer()
                     
                     Button {
-                        path.append("MyPageView")
+                        path.append(PathType.myPage)
                     } label: {
                         Image("Progressbaricon")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                     }
-                    .navigationDestination(for: String.self) { name in
-                        if name == "MyPageView" {
+                    .navigationDestination(for: PathType.self) { name in
+                        if name == .myPage {
                             MyPageView(isSign: $isSign, path: $path)
                                 .customBackbutton {
                                     myLogPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
-                                          """, isTest: true)
+                                          """, isTest: isTest)
                                 }
-                        } else if name == "EditMyInfoView" {
+                        } else if name == .info {
                             EditMyInfoView(isSign: $isSign, path: $path)
                                 .customBackbutton {
                                     myLogPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
-                                          """, isTest: true)
+                                          """, isTest: isTest)
                                 }
-                        } else if name == "QuitView" {
+                        } else if name == .quit {
                             QuitView(isSign: $isSign, path: $path)
                                 .customBackbutton {
                                     myLogPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
-                                          """, isTest: true)
-                                }
-                        } else if name == "SignView" {
-                            SignView(path: $path, isSign: $isSign)
-                                .customBackbutton {
-                                    myLogPrint("""
-                                          😿 네비게이션 패스의 갯수: \(path.count)
-                                          😿 네비게이션 패스: \(path)
-                                          """, isTest: true)
+                                          """, isTest: isTest)
                                 }
                         }
-                        
                     }
-                    
                 } //: Hstack
                 .padding(.all, 20)
                 
@@ -92,16 +83,18 @@ struct HomeView: View {
                             TodayVoteView(dailyVote: voteStore.dailyVote)
                                 .padding(.bottom, 32)
                                 .id("top")
-                            VoteListCellView(votes: voteStore.hotVotes.votes)
-                                .padding(.bottom, 32)
                             
-//                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
-//                                .padding(.bottom, 32)
-//                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
-//                                .padding(.bottom, 32)
+                            HotvoteListView(
+                                hotVote: voteStore.hotVotes)
+                            .padding(.bottom, 32)
+                            
+                            //                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
+                            //                                .padding(.bottom, 32)
+                            //                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
+                            //                                .padding(.bottom, 32)
                             Spacer()
                         } else {
-//                            VoteListCellView(titleName: "", isFavoriteVote: false)
+                            //                            VoteListCellView(titleName: "", isFavoriteVote: false)
                         }
                     } //: ScrollView
                     .overlay(alignment: .bottomTrailing) {
@@ -114,6 +107,16 @@ struct HomeView: View {
                         }
                     }
                 }
+            }
+            if isSheet {
+                CustomColor.GrayScaleColor.black.ignoresSafeArea()
+                    .opacity(0.7)
+            }
+        }
+        .onAppear {
+            Task {
+                await voteStore.fetchHotVotes()
+                await voteStore.fetchDaily()
             }
         }
     }

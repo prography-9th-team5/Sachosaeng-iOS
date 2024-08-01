@@ -7,8 +7,19 @@
 
 import SwiftUI
 import UIKit
-
 extension View {
+    @available(iOS 14, *)
+    func navigationBarTitleTextColor(_ color: Color, _ font: UIFont.FontWeight, size: CGFloat) -> some View {
+        let uiColor = UIColor(color)
+        let font = UIFont.createFont(weight: font, size: size)
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: uiColor, .font: font! ]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: uiColor ]
+        return self
+    }
+    @available(iOS 14, *)
+//    func navigationBarTitleTextFont(_ font: Font) -> some View {
+//        
+//    }
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

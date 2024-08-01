@@ -23,6 +23,7 @@ struct TabView: View {
             switch switchTab {
                 case .home:
                     HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore)
+                        .navigationBarBackButtonHidden()
                 case .bookMark:
                     EmptyView()
             }

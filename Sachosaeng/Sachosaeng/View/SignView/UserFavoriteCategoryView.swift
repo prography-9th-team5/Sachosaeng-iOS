@@ -9,12 +9,15 @@ import SwiftUI
 
 struct UserFavoriteCategoryView: View {
     // MARK: - Properties
-    @ObservedObject var categoryStore: CategoryStore = CategoryStore()
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var signStore: SignStore
+    @Binding var isSign: Bool
+    @Binding var path: NavigationPath
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var selectedCategories: [Bool] = []
     @State private var tapCount = 0
-    @Binding var isSign: Bool
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
@@ -23,7 +26,7 @@ struct UserFavoriteCategoryView: View {
                     .padding(.trailing, 12)
                 CustomSliderProgressBarView(progress: 1, isImageHide: false)
             }
-            .padding(.bottom, 32)
+            .padding(.bottom, 42)
             .padding(.top, 10)
             .padding(.horizontal, 20)
             
@@ -33,15 +36,13 @@ struct UserFavoriteCategoryView: View {
                             middle: "모두 선택해 주세요",
                             middleFont: .bold,
                             footer: "*복수 선택이 가능해요",
-                            footerFont: .light, isSuccessView: false)
-                
+                            footerFont: .medium, isSuccessView: false)
                 VStack(spacing: 0) {
-                    NavigationLink {
-                        SignSuccessView(isSign: $isSign)
-                            .navigationBarBackButtonHidden(true)
+                    Button {
+                       
                     } label: {
                         Text("SKIP")
-                            .font(.createFont(weight: .light, size: 16))
+                            .font(.createFont(weight: .medium, size: 16))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs5)
                     }
                     .padding(.trailing, 20)
@@ -67,11 +68,10 @@ struct UserFavoriteCategoryView: View {
                 }
             } //: ScrollView
             .scrollIndicators(.hidden)
-            .padding(.top, 45)
+            .padding(.top, 20)
             
-            NavigationLink {
-                SignSuccessView(isSign: $isSign)
-                    .navigationBarBackButtonHidden(true)
+            Button {
+                path.append(PathType.signSuccess)
             } label: {
                 Text("시작")
                     .font(.createFont(weight: .medium, size: 16))
@@ -85,24 +85,20 @@ struct UserFavoriteCategoryView: View {
             .disabled(tapCount == 0)
             Spacer()
         } //:Vstack
-        .navigationTitle("2 카테고리 선택")
+        .navigationTitle("카테고리 선택")
+        .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 16)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            Task {
-                await categoryStore.fetchCategories()
-            }
-        }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        UserFavoriteCategoryView(isSign: .constant(false))
     }
 }
 
 extension UserFavoriteCategoryView {
     private func gridSwitch() {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
+    }
+}
+
+#Preview {
+    NavigationStack {
+        UserFavoriteCategoryView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), isSign: .constant(true), path: .constant(NavigationPath()))
     }
 }

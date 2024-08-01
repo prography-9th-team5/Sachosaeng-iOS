@@ -87,6 +87,7 @@ struct CategoryModal: View {
             
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
+                    Spacer()
                     if isEmpty {
                         Image("emptyIcon")
                     } else {
@@ -115,10 +116,14 @@ struct CategoryModal: View {
                         }
                         .onAppear {
                             gridSwitch()
+//                            Task {
+//                                await categoryStore.fetchCategories()
+//                            }
                         }
                     }
                 }
                 .padding(.top, 28)
+                .background(CustomColor.GrayScaleColor.gs1)
                 if isEdit {
                     Button {
                         

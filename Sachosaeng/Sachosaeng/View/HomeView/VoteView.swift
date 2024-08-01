@@ -9,6 +9,7 @@ import SwiftUI
 
 struct VoteView: View {
     var vote: Vote
+    @State private var toast: Toast? = nil
     @State var isSelected: Bool = false
     @State var isBookmark: Bool = false
     @State var isPressSuccessButton: Bool = false
@@ -50,6 +51,7 @@ struct VoteView: View {
                                     isBookmark.toggle()
                                 } label: {
                                     Image(isBookmark ? "bookmark" : "bookmark_off")
+                                        .frame(width: 16, height: 18)
                                         .padding(.trailing, 20)
                                 }
                             }
@@ -57,7 +59,7 @@ struct VoteView: View {
                         RoundedRectangle(cornerRadius: 0)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .cornerRadius(8, corners: [.bottomLeft, .bottomRight])
-                            .frame(width: PhoneSpace.screenWidth - 40, height: isPressSuccessButton ? 410 : 370)
+                            .frame(width: PhoneSpace.screenWidth - 40, height: isPressSuccessButton ? 390 : 350)
                             .overlay(alignment: .top) {
                                 VStack(spacing: 0) {
                                     Text(vote.title)
@@ -66,7 +68,7 @@ struct VoteView: View {
                                         .padding(.bottom, 13)
                                         .fixedSize(horizontal: false, vertical: true)
                                     
-                                    Text("\(vote.participantCount)명 참여 중")
+                                    Text("\(vote.participantCount ?? 0)명 참여 중")
                                         .font(.createFont(weight: .medium, size: 14))
                                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                                         .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)
@@ -83,7 +85,10 @@ struct VoteView: View {
                                                             .padding(.leading, 16)
                                                     }
                                                 }
-                                                .border(selectedIndex == num ? Color.black : Color.clear, width: 1)
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 4)
+                                                        .stroke(selectedIndex == num ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
+                                                }
                                                 .onTapGesture {
                                                     isSelected = true
                                                     selectedIndex = num
@@ -114,7 +119,6 @@ struct VoteView: View {
                                         .font(.createFont(weight: .medium, size: 14))
                                     Text("데이터 연결하면 바꿀거임")
                                         .font(.createFont(weight: .medium, size: 14))
-                                    
                                 }
                                 .padding(.leading, 4.5)
                                 Spacer()
@@ -129,22 +133,6 @@ struct VoteView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden()
                     .customBackbutton()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            
-                        }
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                
-                            } label: {
-                                Image("Progressbaricon")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 40, height: 40)
-                            }
-                        }
-                    }
-                   
 //                   if isPressSuccessButton {
 //                       VStack(spacing: 0) {
 //                           HStack {
@@ -158,6 +146,7 @@ struct VoteView: View {
                } //: ScrollView
                Button {
                    isPressSuccessButton = true
+                   toast = Toast(type: .success, message: "투표 완료!")
                } label: {
                    Text(isPressSuccessButton ? "다른 투표 보기" : "확인" )
                }
@@ -166,6 +155,7 @@ struct VoteView: View {
                .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                .cornerRadius(4)
            } //: Vstack
+           .showToastView(toast: $toast)
         } //: Zstack
 //       .onAppear {
 //           Task {

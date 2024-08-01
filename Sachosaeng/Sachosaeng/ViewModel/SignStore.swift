@@ -13,26 +13,67 @@ import Alamofire
 import AuthenticationServices
 import GoogleSignIn
 
-final class SignStore: ObservableObject {
+class SignStore: ObservableObject {
     @Published var nowSignEmail: String = ""
     
     func loginWithKakaoAccount() {
         if UserApi.isKakaoTalkLoginAvailable() {
-            UserApi.shared.loginWithKakaoTalk { oauthToken, err in
-                
+            if (AuthApi.hasToken()) {
+                myLogPrint("토큰있음")
+                UserApi.shared.accessTokenInfo { (_, error) in
+                    if let error = error {
+                        if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
+                            UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, err in
+                                guard let self = self else { return }
+                                if let err = err {
+                                    myLogPrint(err.localizedDescription)
+                                }
+                                guard let idToken = oauthToken?.idToken else {
+                                    myLogPrint("oauthToke 받아오기 실패")
+                                    return
+                                }
+                                getKakaoUser()
+                            }
+                        }
+                        else {
+                            myLogPrint(error.localizedDescription)
+                        }
+                    }
+                    else {
+                        
+                        //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
+                    }
+                }
             }
+            else {
+                myLogPrint("토큰업승ㅁ")
+                UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, err in
+                    guard let self = self else { return }
+                    
+                    if let err = err {
+                        myLogPrint(err.localizedDescription)
+                    }
+                    guard let idToken = oauthToken?.idToken else {
+                        myLogPrint("oauthToke 받아오기 실패")
+                        return
+                    }
+                    getKakaoUser()
+                }
+            }
+            
         } else {
-            UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
+            UserApi.shared.loginWithKakaoAccount { [weak self] (oauthToken, error) in
+                guard let self = self else { return }
                 if let error = error {
                     myLogPrint(error.localizedDescription)
                 } else {
-                    self.getUser()
+                    getKakaoUser()
                 }
             }
         }
     }
     /// 유저 데이터 가져오기
-    func getUser() {
+    func getKakaoUser() {
         UserApi.shared.me { user, error in
             if error != nil {
                 print("유저데이터 가져오는데 실패했습니다. \(String(describing: error))")
@@ -43,12 +84,12 @@ final class SignStore: ObservableObject {
         }
     }
     /// 카카오톡 로그아웃 시키기
-    func logout() {
+    func logoutOfKakaoTalk() {
         UserApi.shared.unlink {(error) in
             if error != nil {
-                print("kakaoUnLink error : (error.localizedDescription)")
+                myLogPrint(error!.localizedDescription)
             } else {
-                print("kakaoUnLink success.")
+                myLogPrint("kakaoUnLink success.")
             }
         }
     }
@@ -73,6 +114,8 @@ final class SignStore: ObservableObject {
             }
         }
     }
+    
+    /// api authJoin - 회원가입 입니다.
     func authJoin() {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"

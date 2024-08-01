@@ -36,7 +36,7 @@ struct SignView: View {
             
             Image("Onboarding image")
                 .onTapGesture {
-                    signStore.logout()
+                    signStore.logoutOfKakaoTalk()
                 }
             
             Spacer()

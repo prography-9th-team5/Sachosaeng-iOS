@@ -33,7 +33,7 @@ public func fetchData<T: Codable>(from urlString: String, completion: @escaping 
     task.resume()
 }
 
-public func myLogPrint(_ object: Any, isTest: Bool = true, filename: String = #file, _ line: Int = #line, _ funcname: String = #function) {
+public func jhPrint(_ object: Any, isTest: Bool = true, filename: String = #file, _ line: Int = #line, _ funcname: String = #function) {
     if isTest {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss"

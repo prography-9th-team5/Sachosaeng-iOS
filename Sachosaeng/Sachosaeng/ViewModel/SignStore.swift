@@ -14,82 +14,78 @@ import AuthenticationServices
 import GoogleSignIn
 
 class SignStore: ObservableObject {
-    @Published var nowSignEmail: String = ""
-    
     func loginWithKakaoAccount() {
-        if UserApi.isKakaoTalkLoginAvailable() {
-            if (AuthApi.hasToken()) {
-                myLogPrint("토큰있음")
-                UserApi.shared.accessTokenInfo { (_, error) in
-                    if let error = error {
-                        if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
-                            UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, err in
-                                guard let self = self else { return }
-                                if let err = err {
-                                    myLogPrint(err.localizedDescription)
-                                }
-                                guard let idToken = oauthToken?.idToken else {
-                                    myLogPrint("oauthToke 받아오기 실패")
-                                    return
-                                }
-                                getKakaoUser()
-                            }
-                        }
-                        else {
-                            myLogPrint(error.localizedDescription)
-                        }
-                    }
-                    else {
-                        
-                        //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-                    }
-                }
+        func handleLoginError(_ error: Error) {
+            jhPrint(error.localizedDescription)
+        }
+        
+        func handleOAuthToken(_ oauthToken: OAuthToken?) {
+            guard let idToken = oauthToken?.idToken else {
+                jhPrint("oauthToken 받아오기 실패")
+                return
             }
-            else {
-                myLogPrint("토큰업승ㅁ")
-                UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, err in
-                    guard let self = self else { return }
-                    
-                    if let err = err {
-                        myLogPrint(err.localizedDescription)
-                    }
-                    guard let idToken = oauthToken?.idToken else {
-                        myLogPrint("oauthToke 받아오기 실패")
-                        return
-                    }
-                    getKakaoUser()
-                }
-            }
-            
-        } else {
-            UserApi.shared.loginWithKakaoAccount { [weak self] (oauthToken, error) in
-                guard let self = self else { return }
+            jhPrint(idToken)
+            getKakaoUser()
+        }
+        
+        func loginWithKakaoTalk() {
+            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
                 if let error = error {
-                    myLogPrint(error.localizedDescription)
+                    handleLoginError(error)
                 } else {
-                    getKakaoUser()
+                    handleOAuthToken(oauthToken)
+                }
+            }
+        }
+        
+        if UserApi.isKakaoTalkLoginAvailable() {
+            if AuthApi.hasToken() {
+                jhPrint("토큰있음")
+                UserApi.shared.accessTokenInfo { (_, error) in
+                    if let error = error, let sdkError = error as? SdkError, sdkError.isInvalidTokenError() {
+                        loginWithKakaoTalk()
+                    } else if let error = error {
+                        handleLoginError(error)
+                    } else {
+                        // 토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
+                    }
+                }
+            } else {
+                jhPrint("토큰없음")
+                loginWithKakaoTalk()
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+                if let error = error {
+                    handleLoginError(error)
+                } else {
+                    handleOAuthToken(oauthToken)
                 }
             }
         }
     }
+    
     /// 유저 데이터 가져오기
     func getKakaoUser() {
         UserApi.shared.me { user, error in
-            if error != nil {
-                print("유저데이터 가져오는데 실패했습니다. \(String(describing: error))")
+            if let error = error {
+                jhPrint("유저 데이터를 가져오는 데 실패했습니다. \(error.localizedDescription)")
+            } else if let email = user?.kakaoAccount?.email {
+                UserStore.shared.currentUserEmail = email
+                jhPrint("이메일 찾기 \(email)")
             } else {
-                print("닉네임찾기 \(user?.kakaoAccount?.profile?.nickname ?? "몰루")" )
-                print("이메일찾기 \(user?.kakaoAccount?.email ?? "몰루")" )
+                jhPrint("이메일을 찾을 수 없습니다.")
             }
         }
     }
-    /// 카카오톡 로그아웃 시키기
+    
+    /// 카카오톡 회원탈퇴 시키기
     func logoutOfKakaoTalk() {
         UserApi.shared.unlink {(error) in
             if error != nil {
-                myLogPrint(error!.localizedDescription)
+                jhPrint(error!.localizedDescription)
             } else {
-                myLogPrint("kakaoUnLink success.")
+                jhPrint("kakaoUnLink success.")
             }
         }
     }
@@ -103,11 +99,11 @@ class SignStore: ObservableObject {
         
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
             if let error = error {
-                print("Google Sign-In Error: \(error.localizedDescription)")
+                jhPrint("Google Sign-In Error: \(error.localizedDescription)")
                 completion(false)
             } else if let signInResult = signInResult {
-                self.nowSignEmail = signInResult.user.profile?.email ?? ""
-                print("Google Sign-In Success: \(signInResult.user.profile?.email ?? "No Name")")
+                UserStore.shared.currentUserEmail = signInResult.user.profile?.email ?? ""
+                jhPrint("Google Sign-In Success: \(signInResult.user.profile?.email ?? "No Name")")
                 completion(true)
             } else {
                 completion(false)
@@ -122,97 +118,52 @@ class SignStore: ObservableObject {
         urlComponents.host = "sachosaeng.store"
         urlComponents.path = "/api/v1/auth/join"
         
-        if let url = urlComponents.url {
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("*/*", forHTTPHeaderField: "accept")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            let body = [
-                "email": self.nowSignEmail
-            ] as [String: String]
-            
-            myLogPrint(body)
-            
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
-            } catch {
-                print("Error creating JSON data")
-            }
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("Error: \(error)")
-                } else if let data = data, let response = response as? HTTPURLResponse {
-                    print("Response status code: \(response.statusCode)")
-                    if (200..<300).contains(response.statusCode) {
-                        do {
-                            // 회원가입이랑 로그인을 합쳐주세요 안그러면 저희가 이사람이 가입이 되있는지 안되어있는지판별해야하잔항여 그그러면 로그인이 오래걸리니깐 일반 로그인 이면 api 두개로 쪼개는게 맞는거 같지만 간편로그인만 있으니깬 하나로 합쳐줘요
-                            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                                myLogPrint(json)
-                            }
-                        } catch {
-                            myLogPrint("Error parsing JSON response")
-                        }
-                    } else {
-                        let responseData = String(data: data, encoding: .utf8)
-                        print("\(response.statusCode) data: \(responseData ?? "No data")")
-                    }
-                } else {
-                    print("Unexpected error: No data or response")
-                }
-            }
-            task.resume()
+        guard let url = urlComponents.url else {
+            jhPrint("Invalid URL")
+            return
         }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("*/*", forHTTPHeaderField: "accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body = ["email": UserStore.shared.currentUserEmail]
+        jhPrint(body)
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+        } catch {
+            jhPrint("Error creating JSON data")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                jhPrint("Error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data, let response = response as? HTTPURLResponse else {
+                jhPrint("Unexpected error: No data or response")
+                return
+            }
+            
+            jhPrint("Response status code: \(response.statusCode)")
+            
+            if (200..<300).contains(response.statusCode) {
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        jhPrint(json)
+                    }
+                } catch {
+                    jhPrint("Error parsing JSON response")
+                }
+            } else {
+                let responseData = String(data: data, encoding: .utf8)
+                jhPrint("\(response.statusCode) data: \(responseData ?? "No data")")
+            }
+        }
+        task.resume()
     }
-    
-    
-//    func authJoin() {
-//        struct RequestData: Codable {
-//            let email: String
-//        }
-//        struct JoinResponse: Codable {
-//            let code: Int
-//            let message: String
-//            let data: String
-//        }
-//        
-//        guard let url = URL(string: "https://sachosaeng.store/api/v1/auth/join") else {
-//            myLogPrint("Invalid URL : /api/v1/auth/join")
-//            return
-//        }
-//        
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        
-//        let requestData = RequestData(email: self.nowSignEmail)
-//        
-//        do {
-//            let jsonData = try JSONEncoder().encode(requestData)
-//            request.httpBody = jsonData
-//        } catch {
-//            myLogPrint("json으로 변환 실패했숑")
-//            return
-//        }
-//        
-//        let task = URLSession.shared.dataTask(with: request) { data, response, err in
-//            if let err = err {
-//                myLogPrint(err )
-//                return
-//            }
-//            
-//            guard let data = data else {
-//                myLogPrint("데이터를 받지 못했숑")
-//                return
-//            }
-//            
-//            do {
-//                let reponseData = try JSONDecoder().decode(JoinResponse.self, from: data)
-//                myLogPrint(reponseData)
-//            } catch {
-//                myLogPrint(String(describing: err))
-//            }
-//        }
-//        task.resume()
-//    }
 }

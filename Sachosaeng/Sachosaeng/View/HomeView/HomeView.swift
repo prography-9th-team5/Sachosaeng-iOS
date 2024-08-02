@@ -51,7 +51,7 @@ struct HomeView: View {
                         if name == .myPage {
                             MyPageView(isSign: $isSign, path: $path)
                                 .customBackbutton {
-                                    myLogPrint("""
+                                    jhPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
                                           """, isTest: isTest)
@@ -59,7 +59,7 @@ struct HomeView: View {
                         } else if name == .info {
                             EditMyInfoView(isSign: $isSign, path: $path)
                                 .customBackbutton {
-                                    myLogPrint("""
+                                    jhPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
                                           """, isTest: isTest)
@@ -67,7 +67,7 @@ struct HomeView: View {
                         } else if name == .quit {
                             QuitView(isSign: $isSign, path: $path)
                                 .customBackbutton {
-                                    myLogPrint("""
+                                    jhPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
                                           """, isTest: isTest)

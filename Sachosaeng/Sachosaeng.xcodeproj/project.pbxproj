@@ -165,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				363C20602C635D75005F4026 /* NetworkService.swift */,
+				36949FA72C514C9E009E099E /* Utility.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -231,7 +232,6 @@
 		366057A62BC4306C004F8216 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				36949FA72C514C9E009E099E /* Utility.swift */,
 				366057A42BC41C80004F8216 /* SignStore.swift */,
 				360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */,
 				369595EE2C4FFAEB0098920D /* VoteStore.swift */,

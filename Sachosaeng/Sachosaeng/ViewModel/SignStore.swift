@@ -168,11 +168,9 @@ final class SignStore: ObservableObject {
             if let error = error {
                 jhPrint("Error: \(error.localizedDescription)", isWarning: true)
                 completion(false)
-
             } else if let json = json {
                 jhPrint(json)
                 completion(true)
-
             }
         }
     }

@@ -28,7 +28,6 @@ struct ContentView: View {
                         await categoryStore.fetchCategories()
                     }
                 }
-                
             case false:
                 NavigationStack(path: $homePath) {
                     TabView(isSign: $isSign, path: $homePath)

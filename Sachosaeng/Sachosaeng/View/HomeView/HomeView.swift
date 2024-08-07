@@ -54,7 +54,7 @@ struct HomeView: View {
                                     jhPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
-                                          """, isTest: isTest)
+                                          """, isWarning: isTest)
                                 }
                         } else if name == .info {
                             EditMyInfoView(isSign: $isSign, path: $path)
@@ -62,7 +62,7 @@ struct HomeView: View {
                                     jhPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
-                                          """, isTest: isTest)
+                                          """, isWarning: isTest)
                                 }
                         } else if name == .quit {
                             QuitView(isSign: $isSign, path: $path)
@@ -70,7 +70,7 @@ struct HomeView: View {
                                     jhPrint("""
                                           😿 네비게이션 패스의 갯수: \(path.count)
                                           😿 네비게이션 패스: \(path)
-                                          """, isTest: isTest)
+                                          """, isWarning: isTest)
                                 }
                         }
                     }

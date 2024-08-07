@@ -45,7 +45,7 @@ struct UserOccupationView: View {
                         Button {
                             selectedOccupations[occupationNumber] = true
                             isSelected = true
-                            UserStore.shared.newUser.userType = occupationDescription[occupationNumber]
+                            UserStore.shared.currentUserState.userType = occupationDescription[occupationNumber]
                             for index in 0..<selectedOccupations.count {
                                 if index != occupationNumber {
                                     selectedOccupations[index] = false

@@ -35,9 +35,6 @@ struct SignView: View {
             Spacer()
             
             Image("Onboarding image")
-                .onTapGesture {
-                    signStore.logoutOfKakaoTalk()
-                }
             
             Spacer()
             
@@ -63,7 +60,17 @@ struct SignView: View {
                 } //: ZStack
                 .padding(.bottom, 8)
                 Button {
-                    signStore.loginWithKakaoAccount()
+                    signStore.loginKakao { isSuccessLoginWithKakao in
+                        if isSuccessLoginWithKakao {
+                            signStore.authJoin { _ in
+                                signStore.authLogin { isSuccessAuthLogin in
+                                    if isSuccessAuthLogin {
+                                        path.append(PathType.occupation)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 } label: {
                     RoundedRectangle(cornerRadius: 4)
                         .foregroundStyle(Color(hex: "#FEE500"))
@@ -100,9 +107,15 @@ struct SignView: View {
                                 .padding(12)
                         }
                     GoogleSignInButton {
-                        signStore.signInGoogle { success in
-                            if success {
-                                signStore.authJoin()
+                        signStore.loginGoogle { isSuccessloginGoogle in
+                            if isSuccessloginGoogle {
+                                signStore.authJoin { _ in
+                                    signStore.authLogin() { isSuccessAuthLogin in
+                                        if isSuccessAuthLogin {
+                                            path.append(PathType.occupation)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -127,15 +140,6 @@ struct SignView: View {
                     SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                         .navigationBarBackButtonHidden(true)
                 }
-                
-//                if name == "UserOccupationView" {
-//
-//                } else if name == "UserFavoriteCategoryView" {
-//
-//                } else if name == "SignSuccessView" {
-//
-//                }
-                
             }
         }
     }

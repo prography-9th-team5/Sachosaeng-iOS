@@ -22,10 +22,10 @@ class CategoryStore: ObservableObject {
                     self.categories = result
                     self.allCatagory = result
                     self.fetchAllCategory()
-                    jhPrint(result, isTest: false)
+                    jhPrint(result, isWarning: false)
                 }
             case .failure(let error):
-                jhPrint("🚨 에러: fetchCategories() 실패 🚨: \(error)", isTest: false)
+                jhPrint("🚨 에러: fetchCategories() 실패 🚨: \(error)", isWarning: false)
             }
         }
     }
@@ -38,7 +38,7 @@ class CategoryStore: ObservableObject {
                     self.allCatagory.insert(Category(categoryId: 99999, name: "전체 보기", iconUrl: allCate.iconUrl, backgroundColor: allCate.backgroundColor, textColor: ""), at: 0)
                 }
             case .failure(let error):
-                jhPrint("🚨 에러: fetchAllCategory() 실패 🚨: \(error)", isTest: false)
+                jhPrint("🚨 에러: fetchAllCategory() 실패 🚨: \(error)", isWarning: false)
             }
         }
     }

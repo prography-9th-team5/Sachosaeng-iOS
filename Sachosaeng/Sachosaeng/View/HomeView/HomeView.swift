@@ -47,33 +47,6 @@ struct HomeView: View {
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                     }
-                    .navigationDestination(for: PathType.self) { name in
-                        if name == .myPage {
-                            MyPageView(isSign: $isSign, path: $path)
-                                .customBackbutton {
-                                    jhPrint("""
-                                          😿 네비게이션 패스의 갯수: \(path.count)
-                                          😿 네비게이션 패스: \(path)
-                                          """, isWarning: isTest)
-                                }
-                        } else if name == .info {
-                            EditMyInfoView(isSign: $isSign, path: $path)
-                                .customBackbutton {
-                                    jhPrint("""
-                                          😿 네비게이션 패스의 갯수: \(path.count)
-                                          😿 네비게이션 패스: \(path)
-                                          """, isWarning: isTest)
-                                }
-                        } else if name == .quit {
-                            QuitView(isSign: $isSign, path: $path)
-                                .customBackbutton {
-                                    jhPrint("""
-                                          😿 네비게이션 패스의 갯수: \(path.count)
-                                          😿 네비게이션 패스: \(path)
-                                          """, isWarning: isTest)
-                                }
-                        }
-                    }
                 } //: Hstack
                 .padding(.all, 20)
                 

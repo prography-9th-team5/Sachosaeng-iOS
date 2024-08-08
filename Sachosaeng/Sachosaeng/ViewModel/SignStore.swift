@@ -13,6 +13,12 @@ import Alamofire
 import AuthenticationServices
 import GoogleSignIn
 
+enum AuthTypeKeys {
+    case success
+    case failed
+    case userExists
+}
+
 final class SignStore: ObservableObject {
     private func handleOAuthToken(_ oauthToken: OAuthToken?) -> Bool {
         guard (oauthToken?.idToken) != nil else {
@@ -104,7 +110,7 @@ final class SignStore: ObservableObject {
         }
     }
     
-    /// 구글로그인(미완성: 메서드 완성시켜야함)
+    /// 구글로그인
     func loginGoogle(completion: @escaping (Bool) -> Void) {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
             completion(false)
@@ -152,25 +158,32 @@ final class SignStore: ObservableObject {
         jhPrint("Access Token: \(token)", isWarning: true)
         let body = ["reason": "hi"]
         
-        NetworkService.shared.performRequest(method: "DELETE", path: "/api/v1/auth/withdraw", body: body, token: token) { json, error in
-            if let error = error {
-                jhPrint("Error: \(error.localizedDescription)", isWarning: true)
-            } else if let json = json {
-                jhPrint(json)
+        NetworkService.shared.performRequest(method: "DELETE", path: "/api/v1/auth/withdraw", body: body, token: token) { authType in
+            switch authType {
+            case .success(let json):
+               return jhPrint(json)
+            case .failed(let error):
+                return jhPrint(error)
+            case .userExists(_):
+                return jhPrint("치명적이야")
             }
         }
     }
     /// api 중 사초생 회원가입
-    func authJoin(completion: @escaping (Bool) -> Void) {
+    func authJoin(completion: @escaping (AuthTypeKeys) -> Void) {
         let body = ["email": UserStore.shared.currentUserEmail]
         
-        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/join", body: body, token: nil) { json, error in
-            if let error = error {
-                jhPrint("Error: \(error.localizedDescription)", isWarning: true)
-                completion(false)
-            } else if let json = json {
+        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/join", body: body, token: nil) { authType in
+            switch authType {
+            case .success(let json):
                 jhPrint(json)
-                completion(true)
+                completion(.success)
+            case .failed(let error):
+                jhPrint(error)
+                completion(.failed)
+            case .userExists(_):
+            jhPrint("이미 가입한 유저입니다")
+            completion(.userExists)
             }
         }
     }

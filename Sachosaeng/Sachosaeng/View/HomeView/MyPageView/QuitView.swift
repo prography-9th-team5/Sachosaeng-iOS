@@ -34,7 +34,6 @@ struct QuitView: View {
             
             ScrollViewReader { reader in
                 ScrollView {
-                    
                     Spacer()
                     ForEach(quitTypeArray, id: \.self) { type in
                         Button {

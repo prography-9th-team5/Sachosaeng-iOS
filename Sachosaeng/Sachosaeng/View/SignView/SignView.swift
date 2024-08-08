@@ -14,6 +14,7 @@ enum PhoneSpace {
 }
 
 struct SignView: View {
+
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
@@ -62,13 +63,7 @@ struct SignView: View {
                 Button {
                     signStore.loginKakao { isSuccessLoginWithKakao in
                         if isSuccessLoginWithKakao {
-                            signStore.authJoin { _ in
-                                signStore.authLogin { isSuccessAuthLogin in
-                                    if isSuccessAuthLogin {
-                                        path.append(PathType.occupation)
-                                    }
-                                }
-                            }
+                            performSignLogic()
                         }
                     }
                 } label: {
@@ -108,15 +103,7 @@ struct SignView: View {
                         }
                     GoogleSignInButton {
                         signStore.loginGoogle { isSuccessloginGoogle in
-                            if isSuccessloginGoogle {
-                                signStore.authJoin { _ in
-                                    signStore.authLogin() { isSuccessAuthLogin in
-                                        if isSuccessAuthLogin {
-                                            path.append(PathType.occupation)
-                                        }
-                                    }
-                                }
-                            }
+                            performSignLogic()
                         }
                     }
                     .frame(width: PhoneSpace.screenWidth - 40, height: 55)
@@ -127,18 +114,25 @@ struct SignView: View {
                 .padding(.bottom, 8)
             } //: Vstack
             .padding(.horizontal, 20)
-            .navigationDestination(for: PathType.self) { name in
-                if name == .occupation {
-                    UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
-                        .navigationBarBackButtonHidden()
+            
+        }
+    }
+    private func performSignLogic() {
+        signStore.authJoin { type in
+            switch type {
+            case .success:
+                signStore.authLogin { isSuccessAuthLogin in
+                    if isSuccessAuthLogin {
+                        path.append(PathType.occupation)
+                    }
                 }
-                if name == .favorite {
-                    UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
-                        .customBackbutton()
-                }
-                if name == .signSuccess {
-                    SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
-                        .navigationBarBackButtonHidden(true)
+            case .failed:
+                jhPrint("실패")
+            case .userExists:
+                signStore.authLogin { isSuccessAuthLogin in
+                    if isSuccessAuthLogin {
+                        path.append(PathType.home)
+                    }
                 }
             }
         }

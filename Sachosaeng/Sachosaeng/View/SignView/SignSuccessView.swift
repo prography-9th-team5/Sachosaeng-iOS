@@ -36,7 +36,7 @@ struct SignSuccessView: View {
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     isActive = true
-                    path = .init()
+                    path.append(PathType.home)
                     isSign = false
                 }
             }

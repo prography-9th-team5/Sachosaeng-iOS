@@ -34,24 +34,29 @@ final class SignStore: ObservableObject {
     
     func loginKakao(completion: @escaping (Bool) -> Void) {
         if UserApi.isKakaoTalkLoginAvailable() {
-            UserApi.shared.accessTokenInfo { [weak self] (_, error) in
-                guard let self = self else { return }
-                if let error = error, let sdkError = error as? SdkError, sdkError.isInvalidTokenError() {
-                    loginWithKakaoTalk()
-                } else if let error = error {
-                    handleLoginError(error)
-                } else {
-                    // 토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-                }
+            loginWithKakaoTalk { type in
+                completion(type)
             }
+//            UserApi.shared.accessTokenInfo { [weak self] (_, error) in
+//                guard let self = self else { return }
+//                if let error = error, let sdkError = error as? SdkError, sdkError.isInvalidTokenError() {
+//                    loginWithKakaoTalk { type in
+//                        completion(type)
+//                    }
+//                } else if let error = error {
+//                    handleLoginError(error)
+//                } else {
+//                    // 토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
+//                }
+//            }
         } else {
-            loginWithKakaoAccount { succeess in
-                completion(succeess)
+            loginWithKakaoAccount { type in
+                completion(type)
             }
         }
     }
     
-    func loginWithKakaoTalk() {
+    func loginWithKakaoTalk(completion: @escaping (Bool) -> Void) {
         UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, error in
             guard let self = self else { return }
             if let error = error {
@@ -59,7 +64,9 @@ final class SignStore: ObservableObject {
             } else {
                 UserStore.shared.oauthToken = oauthToken
                 if handleOAuthToken(UserStore.shared.oauthToken) {
-                   // 카카오 토크 없음 뭐할지 생각ㄱ
+                    getKakaoUser { type in
+                        completion(type)
+                    }
                 }
             }
         }
@@ -73,9 +80,8 @@ final class SignStore: ObservableObject {
             } else {
                 UserStore.shared.oauthToken = oauthToken
                 if handleOAuthToken(UserStore.shared.oauthToken) {
-                    getKakaoUser { success in
-//                        guard let self = self else { return }
-                        completion(success)
+                    getKakaoUser { type in
+                        completion(type)
                     }
                 }
             }

@@ -14,12 +14,12 @@ enum PhoneSpace {
 }
 
 struct SignView: View {
-
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
     @Binding var path: NavigationPath
     @Binding var isSign: Bool
+    
     var body: some View {
         VStack(spacing: 0) {
             Spacer()

@@ -20,44 +20,45 @@ struct ContentView: View {
             SignView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, path: $path, isSign: $isSign)
                 .navigationDestination(for: PathType.self) { name in
                     switch name {
-                    case .occupation:
-                        UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
-                            .navigationBarBackButtonHidden()
-                    case .favorite:
-                        UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
-                            .onAppear {
-                                Task {
-                                    await categoryStore.fetchCategories()
-                                }
-                            }
-                            .customBackbutton {
-                                jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
-                            }
-                    case .signSuccess:
-                        SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                        case .occupation:
+                            UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                                 .navigationBarBackButtonHidden()
-                    case .home:
-                        TabView(isSign: $isSign, path: $path)
-                    case .myPage:
-                        MyPageView(isSign: $isSign, path: $path)
-                            .customBackbutton {
-                                jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
-                            }
-                    case .info:
-                        EditMyInfoView(isSign: $isSign, path: $path)
-                            .customBackbutton {
-                                jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
-                            }
-                    case .quit:
-                        QuitView(isSign: $isSign, path: $path)
-                            .customBackbutton {
-                                jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
-                            }
-                    case .sign:
-                        SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: $path, isSign: $isSign)
+                        case .favorite:
+                            UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                                .onAppear {
+                                    Task {
+                                        await categoryStore.fetchCategories()
+                                    }
+                                }
+                                .customBackbutton {
+                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
+                                }
+                        case .signSuccess:
+                            SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                                .navigationBarBackButtonHidden()
+                        case .home:
+                            TabView(isSign: $isSign, path: $path)
+                        case .myPage:
+                            MyPageView(isSign: $isSign, path: $path)
+                                .customBackbutton {
+                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
+                                }
+                        case .info:
+                            EditMyInfoView(isSign: $isSign, path: $path)
+                                .customBackbutton {
+                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
+                                }
+                        case .quit:
+                            QuitView(isSign: $isSign, path: $path)
+                                .customBackbutton {
+                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
+                                }
+                        case .sign:
+                            SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: $path, isSign: $isSign)
                     }
                 }
         }
+        
     }
 }
 

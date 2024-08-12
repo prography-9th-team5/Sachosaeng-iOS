@@ -14,7 +14,7 @@ import GoogleSignIn
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Thread.sleep(forTimeInterval: 2.0)
+//        Thread.sleep(forTimeInterval: 2.0)
         return true
     }
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -34,17 +34,22 @@ struct SachosaengApp: App {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
         }
     }
+    @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .onOpenURL(perform: { url in
-                    GIDSignIn.sharedInstance.handle(url)
-                    
-                    if AuthApi.isKakaoTalkLoginUrl(url) {
-                        _ = AuthController.handleOpenUrl(url: url)
-                    }
-                })
+            if isFirstLaunch {
+                ConsentView(isFirstLaunch: $isFirstLaunch)
+            } else {
+                ContentView()
+                    .onOpenURL(perform: { url in
+                        GIDSignIn.sharedInstance.handle(url)
+                        
+                        if AuthApi.isKakaoTalkLoginUrl(url) {
+                            _ = AuthController.handleOpenUrl(url: url)
+                        }
+                    })
+            }
         }
     }
 }

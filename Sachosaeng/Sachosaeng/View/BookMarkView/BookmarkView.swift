@@ -22,6 +22,8 @@ struct BookmarkView: View {
                         Text("북마크")
                             .font(.createFont(weight: .bold, size: 26))
                             .padding(.trailing, 7)
+                            .frame(height: 40)
+
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 0))

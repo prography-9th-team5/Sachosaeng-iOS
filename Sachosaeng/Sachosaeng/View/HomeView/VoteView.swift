@@ -133,35 +133,22 @@ struct VoteView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden()
                     .customBackbutton()
-//                   if isPressSuccessButton {
-//                       VStack(spacing: 0) {
-//                           HStack {
-//                               Text("연관 콘텐츠")
-//                                   .font(.createFont(weight: .bold, size: 18))
-//                               Spacer()
-//                           }
-//                           
-//                       }
-//                   }
                } //: ScrollView
                Button {
                    isPressSuccessButton = true
                    toast = Toast(type: .success, message: "투표 완료!")
                } label: {
-                   Text(isPressSuccessButton ? "다른 투표 보기" : "확인" )
+                   Text(isPressSuccessButton ? "다른 투표 보기" : "확인")
+                       .frame(width: PhoneSpace.screenWidth - 40, height: 47)
+                       .foregroundStyle(CustomColor.GrayScaleColor.white)
+                       .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
+                       .cornerRadius(4)
                }
-               .frame(width: PhoneSpace.screenWidth - 40, height: 47)
-               .foregroundStyle(CustomColor.GrayScaleColor.white)
-               .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
-               .cornerRadius(4)
+               .contentShape(Rectangle())
            } //: Vstack
            .showToastView(toast: $toast)
         } //: Zstack
-//       .onAppear {
-//           Task {
-//               await voteStore.fetchVoteDetail(voteId: vote.voteId)
-//           }
-//       }
+
     }
 }
 

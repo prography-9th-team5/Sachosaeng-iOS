@@ -25,11 +25,6 @@ struct ContentView: View {
                                 .navigationBarBackButtonHidden()
                         case .favorite:
                             UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
-                                .onAppear {
-                                    Task {
-                                        await categoryStore.fetchCategories()
-                                    }
-                                }
                                 .customBackbutton {
                                     jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
                                 }
@@ -58,7 +53,11 @@ struct ContentView: View {
                     }
                 }
         }
-        
+        .onAppear {
+            Task {
+                await categoryStore.fetchCategories()
+            }
+        }
     }
 }
 

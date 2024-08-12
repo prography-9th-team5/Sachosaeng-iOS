@@ -25,7 +25,7 @@ struct TabView: View {
                     HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore)
                         .navigationBarBackButtonHidden()
                 case .bookMark:
-                    EmptyView()
+                    BookmarkView(categoryStore: categoryStore, voteStore: voteStore)
             }
             
             ZStack {

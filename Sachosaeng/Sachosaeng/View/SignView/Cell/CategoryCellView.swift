@@ -29,13 +29,13 @@ struct CategoryCellView: View {
                     switch phase {
                     case .empty:
                         ProgressView()
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
                     case .success(let image):
                         image
                             .resizable()
                             .scaledToFit()
                             .frame(width: 32, height: 32)
-//                            .grayscale(isSelected ? 0 : 1)
-//                            .opacity(isSelected ? 1 : 0.45)
                     case .failure(let error):
                         Text("Failed to load image: \(error.localizedDescription)")
                     @unknown default:

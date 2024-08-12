@@ -37,8 +37,6 @@ struct VoteView: View {
                                             .scaledToFit()
                                             .frame(width: 32, height: 32)
                                             .padding()
-                //                            .grayscale(isSelected ? 0 : 1)
-                //                            .opacity(isSelected ? 1 : 0.45)
                                     case .failure(let error):
                                         Text("Failed to load image: \(error.localizedDescription)")
                                     @unknown default:
@@ -135,8 +133,12 @@ struct VoteView: View {
                     .customBackbutton()
                } //: ScrollView
                Button {
-                   isPressSuccessButton = true
-                   toast = Toast(type: .success, message: "투표 완료!")
+                   if isPressSuccessButton {
+                       
+                   } else {
+                       isPressSuccessButton = true
+                       toast = Toast(type: .success, message: "투표 완료!")
+                   }
                } label: {
                    Text(isPressSuccessButton ? "다른 투표 보기" : "확인")
                        .frame(width: PhoneSpace.screenWidth - 40, height: 47)
@@ -154,6 +156,6 @@ struct VoteView: View {
 
 #Preview {
     NavigationStack {
-        VoteView(vote: dummyVote)
+        VoteView(vote: dummyDailyVote)
     }
 }

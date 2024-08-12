@@ -45,5 +45,5 @@ struct TodayVoteView: View {
 }
 
 #Preview {
-    TodayVoteView(dailyVote: dummyVote)
+    TodayVoteView(dailyVote: dummyDailyVote)
 }

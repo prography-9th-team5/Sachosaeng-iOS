@@ -7,8 +7,8 @@
 import Foundation
 
 final class VoteStore: ObservableObject {
-    @Published var hotVotes: HotVote = HotVote(category: dummyHotCategory, votes: [dummyVote])
-    @Published var dailyVote: Vote = dummyVote
+    @Published var hotVotes: HotVote = HotVote(category: dummyHotCategory, votes: [dummyDailyVote])
+    @Published var dailyVote: Vote = dummyDailyVote
     @Published var test = dummyVoteDetail
     
     func fetchHotVotes() async {

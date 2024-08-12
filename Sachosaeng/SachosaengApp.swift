@@ -41,7 +41,7 @@ struct SachosaengApp: App {
             if isFirstLaunch {
                 ConsentView(isFirstLaunch: $isFirstLaunch)
             } else {
-                ContentView()
+                BookmarkView(categoryStore: CategoryStore(), voteStore: VoteStore())
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)
                         

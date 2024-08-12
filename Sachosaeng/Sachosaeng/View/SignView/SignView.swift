@@ -33,11 +33,11 @@ struct SignView: View {
                 path.append(PathType.occupation)
             }
             
-            Spacer()
-            
-            Image("Onboarding image")
-            
-            Spacer()
+            Group {
+                Spacer()
+                Image("Onboarding image")
+                Spacer()
+            }
             
             VStack(spacing: 0) {
                 ZStack {
@@ -85,10 +85,10 @@ struct SignView: View {
 
                 ZStack {
                     RoundedRectangle(cornerRadius: 4)
-                        .stroke(CustomColor.GrayScaleColor.gs4, lineWidth: 1) // 1px 검정색 보더 추가
+                        .stroke(CustomColor.GrayScaleColor.gs4, lineWidth: 1)
                         .background(
                             RoundedRectangle(cornerRadius: 4)
-                                .foregroundStyle(CustomColor.GrayScaleColor.gs1) // 배경색
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs1)
                         )
                         .frame(width: PhoneSpace.screenWidth - 40, height: 55)
                         .overlay(alignment: .center) {
@@ -117,6 +117,7 @@ struct SignView: View {
             
         }
     }
+    
     private func performSignLogic() {
         signStore.authJoin { type in
             switch type {
@@ -142,4 +143,3 @@ struct SignView: View {
 #Preview {
     SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: .constant(NavigationPath()), isSign: .constant(false))
 }
-// TODO: 로그인기능을 백이랑 연결하는 작업 해야함 (기능 제대로 구현 하기)

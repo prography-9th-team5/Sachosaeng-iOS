@@ -57,9 +57,9 @@ struct HomeView: View {
                                 .padding(.bottom, 32)
                                 .id("top")
                             
-                            HotvoteListView(
-                                hotVote: voteStore.hotVotes)
-                            .padding(.bottom, 32)
+//                            HotvoteListView(
+//                                hotVote: voteStore.hotVotes)
+//                            .padding(.bottom, 32)
                             
                             //                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
                             //                                .padding(.bottom, 32)
@@ -88,7 +88,7 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                await voteStore.fetchHotVotes()
+//                await voteStore.fetchHotVotes()
                 await voteStore.fetchDaily()
             }
         }

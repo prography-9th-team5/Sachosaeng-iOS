@@ -37,18 +37,6 @@ final class SignStore: ObservableObject {
             loginWithKakaoTalk { type in
                 completion(type)
             }
-//            UserApi.shared.accessTokenInfo { [weak self] (_, error) in
-//                guard let self = self else { return }
-//                if let error = error, let sdkError = error as? SdkError, sdkError.isInvalidTokenError() {
-//                    loginWithKakaoTalk { type in
-//                        completion(type)
-//                    }
-//                } else if let error = error {
-//                    handleLoginError(error)
-//                } else {
-//                    // 토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-//                }
-//            }
         } else {
             loginWithKakaoAccount { type in
                 completion(type)
@@ -141,11 +129,9 @@ final class SignStore: ObservableObject {
     func authLogin(completion: @escaping (Bool) -> Void) {
         let body = ["email": UserStore.shared.currentUserEmail]
         
-        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/login", body: body, token: nil) { (response: AuthResponse?, error) in
-            if let error = error {
-                jhPrint("Error: \(error.localizedDescription)", isWarning: true)
-                completion(false)
-            } else if let response = response {
+        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/login", body: body, token: nil) { (result: Result<AuthResponse, NetworkError>) in
+            switch result {
+            case .success(let response):
                 UserStore.shared.accessToken = response.data.accessToken
                 UserStore.shared.refreshToken = response.data.refreshToken
                 UserStore.shared.userId = response.data.userId
@@ -154,6 +140,9 @@ final class SignStore: ObservableObject {
                         ⭐️ Refresh Token: \(UserStore.shared.refreshToken)
                         """)
                 completion(true)
+            case .failure(let error):
+                jhPrint("Error: \(error.localizedDescription)", isWarning: true)
+                completion(false)
             }
         }
     }
@@ -164,14 +153,12 @@ final class SignStore: ObservableObject {
         jhPrint("Access Token: \(token)", isWarning: true)
         let body = ["reason": "hi"]
         
-        NetworkService.shared.performRequest(method: "DELETE", path: "/api/v1/auth/withdraw", body: body, token: token) { authType in
-            switch authType {
-            case .success(let json):
-               return jhPrint(json)
-            case .failed(let error):
-                return jhPrint(error)
-            case .userExists(_):
-                return jhPrint("치명적이야")
+        NetworkService.shared.performRequest(method: "DELETE", path: "/api/v1/auth/withdraw", body: body, token: token) { (result: Result<AuthResponse, NetworkError>) in
+            switch result {
+            case .success(let response):
+                jhPrint("탈퇴 성공: \(response)")
+            case .failure(let error):
+                jhPrint("탈퇴 실패: \(error)")
             }
         }
     }
@@ -179,18 +166,21 @@ final class SignStore: ObservableObject {
     func authJoin(completion: @escaping (AuthTypeKeys) -> Void) {
         let body = ["email": UserStore.shared.currentUserEmail]
         
-        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/join", body: body, token: nil) { authType in
-            switch authType {
-            case .success(let json):
-                jhPrint(json)
+        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/join", body: body, token: nil) { (result: Result<AuthResponse, NetworkError>) in
+            switch result {
+            case .success(let response):
+                jhPrint("회원가입 성공: \(response)")
                 completion(.success)
-            case .failed(let error):
-                jhPrint(error)
-                completion(.failed)
-            case .userExists(_):
-            jhPrint("이미 가입한 유저입니다")
-            completion(.userExists)
+            case .failure(let error):
+                if case .userExists = error {
+                    jhPrint("이미 가입한 유저입니다")
+                    completion(.userExists)
+                } else {
+                    jhPrint("회원가입 실패: \(error)")
+                    completion(.failed)
+                }
             }
         }
     }
 }
+

@@ -22,7 +22,6 @@ class CategoryStore: ObservableObject {
                     self.categories = result
                     self.allCatagory = result
                     self.fetchAllCategory()
-                    jhPrint(result)
                 }
             case .failure(let error):
                 jhPrint("🚨 에러: fetchCategories() 실패 🚨: \(error)", isWarning: true)

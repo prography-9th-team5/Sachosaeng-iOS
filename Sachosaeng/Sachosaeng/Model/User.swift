@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct ResponseUser {
+struct ResponseUser: Codable, Hashable {
     let code: Int
     let message: String
     let data: User
 }
 
-struct User {
+struct User: Codable, Hashable {
     let userId: Int
     let nickname: String
     var userType: String
-    let userCategory: [Int]?
 }
+
 struct AuthResponse: Codable {
     let code: Int
     let data: AuthData

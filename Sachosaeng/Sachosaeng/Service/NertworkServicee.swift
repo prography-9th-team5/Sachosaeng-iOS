@@ -55,15 +55,25 @@ final class NetworkService {
                 completion(.failure(.invalidResponse))
                 return
             }
+            
+            guard httpResponse.statusCode != 400 else {
+                completion(.failure(.userExists))
+                return
+            }
+            
             jhPrint("path: \(path), code: \(httpResponse.statusCode)")
+            
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedData))
             } catch let decodingError {
-                completion(.failure(.userExists))
+                jhPrint("Decoding error: \(decodingError.localizedDescription)", isWarning: true)
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    jhPrint("Decoding message: \(jsonString)" , isWarning: true)
+                }
+                completion(.failure(.decodingFailed(decodingError)))
             }
         }
-        
         task.resume()
     }
 }

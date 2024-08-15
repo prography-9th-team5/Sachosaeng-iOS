@@ -132,7 +132,7 @@ struct SignView: View {
             case .userExists:
                 signStore.authLogin { isSuccessAuthLogin in
                     if isSuccessAuthLogin {
-                        path.append(PathType.home)
+                        path.append(PathType.occupation)
                     }
                 }
             }

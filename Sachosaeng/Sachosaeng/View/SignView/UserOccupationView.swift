@@ -16,6 +16,7 @@ struct UserOccupationView: View {
     @Binding var path: NavigationPath
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
     @State var isSelected: Bool = false
+
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
@@ -41,11 +42,10 @@ struct UserOccupationView: View {
                     ForEach(0..<2) { column in
                         let occupationDescription: [String] = ["학생", "취업준비생", "1~3년차 직장인", "기타"]
                         let occupationNumber = row * 2 + column
-                        
                         Button {
                             selectedOccupations[occupationNumber] = true
                             isSelected = true
-                            UserStore.shared.currentUserState.userType = occupationDescription[occupationNumber]
+                            UserStore.shared.convertTypeForEnglish(occupationDescription[occupationNumber])
                             for index in 0..<selectedOccupations.count {
                                 if index != occupationNumber {
                                     selectedOccupations[index] = false
@@ -63,8 +63,9 @@ struct UserOccupationView: View {
             .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 16)
             .navigationBarTitleDisplayMode(.inline)
             Spacer()
-            
             Button {
+                UserStore.shared.updateUserType(UserStore.shared.currentUserState.userType)
+                UserStore.shared.getUserInfo()
                 path.append(PathType.favorite)
             } label: {
                 Text("다음")

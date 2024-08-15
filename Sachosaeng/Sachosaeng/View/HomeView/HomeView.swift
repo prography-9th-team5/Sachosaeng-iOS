@@ -42,9 +42,10 @@ struct HomeView: View {
                     Button {
                         path.append(PathType.myPage)
                     } label: {
-                        Image("Progressbaricon")
+                        Image("온보딩_\(UserStore.shared.currentUserState.userType)")
                             .resizable()
                             .scaledToFit()
+                            .clipShape(Circle())
                             .frame(width: 40, height: 40)
                     }
                 } //: Hstack
@@ -88,7 +89,7 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-//                await voteStore.fetchHotVotes()
+                UserStore.shared.getUserInfo()
                 await voteStore.fetchDaily()
             }
         }

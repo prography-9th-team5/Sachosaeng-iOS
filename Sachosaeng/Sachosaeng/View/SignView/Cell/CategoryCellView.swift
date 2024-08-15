@@ -16,30 +16,28 @@ struct CategoryCellView: View {
         VStack {
             ZStack {
                 Circle()
-//                    .fill(Color(hex: isSelected ? category.backgroundColor : "#F2F4F7"))
                     .fill(Color(hex: category.backgroundColor))
                     .frame(width: 72, height: 72)
-//                    .border(CustomColor.GrayScaleColor.black, width: 1.4)
                     .overlay(
                         Circle()
                             .stroke(isSelected ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
                     )
-                    
+                
                 AsyncImage(url: URL(string: "\(category.iconUrl)")) { phase in
                     switch phase {
-                    case .empty:
-                        ProgressView()
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                    case .failure(let error):
-                        Text("Failed to load image: \(error.localizedDescription)")
-                    @unknown default:
-                        Text("Unknown state")
+                        case .empty:
+                            ProgressView()
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
+                        case .failure(let error):
+                            Text("Failed to load image: \(error.localizedDescription)")
+                        @unknown default:
+                            Text("Unknown state")
                     }
                 }
             }
@@ -50,8 +48,10 @@ struct CategoryCellView: View {
         .onTapGesture {
             isSelected.toggle()
             if isSelected {
+                UserStore.shared.currentUserCategory.append(categoryNumber)
                 tapCount += 1
             } else {
+                UserStore.shared.currentUserCategory.removeAll { $0 == categoryNumber }
                 tapCount -= 1
             }
         }

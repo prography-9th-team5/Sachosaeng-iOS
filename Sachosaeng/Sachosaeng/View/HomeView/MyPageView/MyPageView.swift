@@ -42,16 +42,16 @@ struct MyPageView: View {
                             
                         }
                     HStack(spacing: 0) {
-                        Image("온보딩_1~3년차 직장인")
+                        Image("온보딩_\(UserStore.shared.currentUserState.userType)")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 80)
                         VStack(alignment: .leading, spacing: 0) {
                             // TODO: - 여기부분 디자인 적인 부분 수정 + 유저값에 따른 변화를 줘야함
-                            Text("글자 글가즐가")
+                            Text("\(UserStore.shared.currentUserState.userType)")
                                 .font(.createFont(weight: .medium, size: 12))
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
-                            Text("닉네임자리")
+                            Text("\(UserStore.shared.currentUserState.nickname)")
                                 .font(.createFont(weight: .bold, size: 18))
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                         }

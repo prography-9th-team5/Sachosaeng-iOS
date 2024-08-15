@@ -26,6 +26,7 @@ struct SignSuccessView: View {
                 }
                 .frame(height: 100)
                 .padding(.bottom, 45)
+                    
                 Image("온보딩_\(UserStore.shared.currentUserState.userType)")
                     .frame(width: 248,
                            height: 248)

@@ -17,10 +17,11 @@ final class VoteStore: ObservableObject {
             case .success(let hotVotes):
                 DispatchQueue.main.async {
                     self.hotVotes = hotVotes
-                    jhPrint("🎉 성공: \(self.hotVotes)")
+                    
                 }
             case .failure(let error):
-                jhPrint("🚨 에러: \(error)", isWarning: true)
+//                jhPrint("🚨 에러: \(error)", isWarning: true)
+                break
             }
         }
     }
@@ -31,10 +32,10 @@ final class VoteStore: ObservableObject {
             case .success(let dailyVote):
                 DispatchQueue.main.async {
                     self.dailyVote = dailyVote
-                    jhPrint("🎉 성공: \(self.dailyVote)")
+                    
                 }
             case .failure(let error):
-                jhPrint("🚨 에러: \(error)", isWarning: true)
+                    break
             }
         }
     }
@@ -45,10 +46,9 @@ final class VoteStore: ObservableObject {
             case .success(let result):
                 DispatchQueue.main.async {
                     self.test = result
-                    jhPrint("🎉 성공: \(self.test)")
                 }
             case .failure(let error):
-                jhPrint("🚨 에러: \(error)", isWarning: true)
+                break
             }
         }
     }

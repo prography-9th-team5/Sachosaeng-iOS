@@ -41,4 +41,6 @@ class CategoryStore: ObservableObject {
             }
         }
     }
+    
+    
 }

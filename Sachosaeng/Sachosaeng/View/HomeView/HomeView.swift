@@ -12,6 +12,7 @@ struct HomeView: View {
     @Binding var path: NavigationPath
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
+    @ObservedObject var userStore = UserStore.shared
     @State private var categoryName: String = "전체"
     @State private var isSheet: Bool = false
     private let isTest: Bool = false
@@ -42,7 +43,7 @@ struct HomeView: View {
                     Button {
                         path.append(PathType.myPage)
                     } label: {
-                        Image("온보딩_\(UserStore.shared.currentUserState.userType)")
+                        Image("온보딩_\(userStore.currentUserState.userType)")
                             .resizable()
                             .scaledToFit()
                             .clipShape(Circle())
@@ -58,9 +59,9 @@ struct HomeView: View {
                                 .padding(.bottom, 32)
                                 .id("top")
                             
-//                            HotvoteListView(
-//                                hotVote: voteStore.hotVotes)
-//                            .padding(.bottom, 32)
+                            //                            HotvoteListView(
+                            //                                hotVote: voteStore.hotVotes)
+                            //                            .padding(.bottom, 32)
                             
                             //                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
                             //                                .padding(.bottom, 32)
@@ -89,7 +90,6 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                UserStore.shared.getUserInfo()
                 await voteStore.fetchDaily()
             }
         }

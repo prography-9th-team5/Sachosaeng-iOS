@@ -44,7 +44,35 @@ final class UserStore: ObservableObject {
             currentUserState.userType = "이상한걸 쳐 집어넣었니"
         }
     }
-
+    func convertUserTypeForKorean(_ type: String) -> String {
+        switch type {
+        case "STUDENT":
+            return "학생"
+        case "JOB_SEEKER":
+            return "취업준비생"
+        case "NEW_EMPLOYEE":
+            return "1~3년차 직장인"
+        case "OTHER":
+            return "기타"
+        default:
+            return type
+        }
+    }
+    
+    func convertUserTypeForEnglish(_ type: String) -> String {
+        switch type {
+        case "학생":
+            return "STUDENT"
+        case "취업준비생":
+            return "JOB_SEEKER"
+        case "1~3년차 직장인":
+            return "NEW_EMPLOYEE"
+        case "기타":
+            return "OTHER"
+        default:
+            return type
+        }
+    }
     func updateUserType(_ userType: String) {
         let token = UserStore.shared.accessToken
         let body = ["userType": userType]
@@ -54,7 +82,21 @@ final class UserStore: ObservableObject {
             case .success(let success):
                 jhPrint(success)
             case .failure(let failure):
-                jhPrint(failure)
+                    break
+            }
+        }
+    }
+    
+    func updateUserNickname(_ userName: String) {
+        let token = UserStore.shared.accessToken
+        let body = ["nickname": userName]
+        
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/nickname", body: body, token: token) { (result: Result<ResponseUser, NetworkError>) in
+            switch result {
+            case .success(let success):
+                jhPrint(success)
+            case .failure(_):
+                break
             }
         }
     }
@@ -63,11 +105,20 @@ final class UserStore: ObservableObject {
     func getUserInfo() {
         let token = UserStore.shared.accessToken
         
-        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/users", body: nil, token: token) { (result: Result<ResponseUser, NetworkError>) in
+        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/users", body: nil, token: token) {[weak self] (result: Result<ResponseUser, NetworkError>) in
+            guard let self else { return }
             switch result {
             case .success(let user):
-                UserStore.shared.currentUserState = user.data
-                jhPrint(UserStore.shared.currentUserState)
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+
+                    jhPrint(user.data.userType)
+                    let nickname = user.data.nickname
+                    let userId = user.data.userId
+                    let userType = convertUserTypeForKorean(user.data.userType)
+                    
+                    currentUserState = User(userId: userId, nickname: nickname, userType: userType)
+                }
             case .failure(let failure):
                 jhPrint(failure)
             }
@@ -83,7 +134,7 @@ final class UserStore: ObservableObject {
             switch result {
             case .success(let success):
                 jhPrint(success)
-            case .failure(let failure):
+            case .failure(_):
                 break
             }
         }

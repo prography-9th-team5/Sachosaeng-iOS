@@ -23,7 +23,7 @@ enum settingOption: String, CaseIterable {
 struct MyPageView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    
+    @ObservedObject var userStore = UserStore.shared
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.edgesIgnoringSafeArea(.all)
@@ -42,16 +42,15 @@ struct MyPageView: View {
                             
                         }
                     HStack(spacing: 0) {
-                        Image("온보딩_\(UserStore.shared.currentUserState.userType)")
+                        Image("온보딩_\(userStore.currentUserState.userType)")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 80)
                         VStack(alignment: .leading, spacing: 0) {
-                            // TODO: - 여기부분 디자인 적인 부분 수정 + 유저값에 따른 변화를 줘야함
-                            Text("\(UserStore.shared.currentUserState.userType)")
+                            Text("\(userStore.currentUserState.userType)")
                                 .font(.createFont(weight: .medium, size: 12))
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
-                            Text("\(UserStore.shared.currentUserState.nickname)")
+                            Text("\(userStore.currentUserState.nickname)")
                                 .font(.createFont(weight: .bold, size: 18))
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                         }
@@ -150,7 +149,6 @@ struct MyPageView: View {
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
         }
-        
     }
 }
 

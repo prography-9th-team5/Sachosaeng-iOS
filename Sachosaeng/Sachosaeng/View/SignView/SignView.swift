@@ -17,6 +17,7 @@ struct SignView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
+    @ObservedObject var userStore = UserStore.shared
     @Binding var path: NavigationPath
     @Binding var isSign: Bool
     
@@ -124,6 +125,7 @@ struct SignView: View {
             case .success:
                 signStore.authLogin { isSuccessAuthLogin in
                     if isSuccessAuthLogin {
+                        userStore.getUserInfo()
                         path.append(PathType.occupation)
                     }
                 }
@@ -132,6 +134,7 @@ struct SignView: View {
             case .userExists:
                 signStore.authLogin { isSuccessAuthLogin in
                     if isSuccessAuthLogin {
+                        userStore.getUserInfo()
                         path.append(PathType.occupation)
                     }
                 }

@@ -129,17 +129,20 @@ final class SignStore: ObservableObject {
     func authLogin(completion: @escaping (Bool) -> Void) {
         let body = ["email": UserStore.shared.currentUserEmail]
         
-        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/login", body: body, token: nil) { (result: Result<AuthResponse, NetworkError>) in
+        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/login", body: body, token: nil) {[weak self] (result: Result<AuthResponse, NetworkError>) in
+            guard let self else { return }
             switch result {
             case .success(let response):
+                DispatchQueue.main.async {
                 UserStore.shared.accessToken = response.data.accessToken
                 UserStore.shared.refreshToken = response.data.refreshToken
                 UserStore.shared.userId = response.data.userId
                 jhPrint("""
-                        ⭐️ Access Token: \(UserStore.shared.accessToken)
-                        ⭐️ Refresh Token: \(UserStore.shared.refreshToken)
-                        """)
+                ⭐️ Access Token: \(UserStore.shared.accessToken)
+                ⭐️ Refresh Token: \(UserStore.shared.refreshToken)
+                """)
                 completion(true)
+            }
             case .failure(let error):
                 jhPrint("Error: \(error.localizedDescription)", isWarning: true)
                 completion(false)

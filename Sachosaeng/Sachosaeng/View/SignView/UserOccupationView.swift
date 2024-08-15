@@ -12,6 +12,7 @@ struct UserOccupationView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
+    @ObservedObject var userStore = UserStore.shared
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
@@ -45,7 +46,7 @@ struct UserOccupationView: View {
                         Button {
                             selectedOccupations[occupationNumber] = true
                             isSelected = true
-                            UserStore.shared.currentUserState.userType = occupationDescription[occupationNumber]
+                            userStore.currentUserState.userType = occupationDescription[occupationNumber]
                             for index in 0..<selectedOccupations.count {
                                 if index != occupationNumber {
                                     selectedOccupations[index] = false
@@ -64,7 +65,7 @@ struct UserOccupationView: View {
             .navigationBarTitleDisplayMode(.inline)
             Spacer()
             Button {
-                UserStore.shared.updateUserType(UserStore.shared.currentUserState.userType)
+                userStore.updateUserType(UserStore.shared.currentUserState.userType)
                 path.append(PathType.favorite)
             } label: {
                 Text("다음")

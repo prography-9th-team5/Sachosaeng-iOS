@@ -11,6 +11,7 @@ struct SignSuccessView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
+    @ObservedObject var userStore = UserStore.shared
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var isActive: Bool = false
@@ -27,7 +28,7 @@ struct SignSuccessView: View {
                 .frame(height: 100)
                 .padding(.bottom, 45)
                     
-                Image("온보딩_\(UserStore.shared.currentUserState.userType)")
+                Image("온보딩_\(userStore.currentUserState.userType)")
                     .frame(width: 248,
                            height: 248)
                 Spacer()

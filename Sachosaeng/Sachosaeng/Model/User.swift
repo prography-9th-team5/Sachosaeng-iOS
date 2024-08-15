@@ -15,7 +15,7 @@ struct ResponseUser: Codable, Hashable {
 
 struct User: Codable, Hashable {
     let userId: Int
-    let nickname: String
+    var nickname: String
     var userType: String
 }
 

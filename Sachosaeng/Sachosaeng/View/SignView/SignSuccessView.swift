@@ -40,6 +40,7 @@ struct SignSuccessView: View {
                     isActive = true
                     path.append(PathType.home)
                     isSign = false
+                    userStore.convertToUserType(userStore.currentUserState.userType)
                 }
             }
         }

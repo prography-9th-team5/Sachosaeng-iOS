@@ -27,6 +27,7 @@ struct EditMyInfoView: View {
     @State private var textField: String = ""
     @State private var controlDisableModifier: Bool = true
     @ObservedObject var userStore = UserStore.shared
+    @EnvironmentObject var userService: UserService
 
     private let imageFrame = 127.54
     private let rows = [ GridItem(.fixed(48)), GridItem(.fixed(48))]
@@ -135,11 +136,11 @@ struct EditMyInfoView: View {
                 Button {
                     if isSelected {
                         userStore.currentUserState.userType = selectedType!.rawValue
-                        userStore.updateUserType(userStore.convertUserTypeForEnglish(selectedType?.rawValue ?? "학생"))
+                        userService.updateUserType(userStore.convertUserTypeForEnglish(selectedType?.rawValue ?? "학생"))
                     }
                     if !textField.isEmpty {
                         userStore.currentUserState.nickname = textField
-                        userStore.updateUserNickname(UserStore.shared.currentUserState.nickname)
+                        userService.updateUserNickname(UserStore.shared.currentUserState.nickname)
                     }
                     toast = Toast(type: .saved, message: "저장되었습니다")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

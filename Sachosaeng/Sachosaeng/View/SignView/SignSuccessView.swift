@@ -32,7 +32,6 @@ struct SignSuccessView: View {
                     .frame(width: 248,
                            height: 248)
                 Spacer()
-                
             }
             .padding(.top, 70)
             .onAppear {

@@ -17,6 +17,7 @@ struct SignView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
+    @EnvironmentObject var userService: UserService
     @ObservedObject var userStore = UserStore.shared
     @Binding var path: NavigationPath
     @Binding var isSign: Bool
@@ -120,21 +121,20 @@ struct SignView: View {
     }
     
     private func performSignLogic() {
-        signStore.authJoin { type in
+        signStore.registerUser { type in
             switch type {
             case .success:
-                signStore.authLogin { isSuccessAuthLogin in
+                signStore.loginUser { isSuccessAuthLogin in
                     if isSuccessAuthLogin {
-                        userStore.getUserInfo()
                         path.append(PathType.occupation)
                     }
                 }
             case .failed:
                 jhPrint("실패")
             case .userExists:
-                signStore.authLogin { isSuccessAuthLogin in
+                signStore.loginUser { isSuccessAuthLogin in
                     if isSuccessAuthLogin {
-                        userStore.getUserInfo()
+                        userService.getUserInfo()
                         path.append(PathType.occupation)
                     }
                 }

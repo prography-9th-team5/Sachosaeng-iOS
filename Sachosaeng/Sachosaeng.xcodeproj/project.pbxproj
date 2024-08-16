@@ -32,6 +32,8 @@
 		3663D3DC2BE317EE007AA77A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DB2BE317EE007AA77A /* GoogleSignIn */; };
 		3663D3DE2BE317EE007AA77A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3663D3DD2BE317EE007AA77A /* GoogleSignInSwift */; };
 		3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */; };
+		366587A82C6F432E00E85259 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366587A72C6F432E00E85259 /* UserService.swift */; };
+		366587AA2C6F47D400E85259 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366587A92C6F47D400E85259 /* AuthService.swift */; };
 		36696B642C2B6900006BFCC0 /* CategoryModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36696B632C2B6900006BFCC0 /* CategoryModal.swift */; };
 		36696B6A2C2B8241006BFCC0 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36696B692C2B8241006BFCC0 /* ViewExtension.swift */; };
 		366DFE712C2B42B1009CD87E /* HotvoteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE702C2B42B1009CD87E /* HotvoteListView.swift */; };
@@ -93,6 +95,8 @@
 		366053AA2C53A243000A1D8D /* PathType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathType.swift; sourceTree = "<group>"; };
 		366057A42BC41C80004F8216 /* SignStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignStore.swift; sourceTree = "<group>"; };
 		3663D3DF2BE31A0A007AA77A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		366587A72C6F432E00E85259 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		366587A92C6F47D400E85259 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		36696B632C2B6900006BFCC0 /* CategoryModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModal.swift; sourceTree = "<group>"; };
 		36696B692C2B8241006BFCC0 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		366DFE702C2B42B1009CD87E /* HotvoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotvoteListView.swift; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 			children = (
 				36949FA72C514C9E009E099E /* Utility.swift */,
 				36A727F52C6C00E500942672 /* NertworkServicee.swift */,
+				366587A72C6F432E00E85259 /* UserService.swift */,
+				366587A92C6F47D400E85259 /* AuthService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -497,6 +503,7 @@
 				36842BF52C2298E00023473D /* TempImageView.swift in Sources */,
 				36842BF92C22BA990023473D /* OccupationView.swift in Sources */,
 				360C2B202C35893B0000C0F8 /* CategoryStore.swift in Sources */,
+				366587A82C6F432E00E85259 /* UserService.swift in Sources */,
 				36949FA82C514C9E009E099E /* Utility.swift in Sources */,
 				36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
@@ -505,6 +512,7 @@
 				366053AB2C53A243000A1D8D /* PathType.swift in Sources */,
 				360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */,
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
+				366587AA2C6F47D400E85259 /* AuthService.swift in Sources */,
 				36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */,
 				369595F12C503F050098920D /* Response.swift in Sources */,
 				36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */,

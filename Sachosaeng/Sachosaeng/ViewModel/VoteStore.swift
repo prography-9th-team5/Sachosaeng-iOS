@@ -17,7 +17,6 @@ final class VoteStore: ObservableObject {
             case .success(let hotVotes):
                 DispatchQueue.main.async {
                     self.hotVotes = hotVotes
-                    
                 }
             case .failure(let error):
 //                jhPrint("🚨 에러: \(error)", isWarning: true)

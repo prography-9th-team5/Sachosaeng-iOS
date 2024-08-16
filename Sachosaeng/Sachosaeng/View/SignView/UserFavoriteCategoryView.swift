@@ -13,6 +13,8 @@ struct UserFavoriteCategoryView: View {
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
     @ObservedObject var userStore = UserStore.shared
+    @EnvironmentObject var userService: UserService
+
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
@@ -41,7 +43,7 @@ struct UserFavoriteCategoryView: View {
                 VStack(spacing: 0) {
                     Button {
                         userStore.currentUserCategory.removeAll()
-                        userStore.updateUserCategory()
+                        userService.updateUserCategory()
                         path.append(PathType.signSuccess)
                     } label: {
                         Text("SKIP")
@@ -75,7 +77,7 @@ struct UserFavoriteCategoryView: View {
             .padding(.top, 20)
             
             Button {
-                userStore.updateUserCategory()
+                userService.updateUserCategory()
                 path.append(PathType.signSuccess)
             } label: {
                 Text("시작")

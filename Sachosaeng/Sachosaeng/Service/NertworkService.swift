@@ -32,6 +32,7 @@ final class NetworkService {
         
         if let token = token {
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            
         }
         
         if let body = body {
@@ -61,14 +62,17 @@ final class NetworkService {
                 return
             }
             
-            jhPrint("path: \(path), code: \(httpResponse.statusCode)")
-            
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedData))
             } catch let decodingError {
                 if let jsonString = String(data: data, encoding: .utf8) {
-                    jhPrint("Decoding error: \(decodingError.localizedDescription), Decoding message: \(jsonString)" , isWarning: true)
+                    jhPrint("""
+                            path: \(path), 
+                            code: \(httpResponse.statusCode),
+                            Decoding Error: \(decodingError.localizedDescription),
+                            Decoding message: \(jsonString)
+                            """ , isWarning: true)
                 }
                 completion(.failure(.decodingFailed(decodingError)))
             }

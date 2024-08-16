@@ -17,3 +17,11 @@ struct Response<T: Codable>: Codable {
         self.data = data
     }
 }
+
+struct ResponseWithTempData<T: Codable>: Codable {
+    let code: Int
+    let message: String
+    let data: T?
+}
+
+struct EmptyData: Codable {}

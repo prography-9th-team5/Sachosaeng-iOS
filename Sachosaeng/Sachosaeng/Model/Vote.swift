@@ -21,26 +21,7 @@ struct Vote: Codable, Hashable, Identifiable {
     let isClosed: Bool
     var id: Int { voteId }
 }
-/*
- {
-   "code": 0,
-   "message": "string",
-   "data": {
-     "voteId": 0,
-     "title": "string",
-     "participantCount": 0,
-     "isVoted": true,
-     "category": {
-       "categoryId": 0,
-       "name": "string",
-       "iconUrl": "string",
-       "backgroundColor": "string",
-       "textColor": "string"
-     },
-     "isClosed": true
-   }
- }
- */
+
 struct VoteDetail: Codable {
     let voteId: Int
     let isClosed, isVoted: Bool

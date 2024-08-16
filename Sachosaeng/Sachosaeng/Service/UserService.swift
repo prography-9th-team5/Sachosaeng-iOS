@@ -15,7 +15,7 @@ final class UserService: ObservableObject {
         let token = UserStore.shared.accessToken
         let body = ["userType": userType]
         
-        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/user-type", body: body, token: token) { (result: Result<ResponseUser, NetworkError>) in
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/user-type", body: body, token: token) { (result: Result<Response<User>, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
@@ -29,7 +29,7 @@ final class UserService: ObservableObject {
         let token = UserStore.shared.accessToken
         let body = ["nickname": userName]
         
-        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/nickname", body: body, token: token) { (result: Result<ResponseUser, NetworkError>) in
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/nickname", body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
@@ -43,11 +43,10 @@ final class UserService: ObservableObject {
     func getUserInfo() {
         let token = UserStore.shared.accessToken
         
-        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/users", body: nil, token: token) {(result: Result<ResponseUser, NetworkError>) in
+        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/users", body: nil, token: token) {(result: Result<Response<User>, NetworkError>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let user):
-                    
                     jhPrint(user.data.userType)
                     let nickname = user.data.nickname
                     let userId = user.data.userId
@@ -67,13 +66,13 @@ final class UserService: ObservableObject {
         let token = UserStore.shared.accessToken
         let categoryIds = categories.map { $0.id }
         let body = ["categoryIds": categoryIds]
-        
-        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/my-categories", body: body, token: token) { (result: Result<ResponseUser, NetworkError>) in
+
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/my-categories", body: body, token: token) { (result: Result<ResponseWithTempData<EmptyData>, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
             case .failure(let error):
-                jhPrint(error)
+                jhPrint(error, isWarning: true)
             }
         }
     }

@@ -18,7 +18,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async {
                     self.hotVotes = hotVotes
                 }
-            case .failure(let error):
+            case .failure(_):
 //                jhPrint("🚨 에러: \(error)", isWarning: true)
                 break
             }
@@ -33,8 +33,8 @@ final class VoteStore: ObservableObject {
                     self.dailyVote = dailyVote
                     
                 }
-            case .failure(let error):
-                    break
+            case .failure(_):
+                break
             }
         }
     }
@@ -46,7 +46,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async {
                     self.test = result
                 }
-            case .failure(let error):
+            case .failure(_):
                 break
             }
         }

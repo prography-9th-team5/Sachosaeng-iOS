@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CategoryCellView: View {
+    @State var isAllCategory: Bool = false
     @Binding var tapCount: Int
     @State var isSelected: Bool = false
     @State var category: Category
@@ -46,18 +47,19 @@ struct CategoryCellView: View {
                 .foregroundStyle(CustomColor.GrayScaleColor.black)
         }
         .onTapGesture {
-            isSelected.toggle()
-            if isSelected {
-                UserStore.shared.currentUserCategory.append(categoryNumber)
-                tapCount += 1
-            } else {
-                UserStore.shared.currentUserCategory.removeAll { $0 == categoryNumber }
-                tapCount -= 1
+            if !isAllCategory {
+                isSelected.toggle()
+                if isSelected {
+                    UserStore.shared.selectedCategoriesInSignFlow.append(category)
+                    tapCount += 1
+                } else {
+                    UserStore.shared.selectedCategoriesInSignFlow.removeAll { $0 == category }
+                    tapCount -= 1
+                }
             }
         }
     }
 }
-// TODO: 이미지 받으면 변경 예정
 
 #Preview {
     CategoryCellView(tapCount: .constant(0), category: Category(categoryId: 4, name: "비지니스 매너", iconUrl: "https://sachosaeng.store/icon/all-2x.png", backgroundColor: "#E4E7EC", textColor: "#FF9FAF00"), categoryNumber: 2)

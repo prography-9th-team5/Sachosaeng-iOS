@@ -16,9 +16,9 @@ final class UserStore: ObservableObject {
     @Published var refreshToken: String = ""
     @Published var userId: Int = 0
     @Published var currentUserEmail: String = ""
-    @Published var currentUserCategory: [Int] = []
-    @Published var favoriteUserCategory: [Category] = []
+    @Published var currentUserCategories: [Category] = []
     @Published var currentUserState = User(userId: 0, nickname: "temp", userType: "학생")
+    @Published var selectedCategoriesInSignFlow: [Category] = []
     
     private init() {}
     

@@ -13,9 +13,9 @@ struct HomeView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @ObservedObject var userStore = UserStore.shared
-    @State private var categoryName: String = "전체"
+    @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
-    private let isTest: Bool = false
+    
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -33,7 +33,7 @@ struct HomeView: View {
                         
                     }
                     .sheet(isPresented: $isSheet) {
-                        CategoryModal(categoryStore: categoryStore)
+                        CategoryModal(categoryStore: categoryStore, isSheet: $isSheet, categoryName: $categoryName)
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                     }

@@ -42,8 +42,8 @@ struct UserFavoriteCategoryView: View {
                             footerFont: .medium, isSuccessView: false)
                 VStack(spacing: 0) {
                     Button {
-                        userStore.currentUserCategory.removeAll()
-                        userService.updateUserCategory()
+                        userStore.selectedCategoriesInSignFlow.removeAll()
+                        userService.updateUserCategory(userStore.selectedCategoriesInSignFlow)
                         path.append(PathType.signSuccess)
                     } label: {
                         Text("SKIP")
@@ -77,7 +77,7 @@ struct UserFavoriteCategoryView: View {
             .padding(.top, 20)
             
             Button {
-                userService.updateUserCategory()
+                userService.updateUserCategory(userStore.selectedCategoriesInSignFlow)
                 path.append(PathType.signSuccess)
             } label: {
                 Text("시작")

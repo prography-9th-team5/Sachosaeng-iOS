@@ -67,60 +67,11 @@ final class NetworkService {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedData))
             } catch let decodingError {
-                jhPrint("Decoding error: \(decodingError.localizedDescription)", isWarning: true)
                 if let jsonString = String(data: data, encoding: .utf8) {
-                    jhPrint("Decoding message: \(jsonString)" , isWarning: true)
+                    jhPrint("Decoding error: \(decodingError.localizedDescription), Decoding message: \(jsonString)" , isWarning: true)
                 }
                 completion(.failure(.decodingFailed(decodingError)))
             }
-        }
-        task.resume()
-    }
-    
-    func performNonJsonRequest<T: Decodable>(method: String, path: String, body: [String: Any]?, token: String?, completion: @escaping (Result<T, NetworkError>) -> Void) {
-        
-        guard let url = URL(string: "https://sachosaeng.store" + path) else {
-            completion(.failure(.badURL))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = method
-        
-        if let token = token {
-            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
-        
-        if let body = body {
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
-                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            } catch {
-                completion(.failure(.requestFailed(error)))
-                return
-            }
-        }
-        
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(.requestFailed(error)))
-                return
-            }
-            
-            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 || httpResponse.statusCode == 400 else {
-                completion(.failure(.invalidResponse))
-                return
-            }
-            
-            guard httpResponse.statusCode != 400 else {
-                completion(.failure(.userExists))
-                return
-            }
-            
-            jhPrint("path: \(path), code: \(httpResponse.statusCode)")
-            
-            completion(.success("성공" as! T))
         }
         task.resume()
     }

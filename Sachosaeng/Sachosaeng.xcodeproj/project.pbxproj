@@ -53,7 +53,7 @@
 		369595EF2C4FFAEB0098920D /* VoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369595EE2C4FFAEB0098920D /* VoteStore.swift */; };
 		369595F12C503F050098920D /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369595F02C503F050098920D /* Response.swift */; };
 		369595F32C50425B0098920D /* EditMyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369595F22C50425B0098920D /* EditMyInfoView.swift */; };
-		36A727F62C6C00E500942672 /* NertworkServicee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A727F52C6C00E500942672 /* NertworkServicee.swift */; };
+		36A727F62C6C00E500942672 /* NertworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A727F52C6C00E500942672 /* NertworkService.swift */; };
 		36A81FDC2C2C8AC6006A9305 /* TodayVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDB2C2C8AC6006A9305 /* TodayVoteView.swift */; };
 		36A81FDE2C2CA31B006A9305 /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDD2C2CA31B006A9305 /* VoteView.swift */; };
 		36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BA20492C294BDC006C54E6 /* HomeView.swift */; };
@@ -116,7 +116,7 @@
 		369595EE2C4FFAEB0098920D /* VoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteStore.swift; sourceTree = "<group>"; };
 		369595F02C503F050098920D /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		369595F22C50425B0098920D /* EditMyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyInfoView.swift; sourceTree = "<group>"; };
-		36A727F52C6C00E500942672 /* NertworkServicee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NertworkServicee.swift; sourceTree = "<group>"; };
+		36A727F52C6C00E500942672 /* NertworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NertworkService.swift; sourceTree = "<group>"; };
 		36A81FDB2C2C8AC6006A9305 /* TodayVoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayVoteView.swift; sourceTree = "<group>"; };
 		36A81FDD2C2CA31B006A9305 /* VoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteView.swift; sourceTree = "<group>"; };
 		36BA20492C294BDC006C54E6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				36949FA72C514C9E009E099E /* Utility.swift */,
-				36A727F52C6C00E500942672 /* NertworkServicee.swift */,
+				36A727F52C6C00E500942672 /* NertworkService.swift */,
 				366587A72C6F432E00E85259 /* UserService.swift */,
 				366587A92C6F47D400E85259 /* AuthService.swift */,
 			);
@@ -520,7 +520,7 @@
 				363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */,
 				360C2B272C372F330000C0F8 /* MyPageView.swift in Sources */,
 				36949FAC2C51924C009E099E /* PopupView.swift in Sources */,
-				36A727F62C6C00E500942672 /* NertworkServicee.swift in Sources */,
+				36A727F62C6C00E500942672 /* NertworkService.swift in Sources */,
 				366DFE712C2B42B1009CD87E /* HotvoteListView.swift in Sources */,
 				36F8D3E62C64ED1E006E4FA2 /* ConsentView.swift in Sources */,
 				3671E4B92C6A093800B5FAE4 /* BookmarkView.swift in Sources */,

@@ -135,7 +135,8 @@ struct SignView: View {
                 signStore.loginUser { isSuccessAuthLogin in
                     if isSuccessAuthLogin {
                         userService.getUserInfo()
-                        path.append(PathType.occupation)
+                        userService.getUserCategories()
+                        path.append(PathType.home)
                     }
                 }
             }

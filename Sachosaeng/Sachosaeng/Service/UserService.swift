@@ -10,6 +10,7 @@ import Foundation
 final class UserService: ObservableObject {
     static let shared = UserService()
     private init() {}
+    
     func updateUserType(_ userType: String) {
         let token = UserStore.shared.accessToken
         let body = ["userType": userType]
@@ -19,10 +20,11 @@ final class UserService: ObservableObject {
             case .success(let success):
                 jhPrint(success)
             case .failure(_):
-                    break
+                break
             }
         }
     }
+    
     func updateUserNickname(_ userName: String) {
         let token = UserStore.shared.accessToken
         let body = ["nickname": userName]
@@ -42,33 +44,36 @@ final class UserService: ObservableObject {
         let token = UserStore.shared.accessToken
         
         NetworkService.shared.performRequest(method: "GET", path: "/api/v1/users", body: nil, token: token) {(result: Result<ResponseUser, NetworkError>) in
-            switch result {
-            case .success(let user):
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let user):
+                    
                     jhPrint(user.data.userType)
                     let nickname = user.data.nickname
                     let userId = user.data.userId
                     let userType = UserStore.shared.convertUserTypeForKorean(user.data.userType)
                     
                     UserStore.shared.currentUserState = User(userId: userId, nickname: nickname, userType: userType)
+                    
+                case .failure(let failure):
+                    jhPrint(failure)
                 }
-            case .failure(let failure):
-                jhPrint(failure)
             }
         }
     }
     
     /// 유저가 고른 카테고리를 갱신하는 메서드
-    func updateUserCategory() {
+    func updateUserCategory(_ categories: [Category]) {
         let token = UserStore.shared.accessToken
-        let body = ["categoryIds": UserStore.shared.currentUserCategory]
+        let categoryIds = categories.map { $0.id }
+        let body = ["categoryIds": categoryIds]
         
         NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/my-categories", body: body, token: token) { (result: Result<ResponseUser, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
-            case .failure(_):
-                break
+            case .failure(let error):
+                jhPrint(error)
             }
         }
     }
@@ -78,14 +83,15 @@ final class UserService: ObservableObject {
         let token = UserStore.shared.accessToken
         
         NetworkService.shared.performRequest(method: "GET", path: "/api/v1/my-categories", body: nil, token: token) {(result: Result<Response<[Category]>, NetworkError>) in
-            switch result {
-            case .success(let success):
-                UserStore.shared.favoriteUserCategory = success.data
-                jhPrint(UserStore.shared.favoriteUserCategory)
-            case .failure(let failure):
-                jhPrint(failure, isWarning: true)
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let success):
+                    UserStore.shared.currentUserCategories = success.data
+                    jhPrint(UserStore.shared.currentUserCategories)
+                case .failure(let failure):
+                    jhPrint("여기를 봐주세요 \(failure)", isWarning: true)
+                }
             }
         }
     }
-    
 }

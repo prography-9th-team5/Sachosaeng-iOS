@@ -35,13 +35,14 @@ struct SachosaengApp: App {
         }
     }
     @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
-    
+    let userService = UserService.shared
     var body: some Scene {
         WindowGroup {
             if isFirstLaunch {
                 ConsentView(isFirstLaunch: $isFirstLaunch)
             } else {
                 ContentView(categoryStore: CategoryStore(), voteStore: VoteStore())
+                    .environmentObject(userService)
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)
                         

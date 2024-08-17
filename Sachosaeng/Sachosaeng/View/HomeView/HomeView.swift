@@ -12,9 +12,10 @@ struct HomeView: View {
     @Binding var path: NavigationPath
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
-    @State private var categoryName: String = "전체"
+    @ObservedObject var userStore = UserStore.shared
+    @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
-    private let isTest: Bool = false
+    
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -32,7 +33,7 @@ struct HomeView: View {
                         
                     }
                     .sheet(isPresented: $isSheet) {
-                        CategoryModal(categoryStore: categoryStore)
+                        CategoryModal(categoryStore: categoryStore, isSheet: $isSheet, categoryName: $categoryName)
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                     }
@@ -42,9 +43,10 @@ struct HomeView: View {
                     Button {
                         path.append(PathType.myPage)
                     } label: {
-                        Image("Progressbaricon")
+                        Image("온보딩_\(userStore.currentUserState.userType)")
                             .resizable()
                             .scaledToFit()
+                            .clipShape(Circle())
                             .frame(width: 40, height: 40)
                     }
                 } //: Hstack
@@ -57,9 +59,9 @@ struct HomeView: View {
                                 .padding(.bottom, 32)
                                 .id("top")
                             
-//                            HotvoteListView(
-//                                hotVote: voteStore.hotVotes)
-//                            .padding(.bottom, 32)
+                            //                            HotvoteListView(
+                            //                                hotVote: voteStore.hotVotes)
+                            //                            .padding(.bottom, 32)
                             
                             //                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
                             //                                .padding(.bottom, 32)
@@ -88,7 +90,6 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-//                await voteStore.fetchHotVotes()
                 await voteStore.fetchDaily()
             }
         }

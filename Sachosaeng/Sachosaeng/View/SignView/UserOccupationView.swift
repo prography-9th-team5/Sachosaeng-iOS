@@ -12,10 +12,14 @@ struct UserOccupationView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
+    @ObservedObject var userStore = UserStore.shared
+    @EnvironmentObject var userService: UserService
+
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
     @State var isSelected: Bool = false
+
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
@@ -39,13 +43,12 @@ struct UserOccupationView: View {
             ForEach(0..<2) { row in
                 HStack(spacing: 10) {
                     ForEach(0..<2) { column in
-                        let occupationDescription: [String] = ["학생", "취업준비생", "1~3년차 직장인", "기타"]
+                        let occupationDescription: [String] = ["STUDENT", "JOB_SEEKER", "NEW_EMPLOYEE", "OTHER"]
                         let occupationNumber = row * 2 + column
-                        
                         Button {
                             selectedOccupations[occupationNumber] = true
                             isSelected = true
-                            UserStore.shared.currentUserState.userType = occupationDescription[occupationNumber]
+                            userStore.currentUserState.userType = occupationDescription[occupationNumber]
                             for index in 0..<selectedOccupations.count {
                                 if index != occupationNumber {
                                     selectedOccupations[index] = false
@@ -63,8 +66,8 @@ struct UserOccupationView: View {
             .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 16)
             .navigationBarTitleDisplayMode(.inline)
             Spacer()
-            
             Button {
+                userService.updateUserType(UserStore.shared.currentUserState.userType)
                 path.append(PathType.favorite)
             } label: {
                 Text("다음")

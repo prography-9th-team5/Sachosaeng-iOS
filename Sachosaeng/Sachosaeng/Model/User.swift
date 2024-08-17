@@ -7,26 +7,8 @@
 
 import Foundation
 
-struct ResponseUser {
-    let code: Int
-    let message: String
-    let data: User
-}
-
-struct User {
+struct User: Codable, Hashable {
     let userId: Int
-    let nickname: String
+    var nickname: String
     var userType: String
-    let userCategory: [Int]?
-}
-struct AuthResponse: Codable {
-    let code: Int
-    let data: AuthData
-    let message: String
-}
-
-struct AuthData: Codable {
-    let accessToken: String
-    let refreshToken: String
-    let userId: Int
 }

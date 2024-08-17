@@ -14,7 +14,6 @@ struct Category: Codable, Identifiable, Hashable {
     let backgroundColor: String
     let textColor: String
     var id: Int { categoryId }
-    
 }
 
 struct HotCategory: Codable, Identifiable, Hashable {

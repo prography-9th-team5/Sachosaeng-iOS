@@ -12,6 +12,9 @@ struct UserFavoriteCategoryView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
+    @ObservedObject var userStore = UserStore.shared
+    @EnvironmentObject var userService: UserService
+
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
@@ -39,7 +42,9 @@ struct UserFavoriteCategoryView: View {
                             footerFont: .medium, isSuccessView: false)
                 VStack(spacing: 0) {
                     Button {
-                       
+                        userStore.selectedCategoriesInSignFlow.removeAll()
+                        userService.updateUserCategory(userStore.selectedCategoriesInSignFlow)
+                        path.append(PathType.signSuccess)
                     } label: {
                         Text("SKIP")
                             .font(.createFont(weight: .medium, size: 16))
@@ -61,6 +66,7 @@ struct UserFavoriteCategoryView: View {
                             categoryNumber: category.categoryId
                         )
                         .padding(.bottom, 32)
+                        
                     }
                 }
                 .onAppear {
@@ -71,6 +77,7 @@ struct UserFavoriteCategoryView: View {
             .padding(.top, 20)
             
             Button {
+                userService.updateUserCategory(userStore.selectedCategoriesInSignFlow)
                 path.append(PathType.signSuccess)
             } label: {
                 Text("시작")

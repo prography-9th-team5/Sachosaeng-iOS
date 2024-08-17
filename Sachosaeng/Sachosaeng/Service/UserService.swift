@@ -24,7 +24,7 @@ final class UserService: ObservableObject {
             }
         }
     }
-    
+    /// 사초생 API 메서드: 닉네임 갱신
     func updateUserNickname(_ userName: String) {
         let token = UserStore.shared.accessToken
         let body = ["nickname": userName]

@@ -91,13 +91,10 @@ struct CategoryModal: View {
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
                     Spacer()
-                    
                     LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
                         if isEdit {
                             ForEach(categoryStore.categories) { category in
-                                
                                 let isSelected = selectedCategories.contains { $0.id == category.id }
-                                
                                 Button {
                                     if let index = selectedCategories.firstIndex(where: { $0.id == category.id }) {
                                         selectedCategories.remove(at: index)
@@ -168,10 +165,34 @@ struct CategoryModal: View {
                         } else {
                             ForEach(UserStore.shared.currentUserCategories) { category in
                                 Button {
-                                    
+                                    if category.name == "전체 보기" {
+                                        categoryName = "전체"
+                                    } else {
+                                        categoryName = category.name
+                                    }
+                                    isSheet = false
                                 } label: {
-                                    CategoryCellView(tapCount: $tapCount, category: category, categoryNumber: category.id)
-                                        .padding(.bottom, 32)
+                                    VStack {
+                                        ZStack {
+                                            Circle()
+                                                .fill(Color(hex: category.backgroundColor))
+                                                .frame(width: 72, height: 72)
+                                            AsyncImage(url: URL(string: "\(category.iconUrl)")) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 32, height: 32)
+                                            } placeholder: {
+                                                ProgressView()
+                                                    .scaledToFit()
+                                                    .frame(width: 32, height: 32)
+                                            }
+                                        }
+                                        Text("\(category.name)")
+                                            .font(.createFont(weight: .medium, size: 16))
+                                            .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                    }
+                                    .padding(.bottom, 32)
                                 }
                             }
                         }
@@ -179,20 +200,48 @@ struct CategoryModal: View {
                     .onAppear {
                         gridSwitch()
                     }
-                }
+                } // : Scrollview
                 .padding(.top, 28)
                 .background(CustomColor.GrayScaleColor.gs1)
+                .overlay {
+                    if UserStore.shared.currentUserCategories.isEmpty && !isEdit && !isAll {
+                        VStack(spacing: 0) {
+                            Image("emptyIcon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 80, height: 80)
+                                .padding(.bottom, 16)
+                            
+                            Text("관심 카테고리가 없어요!\n편집을 눌러 카테고리를 추가해 보세요")
+                                .font(.createFont(weight: .semiBold, size: 14))
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                .lineLimit(2)
+                                .multilineTextAlignment(.center)
+                                .lineSpacing(18.2 - 14)
+                        }
+                        .padding(.top, 168)
+                        .padding(.bottom, 311)
+                    }
+                }
                 if isEdit {
                     Button {
+                        isSheet = false
                         performCategorySetting {
                             UserService.shared.getUserCategories()
                         }
                     } label: {
                         Text("완료")
                             .font(.createFont(weight: .medium, size: 16))
-                            .modifier(DesignForNextWithTapCount(tapCount: $tapCount))
+                            .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
+                            .foregroundStyle(CustomColor.GrayScaleColor.white)
+                            .background(!selectedCategories.isEmpty
+                                        ? CustomColor.GrayScaleColor.black
+                                        : CustomColor.GrayScaleColor.gs4)
+                            .cornerRadius(4)
+                            .disabled(selectedCategories.isEmpty)
                     }
                 }
+                
             }
         } //: VSTACK
     }

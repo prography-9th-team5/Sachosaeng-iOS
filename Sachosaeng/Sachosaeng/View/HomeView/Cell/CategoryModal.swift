@@ -18,10 +18,6 @@ struct CategoryModal: View {
     @State private var selectedCategories: [Category] = []
     @Binding var isSheet: Bool
     @Binding var categoryName: String
-    
-    private func gridSwitch() {
-        gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
-    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -246,12 +242,18 @@ struct CategoryModal: View {
         } //: VSTACK
     }
     
-    private func performCategorySetting(completion: @escaping () -> Void) {
-        UserStore.shared.currentUserCategories = selectedCategories
-        UserService.shared.updateUserCategory(selectedCategories)
-    }
 }
 
 #Preview {
     CategoryModal(categoryStore: CategoryStore(), isSheet: .constant(true), categoryName: .constant("전체"))
+}
+
+extension CategoryModal {
+    private func gridSwitch() {
+        gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
+    }
+    private func performCategorySetting(completion: @escaping () -> Void) {
+        UserStore.shared.currentUserCategories = selectedCategories
+        UserService.shared.updateUserCategory(selectedCategories)
+    }
 }

@@ -58,19 +58,31 @@ struct HomeView: View {
                             TodayVoteView(dailyVote: voteStore.dailyVote)
                                 .padding(.bottom, 32)
                                 .id("top")
-                            
-                            //                            HotvoteListView(
-                            //                                hotVote: voteStore.hotVotes)
-                            //                            .padding(.bottom, 32)
-                            
-                            //                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
-                            //                                .padding(.bottom, 32)
-                            //                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
-                            //                                .padding(.bottom, 32)
-                            Spacer()
                         } else {
-                            //                            VoteListCellView(titleName: "", isFavoriteVote: false)
+                            RoundedRectangle(cornerRadius: 8)
+                                .foregroundStyle(Color(hex: setColorForCategory(categoryName)))
+                                .frame(width: PhoneSpace.screenWidth - 40, height: 85)
+                                .overlay {
+                                    HStack(spacing: 0) {
+                                        AsyncImage(url: URL(string: setImageForCategory(categoryName))) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 32, height: 32)
+                                        } placeholder: {
+                                            ProgressView()
+                                                .scaledToFit()
+                                                .frame(width: 32, height: 32)
+                                        }
+                                        .padding(.trailing, 12)
+                                        
+                                        Text("여기다가 시간 관련 텍스트 ")
+                                            .font(.createFont(weight: .bold, size: 16))
+                                            .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                    }
+                                }
                         }
+                        
                     } //: ScrollView
                     .overlay(alignment: .bottomTrailing) {
                         Button {
@@ -93,6 +105,7 @@ struct HomeView: View {
                 await voteStore.fetchDaily()
             }
         }
+        
     }
 }
 
@@ -100,4 +113,21 @@ struct HomeView: View {
     NavigationStack {
         HomeView(isSign: .constant(false), path: .constant(NavigationPath()), categoryStore: CategoryStore(), voteStore: VoteStore())
     }
+}
+
+extension HomeView {
+    private func setColorForCategory(_ categoryName: String) -> String {
+        if let matchedCategory = categoryStore.categories.first(where: { $0.name == categoryName }) {
+            return matchedCategory.backgroundColor
+        }
+        return "#FFFFFF"
+    }
+    
+    private func setImageForCategory(_ categoryName: String) -> String {
+        if let matchedCategory = categoryStore.categories.first(where: { $0.name == categoryName }) {
+            return matchedCategory.iconUrl
+        }
+        return ""
+    }
+    
 }

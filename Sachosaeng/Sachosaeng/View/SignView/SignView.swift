@@ -120,6 +120,13 @@ struct SignView: View {
         }
     }
     
+}
+
+#Preview {
+    SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: .constant(NavigationPath()), isSign: .constant(false))
+}
+
+extension SignView {
     private func performSignLogic() {
         signStore.registerUser { type in
             switch type {
@@ -142,8 +149,4 @@ struct SignView: View {
             }
         }
     }
-}
-
-#Preview {
-    SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: .constant(NavigationPath()), isSign: .constant(false))
 }

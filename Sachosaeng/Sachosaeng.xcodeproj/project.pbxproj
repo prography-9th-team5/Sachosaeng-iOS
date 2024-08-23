@@ -259,8 +259,8 @@
 			children = (
 				366DFE722C2B43DB009CD87E /* TabView.swift */,
 				36BA20492C294BDC006C54E6 /* HomeView.swift */,
-				36A81FDD2C2CA31B006A9305 /* VoteView.swift */,
 				36A81FDB2C2C8AC6006A9305 /* TodayVoteView.swift */,
+				36A81FDD2C2CA31B006A9305 /* VoteView.swift */,
 				366DFE702C2B42B1009CD87E /* HotvoteListView.swift */,
 				36696B662C2B762F006BFCC0 /* Cell */,
 				360C2B252C372F1D0000C0F8 /* MyPageView */,

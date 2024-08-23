@@ -55,7 +55,7 @@ struct HomeView: View {
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
-                            TodayVoteView(dailyVote: voteStore.dailyVote)
+                            TodayVoteView(voteStore: voteStore)
                                 .padding(.bottom, 32)
                                 .id("top")
                         } else {
@@ -102,10 +102,9 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                await voteStore.fetchDaily()
+                voteStore.fetchDailyVote()
             }
         }
-        
     }
 }
 

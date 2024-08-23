@@ -45,19 +45,18 @@ final class NetworkService {
             }
         }
         
-        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(.requestFailed(error)))
                 return
             }
             
-            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 || httpResponse.statusCode == 400 else {
+            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 || httpResponse.statusCode == 409 else {
                 completion(.failure(.invalidResponse))
                 return
             }
             
-            guard httpResponse.statusCode != 400 else {
+            guard httpResponse.statusCode != 409 else {
                 completion(.failure(.userExists))
                 return
             }

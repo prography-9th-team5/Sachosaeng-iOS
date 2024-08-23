@@ -7,9 +7,11 @@
 import Foundation
 
 final class VoteStore: ObservableObject {
+    private let networkService = NetworkService.shared
+
     @Published var hotVotes: HotVote = HotVote(category: dummyHotCategory, votes: [dummyDailyVote])
     @Published var dailyVote: Vote = dummyDailyVote
-    @Published var test = dummyVoteDetail
+    @Published var currentDailyVoteDetail: VoteDetail = dummyVoteDetail
     
     func fetchHotVotes() async {
         fetchData(from: "https://sachosaeng.store/api/v1/votes/hot") { (result: Result<HotVote, Error>) in
@@ -25,28 +27,49 @@ final class VoteStore: ObservableObject {
         }
     }
     
-    func fetchDaily() async {
-        fetchData(from: "https://sachosaeng.store/api/v1/votes/daily") { (result: Result<Vote, Error> ) in
+    func fetchDailyVote() {
+        networkService.performRequest(method: "GET", path: "/api/v1/votes/daily", body: nil, token: nil) {
+             (result: Result<Response<Vote>, NetworkError>) in
             switch result {
-            case .success(let dailyVote):
-                DispatchQueue.main.async {
-                    self.dailyVote = dailyVote
-                    
+            case .success(let vote):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    dailyVote = vote.data
+                    jhPrint("\(vote.data.isVoted), \(vote.data.voteId)")
                 }
-            case .failure(_):
-                break
+            case .failure(let error):
+                jhPrint(error)
             }
         }
     }
     
-    func fetchVoteDetail(voteId: Int) async {
-        fetchData(from: "https://sachosaeng.store/api/v1/votes/{\(voteId)}") {(result: Result<VoteDetail, Error> ) in
+    func fetchVoteDetail(voteId: Int) {
+        let path = "/api/v1/votes/\(voteId)"
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<VoteDetail>, NetworkError>) in
             switch result {
-            case .success(let result):
-                DispatchQueue.main.async {
-                    self.test = result
+            case .success(let voteDetail):
+                DispatchQueue.main.async {[weak self] in
+                    guard let self else { return }
+                    currentDailyVoteDetail = voteDetail.data
                 }
-            case .failure(_):
+            case .failure(let error):
+                jhPrint(error)
+            }
+        }
+    }
+    
+    func updateUserVoteChoices(voteId: Int, chosenVoteOptionIds: [Int]) {
+        let path = "/api/v1/votes/\(voteId)/choices"
+        let body = ["chosenVoteOptionIds": chosenVoteOptionIds]
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "PUT", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+            switch result {
+            case .success( _):
+                jhPrint("투표내용저장성공")
+            case .failure( _):
                 break
             }
         }

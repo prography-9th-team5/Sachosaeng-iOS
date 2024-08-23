@@ -86,7 +86,7 @@ final class UserService: ObservableObject {
                 switch result {
                 case .success(let success):
                     UserStore.shared.currentUserCategories = success.data
-                    jhPrint(UserStore.shared.currentUserCategories)
+//                    jhPrint(UserStore.shared.currentUserCategories)
                 case .failure(let failure):
                     jhPrint("여기를 봐주세요 \(failure)", isWarning: true)
                 }

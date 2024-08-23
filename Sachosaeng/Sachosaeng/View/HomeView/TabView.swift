@@ -60,7 +60,7 @@ struct TabView: View {
         .onAppear {
             Task {
                 await categoryStore.fetchCategories()
-                await voteStore.fetchDaily()
+                voteStore.fetchDailyVote()
                 await voteStore.fetchHotVotes()
             }
         }

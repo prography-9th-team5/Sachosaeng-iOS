@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct HotvoteListView: View {
-    var hotVote: HotVote
     
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                AsyncImage(url: URL(string: "\(hotVote.category.iconUrl)")) { phase in
+                AsyncImage(url: URL(string: "")) { phase in
                     switch phase {
                     case .empty:
                         ProgressView()
@@ -29,7 +28,7 @@ struct HotvoteListView: View {
                         Text("Unknown image")
                     }
                 }
-                Text(hotVote.category.name)
+                Text("")
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(CustomColor.GrayScaleColor.gs6)
                 Spacer()
@@ -100,12 +99,12 @@ struct VoteCell: View {
         }
         .buttonStyle(.plain)
         .navigationDestination(isPresented: $iss) {
-            VoteView(voteStore: voteStore)
+            DailyVoteView(voteStore: voteStore)
         }
     }
 }
 
 
 #Preview(body: {
-    HotvoteListView(hotVote: dummyHotvote)
+    HotvoteListView()
 })

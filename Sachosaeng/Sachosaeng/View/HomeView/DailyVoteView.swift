@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VoteView: View {
+struct DailyVoteView: View {
     @State private var toast: Toast? = nil
     @State var isSelected: Bool = false
     @State var isBookmark: Bool = false
@@ -165,6 +165,6 @@ struct VoteView: View {
 
 #Preview {
     NavigationStack {
-        VoteView( voteStore: VoteStore())
+        DailyVoteView( voteStore: VoteStore())
     }
 }

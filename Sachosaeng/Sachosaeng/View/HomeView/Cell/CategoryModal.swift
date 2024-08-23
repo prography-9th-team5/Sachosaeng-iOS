@@ -90,28 +90,34 @@ struct CategoryModal: View {
                     LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
                         if isEdit {
                             ForEach(categoryStore.categories) { category in
+                                // currentUserCategories에 포함되어 있는지 확인
                                 let isSelected = selectedCategories.contains { $0.id == category.id }
+                                let isCurrentUserCategory = UserStore.shared.currentUserCategories.contains { $0.id == category.id }
+                                
                                 Button {
                                     if let index = selectedCategories.firstIndex(where: { $0.id == category.id }) {
                                         selectedCategories.remove(at: index)
                                     } else {
                                         selectedCategories.append(category)
                                     }
-                                }  label: {
+                                } label: {
                                     VStack {
                                         ZStack {
                                             Circle()
-                                                .fill(Color(hex: category.backgroundColor))
+                                                .fill(isCurrentUserCategory ? Color(hex: category.backgroundColor) : CustomColor.GrayScaleColor.gs2)
                                                 .frame(width: 72, height: 72)
                                                 .overlay(
                                                     Circle()
                                                         .stroke(isSelected ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
                                                 )
+                                            
                                             AsyncImage(url: URL(string: "\(category.iconUrl)")) { image in
                                                 image
                                                     .resizable()
                                                     .scaledToFit()
                                                     .frame(width: 32, height: 32)
+                                                    .grayscale(isCurrentUserCategory ? 0 : 1)
+                                                    .opacity(isCurrentUserCategory ? 1 : 0.3)
                                             } placeholder: {
                                                 ProgressView()
                                                     .scaledToFit()
@@ -119,7 +125,7 @@ struct CategoryModal: View {
                                             }
                                         }
                                         Text("\(category.name)")
-                                            .font(.createFont(weight: isSelected ? .bold : .medium, size: 16) )
+                                            .font(.createFont(weight: isSelected ? .bold : .medium, size: 16))
                                             .foregroundStyle(CustomColor.GrayScaleColor.black)
                                     }
                                     .padding(.bottom, 32)

@@ -12,7 +12,7 @@ struct TodayVoteView: View {
     
     var body: some View {
         NavigationLink {
-            VoteView(voteStore: voteStore)
+            DailyVoteView(voteStore: voteStore)
         } label: {
             VStack(spacing: 0) {
                 RoundedRectangle(cornerRadius: 8)

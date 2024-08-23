@@ -63,7 +63,7 @@ struct ContentView: View {
         }
         .onAppear {
             Task {
-                await categoryStore.fetchCategories()
+                categoryStore.fetchCategories()
             }
         }
     }

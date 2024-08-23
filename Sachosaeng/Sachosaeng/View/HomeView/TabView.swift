@@ -59,9 +59,9 @@ struct TabView: View {
         }
         .onAppear {
             Task {
-                await categoryStore.fetchCategories()
+                categoryStore.fetchCategories()
                 voteStore.fetchDailyVote()
-                await voteStore.fetchHotVotes()
+                voteStore.fetchHotVotes()
             }
         }
         .navigationBarBackButtonHidden(true)

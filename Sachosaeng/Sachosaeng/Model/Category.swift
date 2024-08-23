@@ -15,14 +15,12 @@ struct Category: Codable, Identifiable, Hashable {
     let textColor: String
     var id: Int { categoryId }
 }
-
-struct HotCategory: Codable, Identifiable, Hashable {
+struct HotCategory: Codable, Hashable {
     let categoryId: Int?
     let name: String
     let iconUrl: String
     let backgroundColor: String?
     let textColor: String
-    var id: Int { categoryId ?? 00 }
 }
 
 struct AllCategory: Codable {
@@ -31,4 +29,4 @@ struct AllCategory: Codable {
 }
 
 let dummyCategory = Category(categoryId: 1, name: "", iconUrl: "", backgroundColor: "", textColor: "")
-let dummyHotCategory = HotCategory(categoryId: 1, name: "", iconUrl: "", backgroundColor: "", textColor: "")
+let dummyHotCategory = HotCategory(categoryId: nil, name: "", iconUrl: "", backgroundColor: nil, textColor: "")

@@ -9,27 +9,28 @@ import Foundation
 final class VoteStore: ObservableObject {
     private let networkService = NetworkService.shared
 
-    @Published var hotVotes: HotVote = HotVote(category: dummyHotCategory, votes: [dummyDailyVote])
+    @Published var hotVotes: HotVote = dummyHotVote
     @Published var dailyVote: Vote = dummyDailyVote
     @Published var currentDailyVoteDetail: VoteDetail = dummyVoteDetail
     
-    func fetchHotVotes() async {
-        fetchData(from: "https://sachosaeng.store/api/v1/votes/hot") { (result: Result<HotVote, Error>) in
+    func fetchHotVotes() {
+        networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: nil) { (result: Result<Response<HotVote>, NetworkError>) in
             switch result {
-            case .success(let hotVotes):
-                DispatchQueue.main.async {
-                    self.hotVotes = hotVotes
+            case .success(let votes):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    hotVotes = votes.data
+                    jhPrint(hotVotes)
                 }
-            case .failure(_):
-//                jhPrint("🚨 에러: \(error)", isWarning: true)
-                break
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
             }
         }
     }
     
     func fetchDailyVote() {
         networkService.performRequest(method: "GET", path: "/api/v1/votes/daily", body: nil, token: nil) {
-             (result: Result<Response<Vote>, NetworkError>) in
+            (result: Result<Response<Vote>, NetworkError>) in
             switch result {
             case .success(let vote):
                 DispatchQueue.main.async { [weak self] in

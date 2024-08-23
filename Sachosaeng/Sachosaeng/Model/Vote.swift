@@ -15,7 +15,7 @@ struct HotVote: Codable, Hashable {
 struct Vote: Codable, Hashable, Identifiable {
     let voteId: Int
     let title: String
-    let participantCount: Int
+    let participantCount: Int?
     let isVoted: Bool
     let category: Category
     let isClosed: Bool
@@ -40,19 +40,20 @@ struct VoteOption: Codable, Hashable, Identifiable {
     var id: Int { voteOptionId }
 }
 // VoteDetail 더미 데이터
+
 let dummyVoteDetail = VoteDetail(
     voteId: 101,
     isClosed: false,
     isVoted: true,
-    chosenVoteOptionID: [1], // 사용자가 선택한 옵션
+    chosenVoteOptionID: [1],
     category: dummyCategory,
     title: "Which technology will dominate in 2024?",
     participantCount: 35,
     voteOptions: dummyVoteOptions,
     description: "Vote on the technology trend you think will lead in 2024."
 )
+
 let dummyDailyVote = Vote(voteId: 2, title: "더미", participantCount: 0, isVoted: false, category: Sachosaeng.Category(categoryId: 7, name: "조직 문화", iconUrl: "https://sachosaeng.store/icon/organizational-culture-18px-1x.png", backgroundColor: "#1F0BA5EC", textColor: "#FF0BA5EC"), isClosed: false)
-let dummyHotvote = HotVote(category: dummyHotCategory, votes: [dummyDailyVote])
 let dummyOption = VoteOption(voteOptionId: 0, content: "", count: 0)
 // VoteOption 더미 데이터
 let dummyVoteOptions = [
@@ -60,5 +61,6 @@ let dummyVoteOptions = [
     VoteOption(voteOptionId: 2, content: "Option 2", count: 20),
     VoteOption(voteOptionId: 3, content: "Option 3", count: 5)
 ]
-
+let dummyVote = Vote(voteId: 0, title: "", participantCount: 1, isVoted: false, category: dummyCategory, isClosed: false)
+let dummyHotVote = HotVote(category: dummyHotCategory, votes: [dummyVote])
 

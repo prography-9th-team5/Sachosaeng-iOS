@@ -12,7 +12,7 @@ class CategoryStore: ObservableObject {
     @Published var categories = [Category]()
     @Published var allCatagory = [Category]()
     
-    func fetchCategories() async {
+    func fetchCategories() {
         categories.removeAll()
         allCatagory.removeAll()
         fetchData(from: "https://sachosaeng.store/api/v1/categories") { (result: Result<[Category], Error>) in

@@ -58,6 +58,7 @@
 		36A81FDE2C2CA31B006A9305 /* DailyVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDD2C2CA31B006A9305 /* DailyVoteView.swift */; };
 		36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BA20492C294BDC006C54E6 /* HomeView.swift */; };
 		36CBA1532BC45C510073C50C /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CBA1522BC45C510073C50C /* SignView.swift */; };
+		36E72F762C78D0A200D1785F /* PopularVoteBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E72F752C78D0A200D1785F /* PopularVoteBodyView.swift */; };
 		36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */; };
 		36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01642BC400E400050CC7 /* SachosaengApp.swift */; };
 		36EB01672BC400E400050CC7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01662BC400E400050CC7 /* ContentView.swift */; };
@@ -121,6 +122,7 @@
 		36A81FDD2C2CA31B006A9305 /* DailyVoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVoteView.swift; sourceTree = "<group>"; };
 		36BA20492C294BDC006C54E6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36CBA1522BC45C510073C50C /* SignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
+		36E72F752C78D0A200D1785F /* PopularVoteBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularVoteBodyView.swift; sourceTree = "<group>"; };
 		36EAD7322C05BE440052FB6F /* Sachosaeng.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sachosaeng.entitlements; sourceTree = "<group>"; };
 		36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInButton.swift; sourceTree = "<group>"; };
 		36EB01612BC400E400050CC7 /* Sachosaeng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sachosaeng.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,16 +159,8 @@
 				360C2B262C372F330000C0F8 /* MyPageView.swift */,
 				369595F22C50425B0098920D /* EditMyInfoView.swift */,
 				36949FAD2C51CA9D009E099E /* QuitView.swift */,
-				360C2B282C38702F0000C0F8 /* Cell */,
 			);
 			path = MyPageView;
-			sourceTree = "<group>";
-		};
-		360C2B282C38702F0000C0F8 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		363C205F2C635D5B005F4026 /* Service */ = {
@@ -269,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				36696B632C2B6900006BFCC0 /* CategoryModal.swift */,
+				36E72F752C78D0A200D1785F /* PopularVoteBodyView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -486,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36949FAA2C515DE2009E099E /* ToastView.swift in Sources */,
+				36E72F762C78D0A200D1785F /* PopularVoteBodyView.swift in Sources */,
 				360C2B222C37184E0000C0F8 /* User.swift in Sources */,
 				36842BFB2C22C9FF0023473D /* UserFavoriteCategoryView.swift in Sources */,
 				369595F32C50425B0098920D /* EditMyInfoView.swift in Sources */,

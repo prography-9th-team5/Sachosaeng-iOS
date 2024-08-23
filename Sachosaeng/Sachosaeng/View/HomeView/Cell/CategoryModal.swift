@@ -117,7 +117,7 @@ struct CategoryModal: View {
                                                     .scaledToFit()
                                                     .frame(width: 32, height: 32)
                                                     .grayscale(isCurrentUserCategory ? 0 : 1)
-                                                    .opacity(isCurrentUserCategory ? 1 : 0.3)
+                                                    .opacity(isCurrentUserCategory ? 1 : 0.25)
                                             } placeholder: {
                                                 ProgressView()
                                                     .scaledToFit()

@@ -66,7 +66,6 @@ struct UserFavoriteCategoryView: View {
                             categoryNumber: category.categoryId
                         )
                         .padding(.bottom, 32)
-                        
                     }
                 }
                 .onAppear {

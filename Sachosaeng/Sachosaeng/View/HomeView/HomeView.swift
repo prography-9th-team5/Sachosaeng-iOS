@@ -63,6 +63,8 @@ struct HomeView: View {
                                     PopularVoteBodyView(vote: vote, index: index + 1)
                                         .padding(.horizontal, 20)
                                 }
+                                
+                                
                             }
                         } else {
                             RoundedRectangle(cornerRadius: 8)
@@ -110,6 +112,7 @@ struct HomeView: View {
             Task {
                 voteStore.fetchDailyVote()
                 voteStore.fetchHotVotes()
+                voteStore.fetchHotVotesWithCategory(categoryId: 10)
             }
         }
     }

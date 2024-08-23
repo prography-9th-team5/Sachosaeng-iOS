@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-struct HotVote: Codable, Hashable {
-    let category: HotCategory
-    let votes: [Vote]
-}
-
 struct Vote: Codable, Hashable, Identifiable {
     let voteId: Int
     let title: String
@@ -39,7 +34,6 @@ struct VoteOption: Codable, Hashable, Identifiable {
     let count: Int
     var id: Int { voteOptionId }
 }
-// VoteDetail 더미 데이터
 
 let dummyVoteDetail = VoteDetail(
     voteId: 101,
@@ -62,5 +56,3 @@ let dummyVoteOptions = [
     VoteOption(voteOptionId: 3, content: "Option 3", count: 5)
 ]
 let dummyVote = Vote(voteId: 0, title: "", participantCount: 1, isVoted: false, category: dummyCategory, isClosed: false)
-let dummyHotVote = HotVote(category: dummyHotCategory, votes: [dummyVote])
-

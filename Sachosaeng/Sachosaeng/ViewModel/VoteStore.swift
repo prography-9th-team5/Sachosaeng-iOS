@@ -8,10 +8,11 @@ import Foundation
 
 final class VoteStore: ObservableObject {
     private let networkService = NetworkService.shared
-
+    
     @Published var hotVotes: HotVote = dummyHotVote
     @Published var dailyVote: Vote = dummyDailyVote
     @Published var currentDailyVoteDetail: VoteDetail = dummyVoteDetail
+    @Published var hotVotesWithCategory: HotVoteWithCategory = dummyHotVoteWithCategory
     
     func fetchHotVotes() {
         networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: nil) { (result: Result<Response<HotVote>, NetworkError>) in
@@ -20,7 +21,24 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     hotVotes = votes.data
-                    jhPrint(hotVotes)
+//                    jhPrint(hotVotes)
+                }
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
+            }
+        }
+    }
+    
+    func fetchHotVotesWithCategory(categoryId: Int) {
+        let path = "/api/v1/votes/hot/categories/\(categoryId)"
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: nil) { (result: Result<Response<HotVoteWithCategory>, NetworkError>) in
+            switch result {
+            case .success(let votes):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    hotVotesWithCategory = votes.data
+                    jhPrint(votes.data.votes)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -36,7 +54,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     dailyVote = vote.data
-                    jhPrint("\(vote.data.isVoted), \(vote.data.voteId)")
+//                    jhPrint("\(vote.data.isVoted), \(vote.data.voteId)")
                 }
             case .failure(let error):
                 jhPrint(error)

@@ -63,8 +63,6 @@ struct HomeView: View {
                                     PopularVoteBodyView(vote: vote, index: index + 1)
                                         .padding(.horizontal, 20)
                                 }
-                                
-                                
                             }
                         } else {
                             RoundedRectangle(cornerRadius: 8)

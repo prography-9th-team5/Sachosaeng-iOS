@@ -15,7 +15,6 @@ struct CategoryModal: View {
     @State private var isMyCategory = true
     @State private var isEdit = false
     @State private var isAll = false
-    @State private var selectedCategories: [Category] = []
     @Binding var isSheet: Bool
     @Binding var categoryName: String
 
@@ -90,34 +89,26 @@ struct CategoryModal: View {
                     LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
                         if isEdit {
                             ForEach(categoryStore.categories) { category in
-                                // currentUserCategories에 포함되어 있는지 확인
-                                let isSelected = selectedCategories.contains { $0.id == category.id }
-                                let isCurrentUserCategory = UserStore.shared.currentUserCategories.contains { $0.id == category.id }
-                                
                                 Button {
-                                    if let index = selectedCategories.firstIndex(where: { $0.id == category.id }) {
-                                        selectedCategories.remove(at: index)
+                                    if let index = UserStore.shared.currentUserCategories.firstIndex(of: category) {
+                                        UserStore.shared.currentUserCategories.remove(at: index)
                                     } else {
-                                        selectedCategories.append(category)
+                                        UserStore.shared.currentUserCategories.append(category)
                                     }
                                 } label: {
                                     VStack {
                                         ZStack {
                                             Circle()
-                                                .fill(isCurrentUserCategory ? Color(hex: category.backgroundColor) : CustomColor.GrayScaleColor.gs2)
+                                                .fill(UserStore.shared.currentUserCategories.contains(category) ? Color(hex: category.backgroundColor) : CustomColor.GrayScaleColor.gs2)
                                                 .frame(width: 72, height: 72)
-                                                .overlay(
-                                                    Circle()
-                                                        .stroke(isSelected ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
-                                                )
                                             
                                             AsyncImage(url: URL(string: "\(category.iconUrl)")) { image in
                                                 image
                                                     .resizable()
                                                     .scaledToFit()
                                                     .frame(width: 32, height: 32)
-                                                    .grayscale(isCurrentUserCategory ? 0 : 1)
-                                                    .opacity(isCurrentUserCategory ? 1 : 0.25)
+                                                    .grayscale(UserStore.shared.currentUserCategories.contains(category) ? 0 : 1)
+                                                    .opacity(UserStore.shared.currentUserCategories.contains(category) ? 1 : 0.25)
                                             } placeholder: {
                                                 ProgressView()
                                                     .scaledToFit()
@@ -125,8 +116,8 @@ struct CategoryModal: View {
                                             }
                                         }
                                         Text("\(category.name)")
-                                            .font(.createFont(weight: isSelected ? .bold : .medium, size: 16))
-                                            .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                            .font(.createFont(weight: .medium, size: 16))
+                                            .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                                     }
                                     .padding(.bottom, 32)
                                 }
@@ -236,16 +227,16 @@ struct CategoryModal: View {
                             .font(.createFont(weight: .medium, size: 16))
                             .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
-                            .background(!selectedCategories.isEmpty
-                                        ? CustomColor.GrayScaleColor.black
-                                        : CustomColor.GrayScaleColor.gs4)
+                            .background(CustomColor.GrayScaleColor.black)
                             .cornerRadius(4)
-                            .disabled(selectedCategories.isEmpty)
                     }
                 }
                 
             }
         } //: VSTACK
+        .onAppear {
+            
+        }
     }
     
 }
@@ -259,7 +250,9 @@ extension CategoryModal {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }
     private func performCategorySetting(completion: @escaping () -> Void) {
-        UserStore.shared.currentUserCategories = selectedCategories
-        UserService.shared.updateUserCategory(selectedCategories)
+        UserService.shared.updateUserCategory(UserStore.shared.currentUserCategories)
     }
+//    private func setSelectedCategories() {
+//        selectedCategories = UserStore.shared.currentUserCategories
+//    }
 }

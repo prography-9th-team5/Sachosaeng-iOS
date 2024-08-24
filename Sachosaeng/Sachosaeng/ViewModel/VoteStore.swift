@@ -54,7 +54,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     dailyVote = vote.data
-//                    jhPrint("\(vote.data.isVoted), \(vote.data.voteId)")
+//                    jhPrint("여기 물와바야함 isVoted가 안바뀜 \(vote.data.isVoted), \(vote.data.voteId)")
                 }
             case .failure(let error):
                 jhPrint(error)
@@ -86,8 +86,8 @@ final class VoteStore: ObservableObject {
         
         networkService.performRequest(method: "PUT", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
-            case .success( _):
-                jhPrint("투표내용저장성공")
+            case .success(let vote):
+                jhPrint(vote.data)
             case .failure( _):
                 break
             }

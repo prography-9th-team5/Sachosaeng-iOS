@@ -159,8 +159,11 @@ final class AuthService {
         }
     }
     
-    func registerUser(completion: @escaping (AuthTypeKeys) -> Void) {
-        let body = ["email": UserStore.shared.currentUserEmail]
+    func joinUser(completion: @escaping (AuthTypeKeys) -> Void) {
+        let body = [
+            "email": UserStore.shared.currentUserEmail,
+            "userType": "STUDENT"
+            ]
         
         NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/join", body: body, token: nil) { (result: Result<AuthResponse, NetworkError>) in
             switch result {

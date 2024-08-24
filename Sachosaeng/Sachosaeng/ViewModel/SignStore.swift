@@ -34,7 +34,7 @@ final class SignStore: ObservableObject {
     }
     
     func registerUser(completion: @escaping (AuthTypeKeys) -> Void) {
-        authService.registerUser { result in
+        authService.joinUser { result in
             completion(result)
         }
     }

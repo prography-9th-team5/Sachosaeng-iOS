@@ -48,14 +48,15 @@ final class VoteStore: ObservableObject {
     }
     
     func fetchDailyVote() {
-        networkService.performRequest(method: "GET", path: "/api/v1/votes/daily", body: nil, token: nil) {
+        let token = UserStore.shared.accessToken
+        networkService.performRequest(method: "GET", path: "/api/v1/votes/daily", body: nil, token: token) {
             (result: Result<Response<Vote>, NetworkError>) in
             switch result {
             case .success(let vote):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     dailyVote = vote.data
-//                    jhPrint("여기 물와바야함 isVoted가 안바뀜 \(vote.data.isVoted), \(vote.data.voteId)")
+                    jhPrint("여기 물와바야함 isVoted가 안바뀜 \(vote.data.isVoted), \(vote.data.voteId)")
                 }
             case .failure(let error):
                 jhPrint(error)
@@ -73,6 +74,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async {[weak self] in
                     guard let self else { return }
                     currentDailyVoteDetail = voteDetail.data
+//                    jhPrint(voteDetail.data)
                 }
             case .failure(let error):
                 jhPrint(error)
@@ -80,6 +82,7 @@ final class VoteStore: ObservableObject {
         }
     }
     
+    /// 유저가 투표선택한 값을 넣어주는 api 
     func updateUserVoteChoices(voteId: Int, chosenVoteOptionIds: [Int]) {
         let path = "/api/v1/votes/\(voteId)/choices"
         let body = ["chosenVoteOptionIds": chosenVoteOptionIds]

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CategoryModal: View {
     @ObservedObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var tapCount = 0
@@ -129,6 +130,7 @@ struct CategoryModal: View {
                                         categoryName = "전체"
                                     } else {
                                         categoryName = category.name
+                                        voteStore.fetchHotVotesWithCategory(categoryId: voteStore.categoryID(category.name))
                                     }
                                     isSheet = false
                                 } label: {
@@ -162,6 +164,8 @@ struct CategoryModal: View {
                                         categoryName = "전체"
                                     } else {
                                         categoryName = category.name
+                                        voteStore.fetchHotVotesWithCategory(categoryId:
+                                                                                voteStore.categoryID(category.name))
                                     }
                                     isSheet = false
                                 } label: {
@@ -239,10 +243,6 @@ struct CategoryModal: View {
         }
     }
     
-}
-
-#Preview {
-    CategoryModal(categoryStore: CategoryStore(), isSheet: .constant(true), categoryName: .constant("전체"))
 }
 
 extension CategoryModal {

@@ -29,7 +29,9 @@ final class VoteStore: ObservableObject {
         }
     }
     
+    /// 사용자가 특정 카테고리를 눌렀을 경우 그에 맞는 인기 투표 3개를 나타내는 메서드
     func fetchHotVotesWithCategory(categoryId: Int) {
+        jhPrint(categoryId)
         let path = "/api/v1/votes/hot/categories/\(categoryId)"
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: nil) { (result: Result<Response<HotVoteWithCategory>, NetworkError>) in
@@ -38,7 +40,6 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     hotVotesWithCategory = votes.data
-                    jhPrint(votes.data.votes)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -91,6 +92,31 @@ final class VoteStore: ObservableObject {
             case .failure( _):
                 break
             }
+        }
+    }
+    
+    func categoryID(_ categoryName: String) -> Int {
+        switch categoryName {
+        case "퇴사, 이직":
+            return 1
+        case "경조사":
+            return 2
+        case "비즈니스 매너":
+            return 3
+        case "대인 관계":
+            return 5
+        case "금융 생활":
+            return 6
+        case "조직 문화":
+            return 7
+        case "취업":
+            return 8
+        case "커리어":
+            return 9
+        case "업무 꿀팁":
+            return 10
+        default:
+            return 400
         }
     }
 }

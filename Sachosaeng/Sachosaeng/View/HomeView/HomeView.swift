@@ -32,7 +32,7 @@ struct HomeView: View {
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                     }
                     .sheet(isPresented: $isSheet) {
-                        CategoryModal(categoryStore: categoryStore, isSheet: $isSheet, categoryName: $categoryName)
+                        CategoryModal(categoryStore: categoryStore, voteStore: voteStore, isSheet: $isSheet, categoryName: $categoryName)
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                     }
@@ -57,7 +57,7 @@ struct HomeView: View {
                             TodayVoteView(voteStore: voteStore)
                                 .padding(.bottom, 32)
                                 .id("top")
-                            VStack {
+                            VStack(spacing: 0) {
                                 PopularVoteHeaderView()
                                 ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
                                     PopularVoteBodyView(vote: vote, index: index + 1)
@@ -66,7 +66,7 @@ struct HomeView: View {
                             }
                         } else {
                             RoundedRectangle(cornerRadius: 8)
-                                .foregroundStyle(Color(hex: setColorForCategory(categoryName)))
+                                .foregroundStyle(Color(hex: voteStore.hotVotesWithCategory.category.backgroundColor))
                                 .frame(width: PhoneSpace.screenWidth - 40, height: 85)
                                 .overlay {
                                     HStack(spacing: 0) {
@@ -82,7 +82,7 @@ struct HomeView: View {
                                         }
                                         .padding(.trailing, 12)
                                         
-                                        Text("여기다가 시간 관련 텍스트 ")
+                                        Text(voteStore.hotVotesWithCategory.description)
                                             .font(.createFont(weight: .bold, size: 16))
                                             .foregroundStyle(CustomColor.GrayScaleColor.black)
                                     }
@@ -110,7 +110,7 @@ struct HomeView: View {
             Task {
                 voteStore.fetchDailyVote()
                 voteStore.fetchHotVotes()
-                voteStore.fetchHotVotesWithCategory(categoryId: 10)
+                
             }
         }
     }
@@ -136,4 +136,6 @@ extension HomeView {
         }
         return ""
     }
+    
+    
 }

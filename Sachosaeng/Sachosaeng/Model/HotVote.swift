@@ -14,7 +14,7 @@ struct HotVote: Codable, Hashable {
 
 struct HotVoteWithCategory: Codable, Hashable {
     let category: Category
-    let description: String
+    let description: String?
     let votes: [VoteOptionForHotVoteWithCategory]
 }
 

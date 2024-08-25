@@ -74,10 +74,45 @@ struct HomeView: View {
                                     .padding(.bottom, 12)
                                 }
                                 .padding(.horizontal, 20)
-                                ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
-                                    PopularVoteCell(vote: vote, voteStore: voteStore, index: index + 1)
-                                        .padding(.horizontal, 20)
+                                
+                                VStack(spacing: 0) {
+                                    ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
+                                        PopularVoteCell(vote: vote, voteStore: voteStore, index: index + 1)
+                                            .padding(.horizontal, 20)
+                                    }
                                 }
+                                .padding(.bottom, 32)
+                                
+                                
+                                ForEach(userStore.currentUserCategories) { category in
+                                    VStack(spacing: 0) {
+                                        HStack(spacing: 0) {
+                                            AsyncImage(url: URL(string: category.iconUrl)) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 18, height: 18)
+                                                    .padding(.trailing, 6)
+                                            } placeholder: {
+                                                ProgressView()
+                                                    .scaledToFit()
+                                                    .frame(width: 18, height: 18)
+                                                    .padding(.trailing, 6)
+                                            }
+                                            
+                                            Text(category.name)
+                                                .font(.system(size: 18, weight: .bold))
+                                                .foregroundColor(Color(hex: category.textColor))
+                                            Spacer()
+                                        }
+                                        .padding(.bottom, 12)
+                                        ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
+                                            // 일단 여기임
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 32)
                             }
                         } else {
                             VStack(spacing: 0) {
@@ -98,7 +133,7 @@ struct HomeView: View {
                                             }
                                             .padding(.trailing, 12)
                                             
-                                            Text(voteStore.hotVotesWithCategory.description)
+                                            Text(voteStore.hotVotesWithCategory.description ?? "없을수도 있지")
                                                 .font(.createFont(weight: .bold, size: 16))
                                                 .foregroundStyle(CustomColor.GrayScaleColor.black)
                                         }
@@ -107,7 +142,7 @@ struct HomeView: View {
                                 
                                 ForEach(Array(voteStore.hotVotesWithCategory.votes.enumerated()), id: \.element) { index, vote  in
                                     
-                                    PopularVoteWithCategoryCell(voteStore: voteStore, vote: vote, index: index + 1)
+                                    PopularVoteWithSelectedCategoryCell(voteStore: voteStore, vote: vote, index: index + 1)
                                         .padding(.horizontal, 20)
                                         .padding(.bottom, 6)
                                 }
@@ -174,4 +209,3 @@ extension HomeView {
     }
     
 }
-

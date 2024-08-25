@@ -143,7 +143,7 @@ struct BookmarkView: View {
         }
         .onAppear() {
             Task {
-                await categoryStore.fetchCategories()
+                categoryStore.fetchCategories()
             }
         }
     }

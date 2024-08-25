@@ -9,20 +9,16 @@ import SwiftUI
 
 struct CategoryModal: View {
     @ObservedObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var tapCount = 0
     @State private var isMyCategory = true
     @State private var isEdit = false
     @State private var isAll = false
-    @State private var selectedCategories: [Category] = []
     @Binding var isSheet: Bool
     @Binding var categoryName: String
     
-    private func gridSwitch() {
-        gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
-    }
-
     var body: some View {
         VStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 32.24)
@@ -94,28 +90,26 @@ struct CategoryModal: View {
                     LazyVGrid(columns: gridLayout, alignment: .center, spacing: 10) {
                         if isEdit {
                             ForEach(categoryStore.categories) { category in
-                                let isSelected = selectedCategories.contains { $0.id == category.id }
                                 Button {
-                                    if let index = selectedCategories.firstIndex(where: { $0.id == category.id }) {
-                                        selectedCategories.remove(at: index)
+                                    if let index = UserStore.shared.currentUserCategories.firstIndex(of: category) {
+                                        UserStore.shared.currentUserCategories.remove(at: index)
                                     } else {
-                                        selectedCategories.append(category)
+                                        UserStore.shared.currentUserCategories.append(category)
                                     }
-                                }  label: {
+                                } label: {
                                     VStack {
                                         ZStack {
                                             Circle()
-                                                .fill(Color(hex: category.backgroundColor))
+                                                .fill(UserStore.shared.currentUserCategories.contains(category) ? Color(hex: category.backgroundColor) : CustomColor.GrayScaleColor.gs2)
                                                 .frame(width: 72, height: 72)
-                                                .overlay(
-                                                    Circle()
-                                                        .stroke(isSelected ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
-                                                )
+                                            
                                             AsyncImage(url: URL(string: "\(category.iconUrl)")) { image in
                                                 image
                                                     .resizable()
                                                     .scaledToFit()
                                                     .frame(width: 32, height: 32)
+                                                    .grayscale(UserStore.shared.currentUserCategories.contains(category) ? 0 : 1)
+                                                    .opacity(UserStore.shared.currentUserCategories.contains(category) ? 1 : 0.25)
                                             } placeholder: {
                                                 ProgressView()
                                                     .scaledToFit()
@@ -123,8 +117,8 @@ struct CategoryModal: View {
                                             }
                                         }
                                         Text("\(category.name)")
-                                            .font(.createFont(weight: isSelected ? .bold : .medium, size: 16) )
-                                            .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                            .font(.createFont(weight: .medium, size: 16))
+                                            .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                                     }
                                     .padding(.bottom, 32)
                                 }
@@ -136,6 +130,8 @@ struct CategoryModal: View {
                                         categoryName = "전체"
                                     } else {
                                         categoryName = category.name
+                                        voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
+                                        voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(category.name))
                                     }
                                     isSheet = false
                                 } label: {
@@ -169,6 +165,8 @@ struct CategoryModal: View {
                                         categoryName = "전체"
                                     } else {
                                         categoryName = category.name
+                                        voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
+                                        voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(category.name))
                                     }
                                     isSheet = false
                                 } label: {
@@ -234,24 +232,28 @@ struct CategoryModal: View {
                             .font(.createFont(weight: .medium, size: 16))
                             .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
-                            .background(!selectedCategories.isEmpty
-                                        ? CustomColor.GrayScaleColor.black
-                                        : CustomColor.GrayScaleColor.gs4)
+                            .background(CustomColor.GrayScaleColor.black)
                             .cornerRadius(4)
-                            .disabled(selectedCategories.isEmpty)
                     }
                 }
                 
             }
         } //: VSTACK
+        .onAppear {
+            
+        }
     }
     
-    private func performCategorySetting(completion: @escaping () -> Void) {
-        UserStore.shared.currentUserCategories = selectedCategories
-        UserService.shared.updateUserCategory(selectedCategories)
-    }
 }
 
-#Preview {
-    CategoryModal(categoryStore: CategoryStore(), isSheet: .constant(true), categoryName: .constant("전체"))
+extension CategoryModal {
+    private func gridSwitch() {
+        gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
+    }
+    private func performCategorySetting(completion: @escaping () -> Void) {
+        UserService.shared.updateUserCategory(UserStore.shared.currentUserCategories)
+    }
+    //    private func setSelectedCategories() {
+    //        selectedCategories = UserStore.shared.currentUserCategories
+    //    }
 }

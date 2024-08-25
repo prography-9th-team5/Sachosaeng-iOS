@@ -30,10 +30,9 @@ struct HomeView: View {
                         Image("CategoryIcon")
                             .font(.createFont(weight: .medium, size: 14))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                        
                     }
                     .sheet(isPresented: $isSheet) {
-                        CategoryModal(categoryStore: categoryStore, isSheet: $isSheet, categoryName: $categoryName)
+                        CategoryModal(categoryStore: categoryStore, voteStore: voteStore, isSheet: $isSheet, categoryName: $categoryName)
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                     }
@@ -55,21 +54,126 @@ struct HomeView: View {
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
-                            TodayVoteView(dailyVote: voteStore.dailyVote)
+                            // MARK: - 사용자가 전체를 선택했을 때 플로우
+                            TodayVoteCell(voteStore: voteStore)
                                 .padding(.bottom, 32)
                                 .id("top")
-                            
-                            //                            HotvoteListView(
-                            //                                hotVote: voteStore.hotVotes)
-                            //                            .padding(.bottom, 32)
-                            
-                            //                            VoteListCellView(titleName: "# 경조사 투표", isFavoriteVote: false)
-                            //                                .padding(.bottom, 32)
-                            //                            VoteListCellView(titleName: "# 전화 통화 투표", isFavoriteVote: false)
-                            //                                .padding(.bottom, 32)
-                            Spacer()
+                            VStack(spacing: 0) {
+                                VStack(spacing: 0) {
+                                    HStack(spacing: 0) {
+                                        Image("FavoriteVoteIcon")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 18, height: 18)
+                                            .padding(.trailing, 6)
+                                        
+                                        Text("인기 투표")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(CustomColor.GrayScaleColor.gs6)
+                                        Spacer()
+                                    }
+                                    .padding(.bottom, 12)
+                                }
+                                .padding(.horizontal, 20)
+                                
+                                VStack(spacing: 0) {
+                                    ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
+                                        HotVoteCell(vote: vote, voteStore: voteStore, index: index + 1)
+                                            .padding(.horizontal, 20)
+                                    }
+                                }
+                                .padding(.bottom, 32)
+                                
+                                
+                                ForEach(userStore.currentUserCategories) { category in
+                                    VStack(spacing: 0) {
+                                        HStack(spacing: 0) {
+                                            AsyncImage(url: URL(string: category.iconUrl)) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 18, height: 18)
+                                                    .padding(.trailing, 6)
+                                            } placeholder: {
+                                                ProgressView()
+                                                    .scaledToFit()
+                                                    .frame(width: 18, height: 18)
+                                                    .padding(.trailing, 6)
+                                            }
+                                            
+                                            Text(category.name)
+                                                .font(.system(size: 18, weight: .bold))
+                                                .foregroundColor(Color(hex: category.textColor))
+                                            Spacer()
+                                        }
+                                        .padding(.bottom, 12)
+                                        
+                                        if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.categoryId == category.categoryId }) {
+                                            ForEach(categorizedVote.votes) { vote in
+                                                VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
+                                                    .padding(.bottom, 6)
+                                            }
+                                        } else {
+                                            Text("투표가 없는뎅 ㅠㅠ ")
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 32)
+                            }
                         } else {
-                            //                            VoteListCellView(titleName: "", isFavoriteVote: false)
+                            // MARK: - 사용자가 카테고리를 선택했을 때 플로우
+
+                            VStack(spacing: 0) {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .foregroundStyle(Color(hex: voteStore.hotVotesWithSelectedCategory.category.backgroundColor))
+                                    .frame(width: PhoneSpace.screenWidth - 40, height: 85)
+                                    .overlay {
+                                        HStack(spacing: 0) {
+                                            AsyncImage(url: URL(string: setImageForCategory(categoryName))) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width:  32, height: 32)
+                                            } placeholder: {
+                                                ProgressView()
+                                                    .scaledToFit()
+                                                    .frame(width: 32, height: 32)
+                                            }
+                                            .padding(.trailing, 12)
+                                            
+                                            Text(voteStore.hotVotesWithSelectedCategory.description ?? "없을수도 있지")
+                                                .font(.createFont(weight: .bold, size: 16))
+                                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                        }
+                                    }
+                                    .padding(.bottom, 12)
+                                
+                                ForEach(Array(voteStore.hotVotesWithSelectedCategory.votes.enumerated()), id: \.element) { index, vote  in
+                                    VoteCell(voteStore: voteStore, vote: vote, index: index + 1)
+                                        .padding(.horizontal, 20)
+                                        .padding(.bottom, 6)
+                                }
+                                
+                                
+                                VStack(spacing: 0) {
+                                    HStack(spacing: 0) {
+                                        Text("최신순")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(CustomColor.GrayScaleColor.gs6)
+                                        Spacer()
+                                    }
+                                    .padding(.horizontal, 20)
+                                }
+                                .padding(.top, 30)
+                                .padding(.bottom, 14)
+                                
+                                ForEach(voteStore.latestVotes.votes) { vote in
+                                    VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
+                                        .padding(.horizontal, 20)
+                                        .padding(.bottom, 6)
+                                }
+                            } //: Vstack
                         }
                     } //: ScrollView
                     .overlay(alignment: .bottomTrailing) {
@@ -90,7 +194,9 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                await voteStore.fetchDaily()
+                voteStore.fetchDailyVote()
+                voteStore.fetchHotVotes()
+                voteStore.fetchHotVotesInCategory()
             }
         }
     }
@@ -100,4 +206,21 @@ struct HomeView: View {
     NavigationStack {
         HomeView(isSign: .constant(false), path: .constant(NavigationPath()), categoryStore: CategoryStore(), voteStore: VoteStore())
     }
+}
+
+extension HomeView {
+    private func setColorForCategory(_ categoryName: String) -> String {
+        if let matchedCategory = categoryStore.categories.first(where: { $0.name == categoryName }) {
+            return matchedCategory.backgroundColor
+        }
+        return "#FFFFFF"
+    }
+    
+    private func setImageForCategory(_ categoryName: String) -> String {
+        if let matchedCategory = categoryStore.categories.first(where: { $0.name == categoryName }) {
+            return matchedCategory.iconUrl
+        }
+        return ""
+    }
+    
 }

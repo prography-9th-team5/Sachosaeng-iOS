@@ -12,6 +12,7 @@
 		360C2B222C37184E0000C0F8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B212C37184E0000C0F8 /* User.swift */; };
 		360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B232C3718D80000C0F8 /* UserStore.swift */; };
 		360C2B272C372F330000C0F8 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B262C372F330000C0F8 /* MyPageView.swift */; };
+		362E14AC2C7AEB4700C053AB /* VoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362E14AB2C7AEB4700C053AB /* VoteCell.swift */; };
 		363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B66772C25A7E30098B0C1 /* SignSuccessView.swift */; };
 		364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */; };
 		36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */; };
@@ -37,7 +38,6 @@
 		366587AC2C6FA49F00E85259 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366587AB2C6FA49F00E85259 /* Auth.swift */; };
 		36696B642C2B6900006BFCC0 /* CategoryModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36696B632C2B6900006BFCC0 /* CategoryModal.swift */; };
 		36696B6A2C2B8241006BFCC0 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36696B692C2B8241006BFCC0 /* ViewExtension.swift */; };
-		366DFE712C2B42B1009CD87E /* HotvoteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE702C2B42B1009CD87E /* HotvoteListView.swift */; };
 		366DFE732C2B43DB009CD87E /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE722C2B43DB009CD87E /* TabView.swift */; };
 		366DFE752C2B4B86009CD87E /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE742C2B4B86009CD87E /* Vote.swift */; };
 		3671E4B92C6A093800B5FAE4 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671E4B82C6A093800B5FAE4 /* BookmarkView.swift */; };
@@ -54,11 +54,16 @@
 		369595EF2C4FFAEB0098920D /* VoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369595EE2C4FFAEB0098920D /* VoteStore.swift */; };
 		369595F12C503F050098920D /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369595F02C503F050098920D /* Response.swift */; };
 		369595F32C50425B0098920D /* EditMyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369595F22C50425B0098920D /* EditMyInfoView.swift */; };
+		3695C2C82C7B489E0057007E /* VoteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2C72C7B489E0057007E /* VoteDetailView.swift */; };
+		3695C2CB2C7B4FB80057007E /* VoteDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CA2C7B4FB80057007E /* VoteDescriptionView.swift */; };
+		3695C2CD2C7B4FCC0057007E /* VoteResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CC2C7B4FCC0057007E /* VoteResultView.swift */; };
+		3695C2CF2C7B65500057007E /* VoteCellWithOutIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CE2C7B65500057007E /* VoteCellWithOutIndex.swift */; };
 		36A727F62C6C00E500942672 /* NertworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A727F52C6C00E500942672 /* NertworkService.swift */; };
-		36A81FDC2C2C8AC6006A9305 /* TodayVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDB2C2C8AC6006A9305 /* TodayVoteView.swift */; };
-		36A81FDE2C2CA31B006A9305 /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDD2C2CA31B006A9305 /* VoteView.swift */; };
+		36A81FDC2C2C8AC6006A9305 /* TodayVoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDB2C2C8AC6006A9305 /* TodayVoteCell.swift */; };
 		36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BA20492C294BDC006C54E6 /* HomeView.swift */; };
 		36CBA1532BC45C510073C50C /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CBA1522BC45C510073C50C /* SignView.swift */; };
+		36E72F762C78D0A200D1785F /* HotVoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E72F752C78D0A200D1785F /* HotVoteCell.swift */; };
+		36E72F782C78D87500D1785F /* HotVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E72F772C78D87500D1785F /* HotVote.swift */; };
 		36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */; };
 		36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01642BC400E400050CC7 /* SachosaengApp.swift */; };
 		36EB01672BC400E400050CC7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01662BC400E400050CC7 /* ContentView.swift */; };
@@ -78,6 +83,7 @@
 		360C2B212C37184E0000C0F8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		360C2B232C3718D80000C0F8 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		360C2B262C372F330000C0F8 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		362E14AB2C7AEB4700C053AB /* VoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCell.swift; sourceTree = "<group>"; };
 		363B66772C25A7E30098B0C1 /* SignSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignSuccessView.swift; sourceTree = "<group>"; };
 		364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderProgressBarView.swift; sourceTree = "<group>"; };
 		36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -101,7 +107,6 @@
 		366587AB2C6FA49F00E85259 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		36696B632C2B6900006BFCC0 /* CategoryModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModal.swift; sourceTree = "<group>"; };
 		36696B692C2B8241006BFCC0 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
-		366DFE702C2B42B1009CD87E /* HotvoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotvoteListView.swift; sourceTree = "<group>"; };
 		366DFE722C2B43DB009CD87E /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		366DFE742C2B4B86009CD87E /* Vote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 		3671E4B82C6A093800B5FAE4 /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
@@ -118,11 +123,16 @@
 		369595EE2C4FFAEB0098920D /* VoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteStore.swift; sourceTree = "<group>"; };
 		369595F02C503F050098920D /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		369595F22C50425B0098920D /* EditMyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyInfoView.swift; sourceTree = "<group>"; };
+		3695C2C72C7B489E0057007E /* VoteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteDetailView.swift; sourceTree = "<group>"; };
+		3695C2CA2C7B4FB80057007E /* VoteDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteDescriptionView.swift; sourceTree = "<group>"; };
+		3695C2CC2C7B4FCC0057007E /* VoteResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultView.swift; sourceTree = "<group>"; };
+		3695C2CE2C7B65500057007E /* VoteCellWithOutIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCellWithOutIndex.swift; sourceTree = "<group>"; };
 		36A727F52C6C00E500942672 /* NertworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NertworkService.swift; sourceTree = "<group>"; };
-		36A81FDB2C2C8AC6006A9305 /* TodayVoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayVoteView.swift; sourceTree = "<group>"; };
-		36A81FDD2C2CA31B006A9305 /* VoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteView.swift; sourceTree = "<group>"; };
+		36A81FDB2C2C8AC6006A9305 /* TodayVoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayVoteCell.swift; sourceTree = "<group>"; };
 		36BA20492C294BDC006C54E6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		36CBA1522BC45C510073C50C /* SignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
+		36E72F752C78D0A200D1785F /* HotVoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotVoteCell.swift; sourceTree = "<group>"; };
+		36E72F772C78D87500D1785F /* HotVote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotVote.swift; sourceTree = "<group>"; };
 		36EAD7322C05BE440052FB6F /* Sachosaeng.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sachosaeng.entitlements; sourceTree = "<group>"; };
 		36EAD7352C05CB970052FB6F /* AppleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInButton.swift; sourceTree = "<group>"; };
 		36EB01612BC400E400050CC7 /* Sachosaeng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sachosaeng.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,16 +169,8 @@
 				360C2B262C372F330000C0F8 /* MyPageView.swift */,
 				369595F22C50425B0098920D /* EditMyInfoView.swift */,
 				36949FAD2C51CA9D009E099E /* QuitView.swift */,
-				360C2B282C38702F0000C0F8 /* Cell */,
 			);
 			path = MyPageView;
-			sourceTree = "<group>";
-		};
-		360C2B282C38702F0000C0F8 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		363C205F2C635D5B005F4026 /* Service */ = {
@@ -259,9 +261,8 @@
 			children = (
 				366DFE722C2B43DB009CD87E /* TabView.swift */,
 				36BA20492C294BDC006C54E6 /* HomeView.swift */,
-				36A81FDD2C2CA31B006A9305 /* VoteView.swift */,
-				36A81FDB2C2C8AC6006A9305 /* TodayVoteView.swift */,
-				366DFE702C2B42B1009CD87E /* HotvoteListView.swift */,
+				3695C2C72C7B489E0057007E /* VoteDetailView.swift */,
+				3695C2C92C7B4FA70057007E /* VoteViewCell */,
 				36696B662C2B762F006BFCC0 /* Cell */,
 				360C2B252C372F1D0000C0F8 /* MyPageView */,
 			);
@@ -284,11 +285,25 @@
 			path = BookMarkView;
 			sourceTree = "<group>";
 		};
+		3695C2C92C7B4FA70057007E /* VoteViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				36A81FDB2C2C8AC6006A9305 /* TodayVoteCell.swift */,
+				36E72F752C78D0A200D1785F /* HotVoteCell.swift */,
+				3695C2CE2C7B65500057007E /* VoteCellWithOutIndex.swift */,
+				362E14AB2C7AEB4700C053AB /* VoteCell.swift */,
+				3695C2CA2C7B4FB80057007E /* VoteDescriptionView.swift */,
+				3695C2CC2C7B4FCC0057007E /* VoteResultView.swift */,
+			);
+			path = VoteViewCell;
+			sourceTree = "<group>";
+		};
 		36CBA1582BC45FB50073C50C /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				369595F02C503F050098920D /* Response.swift */,
 				366DFE742C2B4B86009CD87E /* Vote.swift */,
+				36E72F772C78D87500D1785F /* HotVote.swift */,
 				360C2B1B2C35890D0000C0F8 /* Category.swift */,
 				360C2B212C37184E0000C0F8 /* User.swift */,
 				366053AA2C53A243000A1D8D /* PathType.swift */,
@@ -489,7 +504,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				36949FAA2C515DE2009E099E /* ToastView.swift in Sources */,
+				36E72F762C78D0A200D1785F /* HotVoteCell.swift in Sources */,
 				360C2B222C37184E0000C0F8 /* User.swift in Sources */,
+				3695C2CB2C7B4FB80057007E /* VoteDescriptionView.swift in Sources */,
 				36842BFB2C22C9FF0023473D /* UserFavoriteCategoryView.swift in Sources */,
 				369595F32C50425B0098920D /* EditMyInfoView.swift in Sources */,
 				366DFE732C2B43DB009CD87E /* TabView.swift in Sources */,
@@ -498,7 +515,7 @@
 				366053A72C533E03000A1D8D /* CustomTextField.swift in Sources */,
 				365A12062C388EC500C18796 /* ViewModifier.swift in Sources */,
 				36696B6A2C2B8241006BFCC0 /* ViewExtension.swift in Sources */,
-				36A81FDE2C2CA31B006A9305 /* VoteView.swift in Sources */,
+				36E72F782C78D87500D1785F /* HotVote.swift in Sources */,
 				36842BFF2C22D8960023473D /* CategoryCellView.swift in Sources */,
 				366053A92C538210000A1D8D /* CustomTextEditor.swift in Sources */,
 				36949FAE2C51CA9D009E099E /* QuitView.swift in Sources */,
@@ -510,10 +527,11 @@
 				36949FA82C514C9E009E099E /* Utility.swift in Sources */,
 				36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
-				36A81FDC2C2C8AC6006A9305 /* TodayVoteView.swift in Sources */,
+				36A81FDC2C2C8AC6006A9305 /* TodayVoteCell.swift in Sources */,
 				36842BFD2C22D01A0023473D /* CommonTitle.swift in Sources */,
 				366053AB2C53A243000A1D8D /* PathType.swift in Sources */,
 				360C2B242C3718D80000C0F8 /* UserStore.swift in Sources */,
+				3695C2C82C7B489E0057007E /* VoteDetailView.swift in Sources */,
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
 				366587AA2C6F47D400E85259 /* AuthService.swift in Sources */,
 				36EAD7362C05CB970052FB6F /* AppleSignInButton.swift in Sources */,
@@ -525,11 +543,13 @@
 				36949FAC2C51924C009E099E /* PopupView.swift in Sources */,
 				366587AC2C6FA49F00E85259 /* Auth.swift in Sources */,
 				36A727F62C6C00E500942672 /* NertworkService.swift in Sources */,
-				366DFE712C2B42B1009CD87E /* HotvoteListView.swift in Sources */,
+				3695C2CD2C7B4FCC0057007E /* VoteResultView.swift in Sources */,
 				36F8D3E62C64ED1E006E4FA2 /* ConsentView.swift in Sources */,
 				3671E4B92C6A093800B5FAE4 /* BookmarkView.swift in Sources */,
+				3695C2CF2C7B65500057007E /* VoteCellWithOutIndex.swift in Sources */,
 				36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */,
 				366DFE752C2B4B86009CD87E /* Vote.swift in Sources */,
+				362E14AC2C7AEB4700C053AB /* VoteCell.swift in Sources */,
 				3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */,
 				364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */,
 				360C2B1C2C35890D0000C0F8 /* Category.swift in Sources */,

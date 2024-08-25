@@ -110,7 +110,7 @@ struct HomeView: View {
                                         
                                         if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.categoryId == category.categoryId }) {
                                             ForEach(categorizedVote.votes) { vote in
-                                                HotVoteWithCategoryCell(voteStore: voteStore, vote: vote)
+                                                VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
                                                     .padding(.bottom, 6)
                                             }
                                         } else {
@@ -150,8 +150,7 @@ struct HomeView: View {
                                     .padding(.bottom, 12)
                                 
                                 ForEach(Array(voteStore.hotVotesWithSelectedCategory.votes.enumerated()), id: \.element) { index, vote  in
-                                    
-                                    HotVoteWithSelectedCategoryCell(voteStore: voteStore, vote: vote, index: index + 1)
+                                    VoteCell(voteStore: voteStore, vote: vote, index: index + 1)
                                         .padding(.horizontal, 20)
                                         .padding(.bottom, 6)
                                 }
@@ -168,6 +167,12 @@ struct HomeView: View {
                                 }
                                 .padding(.top, 30)
                                 .padding(.bottom, 14)
+                                
+                                ForEach(voteStore.latestVotes.votes) { vote in
+                                    VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
+                                        .padding(.horizontal, 20)
+                                        .padding(.bottom, 6)
+                                }
                             } //: Vstack
                         }
                     } //: ScrollView

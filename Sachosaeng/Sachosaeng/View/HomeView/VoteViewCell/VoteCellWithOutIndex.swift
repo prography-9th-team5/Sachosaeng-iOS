@@ -1,5 +1,5 @@
 //
-//  PopularVoteWithCategoryBodyView.swift
+//  PopularVoteWithCategoryCell.swift
 //  Sachosaeng
 //
 //  Created by LJh on 8/25/24.
@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-struct HotVoteWithSelectedCategoryCell: View {
+struct VoteCellWithOutIndex: View {
     @StateObject var voteStore: VoteStore
-    var vote: VoteOptionForHotVoteWithCategory
-    var index: Int
+    var vote: VoteWithoutCategory
     
     var body: some View {
         NavigationLink {
@@ -23,10 +22,6 @@ struct HotVoteWithSelectedCategoryCell: View {
                 
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(spacing: 0) {
-                        Text("\(index)")
-                            .font(.createFont(weight: .bold, size: 15))
-                            .foregroundStyle(CustomColor.GrayScaleColor.black)
-                            .padding(.trailing, 8)
                         Text(vote.title)
                             .font(.createFont(weight: .bold, size: 15))
                             .foregroundStyle(CustomColor.GrayScaleColor.black)
@@ -34,14 +29,11 @@ struct HotVoteWithSelectedCategoryCell: View {
                         Spacer()
                     }
                     
-                    HStack(spacing : 0) {
-                        Text("\(index)")
-                            .font(.createFont(weight: .bold, size: 15))
-                            .foregroundStyle(Color.clear)
-                            .padding(.trailing, 8)
+                    HStack(spacing: 0) {
                         Text("\(vote.participantCount ?? 0)명 참여 중")
                             .font(.createFont(weight: .medium, size: 12))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                        Spacer()
                     }
                 }
                 .padding(.horizontal, 16)

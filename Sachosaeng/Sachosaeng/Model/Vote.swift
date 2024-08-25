@@ -35,6 +35,15 @@ struct VoteOption: Codable, Hashable, Identifiable {
     var id: Int { voteOptionId }
 }
 
+struct LatestVote: Codable {
+    var votes: [VoteWithoutCategory]
+    var hasNext: Bool
+    var nextCursor: Int
+}
+struct CategorizedVotes {
+    var category: Category
+    var votes: [VoteWithoutCategory]
+}
 let dummyVoteDetail = VoteDetail(
     voteId: 101,
     isClosed: false,
@@ -56,3 +65,4 @@ let dummyVoteOptions = [
     VoteOption(voteOptionId: 3, content: "Option 3", count: 5)
 ]
 let dummyVote = Vote(voteId: 0, title: "", participantCount: 1, isVoted: false, category: dummyCategory, isClosed: false)
+let dummyLatestVote = LatestVote(votes: [dummyVoteWithoutCategory], hasNext: true, nextCursor: 0)

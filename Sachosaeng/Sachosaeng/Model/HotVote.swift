@@ -15,10 +15,10 @@ struct HotVote: Codable, Hashable {
 struct HotVoteWithCategory: Codable, Hashable {
     var category: Category
     var description: String?
-    var votes: [VoteOptionForHotVoteWithCategory]
+    var votes: [VoteWithoutCategory]
 }
 
-struct VoteOptionForHotVoteWithCategory: Codable, Hashable, Identifiable {
+struct VoteWithoutCategory: Codable, Hashable, Identifiable {
     var voteId: Int
     var title: String
     var participantCount: Int?
@@ -28,5 +28,5 @@ struct VoteOptionForHotVoteWithCategory: Codable, Hashable, Identifiable {
 }
 
 let dummyHotVote = HotVote(category: dummyHotCategory, votes: [dummyVote])
-let dummyVoteForHotVoteWithCategory = VoteOptionForHotVoteWithCategory(voteId: 0, title: "", participantCount: 0, isVoted: true, isClosed: true)
-let dummyHotVoteWithCategory = HotVoteWithCategory(category: dummyCategory, description: "", votes: [dummyVoteForHotVoteWithCategory])
+let dummyVoteWithoutCategory = VoteWithoutCategory(voteId: 0, title: "", participantCount: 0, isVoted: true, isClosed: true)
+let dummyHotVoteWithCategory = HotVoteWithCategory(category: dummyCategory, description: "", votes: [dummyVoteWithoutCategory])

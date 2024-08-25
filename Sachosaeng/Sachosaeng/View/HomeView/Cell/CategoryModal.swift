@@ -18,7 +18,7 @@ struct CategoryModal: View {
     @State private var isAll = false
     @Binding var isSheet: Bool
     @Binding var categoryName: String
-
+    
     var body: some View {
         VStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 32.24)
@@ -131,6 +131,7 @@ struct CategoryModal: View {
                                     } else {
                                         categoryName = category.name
                                         voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
+                                        voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(category.name))
                                     }
                                     isSheet = false
                                 } label: {
@@ -164,8 +165,8 @@ struct CategoryModal: View {
                                         categoryName = "전체"
                                     } else {
                                         categoryName = category.name
-                                        voteStore.fetchHotVotesWithSelectedCategory(categoryId:
-                                                                                voteStore.categoryID(category.name))
+                                        voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
+                                        voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(category.name))
                                     }
                                     isSheet = false
                                 } label: {
@@ -252,7 +253,7 @@ extension CategoryModal {
     private func performCategorySetting(completion: @escaping () -> Void) {
         UserService.shared.updateUserCategory(UserStore.shared.currentUserCategories)
     }
-//    private func setSelectedCategories() {
-//        selectedCategories = UserStore.shared.currentUserCategories
-//    }
+    //    private func setSelectedCategories() {
+    //        selectedCategories = UserStore.shared.currentUserCategories
+    //    }
 }

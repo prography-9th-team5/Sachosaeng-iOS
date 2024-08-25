@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PopularVoteCell: View {
+struct HotVoteCell: View {
     var vote: Vote
     @StateObject var voteStore: VoteStore
     var index: Int

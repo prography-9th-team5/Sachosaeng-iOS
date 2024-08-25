@@ -12,8 +12,8 @@ final class VoteStore: ObservableObject {
     @Published var hotVotes: HotVote = dummyHotVote
     @Published var dailyVote: Vote = dummyDailyVote
     @Published var currentVoteDetail: VoteDetail = dummyVoteDetail
-    @Published var hotVotesWithCategory: HotVoteWithCategory = dummyHotVoteWithCategory
-    
+    @Published var hotVotesWithSelectedCategory: HotVoteWithCategory = dummyHotVoteWithCategory
+    @Published var hotVotesInCategory: [CategorizedVotes] = [dummyCategorizedVotes]
     /// 인기투표 3개를 가져오는 메서드
     func fetchHotVotes() {
         networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: nil) { (result: Result<Response<HotVote>, NetworkError>) in
@@ -30,9 +30,39 @@ final class VoteStore: ObservableObject {
         }
     }
     
+    /// 전체 카테고리 투표를 3개씩 조회 (지금은 최신순 3개로 조회시킨다고함)
+    func fetchHotVotesInCategory() {
+        let path = "/api/v1/votes/suggestions/all"
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<[HotVoteWithCategory]>, NetworkError>) in
+            switch result {
+            case .success(let votes):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    
+                    var categorizedVotes: [CategorizedVotes] = []
+                    
+                    for hotVote in votes.data {
+                        if let index = categorizedVotes.firstIndex(where: { $0.category.categoryId == hotVote.category.categoryId }) {
+                            categorizedVotes[index].votes.append(contentsOf: hotVote.votes)
+                        } else {
+                            categorizedVotes.append(CategorizedVotes(category: hotVote.category, votes: hotVote.votes))
+                        }
+                    }
+                    
+                    hotVotesInCategory = categorizedVotes
+                    
+                    jhPrint(hotVotesInCategory)
+                }
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
+            }
+        }
+    }
+    
     /// 사용자가 특정 카테고리를 눌렀을 경우 그에 맞는 인기 투표 3개를 나타내는 메서드
-    func fetchHotVotesWithCategory(categoryId: Int) {
-        jhPrint(categoryId)
+    func fetchHotVotesWithSelectedCategory(categoryId: Int) {
         let path = "/api/v1/votes/hot/categories/\(categoryId)"
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: nil) { (result: Result<Response<HotVoteWithCategory>, NetworkError>) in
@@ -40,7 +70,7 @@ final class VoteStore: ObservableObject {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
-                    hotVotesWithCategory = votes.data
+                    hotVotesWithSelectedCategory = votes.data
                     jhPrint(votes.data)
                 }
             case .failure(let failure):

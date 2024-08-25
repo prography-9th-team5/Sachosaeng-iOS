@@ -13,17 +13,17 @@ struct HotVote: Codable, Hashable {
 }
 
 struct HotVoteWithCategory: Codable, Hashable {
-    let category: Category
-    let description: String?
-    let votes: [VoteOptionForHotVoteWithCategory]
+    var category: Category
+    var description: String?
+    var votes: [VoteOptionForHotVoteWithCategory]
 }
 
 struct VoteOptionForHotVoteWithCategory: Codable, Hashable, Identifiable {
-    let voteId: Int
-    let title: String
-    let participantCount: Int?
-    let isVoted: Bool
-    let isClosed: Bool
+    var voteId: Int
+    var title: String
+    var participantCount: Int?
+    var isVoted: Bool
+    var isClosed: Bool
     var id: Int { return voteId }
 }
 

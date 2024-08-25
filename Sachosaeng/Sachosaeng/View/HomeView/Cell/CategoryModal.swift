@@ -130,7 +130,7 @@ struct CategoryModal: View {
                                         categoryName = "전체"
                                     } else {
                                         categoryName = category.name
-                                        voteStore.fetchHotVotesWithCategory(categoryId: voteStore.categoryID(category.name))
+                                        voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
                                     }
                                     isSheet = false
                                 } label: {
@@ -164,7 +164,7 @@ struct CategoryModal: View {
                                         categoryName = "전체"
                                     } else {
                                         categoryName = category.name
-                                        voteStore.fetchHotVotesWithCategory(categoryId:
+                                        voteStore.fetchHotVotesWithSelectedCategory(categoryId:
                                                                                 voteStore.categoryID(category.name))
                                     }
                                     isSheet = false

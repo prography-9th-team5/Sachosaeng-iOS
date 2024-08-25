@@ -54,6 +54,7 @@ struct HomeView: View {
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
+                            // MARK: - 사용자가 전체를 선택했을 때 플로우
                             TodayVoteCell(voteStore: voteStore)
                                 .padding(.bottom, 32)
                                 .id("top")
@@ -77,7 +78,7 @@ struct HomeView: View {
                                 
                                 VStack(spacing: 0) {
                                     ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
-                                        PopularVoteCell(vote: vote, voteStore: voteStore, index: index + 1)
+                                        HotVoteCell(vote: vote, voteStore: voteStore, index: index + 1)
                                             .padding(.horizontal, 20)
                                     }
                                 }
@@ -106,8 +107,14 @@ struct HomeView: View {
                                             Spacer()
                                         }
                                         .padding(.bottom, 12)
-                                        ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
-                                            // 일단 여기임
+                                        
+                                        if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.categoryId == category.categoryId }) {
+                                            ForEach(categorizedVote.votes) { vote in
+                                                HotVoteWithCategoryCell(voteStore: voteStore, vote: vote)
+                                                    .padding(.bottom, 6)
+                                            }
+                                        } else {
+                                            Text("투표가 없는뎅 ㅠㅠ ")
                                         }
                                     }
                                 }
@@ -115,9 +122,11 @@ struct HomeView: View {
                                 .padding(.bottom, 32)
                             }
                         } else {
+                            // MARK: - 사용자가 카테고리를 선택했을 때 플로우
+
                             VStack(spacing: 0) {
                                 RoundedRectangle(cornerRadius: 8)
-                                    .foregroundStyle(Color(hex: voteStore.hotVotesWithCategory.category.backgroundColor))
+                                    .foregroundStyle(Color(hex: voteStore.hotVotesWithSelectedCategory.category.backgroundColor))
                                     .frame(width: PhoneSpace.screenWidth - 40, height: 85)
                                     .overlay {
                                         HStack(spacing: 0) {
@@ -133,16 +142,16 @@ struct HomeView: View {
                                             }
                                             .padding(.trailing, 12)
                                             
-                                            Text(voteStore.hotVotesWithCategory.description ?? "없을수도 있지")
+                                            Text(voteStore.hotVotesWithSelectedCategory.description ?? "없을수도 있지")
                                                 .font(.createFont(weight: .bold, size: 16))
                                                 .foregroundStyle(CustomColor.GrayScaleColor.black)
                                         }
                                     }
                                     .padding(.bottom, 12)
                                 
-                                ForEach(Array(voteStore.hotVotesWithCategory.votes.enumerated()), id: \.element) { index, vote  in
+                                ForEach(Array(voteStore.hotVotesWithSelectedCategory.votes.enumerated()), id: \.element) { index, vote  in
                                     
-                                    PopularVoteWithSelectedCategoryCell(voteStore: voteStore, vote: vote, index: index + 1)
+                                    HotVoteWithSelectedCategoryCell(voteStore: voteStore, vote: vote, index: index + 1)
                                         .padding(.horizontal, 20)
                                         .padding(.bottom, 6)
                                 }
@@ -182,6 +191,7 @@ struct HomeView: View {
             Task {
                 voteStore.fetchDailyVote()
                 voteStore.fetchHotVotes()
+                voteStore.fetchHotVotesInCategory()
             }
         }
     }

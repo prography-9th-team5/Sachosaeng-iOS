@@ -28,5 +28,11 @@ struct AllCategory: Codable {
     let backgroundColor: String
 }
 
+struct CategorizedVotes {
+    var category: Category
+    var votes: [VoteOptionForHotVoteWithCategory]
+}
+
 let dummyCategory = Category(categoryId: 1, name: "", iconUrl: "", backgroundColor: "", textColor: "")
 let dummyHotCategory = CategoryForHotVote(categoryId: nil, name: "", iconUrl: "", backgroundColor: nil, textColor: "")
+let dummyCategorizedVotes = CategorizedVotes(category: dummyCategory, votes: [dummyVoteForHotVoteWithCategory])

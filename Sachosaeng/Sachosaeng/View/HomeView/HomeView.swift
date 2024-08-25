@@ -54,45 +54,78 @@ struct HomeView: View {
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
-                            TodayVoteView(voteStore: voteStore)
+                            TodayVoteCell(voteStore: voteStore)
                                 .padding(.bottom, 32)
                                 .id("top")
                             VStack(spacing: 0) {
-                                PopularVoteHeaderView()
+                                VStack(spacing: 0) {
+                                    HStack(spacing: 0) {
+                                        Image("FavoriteVoteIcon")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 18, height: 18)
+                                            .padding(.trailing, 6)
+                                        
+                                        Text("인기 투표")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(CustomColor.GrayScaleColor.gs6)
+                                        Spacer()
+                                    }
+                                    .padding(.bottom, 12)
+                                }
+                                .padding(.horizontal, 20)
                                 ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
-                                    PopularVoteBodyView(vote: vote, index: index + 1)
+                                    PopularVoteCell(vote: vote, voteStore: voteStore, index: index + 1)
                                         .padding(.horizontal, 20)
                                 }
                             }
                         } else {
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundStyle(Color(hex: voteStore.hotVotesWithCategory.category.backgroundColor))
-                                .frame(width: PhoneSpace.screenWidth - 40, height: 85)
-                                .overlay {
-                                    HStack(spacing: 0) {
-                                        AsyncImage(url: URL(string: setImageForCategory(categoryName))) { image in
-                                            image
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 32, height: 32)
-                                        } placeholder: {
-                                            ProgressView()
-                                                .scaledToFit()
-                                                .frame(width: 32, height: 32)
+                            VStack(spacing: 0) {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .foregroundStyle(Color(hex: voteStore.hotVotesWithCategory.category.backgroundColor))
+                                    .frame(width: PhoneSpace.screenWidth - 40, height: 85)
+                                    .overlay {
+                                        HStack(spacing: 0) {
+                                            AsyncImage(url: URL(string: setImageForCategory(categoryName))) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width:  32, height: 32)
+                                            } placeholder: {
+                                                ProgressView()
+                                                    .scaledToFit()
+                                                    .frame(width: 32, height: 32)
+                                            }
+                                            .padding(.trailing, 12)
+                                            
+                                            Text(voteStore.hotVotesWithCategory.description)
+                                                .font(.createFont(weight: .bold, size: 16))
+                                                .foregroundStyle(CustomColor.GrayScaleColor.black)
                                         }
-                                        .padding(.trailing, 12)
-                                        
-                                        Text(voteStore.hotVotesWithCategory.description)
-                                            .font(.createFont(weight: .bold, size: 16))
-                                            .foregroundStyle(CustomColor.GrayScaleColor.black)
                                     }
+                                    .padding(.bottom, 12)
+                                
+                                ForEach(Array(voteStore.hotVotesWithCategory.votes.enumerated()), id: \.element) { index, vote  in
+                                    
+                                    PopularVoteWithCategoryCell(voteStore: voteStore, vote: vote, index: index + 1)
+                                        .padding(.horizontal, 20)
+                                        .padding(.bottom, 6)
                                 }
-                            ForEach(Array(voteStore.hotVotesWithCategory.votes.enumerated()), id: \.element) { index, vote  in
-                                PopularVoteWithCategoryBodyView(vote: vote, index: index + 1)
+                                
+                                
+                                VStack(spacing: 0) {
+                                    HStack(spacing: 0) {
+                                        Text("최신순")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(CustomColor.GrayScaleColor.gs6)
+                                        Spacer()
+                                    }
                                     .padding(.horizontal, 20)
-                            }
+                                }
+                                .padding(.top, 30)
+                                .padding(.bottom, 14)
+                            } //: Vstack
                         }
-                        
                     } //: ScrollView
                     .overlay(alignment: .bottomTrailing) {
                         Button {
@@ -114,7 +147,6 @@ struct HomeView: View {
             Task {
                 voteStore.fetchDailyVote()
                 voteStore.fetchHotVotes()
-                
             }
         }
     }
@@ -140,49 +172,6 @@ extension HomeView {
         }
         return ""
     }
+    
 }
 
-struct PopularVoteWithCategoryBodyView: View {
-    var vote: VoteOptionForHotVoteWithCategory
-    var index: Int
-    var body: some View {
-        NavigationLink {
-            
-        } label: {
-            ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .frame(height: 60)
-                    .foregroundStyle(CustomColor.GrayScaleColor.white)
-                
-                HStack(spacing: 0) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack(spacing: 0) {
-                            Text("\(index)")
-                                .font(.createFont(weight: .bold, size: 15))
-                                .foregroundStyle(CustomColor.GrayScaleColor.black)
-                                .padding(.trailing, 8)
-                            Text(vote.title)
-                                .font(.createFont(weight: .bold, size: 15))
-                                .foregroundStyle(CustomColor.GrayScaleColor.black)
-                                .lineLimit(1)
-                            Spacer()
-                        }
-                        
-                        HStack(spacing : 0) {
-                            Text("\(index)")
-                                .font(.createFont(weight: .bold, size: 15))
-                                .foregroundStyle(Color.clear)
-                                .padding(.trailing, 8)
-                            Text("\(vote.participantCount ?? 0)명 참여 중")
-                                .font(.createFont(weight: .medium, size: 12))
-                                .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                }
-            }
-            .frame(height: 60)
-            .padding(.bottom, 6)
-        }
-    }
-}

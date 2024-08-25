@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct PopularVoteBodyView: View {
+struct PopularVoteCell: View {
     var vote: Vote
+    @StateObject var voteStore: VoteStore
     var index: Int
     var body: some View {
         NavigationLink {
-            
+            VoteDetailView(voteId: vote.voteId, voteStore: voteStore)
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
@@ -61,29 +62,8 @@ struct PopularVoteBodyView: View {
                     .padding(.trailing, 16)
                 }
             }
-            .frame(height: 60)
+//            .frame(height: 60)
             .padding(.bottom, 6)
         }
-    }
-}
-
-struct PopularVoteHeaderView: View {
-    var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                Image("FavoriteVoteIcon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 18, height: 18)
-                    .padding(.trailing, 6)
-                
-                Text("인기 투표")
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(CustomColor.GrayScaleColor.gs6)
-                Spacer()
-            }
-            .padding(.bottom, 12)
-        }
-        .padding(.horizontal, 20)
     }
 }

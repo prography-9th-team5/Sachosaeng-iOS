@@ -85,10 +85,10 @@ struct HomeView: View {
                                 .padding(.bottom, 32)
                                 
                                 
-                                ForEach(userStore.currentUserCategories) { category in
+                                ForEach(voteStore.hotVotesInCategory) { hotVote in
                                     VStack(spacing: 0) {
                                         HStack(spacing: 0) {
-                                            AsyncImage(url: URL(string: category.iconUrl)) { image in
+                                            AsyncImage(url: URL(string: hotVote.category.iconUrl)) { image in
                                                 image
                                                     .resizable()
                                                     .scaledToFit()
@@ -101,14 +101,15 @@ struct HomeView: View {
                                                     .padding(.trailing, 6)
                                             }
                                             
-                                            Text(category.name)
+                                            Text(hotVote.category.name)
                                                 .font(.system(size: 18, weight: .bold))
-                                                .foregroundColor(Color(hex: category.textColor))
+                                                .foregroundColor(Color(hex: hotVote.category.textColor))
                                             Spacer()
                                         }
                                         .padding(.bottom, 12)
                                         
-                                        if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.categoryId == category.categoryId }) {
+                                        if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.id == hotVote.category.categoryId }) {
+                                            
                                             ForEach(categorizedVote.votes) { vote in
                                                 VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
                                                     .padding(.bottom, 6)
@@ -123,7 +124,6 @@ struct HomeView: View {
                             }
                         } else {
                             // MARK: - 사용자가 카테고리를 선택했을 때 플로우
-
                             VStack(spacing: 0) {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundStyle(Color(hex: voteStore.hotVotesWithSelectedCategory.category.backgroundColor))
@@ -154,7 +154,6 @@ struct HomeView: View {
                                         .padding(.horizontal, 20)
                                         .padding(.bottom, 6)
                                 }
-                                
                                 
                                 VStack(spacing: 0) {
                                     HStack(spacing: 0) {

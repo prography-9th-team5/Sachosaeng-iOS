@@ -128,6 +128,7 @@ struct CategoryModal: View {
                                 Button {
                                     if category.name == "전체 보기" {
                                         categoryName = "전체"
+                                        jhPrint("전체를누름")
                                     } else {
                                         categoryName = category.name
                                         voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
@@ -161,13 +162,9 @@ struct CategoryModal: View {
                         } else {
                             ForEach(UserStore.shared.currentUserCategories) { category in
                                 Button {
-                                    if category.name == "전체 보기" {
-                                        categoryName = "전체"
-                                    } else {
-                                        categoryName = category.name
-                                        voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
-                                        voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(category.name))
-                                    }
+                                    categoryName = category.name
+                                    voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
+                                    voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(category.name))
                                     isSheet = false
                                 } label: {
                                     VStack {
@@ -236,14 +233,9 @@ struct CategoryModal: View {
                             .cornerRadius(4)
                     }
                 }
-                
             }
         } //: VSTACK
-        .onAppear {
-            
-        }
     }
-    
 }
 
 extension CategoryModal {
@@ -253,7 +245,7 @@ extension CategoryModal {
     private func performCategorySetting(completion: @escaping () -> Void) {
         UserService.shared.updateUserCategory(UserStore.shared.currentUserCategories)
     }
-    //    private func setSelectedCategories() {
-    //        selectedCategories = UserStore.shared.currentUserCategories
-    //    }
+    private func performAllCategorySetting(completion: @escaping () -> Void) {
+        
+    }
 }

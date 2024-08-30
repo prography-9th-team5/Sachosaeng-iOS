@@ -40,9 +40,10 @@ struct LatestVote: Codable {
     var hasNext: Bool
     var nextCursor: Int
 }
-struct CategorizedVotes {
+struct CategorizedVotes: Codable, Identifiable {
     var category: Category
     var votes: [VoteWithoutCategory]
+    var id: Int { category.id }
 }
 let dummyVoteDetail = VoteDetail(
     voteId: 101,

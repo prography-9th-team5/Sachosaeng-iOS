@@ -84,7 +84,6 @@ struct HomeView: View {
                                 }
                                 .padding(.bottom, 32)
                                 
-                                
                                 ForEach(voteStore.hotVotesInCategory) { hotVote in
                                     VStack(spacing: 0) {
                                         HStack(spacing: 0) {
@@ -128,6 +127,7 @@ struct HomeView: View {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundStyle(Color(hex: voteStore.hotVotesWithSelectedCategory.category.backgroundColor))
                                     .frame(width: PhoneSpace.screenWidth - 40, height: 85)
+                                    .id("top")
                                     .overlay {
                                         HStack(spacing: 0) {
                                             AsyncImage(url: URL(string: setImageForCategory(categoryName))) { image in
@@ -175,6 +175,14 @@ struct HomeView: View {
                             } //: Vstack
                         }
                     } //: ScrollView
+                    .refreshable {
+                        Task {
+                            voteStore.fetchDailyVote()
+                            voteStore.fetchHotVotes()
+                            voteStore.fetchHotVotesInCategory()
+                            voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
+                        }
+                    }
                     .overlay(alignment: .bottomTrailing) {
                         Button {
                             withAnimation {
@@ -196,6 +204,7 @@ struct HomeView: View {
                 voteStore.fetchDailyVote()
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
+                voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
             }
         }
     }

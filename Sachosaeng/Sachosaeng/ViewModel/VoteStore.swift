@@ -53,7 +53,7 @@ final class VoteStore: ObservableObject {
                     }
                     
                     hotVotesInCategory = categorizedVotes
-                    jhPrint(hotVotesInCategory)
+//                    jhPrint(hotVotesInCategory)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)

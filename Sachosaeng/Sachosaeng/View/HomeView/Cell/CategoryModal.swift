@@ -245,7 +245,4 @@ extension CategoryModal {
     private func performCategorySetting(completion: @escaping () -> Void) {
         UserService.shared.updateUserCategory(UserStore.shared.currentUserCategories)
     }
-    private func performAllCategorySetting(completion: @escaping () -> Void) {
-        
-    }
 }

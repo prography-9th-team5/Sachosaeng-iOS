@@ -16,6 +16,7 @@ struct VoteDescriptionView: View {
                 .lineLimit(2)
             Spacer()
         }
+        .frame(height: 30)
         .padding(.top, 7)
     }
 }

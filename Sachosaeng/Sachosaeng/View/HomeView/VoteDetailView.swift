@@ -54,7 +54,7 @@ struct VoteDetailView: View {
                         RoundedRectangle(cornerRadius: 0)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .cornerRadius(8, corners: [.bottomLeft, .bottomRight])
-                            .frame(width: PhoneSpace.screenWidth - 40, height: isPressSuccessButton ? 390 : 350)
+                            .frame(width: PhoneSpace.screenWidth - 40, height: isPressSuccessButton ? setVoteViewWidth() : setVoteViewWidth() - 30 )
                             .overlay(alignment: .top) {
                                 VStack(spacing: 0) {
                                     Text(voteStore.currentVoteDetail.title)
@@ -102,6 +102,7 @@ struct VoteDetailView: View {
                                             VoteDescriptionView()
                                         }
                                     }
+                                    .padding(.bottom, 20)
                                 }
                                 .frame(width: PhoneSpace.screenWidth - 80)
                                 .padding(.top, 26)
@@ -144,3 +145,8 @@ struct VoteDetailView: View {
     }
 }
 
+extension VoteDetailView {
+    private func setVoteViewWidth() -> CGFloat {
+        return CGFloat(voteStore.currentVoteDetail.voteOptions.count * 50) + 190
+    }
+}

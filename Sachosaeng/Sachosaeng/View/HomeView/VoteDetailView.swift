@@ -78,6 +78,7 @@ struct VoteDetailView: View {
                                                     HStack(spacing: 0) {
                                                         Text(vote.content)
                                                             .padding(.leading, 16)
+                                                            .lineLimit(2)
                                                     }
                                                 }
                                                 .overlay {
@@ -147,6 +148,12 @@ struct VoteDetailView: View {
 
 extension VoteDetailView {
     private func setVoteViewWidth() -> CGFloat {
-        return CGFloat(voteStore.currentVoteDetail.voteOptions.count * 50) + 190
+        var plusHeight = 0
+        if voteStore.currentVoteDetail.voteOptions.count == 2 {
+            plusHeight = 170
+        } else {
+            plusHeight = 190
+        }
+        return CGFloat(voteStore.currentVoteDetail.voteOptions.count * 50) + CGFloat(plusHeight)
     }
 }

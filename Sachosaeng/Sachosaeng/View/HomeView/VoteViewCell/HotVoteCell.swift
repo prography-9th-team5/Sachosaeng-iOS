@@ -19,7 +19,6 @@ struct HotVoteCell: View {
                 RoundedRectangle(cornerRadius: 8)
                     .frame(height: 60)
                     .foregroundStyle(vote.isVoted ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.white)
-                
                 HStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack(spacing: 0) {

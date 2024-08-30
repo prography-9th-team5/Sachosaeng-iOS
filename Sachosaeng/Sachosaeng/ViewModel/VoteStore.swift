@@ -17,7 +17,9 @@ final class VoteStore: ObservableObject {
     @Published var latestVotes: LatestVote = dummyLatestVote
     /// 인기투표 3개를 가져오는 메서드
     func fetchHotVotes() {
-        networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: nil) { (result: Result<Response<HotVote>, NetworkError>) in
+        let token = UserStore.shared.accessToken
+
+        networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: token) { (result: Result<Response<HotVote>, NetworkError>) in
             switch result {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
@@ -72,7 +74,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     hotVotesWithSelectedCategory = votes.data
-                    jhPrint("\(votes.data)")
+//                    jhPrint("\(votes.data)")
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -90,7 +92,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     latestVotes = votes.data
-                    jhPrint(latestVotes)
+//                    jhPrint(latestVotes)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)

@@ -128,7 +128,6 @@ struct CategoryModal: View {
                                 Button {
                                     if category.name == "전체 보기" {
                                         categoryName = "전체"
-                                        jhPrint("전체를누름")
                                     } else {
                                         categoryName = category.name
                                         voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))

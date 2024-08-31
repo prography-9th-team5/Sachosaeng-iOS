@@ -144,7 +144,44 @@ struct BookmarkView: View {
                     .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                 }
                 
-                
+                ScrollView {
+                    ForEach(voteStore.hotVotesInCategory) { hotVote in
+                        VStack(spacing: 0) {
+                            HStack(spacing: 0) {
+                                AsyncImage(url: URL(string: hotVote.category.iconUrl)) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 18, height: 18)
+                                        .padding(.trailing, 6)
+                                } placeholder: {
+                                    ProgressView()
+                                        .scaledToFit()
+                                        .frame(width: 18, height: 18)
+                                        .padding(.trailing, 6)
+                                }
+                                
+                                Text(hotVote.category.name)
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(Color(hex: hotVote.category.textColor))
+                                Spacer()
+                            }
+                            .padding(.bottom, 12)
+                            
+                            if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.id == hotVote.category.categoryId }) {
+                                
+                                ForEach(categorizedVote.votes) { vote in
+                                    VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
+                                        .padding(.bottom, 6)
+                                }
+                            } else {
+                                Text("투표가 없는뎅 ㅠㅠ ")
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 32)
+                }
                 Spacer()
             }
         }

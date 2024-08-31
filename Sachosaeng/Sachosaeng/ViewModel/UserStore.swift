@@ -19,7 +19,7 @@ final class UserStore: ObservableObject {
     @Published var currentUserCategories: [Category] = []
     @Published var currentUserState = User(userId: 0, nickname: "temp", userType: "학생")
     @Published var selectedCategoriesInSignFlow: [Category] = []
-    
+   
     private init() {}
     
     func convertToUserType(_ type: String) {

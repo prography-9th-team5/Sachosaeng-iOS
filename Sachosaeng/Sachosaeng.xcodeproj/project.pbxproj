@@ -14,6 +14,8 @@
 		360C2B272C372F330000C0F8 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B262C372F330000C0F8 /* MyPageView.swift */; };
 		362E14AC2C7AEB4700C053AB /* VoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362E14AB2C7AEB4700C053AB /* VoteCell.swift */; };
 		363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B66772C25A7E30098B0C1 /* SignSuccessView.swift */; };
+		363EFB642C832710009A70DA /* Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363EFB632C832710009A70DA /* Information.swift */; };
+		363EFB662C834353009A70DA /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363EFB652C834353009A70DA /* InformationView.swift */; };
 		364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */; };
 		36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */; };
 		36562FAC2C210B80004D1836 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA32C210B7F004D1836 /* Pretendard-ExtraBold.otf */; };
@@ -85,6 +87,8 @@
 		360C2B262C372F330000C0F8 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		362E14AB2C7AEB4700C053AB /* VoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCell.swift; sourceTree = "<group>"; };
 		363B66772C25A7E30098B0C1 /* SignSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignSuccessView.swift; sourceTree = "<group>"; };
+		363EFB632C832710009A70DA /* Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Information.swift; sourceTree = "<group>"; };
+		363EFB652C834353009A70DA /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
 		364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderProgressBarView.swift; sourceTree = "<group>"; };
 		36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		36562FA32C210B7F004D1836 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 				3695C2C92C7B4FA70057007E /* VoteViewCell */,
 				36696B662C2B762F006BFCC0 /* Cell */,
 				360C2B252C372F1D0000C0F8 /* MyPageView */,
+				363EFB652C834353009A70DA /* InformationView.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				360C2B212C37184E0000C0F8 /* User.swift */,
 				366053AA2C53A243000A1D8D /* PathType.swift */,
 				366587AB2C6FA49F00E85259 /* Auth.swift */,
+				363EFB632C832710009A70DA /* Information.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -543,6 +549,7 @@
 				36949FAC2C51924C009E099E /* PopupView.swift in Sources */,
 				366587AC2C6FA49F00E85259 /* Auth.swift in Sources */,
 				36A727F62C6C00E500942672 /* NertworkService.swift in Sources */,
+				363EFB642C832710009A70DA /* Information.swift in Sources */,
 				3695C2CD2C7B4FCC0057007E /* VoteResultView.swift in Sources */,
 				36F8D3E62C64ED1E006E4FA2 /* ConsentView.swift in Sources */,
 				3671E4B92C6A093800B5FAE4 /* BookmarkView.swift in Sources */,
@@ -551,6 +558,7 @@
 				366DFE752C2B4B86009CD87E /* Vote.swift in Sources */,
 				362E14AC2C7AEB4700C053AB /* VoteCell.swift in Sources */,
 				3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */,
+				363EFB662C834353009A70DA /* InformationView.swift in Sources */,
 				364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */,
 				360C2B1C2C35890D0000C0F8 /* Category.swift in Sources */,
 			);

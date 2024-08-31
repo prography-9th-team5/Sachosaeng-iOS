@@ -38,7 +38,7 @@ struct VoteOption: Codable, Hashable, Identifiable {
 struct LatestVote: Codable {
     var votes: [VoteWithoutCategory]
     var hasNext: Bool
-    var nextCursor: Int
+    var nextCursor: Int?
 }
 struct CategorizedVotes: Codable, Identifiable {
     var category: Category

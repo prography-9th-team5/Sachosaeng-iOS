@@ -12,18 +12,23 @@ final class VoteStore: ObservableObject {
     @Published var hotVotes: HotVote = dummyHotVote
     @Published var dailyVote: Vote = dummyDailyVote
     @Published var currentVoteDetail: VoteDetail = dummyVoteDetail
+    @Published var currentVoteInformation: [Information] = []
+    @Published var currentVoteInformationDetail: InformationDetail?
     @Published var hotVotesWithSelectedCategory: HotVoteWithCategory = dummyHotVoteWithCategory
     @Published var hotVotesInCategory: [CategorizedVotes] = [dummyCategorizedVotes]
     @Published var latestVotes: LatestVote = dummyLatestVote
+    
     /// 인기투표 3개를 가져오는 메서드
     func fetchHotVotes() {
-        networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: nil) { (result: Result<Response<HotVote>, NetworkError>) in
+        let token = UserStore.shared.accessToken
+
+        networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: token) { (result: Result<Response<HotVote>, NetworkError>) in
             switch result {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     hotVotes = votes.data
-                    jhPrint(hotVotes)
+//                    jhPrint(hotVotes)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -53,7 +58,6 @@ final class VoteStore: ObservableObject {
                     }
                     
                     hotVotesInCategory = categorizedVotes
-                    
 //                    jhPrint(hotVotesInCategory)
                 }
             case .failure(let failure):
@@ -73,7 +77,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     hotVotesWithSelectedCategory = votes.data
-                    jhPrint("\(votes.data)")
+//                    jhPrint("\(votes.data)")
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -91,7 +95,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     latestVotes = votes.data
-                    jhPrint(latestVotes)
+//                    jhPrint(latestVotes)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -110,7 +114,7 @@ final class VoteStore: ObservableObject {
                     dailyVote = vote.data
                 }
             case .failure(let error):
-                jhPrint(error)
+                jhPrint(error, isWarning: true)
             }
         }
     }
@@ -128,7 +132,7 @@ final class VoteStore: ObservableObject {
                     currentVoteDetail = voteDetail.data
                 }
             case .failure(let error):
-                jhPrint(error)
+                jhPrint(error, isWarning: true)
             }
         }
     }
@@ -141,10 +145,45 @@ final class VoteStore: ObservableObject {
         
         networkService.performRequest(method: "PUT", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
-            case .success(let vote):
-                jhPrint(vote.data)
-            case .failure( _):
+            case .success( _):
                 break
+            case .failure(let error):
+                jhPrint(error, isWarning: true)
+            }
+        }
+    }
+    
+    func searchInformation(categoryId: Int, voteId: Int) {
+        let path = "/api/v1/similar-information?category-id=\(categoryId)&vote-id=\(voteId)"
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) {(result: Result<Response<[Information]>, NetworkError>) in
+            switch result {
+            case .success(let information):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    currentVoteInformation = information.data
+                }
+            case .failure(let error):
+                jhPrint(error)
+            }
+        }
+    }
+    
+    func fetchInformation(informationId: Int) {
+        let path = "/api/v1/information/\(informationId)"
+        let token = UserStore.shared.accessToken
+
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<InformationDetail>, NetworkError>) in
+            switch result {
+            case .success(let informationDetail):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    currentVoteInformationDetail = informationDetail.data
+//                    jhPrint(currentVoteInformationDetail)
+                }
+            case .failure(let error):
+                jhPrint(error)
             }
         }
     }

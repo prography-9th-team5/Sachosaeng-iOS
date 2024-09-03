@@ -84,11 +84,10 @@ struct HomeView: View {
                                 }
                                 .padding(.bottom, 32)
                                 
-                                
-                                ForEach(userStore.currentUserCategories) { category in
+                                ForEach(voteStore.hotVotesInCategory) { hotVote in
                                     VStack(spacing: 0) {
                                         HStack(spacing: 0) {
-                                            AsyncImage(url: URL(string: category.iconUrl)) { image in
+                                            AsyncImage(url: URL(string: hotVote.category.iconUrl)) { image in
                                                 image
                                                     .resizable()
                                                     .scaledToFit()
@@ -101,14 +100,15 @@ struct HomeView: View {
                                                     .padding(.trailing, 6)
                                             }
                                             
-                                            Text(category.name)
+                                            Text(hotVote.category.name)
                                                 .font(.system(size: 18, weight: .bold))
-                                                .foregroundColor(Color(hex: category.textColor))
+                                                .foregroundColor(Color(hex: hotVote.category.textColor))
                                             Spacer()
                                         }
                                         .padding(.bottom, 12)
                                         
-                                        if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.categoryId == category.categoryId }) {
+                                        if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.id == hotVote.category.categoryId }) {
+                                            
                                             ForEach(categorizedVote.votes) { vote in
                                                 VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
                                                     .padding(.bottom, 6)
@@ -123,11 +123,11 @@ struct HomeView: View {
                             }
                         } else {
                             // MARK: - 사용자가 카테고리를 선택했을 때 플로우
-
                             VStack(spacing: 0) {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundStyle(Color(hex: voteStore.hotVotesWithSelectedCategory.category.backgroundColor))
                                     .frame(width: PhoneSpace.screenWidth - 40, height: 85)
+                                    .id("top")
                                     .overlay {
                                         HStack(spacing: 0) {
                                             AsyncImage(url: URL(string: setImageForCategory(categoryName))) { image in
@@ -155,7 +155,6 @@ struct HomeView: View {
                                         .padding(.bottom, 6)
                                 }
                                 
-                                
                                 VStack(spacing: 0) {
                                     HStack(spacing: 0) {
                                         Text("최신순")
@@ -176,6 +175,14 @@ struct HomeView: View {
                             } //: Vstack
                         }
                     } //: ScrollView
+                    .refreshable {
+                        Task {
+                            voteStore.fetchDailyVote()
+                            voteStore.fetchHotVotes()
+                            voteStore.fetchHotVotesInCategory()
+                            voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
+                        }
+                    }
                     .overlay(alignment: .bottomTrailing) {
                         Button {
                             withAnimation {
@@ -197,6 +204,7 @@ struct HomeView: View {
                 voteStore.fetchDailyVote()
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
+                voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
             }
         }
     }

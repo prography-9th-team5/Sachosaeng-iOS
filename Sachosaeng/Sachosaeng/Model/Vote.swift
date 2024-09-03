@@ -38,11 +38,12 @@ struct VoteOption: Codable, Hashable, Identifiable {
 struct LatestVote: Codable {
     var votes: [VoteWithoutCategory]
     var hasNext: Bool
-    var nextCursor: Int
+    var nextCursor: Int?
 }
-struct CategorizedVotes {
+struct CategorizedVotes: Codable, Identifiable {
     var category: Category
     var votes: [VoteWithoutCategory]
+    var id: Int { category.id }
 }
 let dummyVoteDetail = VoteDetail(
     voteId: 101,

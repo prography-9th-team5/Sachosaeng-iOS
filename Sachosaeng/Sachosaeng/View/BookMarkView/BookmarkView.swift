@@ -83,45 +83,52 @@ struct BookmarkView: View {
                 } // Hstack <- 트표 연관컼ㄴ체
                 
                 HStack(spacing: 0) {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 8) {
-                            ForEach(categoryStore.allCatagory) { category in
-                                Button {
-                                    selectedCategoryId = category.id
-                                } label: {
-                                    HStack {
-                                        if category.name != "전체 보기" {
-                                            AsyncImage(url: URL(string: category.iconUrl)) { image in
-                                                image
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: 18, height: 18)
-                                            } placeholder: {
-                                                Image(systemName: "bolt")
-                                                    .resizable()
-                                                    .frame(width: 18, height: 18)
-                                            }
+                    ScrollViewReader { proxy in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                ForEach(categoryStore.allCatagory) { category in
+                                    Button {
+                                        withAnimation {
+                                            selectedCategoryId = category.id
+                                            jhPrint(category.name)
+                                            proxy.scrollTo(category.name, anchor: .center)
                                         }
-                                        
-                                        Text("\(category.name == "전체 보기" ? "ALL" : category.name)")
-                                            .foregroundColor(Color(hex: category.textColor))
-                                            .font(.createFont(weight: .semiBold, size: 15))
+                                    } label: {
+                                        HStack {
+                                            if category.name != "전체 보기" {
+                                                AsyncImage(url: URL(string: category.iconUrl)) { image in
+                                                    image
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 18, height: 18)
+                                                } placeholder: {
+                                                    Image(systemName: "bolt")
+                                                        .resizable()
+                                                        .frame(width: 18, height: 18)
+                                                }
+                                            }
+                                            
+                                            Text("\(category.name == "전체 보기" ? "ALL" : category.name)")
+                                                .foregroundColor(Color(hex: category.textColor))
+                                                .font(.createFont(weight: .semiBold, size: 15))
+                                                .id(category.name)
+                                        }
+                                        .frame(height: 40)
+                                        .padding(.horizontal, 12)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .fill(Color(hex: category.backgroundColor))
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 4)
+                                                        .stroke(selectedCategoryId == category.id ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
+                                                )
+                                        )
                                     }
-                                    .frame(height: 40)
-                                    .padding(.horizontal, 12)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .fill(Color(hex: category.backgroundColor))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 4)
-                                                    .stroke(selectedCategoryId == category.id ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
-                                            )
-                                    )
+                                    
                                 }
-                                
                             }
+                            .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                         }
-                        .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                     }
                     
                     Button {
@@ -137,7 +144,44 @@ struct BookmarkView: View {
                     .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                 }
                 
-                
+                ScrollView {
+                    ForEach(voteStore.hotVotesInCategory) { hotVote in
+                        VStack(spacing: 0) {
+                            HStack(spacing: 0) {
+                                AsyncImage(url: URL(string: hotVote.category.iconUrl)) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 18, height: 18)
+                                        .padding(.trailing, 6)
+                                } placeholder: {
+                                    ProgressView()
+                                        .scaledToFit()
+                                        .frame(width: 18, height: 18)
+                                        .padding(.trailing, 6)
+                                }
+                                
+                                Text(hotVote.category.name)
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(Color(hex: hotVote.category.textColor))
+                                Spacer()
+                            }
+                            .padding(.bottom, 12)
+                            
+                            if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.id == hotVote.category.categoryId }) {
+                                
+                                ForEach(categorizedVote.votes) { vote in
+                                    VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
+                                        .padding(.bottom, 6)
+                                }
+                            } else {
+                                Text("투표가 없는뎅 ㅠㅠ ")
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 32)
+                }
                 Spacer()
             }
         }

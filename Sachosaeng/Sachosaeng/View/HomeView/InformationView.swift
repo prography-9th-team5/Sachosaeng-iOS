@@ -13,7 +13,7 @@ struct InformationView: View {
 
     var body: some View {
         ZStack {
-            CustomColor.GrayScaleColor.white.ignoresSafeArea()
+            CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
             VStack(spacing: 0) {
                 ScrollViewReader { proxy in
                     ScrollView {
@@ -25,23 +25,44 @@ struct InformationView: View {
                                         .foregroundStyle(CustomColor.GrayScaleColor.black)
                                     Spacer()
                                 }
+                                .padding(.bottom, 28)
                                 
-                                RoundedRectangle(cornerRadius: 8) 
-                                    .frame(height: 500)
-                                    .foregroundStyle(CustomColor.GrayScaleColor.gs1)
-                                    .overlay {
-                                        VStack(spacing: 0) {
-                                            Text(information.subtitle ?? "")
-                                            Text(information.content)
-                                            Text(information.referenceName)
-                                        }
-                                    }
+                                VStack(spacing: 0) {
+                                    Text(information.subtitle ?? "")
+                                        .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                        .font(.createFont(weight: .medium, size: 16))
+                                    
+                                    let modifiedContent = information.content
+                                        .replacingOccurrences(of: "\n", with: "\n")
+                                    
+                                    Text(modifiedContent)
+                                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                        .font(.createFont(weight: .medium, size: 14))
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.top, 8)
+                                .padding(.bottom, 24)
+                                .background(CustomColor.GrayScaleColor.gs1)
+                                .cornerRadius(8, corners: [.allCorners])
+                                
+                                HStack(spacing: 0) {
+                                    Text(information.referenceName)
+                                        .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                                        .font(.createFont(weight: .medium, size: 12))
+                                    Spacer()
+                                }
+                                .padding(.top, 20)
                             }
                         }
                     }
                 }
+                .padding()
             }
-            .padding()
+            .background(CustomColor.GrayScaleColor.white)
+            .padding(.top, 10)
+        }
+        .toolbar {
+            Text("asdsa")
         }
         .navigationTitle("연관 콘텐츠")
         .navigationBarTitleDisplayMode(.inline)
@@ -49,6 +70,7 @@ struct InformationView: View {
         .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 18)
         .customBackbutton()
         .onAppear {
+            
             voteStore.fetchInformation(informationId: informationId)
         }
     }

@@ -27,6 +27,7 @@ struct VoteDetailView: View {
                 LottieView(animation: .named("performVoteAnimation"))
                     .playing()
             }
+            
             VStack(spacing: 0) {
                 ScrollViewReader{ proxy in
                     ScrollView {

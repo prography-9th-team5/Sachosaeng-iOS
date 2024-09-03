@@ -165,15 +165,15 @@ struct VoteDetailView: View {
                     } else {
                         isVoted = true
                         isLottie = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            isLottie = false
-                        }
                         withAnimation {
                             proxy.scrollTo("bottom")
                         }
-                        Task {
-                            voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
-                            voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            Task {
+                                voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
+                                voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId)
+                                isLottie = false
+                            }
                         }
                         toast = Toast(type: .success, message: "투표 완료!")
                     }

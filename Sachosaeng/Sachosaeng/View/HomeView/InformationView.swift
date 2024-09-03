@@ -73,5 +73,6 @@ struct InformationView: View {
             
             voteStore.fetchInformation(informationId: informationId)
         }
+        
     }
 }

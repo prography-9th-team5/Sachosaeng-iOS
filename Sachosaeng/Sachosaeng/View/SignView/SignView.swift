@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleSignInSwift
+import _AuthenticationServices_SwiftUI
 
 enum PhoneSpace {
     static let screenWidth = UIScreen.main.bounds.width
@@ -55,11 +56,23 @@ struct SignView: View {
                                 .frame(width: 28, height: 28)
                                 .padding(12)
                         }
-                    AppleSignInButton()
-                        .frame(width: PhoneSpace.screenWidth - 40, height: 55)
-                        .blendMode(.overlay)
-                        .opacity(0.02)
-                        .allowsHitTesting(true)
+                    SignInWithAppleButton(
+                        .continue,
+                        onRequest: { request in
+                            request.requestedScopes = [.fullName, .email]
+                        },
+                        onCompletion: { result in
+                            signStore.loginApple(result: result) { success in
+                                if success {
+                                    performSignLogic()
+                                }
+                            }
+                        }
+                    )
+                    .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                    .blendMode(.overlay)
+                    .opacity(0.02)
+                    .allowsHitTesting(true)
                 } //: ZStack
                 .padding(.bottom, 8)
                 Button {

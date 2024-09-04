@@ -101,6 +101,8 @@ final class AuthService {
         }
     }
     
+    
+    
     func loginGoogle(completion: @escaping (Bool) -> Void) {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
             completion(false)

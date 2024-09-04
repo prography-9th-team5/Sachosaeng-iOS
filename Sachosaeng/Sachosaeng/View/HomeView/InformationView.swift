@@ -70,9 +70,7 @@ struct InformationView: View {
         .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 18)
         .customBackbutton()
         .onAppear {
-            
             voteStore.fetchInformation(informationId: informationId)
         }
-        
     }
 }

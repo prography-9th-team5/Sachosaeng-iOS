@@ -165,14 +165,14 @@ struct VoteDetailView: View {
                     } else {
                         isVoted = true
                         isLottie = true
-                        withAnimation {
-                            proxy.scrollTo("bottom")
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             Task {
                                 voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
                                 voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId)
                                 isLottie = false
+                                withAnimation {
+                                    proxy.scrollTo("bottom")
+                                }
                             }
                         }
                         toast = Toast(type: .success, message: "투표 완료!")

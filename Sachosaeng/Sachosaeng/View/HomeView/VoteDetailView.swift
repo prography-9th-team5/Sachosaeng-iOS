@@ -165,17 +165,21 @@ struct VoteDetailView: View {
                     } else {
                         isVoted = true
                         isLottie = true
-                        voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
-                        voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
-                            Task {
-                                withAnimation {
-                                    proxy.scrollTo("bottom")
+                        voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
+                            if success {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    withAnimation {
+                                        proxy.scrollTo("bottom")
+                                    }
+                                    isLottie = false
+                                    voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
+                                    toast = Toast(type: .success, message: "투표 완료!")
                                 }
+                            } else {
                                 isLottie = false
+                                toast = Toast(type: .quit, message: "투표 실패")
                             }
                         }
-                        toast = Toast(type: .success, message: "투표 완료!")
                     }
                 } label: {
                     Text(isVoted ? "다른 투표 보기" : "확인")

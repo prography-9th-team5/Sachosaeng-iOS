@@ -15,7 +15,8 @@ struct HomeView: View {
     @ObservedObject var userStore = UserStore.shared
     @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
-    
+    @State private var isCellAnimation: Bool = false
+
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -205,6 +206,9 @@ struct HomeView: View {
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
+            }
+            withAnimation {
+                isCellAnimation = true
             }
         }
     }

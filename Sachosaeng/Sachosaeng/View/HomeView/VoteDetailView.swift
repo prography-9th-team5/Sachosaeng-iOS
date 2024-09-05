@@ -10,13 +10,13 @@ import Lottie
 
 struct VoteDetailView: View {
     @State private var toast: Toast? = nil
-    @State var isSelected: Bool = false
-    @State var isBookmark: Bool = false
-    @State var isVoted: Bool = false
-    @State var chosenVoteIndex: Int?
-    @State var chosenVoteOptionId: [Int] = []
+    @State private var isSelected: Bool = false
+    @State private var isBookmark: Bool = false
+    @State private var isVoted: Bool = false
+    @State private var chosenVoteIndex: Int?
+    @State private var chosenVoteOptionId: [Int] = []
     @State var voteId: Int
-    @State var isLottie: Bool = false 
+    @State private var isLottie: Bool = false
     @StateObject var voteStore: VoteStore
     
     var body: some View {

@@ -32,9 +32,6 @@ struct SignView: View {
                         middleFont: .bold,
                         footer: "사회초년생 집단지성 투표 플랫폼, 사초생",
                         footerFont: .medium, isSuccessView: false)
-            .onTapGesture {
-                path.append(PathType.occupation)
-            }
             
             Group {
                 Spacer()
@@ -64,7 +61,7 @@ struct SignView: View {
                         onCompletion: { result in
                             signStore.loginApple(result: result) { success in
                                 if success {
-                                    performSignLogic()
+                                    performSignApple()
                                 }
                             }
                         }
@@ -132,7 +129,6 @@ struct SignView: View {
             
         }
     }
-    
 }
 
 #Preview {
@@ -140,6 +136,29 @@ struct SignView: View {
 }
 
 extension SignView {
+    private func performSignApple() {
+        signStore.registerUser(isApple: true) { type in
+            switch type {
+            case .success:
+                signStore.loginUser(isApple: true) { isSuccessAuthLogin in
+                    if isSuccessAuthLogin {
+                        path.append(PathType.occupation)
+                    }
+                }
+            case .failed:
+                jhPrint("실패")
+            case .userExists:
+                signStore.loginUser(isApple: true) { isSuccessAuthLogin in
+                    if isSuccessAuthLogin {
+                        userService.getUserInfo()
+                        userService.getUserCategories()
+                        path.append(PathType.home)
+                    }
+                }
+            }
+        }
+    }
+    
     private func performSignLogic() {
         signStore.registerUser { type in
             switch type {

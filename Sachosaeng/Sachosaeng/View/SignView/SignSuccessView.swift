@@ -52,6 +52,7 @@ struct SignSuccessView: View {
                 path.append(PathType.home)
                 isSign = false
                 userStore.convertToUserType(userStore.currentUserState.userType)
+                UserService.shared.getUserInfo()
             }
         }
     }

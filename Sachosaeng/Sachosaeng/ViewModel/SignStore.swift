@@ -32,18 +32,11 @@ final class SignStore: ObservableObject {
         case .success(let authResults):
             switch authResults.credential {
                 case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                    // 한번 애플로긴으로 로그인 한 유저는 이메서드로 이메일을 받을 수 없음 이부분을 어떻게 할지 정해야하는데 흠 ,..
-                    if let email = appleIDCredential.email {
-                        UserStore.shared.currentUserEmail = email
-                        jhPrint(email)
-                        completion(true)
-                    } else {
-                        jhPrint("이야 왜이러노?")
-                        completion(false)
-                    }
+                    UserStore.shared.currentUserEmail = appleIDCredential.user
+                    jhPrint(appleIDCredential.user)
+                    completion(true)
                 default:
-                    jhPrint("낸들아니 시발")
-
+                    jhPrint("안됩니다.", isWarning: true)
                     completion(false)
             }
         case .failure(let failure):
@@ -53,14 +46,14 @@ final class SignStore: ObservableObject {
         }
     }
     
-    func loginUser(completion: @escaping (Bool) -> Void) {
-        authService.loginUser { success in
+    func loginUser(isApple: Bool = false, completion: @escaping (Bool) -> Void) {
+        authService.loginUser(isApple: isApple) { success in
             completion(success)
         }
     }
     
-    func registerUser(completion: @escaping (AuthTypeKeys) -> Void) {
-        authService.joinUser { result in
+    func registerUser(isApple: Bool = false, completion: @escaping (AuthTypeKeys) -> Void) {
+        authService.registerUser(isApple: isApple) { result in
             completion(result)
         }
     }

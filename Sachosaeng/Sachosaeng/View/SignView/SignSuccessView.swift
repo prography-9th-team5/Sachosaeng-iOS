@@ -20,7 +20,7 @@ struct SignSuccessView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                CommonTitle(top: "랜덤이름님!",
+                CommonTitle(top: userStore.currentUserState.nickname,
                             topFont: .bold,
                             middle: "사초생에 오신 걸 환영해요",
                             middleFont: .bold,
@@ -44,6 +44,7 @@ struct SignSuccessView: View {
         }
         .padding(.top, 70)
         .onAppear {
+            UserService.shared.getUserInfo()
             withAnimation {
                 isImageAnimation = true
             }
@@ -52,7 +53,6 @@ struct SignSuccessView: View {
                 path.append(PathType.home)
                 isSign = false
                 userStore.convertToUserType(userStore.currentUserState.userType)
-                UserService.shared.getUserInfo()
             }
         }
     }

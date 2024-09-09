@@ -8,6 +8,7 @@
 import Foundation
 
 class BookmarkStore: ObservableObject {
+    @Published var currentUserVotesBookmark: [Bookmark] = []
     private let networkService = NetworkService.shared
 
     func fetchAllVotesBookmark() {
@@ -19,7 +20,8 @@ class BookmarkStore: ObservableObject {
             case .success(let bookmark):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
-                    jhPrint(bookmark.data)
+                    currentUserVotesBookmark = bookmark.data
+                    jhPrint(currentUserVotesBookmark)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -32,7 +34,7 @@ class BookmarkStore: ObservableObject {
         let body = ["voteId": voteId]
         let token = UserStore.shared.accessToken
         
-        networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<Response<[EmptyData]>, NetworkError>) in
+        networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<ResponseEmptyWithTempData, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async {
@@ -49,11 +51,11 @@ class BookmarkStore: ObservableObject {
         let body = ["voteBookmarkIds": [voteBookmarkIds]]
         let token = UserStore.shared.accessToken
         
-        networkService.performRequest(method: "DELETE", path: path, body: body, token: token) { (result: Result<Response<[EmptyData]>, NetworkError>) in
+        networkService.performRequest(method: "DELETE", path: path, body: body, token: token) { (result: Result<ResponseEmptyWithTempData, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async {
-                    jhPrint("북마크 등록 성공")
+                    jhPrint("북마크 삭제 성공")
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)

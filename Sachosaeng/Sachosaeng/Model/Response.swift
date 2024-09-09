@@ -25,3 +25,9 @@ struct ResponseWithTempData<T: Codable>: Codable {
 }
 
 struct EmptyData: Codable {}
+
+struct ResponseEmptyWithTempData: Codable {
+    let code: Int
+    let message: String
+    let data: String?
+}

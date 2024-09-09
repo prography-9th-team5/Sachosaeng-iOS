@@ -53,14 +53,14 @@ struct VoteDetailView: View {
                                 }
                                 .overlay(alignment: .trailing) {
                                     Button {
-                                        isBookmark.toggle()
-                                        if isBookmark {
+                                        if voteStore.currentVoteDetail.isBookmarked {
                                             bookmarkStore.deleteVotesBookmark(voteBookmarkIds: [voteId])
                                         } else {
                                             bookmarkStore.updateVotesBookmark(voteId: voteId)
                                         }
+                                        voteStore.currentVoteDetail.isBookmarked.toggle()
                                     } label: {
-                                        Image(isBookmark ? "bookmark" : "bookmark_off")
+                                        Image(voteStore.currentVoteDetail.isBookmarked ? "bookmark" : "bookmark_off")
                                             .frame(width: 16, height: 18)
                                             .padding(.trailing, 20)
                                     }
@@ -202,6 +202,7 @@ struct VoteDetailView: View {
         } //: Zstack
         .onAppear {
             voteStore.fetchVoteDetail(voteId: voteId)
+            
         }
     }
 }

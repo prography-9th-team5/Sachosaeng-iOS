@@ -18,6 +18,7 @@ struct VoteDetailView: View {
     @State var voteId: Int
     @State private var isLottie: Bool = false
     @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
     
     var body: some View {
         ZStack {
@@ -53,6 +54,11 @@ struct VoteDetailView: View {
                                 .overlay(alignment: .trailing) {
                                     Button {
                                         isBookmark.toggle()
+                                        if isBookmark {
+                                            bookmarkStore.deleteVotesBookmark(voteBookmarkIds: [voteId])
+                                        } else {
+                                            bookmarkStore.updateVotesBookmark(voteId: voteId)
+                                        }
                                     } label: {
                                         Image(isBookmark ? "bookmark" : "bookmark_off")
                                             .frame(width: 16, height: 18)

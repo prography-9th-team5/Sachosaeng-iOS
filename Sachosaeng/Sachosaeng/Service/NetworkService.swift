@@ -13,6 +13,7 @@ enum NetworkError: Error {
     case invalidResponse
     case decodingFailed(Error)
     case userExists
+    case valueAlreadyExists(String)
 }
 
 final class NetworkService {
@@ -51,11 +52,16 @@ final class NetworkService {
                 return
             }
             
-            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 || httpResponse.statusCode == 409 else {
+            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 || httpResponse.statusCode == 409 || httpResponse.statusCode == 400 else {
                 completion(.failure(.invalidResponse))
                 return
             }
-            
+
+            guard httpResponse.statusCode != 400 else {
+                completion(.failure(.valueAlreadyExists("이미 있음")))
+                return
+            }
+
             guard httpResponse.statusCode != 409 else {
                 completion(.failure(.userExists))
                 return

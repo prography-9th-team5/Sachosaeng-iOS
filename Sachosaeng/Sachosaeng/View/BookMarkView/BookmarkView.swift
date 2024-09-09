@@ -11,6 +11,7 @@ struct BookmarkView: View {
     @State private var selectedButton: String = "투표"
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
     @State private var selectedCategoryId: Int?
     @Namespace private var animationNamespace
     var body: some View {
@@ -171,7 +172,7 @@ struct BookmarkView: View {
                             if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.id == hotVote.category.categoryId }) {
                                 
                                 ForEach(categorizedVote.votes) { vote in
-                                    VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
+                                    VoteCellWithOutIndex(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote)
                                         .padding(.bottom, 6)
                                 }
                             } else {
@@ -184,15 +185,11 @@ struct BookmarkView: View {
                 }
                 Spacer()
             }
-        }
-        .onAppear() {
-            Task {
+            .refreshable {
                 categoryStore.fetchCategories()
+                bookmarkStore.fetchAllVotesBookmark()
             }
         }
+        
     }
-}
-
-#Preview {
-    BookmarkView(categoryStore: CategoryStore(), voteStore: VoteStore())
 }

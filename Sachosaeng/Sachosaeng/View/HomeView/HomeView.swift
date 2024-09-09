@@ -12,6 +12,7 @@ struct HomeView: View {
     @Binding var path: NavigationPath
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
     @ObservedObject var userStore = UserStore.shared
     @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
@@ -56,7 +57,7 @@ struct HomeView: View {
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
                             // MARK: - 사용자가 전체를 선택했을 때 플로우
-                            TodayVoteCell(voteStore: voteStore)
+                            TodayVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
                                 .padding(.bottom, 32)
                                 .id("top")
                             VStack(spacing: 0) {
@@ -79,7 +80,7 @@ struct HomeView: View {
                                 
                                 VStack(spacing: 0) {
                                     ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
-                                        HotVoteCell(vote: vote, voteStore: voteStore, index: index + 1)
+                                        HotVoteCell(vote: vote, voteStore: voteStore, bookmarkStore: bookmarkStore, index: index + 1)
                                             .padding(.horizontal, 20)
                                     }
                                 }
@@ -111,7 +112,7 @@ struct HomeView: View {
                                         if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.id == hotVote.category.categoryId }) {
                                             
                                             ForEach(categorizedVote.votes) { vote in
-                                                VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
+                                                VoteCellWithOutIndex(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote)
                                                     .padding(.bottom, 6)
                                             }
                                         } else {
@@ -151,7 +152,7 @@ struct HomeView: View {
                                     .padding(.bottom, 12)
                                 
                                 ForEach(Array(voteStore.hotVotesWithSelectedCategory.votes.enumerated()), id: \.element) { index, vote  in
-                                    VoteCell(voteStore: voteStore, vote: vote, index: index + 1)
+                                    VoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote, index: index + 1)
                                         .padding(.horizontal, 20)
                                         .padding(.bottom, 6)
                                 }
@@ -169,7 +170,7 @@ struct HomeView: View {
                                 .padding(.bottom, 14)
                                 
                                 ForEach(voteStore.latestVotes.votes) { vote in
-                                    VoteCellWithOutIndex(voteStore: voteStore, vote: vote)
+                                    VoteCellWithOutIndex(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote)
                                         .padding(.horizontal, 20)
                                         .padding(.bottom, 6)
                                 }
@@ -211,12 +212,6 @@ struct HomeView: View {
                 isCellAnimation = true
             }
         }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        HomeView(isSign: .constant(false), path: .constant(NavigationPath()), categoryStore: CategoryStore(), voteStore: VoteStore())
     }
 }
 

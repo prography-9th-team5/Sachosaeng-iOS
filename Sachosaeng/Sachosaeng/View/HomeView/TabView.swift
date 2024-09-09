@@ -18,14 +18,15 @@ struct TabView: View {
     @State var switchTab: TabItem = .home
     @ObservedObject var categoryStore = CategoryStore()
     @ObservedObject var voteStore: VoteStore = VoteStore()
+    @ObservedObject var bookmarkStore: BookmarkStore = BookmarkStore()
     var body: some View {
         VStack(spacing: 0) {
             switch switchTab {
                 case .home:
-                    HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore)
+                    HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
                         .navigationBarBackButtonHidden()
                 case .bookMark:
-                    BookmarkView(categoryStore: categoryStore, voteStore: voteStore)
+                    BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
             }
             
             ZStack {

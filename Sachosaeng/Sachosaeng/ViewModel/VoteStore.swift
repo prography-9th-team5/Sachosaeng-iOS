@@ -153,7 +153,7 @@ final class VoteStore: ObservableObject {
         }
     }
     
-    func searchInformation(categoryId: Int, voteId: Int) {
+    func searchInformation(categoryId: Int, voteId: Int, completion: @escaping (Bool) -> Void) {
         let path = "/api/v1/similar-information?category-id=\(categoryId)&vote-id=\(voteId)"
         let token = UserStore.shared.accessToken
         
@@ -163,9 +163,11 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentVoteInformation = information.data
+                    completion(true)
                 }
             case .failure(let error):
                 jhPrint(error)
+                completion(false)
             }
         }
     }

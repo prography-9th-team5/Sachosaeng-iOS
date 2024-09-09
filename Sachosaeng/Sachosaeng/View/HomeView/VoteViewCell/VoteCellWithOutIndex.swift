@@ -9,11 +9,12 @@ import SwiftUI
 
 struct VoteCellWithOutIndex: View {
     @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
     var vote: VoteWithoutCategory
     
     var body: some View {
         NavigationLink {
-            VoteDetailView(voteId: vote.voteId, voteStore: voteStore)
+            VoteDetailView(voteId: vote.voteId, voteStore: voteStore, bookmarkStore: bookmarkStore)
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)

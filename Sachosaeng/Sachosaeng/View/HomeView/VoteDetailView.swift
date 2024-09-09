@@ -10,14 +10,15 @@ import Lottie
 
 struct VoteDetailView: View {
     @State private var toast: Toast? = nil
-    @State var isSelected: Bool = false
-    @State var isBookmark: Bool = false
-    @State var isVoted: Bool = false
-    @State var chosenVoteIndex: Int?
-    @State var chosenVoteOptionId: [Int] = []
+    @State private var isSelected: Bool = false
+    @State private var isBookmark: Bool = false
+    @State private var isVoted: Bool = false
+    @State private var chosenVoteIndex: Int?
+    @State private var chosenVoteOptionId: [Int] = []
     @State var voteId: Int
-    @State var isLottie: Bool = false 
+    @State private var isLottie: Bool = false
     @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
     
     var body: some View {
         ZStack {
@@ -53,6 +54,11 @@ struct VoteDetailView: View {
                                 .overlay(alignment: .trailing) {
                                     Button {
                                         isBookmark.toggle()
+                                        if isBookmark {
+                                            bookmarkStore.deleteVotesBookmark(voteBookmarkIds: [voteId])
+                                        } else {
+                                            bookmarkStore.updateVotesBookmark(voteId: voteId)
+                                        }
                                     } label: {
                                         Image(isBookmark ? "bookmark" : "bookmark_off")
                                             .frame(width: 16, height: 18)
@@ -165,17 +171,21 @@ struct VoteDetailView: View {
                     } else {
                         isVoted = true
                         isLottie = true
-                        withAnimation {
-                            proxy.scrollTo("bottom")
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            Task {
-                                voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
-                                voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId)
+                        voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
+                            if success {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    withAnimation {
+                                        proxy.scrollTo("bottom")
+                                    }
+                                    isLottie = false
+                                    voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
+                                    toast = Toast(type: .success, message: "투표 완료!")
+                                }
+                            } else {
                                 isLottie = false
+                                toast = Toast(type: .quit, message: "투표 실패")
                             }
                         }
-                        toast = Toast(type: .success, message: "투표 완료!")
                     }
                 } label: {
                     Text(isVoted ? "다른 투표 보기" : "확인")

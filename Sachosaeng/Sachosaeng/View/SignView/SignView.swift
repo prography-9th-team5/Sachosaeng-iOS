@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleSignInSwift
+import _AuthenticationServices_SwiftUI
 
 enum PhoneSpace {
     static let screenWidth = UIScreen.main.bounds.width
@@ -31,9 +32,6 @@ struct SignView: View {
                         middleFont: .bold,
                         footer: "사회초년생 집단지성 투표 플랫폼, 사초생",
                         footerFont: .medium, isSuccessView: false)
-            .onTapGesture {
-                path.append(PathType.occupation)
-            }
             
             Group {
                 Spacer()
@@ -55,11 +53,23 @@ struct SignView: View {
                                 .frame(width: 28, height: 28)
                                 .padding(12)
                         }
-                    AppleSignInButton()
-                        .frame(width: PhoneSpace.screenWidth - 40, height: 55)
-                        .blendMode(.overlay)
-                        .opacity(0.02)
-                        .allowsHitTesting(true)
+                    SignInWithAppleButton(
+                        .continue,
+                        onRequest: { request in
+                            request.requestedScopes = [.fullName, .email]
+                        },
+                        onCompletion: { result in
+                            signStore.loginApple(result: result) { success in
+                                if success {
+                                    performSignApple()
+                                }
+                            }
+                        }
+                    )
+                    .frame(width: PhoneSpace.screenWidth - 40, height: 55)
+                    .blendMode(.overlay)
+                    .opacity(0.02)
+                    .allowsHitTesting(true)
                 } //: ZStack
                 .padding(.bottom, 8)
                 Button {
@@ -119,7 +129,6 @@ struct SignView: View {
             
         }
     }
-    
 }
 
 #Preview {
@@ -127,6 +136,29 @@ struct SignView: View {
 }
 
 extension SignView {
+    private func performSignApple() {
+        signStore.registerUser(isApple: true) { type in
+            switch type {
+            case .success:
+                signStore.loginUser(isApple: true) { isSuccessAuthLogin in
+                    if isSuccessAuthLogin {
+                        path.append(PathType.occupation)
+                    }
+                }
+            case .failed:
+                jhPrint("실패")
+            case .userExists:
+                signStore.loginUser(isApple: true) { isSuccessAuthLogin in
+                    if isSuccessAuthLogin {
+                        userService.getUserInfo()
+                        userService.getUserCategories()
+                        path.append(PathType.home)
+                    }
+                }
+            }
+        }
+    }
+    
     private func performSignLogic() {
         signStore.registerUser { type in
             switch type {

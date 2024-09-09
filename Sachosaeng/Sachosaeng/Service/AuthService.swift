@@ -101,6 +101,8 @@ final class AuthService {
         }
     }
     
+    
+    
     func loginGoogle(completion: @escaping (Bool) -> Void) {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
             completion(false)
@@ -121,10 +123,11 @@ final class AuthService {
         }
     }
     
-    func loginUser(completion: @escaping (Bool) -> Void) {
+    func loginUser(isApple: Bool = false, completion: @escaping (Bool) -> Void) {
         let body = ["email": UserStore.shared.currentUserEmail]
-        
-        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/login", body: body, token: nil) { (result: Result<AuthResponse, NetworkError>) in
+        let path = isApple ?
+        "/api/v1/auth/login?type=APPLE" : "/api/v1/auth/login"
+        NetworkService.shared.performRequest(method: "POST", path: path, body: body, token: nil) { (result: Result<AuthResponse, NetworkError>) in
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
@@ -159,13 +162,15 @@ final class AuthService {
         }
     }
     
-    func joinUser(completion: @escaping (AuthTypeKeys) -> Void) {
+    func registerUser(isApple: Bool = false, completion: @escaping (AuthTypeKeys) -> Void) {
         let body = [
             "email": UserStore.shared.currentUserEmail,
             "userType": "STUDENT"
             ]
+        let path = isApple ? 
+        "/api/v1/auth/join?type=APPLE" : "/api/v1/auth/join"
         
-        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/join", body: body, token: nil) { (result: Result<AuthResponse, NetworkError>) in
+        NetworkService.shared.performRequest(method: "POST", path: path, body: body, token: nil) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let response):
                 jhPrint("회원가입 성공: \(response)")

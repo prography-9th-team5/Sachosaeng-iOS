@@ -15,32 +15,45 @@ struct SignSuccessView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var isActive: Bool = false
+    @State private var isImageAnimation: Bool = false
+    
     var body: some View {
-            VStack(spacing: 0) {
-                HStack(spacing: 0) {
-                    CommonTitle(top: "랜덤이름님!",
-                                topFont: .bold,
-                                middle: "사초생에 오신 걸 환영해요",
-                                middleFont: .bold,
-                                footer: "회원가입 완료",
-                                footerFont: .medium, isSuccessView: true)
-                }
-                .frame(height: 100)
-                .padding(.bottom, 45)
-                    
-                Image("온보딩_\(userStore.currentUserState.userType)")
-                    .frame(width: 248,
-                           height: 248)
-                Spacer()
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                CommonTitle(top: userStore.currentUserState.nickname,
+                            topFont: .bold,
+                            middle: "사초생에 오신 걸 환영해요",
+                            middleFont: .bold,
+                            footer: "회원가입 완료",
+                            footerFont: .medium, isSuccessView: true)
             }
-            .padding(.top, 70)
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    isActive = true
-                    path.append(PathType.home)
-                    isSign = false
-                    userStore.convertToUserType(userStore.currentUserState.userType)
-                }
+            .frame(height: 100)
+            .padding(.bottom, 45)
+            
+            if !isImageAnimation {
+                Spacer()
+                    .frame(height: 400)
+            }
+                
+            Image("온보딩_\(userStore.currentUserState.userType)")
+                .frame(width: 248, height: 248)
+                .opacity(isImageAnimation ? 1 : 0)
+                .animation(.easeInOut(duration: 0.5), value: isImageAnimation)
+
+            Spacer()
+        }
+        .padding(.top, 70)
+        .onAppear {
+            UserService.shared.getUserInfo()
+            withAnimation {
+                isImageAnimation = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                isActive = true
+                path.append(PathType.home)
+                isSign = false
+                userStore.convertToUserType(userStore.currentUserState.userType)
             }
         }
+    }
 }

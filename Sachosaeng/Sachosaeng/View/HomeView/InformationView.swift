@@ -9,6 +9,7 @@ import SwiftUI
 
 struct InformationView: View {
     @StateObject var voteStore: VoteStore
+    @State var isBookmark: Bool = false 
     var informationId: Int
 
     var body: some View {
@@ -62,7 +63,13 @@ struct InformationView: View {
             .padding(.top, 10)
         }
         .toolbar {
-            Text("asdsa")
+            Button {
+                isBookmark.toggle()
+            } label: {
+                Image(isBookmark ? "bookmark" : "bookmark_off")
+                    .frame(width: 16, height: 18)
+                    .padding(.trailing, 20)
+            }
         }
         .navigationTitle("연관 콘텐츠")
         .navigationBarTitleDisplayMode(.inline)
@@ -70,9 +77,7 @@ struct InformationView: View {
         .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 18)
         .customBackbutton()
         .onAppear {
-            
             voteStore.fetchInformation(informationId: informationId)
         }
-        
     }
 }

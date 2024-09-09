@@ -27,14 +27,33 @@ final class SignStore: ObservableObject {
         }
     }
     
-    func loginUser(completion: @escaping (Bool) -> Void) {
-        authService.loginUser { success in
+    func loginApple(result: Result<ASAuthorization, Error>, completion: @escaping (Bool) -> Void) {
+        switch result {
+        case .success(let authResults):
+            switch authResults.credential {
+                case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                    UserStore.shared.currentUserEmail = appleIDCredential.user
+                    jhPrint(appleIDCredential.user)
+                    completion(true)
+                default:
+                    jhPrint("안됩니다.", isWarning: true)
+                    completion(false)
+            }
+        case .failure(let failure):
+            jhPrint(failure.localizedDescription)
+            jhPrint("error")
+            completion(false)
+        }
+    }
+    
+    func loginUser(isApple: Bool = false, completion: @escaping (Bool) -> Void) {
+        authService.loginUser(isApple: isApple) { success in
             completion(success)
         }
     }
     
-    func registerUser(completion: @escaping (AuthTypeKeys) -> Void) {
-        authService.joinUser { result in
+    func registerUser(isApple: Bool = false, completion: @escaping (AuthTypeKeys) -> Void) {
+        authService.registerUser(isApple: isApple) { result in
             completion(result)
         }
     }

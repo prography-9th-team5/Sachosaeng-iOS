@@ -54,7 +54,7 @@ struct VoteDetailView: View {
                                 .overlay(alignment: .trailing) {
                                     Button {
                                         if voteStore.currentVoteDetail.isBookmarked {
-                                            bookmarkStore.deleteVotesBookmark(voteBookmarkIds: [voteId])
+                                            bookmarkStore.deleteVotesBookmark(voteId: voteId)
                                         } else {
                                             bookmarkStore.updateVotesBookmark(voteId: voteId)
                                         }

@@ -203,9 +203,6 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                voteStore.fetchDailyVote()
-                voteStore.fetchHotVotes()
-                voteStore.fetchHotVotesInCategory()
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
             }
             withAnimation {

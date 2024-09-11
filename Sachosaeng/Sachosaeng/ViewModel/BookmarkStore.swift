@@ -34,7 +34,7 @@ class BookmarkStore: ObservableObject {
         let body = ["voteId": voteId]
         let token = UserStore.shared.accessToken
         
-        networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<ResponseEmptyWithTempData, NetworkError>) in
+        networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async {
@@ -46,12 +46,11 @@ class BookmarkStore: ObservableObject {
         }
     }
     
-    func deleteVotesBookmark(voteBookmarkIds: [Int]) {
-        let path = "/api/v1/bookmarks/votes"
-        let body = ["voteBookmarkIds": [voteBookmarkIds]]
+    func deleteVotesBookmark(voteId: Int) {
+        let path = "/api/v1/bookmarks/votes/\(voteId)"
         let token = UserStore.shared.accessToken
         
-        networkService.performRequest(method: "DELETE", path: path, body: body, token: token) { (result: Result<ResponseEmptyWithTempData, NetworkError>) in
+        networkService.performRequest(method: "DELETE", path: path, body: nil, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async {

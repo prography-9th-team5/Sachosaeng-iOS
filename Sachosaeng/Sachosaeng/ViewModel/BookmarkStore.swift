@@ -10,6 +10,7 @@ import Foundation
 class BookmarkStore: ObservableObject {
     @Published var currentUserVotesBookmark: [Bookmark] = []
     @Published var currentUserInformationBookmark: [InformationInBookmark] = []
+    @Published var editBookmarkNumber: [Int] = []
     private let networkService = NetworkService.shared
 
     func fetchAllVotesBookmark() {
@@ -23,6 +24,29 @@ class BookmarkStore: ObservableObject {
                     guard let self else { return }
                     currentUserVotesBookmark = bookmark.data.votes
                     jhPrint(currentUserVotesBookmark)
+                }
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
+            }
+        }
+    }
+    
+    func deleteAllVotesBookmark(bookmarkId: [Int], completion: @escaping () -> Void) {
+        let path = "/api/v1/bookmarks/votes"
+        let body = ["voteBookmarkIds": bookmarkId]
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "DELETE", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+            switch result {
+            case .success( _):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    
+                    currentUserVotesBookmark.removeAll { bookmarkId.contains($0.voteBookmarkId) }
+                    editBookmarkNumber.removeAll()
+
+                    jhPrint("북마크 배열 삭제 성공")
+                    completion()
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -81,6 +105,29 @@ class BookmarkStore: ObservableObject {
         }
     }
     
+    func deleteAllInformationsInbookmark(informationId: [Int], completion: @escaping () -> Void) {
+        let path = "/api/v1/bookmarks/information"
+        let body = ["informationBookmarkIds": informationId]
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "DELETE", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+            switch result {
+            case .success( _):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    
+                    currentUserInformationBookmark.removeAll { informationId.contains($0.informationBookmarkId) }
+                    editBookmarkNumber.removeAll()
+
+                    jhPrint("북마크 배열 삭제 성공")
+                    completion()
+                }
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
+            }
+        }
+    }
+    
     func updateInformationsInBookmark(informationId: Int) {
         let path = "/api/v1/bookmarks/information"
         let token = UserStore.shared.accessToken
@@ -110,5 +157,15 @@ class BookmarkStore: ObservableObject {
                 jhPrint(failure, isWarning: true)
             }
         }
+    }
+    
+    func updateEditBookmarkNumber(_ number: Int) {
+        editBookmarkNumber.append(number)
+        jhPrint(editBookmarkNumber)
+    }
+    
+    func deleteEditBookmarkNumber(_ number: Int) {
+        editBookmarkNumber = editBookmarkNumber.filter { $0 != number }
+        jhPrint(editBookmarkNumber, isWarning: true)
     }
 }

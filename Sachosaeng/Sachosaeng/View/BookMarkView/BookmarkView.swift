@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct BookmarkView: View {
+    @State private var toast: Toast? = nil
     @State private var selectedButton: String = "투표"
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
     @State private var selectedCategoryId: Int?
+    @State var isEdit: Bool = false
     @Namespace private var animationNamespace
     var body: some View {
         ZStack {
@@ -33,6 +35,7 @@ struct BookmarkView: View {
                         Button(action: {
                             withAnimation {
                                 selectedButton = "투표"
+                                isEdit = false
                             }
                         }) {
                             VStack {
@@ -58,6 +61,7 @@ struct BookmarkView: View {
                         Button(action: {
                             withAnimation {
                                 selectedButton = "연관콘텐츠"
+                                isEdit = false
                             }
                         }) {
                             VStack {
@@ -91,7 +95,6 @@ struct BookmarkView: View {
                                     Button {
                                         withAnimation {
                                             selectedCategoryId = category.id
-                                            jhPrint(category.name)
                                             proxy.scrollTo(category.name, anchor: .center)
                                         }
                                     } label: {
@@ -133,7 +136,7 @@ struct BookmarkView: View {
                     }
                     
                     Button {
-                        
+                        isEdit.toggle()
                     } label: {
                         Text("편집")
                             .font(.createFont(weight: .medium, size: 14))
@@ -144,22 +147,42 @@ struct BookmarkView: View {
                     }
                     .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                 }
-                if selectedButton == "투표" {
-                    ScrollView(showsIndicators: false) {
-                        ForEach(bookmarkStore.currentUserVotesBookmark) { bookmark in
-                            VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, bookmark: bookmark)
-                                .padding(.horizontal, 20)
+                VStack(spacing: 0) {
+                    if selectedButton == "투표" {
+                        ScrollView(showsIndicators: false) {
+                            ForEach($bookmarkStore.currentUserVotesBookmark) { $bookmark in
+                                VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, bookmark: bookmark)
+                                    .padding(.horizontal, 20)
+                            }
+                        }
+                    } else {
+                        ScrollView(showsIndicators: false) {
+                            ForEach(bookmarkStore.currentUserInformationBookmark) { information in
+                                InformationBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, information: information)
+                                    .padding(.horizontal, 20)
+                            }
                         }
                     }
-                } else {
-                    ScrollView(showsIndicators: false) {
-                        ForEach(bookmarkStore.currentUserInformationBookmark) { information in
+                    if isEdit {
+                        Button {
+                            if selectedButton == "투표" {
+                                bookmarkStore.deleteAllVotesBookmark(bookmarkId: bookmarkStore.editBookmarkNumber) {
+                                    toast = Toast(type: .success, message: "편집이 완료되었어요!")
+                                }
+                            } else {
+                                bookmarkStore.deleteAllInformationsInbookmark(informationId: bookmarkStore.editBookmarkNumber) {
+                                    toast = Toast(type: .success, message: "편집이 완료되었어요!")
+                                }
+                            }
                             
+                        } label: {
+                            Text("버튼")
                         }
                     }
                 }
                 Spacer()
             }
         }
+        .showToastView(toast: $toast)
     }
 }

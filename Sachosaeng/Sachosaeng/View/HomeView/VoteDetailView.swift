@@ -25,7 +25,7 @@ struct VoteDetailView: View {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
             
             if isLottie {
-                LottieView(animation: .named("performVoteAnimation"))
+                LottieView(animation: .named("stamplottie"))
                     .playing()
             }
             
@@ -173,7 +173,7 @@ struct VoteDetailView: View {
                         isLottie = true
                         voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
                             if success {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                     withAnimation {
                                         proxy.scrollTo("bottom")
                                     }

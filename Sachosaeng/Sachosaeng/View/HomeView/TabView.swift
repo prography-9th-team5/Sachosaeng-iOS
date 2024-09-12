@@ -65,6 +65,7 @@ struct TabView: View {
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
                 bookmarkStore.fetchAllVotesBookmark()
+                bookmarkStore.fetchAllInformationInBookmark()
             }
         }
         .navigationBarBackButtonHidden(true)

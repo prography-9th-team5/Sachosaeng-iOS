@@ -34,6 +34,10 @@ struct ResponseBookmark: Codable {
     let votes: [Bookmark]
 }
 
+struct ResponseInformation: Codable {
+    let information: [InformationInBookmark]
+}
+
 struct ResponseWithTempData<T: Codable>: Codable {
     let code: Int
     let message: String

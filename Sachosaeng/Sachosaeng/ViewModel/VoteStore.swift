@@ -13,7 +13,7 @@ final class VoteStore: ObservableObject {
     @Published var dailyVote: Vote = dummyDailyVote
     @Published var currentVoteDetail: VoteDetail = dummyVoteDetail
     @Published var currentVoteInformation: [Information] = []
-    @Published var currentVoteInformationDetail: InformationDetail?
+    @Published var currentVoteInformationDetail: InformationDetail = dummyInformationDetail
     @Published var hotVotesWithSelectedCategory: HotVoteWithCategory = dummyHotVoteWithCategory
     @Published var hotVotesInCategory: [CategorizedVotes] = [dummyCategorizedVotes]
     @Published var latestVotes: LatestVote = dummyLatestVote
@@ -28,7 +28,6 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     hotVotes = votes.data
-//                    jhPrint(hotVotes)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)

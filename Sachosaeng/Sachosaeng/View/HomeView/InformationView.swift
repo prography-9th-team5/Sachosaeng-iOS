@@ -9,7 +9,8 @@ import SwiftUI
 
 struct InformationView: View {
     @StateObject var voteStore: VoteStore
-    @State var isBookmark: Bool = false 
+    @StateObject var bookmarkStore: BookmarkStore
+    @State var isBookmark: Bool = false
     var informationId: Int
 
     var body: some View {
@@ -18,43 +19,42 @@ struct InformationView: View {
             VStack(spacing: 0) {
                 ScrollViewReader { proxy in
                     ScrollView {
-                        if let information = voteStore.currentVoteInformationDetail {
-                            VStack(spacing: 0) {
-                                HStack(spacing: 0) {
-                                    Text(information.title)
-                                        .font(.createFont(weight: .bold, size: 22))
-                                        .foregroundStyle(CustomColor.GrayScaleColor.black)
-                                    Spacer()
-                                }
-                                .padding(.bottom, 28)
-                                
-                                VStack(spacing: 0) {
-                                    Text(information.subtitle ?? "")
-                                        .foregroundStyle(CustomColor.GrayScaleColor.black)
-                                        .font(.createFont(weight: .medium, size: 16))
-                                    
-                                    let modifiedContent = information.content
-                                        .replacingOccurrences(of: "\n", with: "\n")
-                                    
-                                    Text(modifiedContent)
-                                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                                        .font(.createFont(weight: .medium, size: 14))
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.top, 8)
-                                .padding(.bottom, 24)
-                                .background(CustomColor.GrayScaleColor.gs1)
-                                .cornerRadius(8, corners: [.allCorners])
-                                
-                                HStack(spacing: 0) {
-                                    Text(information.referenceName)
-                                        .foregroundStyle(CustomColor.GrayScaleColor.gs5)
-                                        .font(.createFont(weight: .medium, size: 12))
-                                    Spacer()
-                                }
-                                .padding(.top, 20)
+                        VStack(spacing: 0) {
+                            HStack(spacing: 0) {
+                                Text("\(voteStore.currentVoteInformationDetail.title)")
+                                    .font(.createFont(weight: .bold, size: 22))
+                                    .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                Spacer()
                             }
+                            .padding(.bottom, 28)
+                            
+                            VStack(spacing: 0) {
+                                Text(voteStore.currentVoteInformationDetail.subtitle ?? "")
+                                    .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                    .font(.createFont(weight: .medium, size: 16))
+                                
+                                let modifiedContent = voteStore.currentVoteInformationDetail.content
+                                    .replacingOccurrences(of: "\n", with: "\n")
+                                
+                                Text(modifiedContent)
+                                    .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                    .font(.createFont(weight: .medium, size: 14))
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                            .padding(.bottom, 24)
+                            .background(CustomColor.GrayScaleColor.gs1)
+                            .cornerRadius(8, corners: [.allCorners])
+                            
+                            HStack(spacing: 0) {
+                                Text(voteStore.currentVoteInformationDetail.referenceName)
+                                    .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                                    .font(.createFont(weight: .medium, size: 12))
+                                Spacer()
+                            }
+                            .padding(.top, 20)
                         }
+                        
                     }
                 }
                 .padding()
@@ -64,12 +64,18 @@ struct InformationView: View {
         }
         .toolbar {
             Button {
-                isBookmark.toggle()
+                if voteStore.currentVoteInformationDetail.isBookmarked {
+                    bookmarkStore.deleteInformationsInBookmark(informationId: informationId)
+                } else {
+                    bookmarkStore.updateInformationsInBookmark(informationId: informationId)
+                }
+                voteStore.currentVoteInformationDetail.isBookmarked.toggle()
             } label: {
-                Image(isBookmark ? "bookmark" : "bookmark_off")
+                Image(voteStore.currentVoteInformationDetail.isBookmarked ? "bookmark" : "bookmark_off")
                     .frame(width: 16, height: 18)
                     .padding(.trailing, 20)
             }
+        
         }
         .navigationTitle("연관 콘텐츠")
         .navigationBarTitleDisplayMode(.inline)

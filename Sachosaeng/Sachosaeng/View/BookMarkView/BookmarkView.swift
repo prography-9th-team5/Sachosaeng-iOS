@@ -144,18 +144,22 @@ struct BookmarkView: View {
                     }
                     .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                 }
-                
-                ScrollView(showsIndicators: false) {
-                    ForEach(bookmarkStore.currentUserVotesBookmark) { bookmark in
-                        VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, bookmark: bookmark)
-                            .padding(.horizontal, 20)
+                if selectedButton == "투표" {
+                    ScrollView(showsIndicators: false) {
+                        ForEach(bookmarkStore.currentUserVotesBookmark) { bookmark in
+                            VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, bookmark: bookmark)
+                                .padding(.horizontal, 20)
+                        }
+                    }
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        ForEach(bookmarkStore.currentUserInformationBookmark) { information in
+                            
+                        }
                     }
                 }
-                
                 Spacer()
             }
-
         }
-       
     }
 }

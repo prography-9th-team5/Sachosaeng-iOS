@@ -132,7 +132,7 @@ struct VoteDetailView: View {
                                 VStack(spacing: 0) {
                                     ForEach(voteStore.currentVoteInformation) { information in
                                         NavigationLink {
-                                            InformationView(voteStore: voteStore, informationId: information.id)
+                                            InformationView(voteStore: voteStore, bookmarkStore: bookmarkStore, informationId: information.id)
                                         } label: {
                                             RoundedRectangle(cornerRadius: 8)
                                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
@@ -202,7 +202,6 @@ struct VoteDetailView: View {
         } //: Zstack
         .onAppear {
             voteStore.fetchVoteDetail(voteId: voteId)
-            
         }
     }
 }

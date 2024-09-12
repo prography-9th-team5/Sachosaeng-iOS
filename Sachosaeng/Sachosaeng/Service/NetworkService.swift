@@ -56,7 +56,7 @@ final class NetworkService {
                 completion(.failure(.invalidResponse))
                 return
             }
-//            jhPrint("path: \(path), method: \(method)", isWarning: true)
+            
             guard httpResponse.statusCode != 400 else {
                 completion(.failure(.valueAlreadyExists("code: 400입니다. 무언가 있기에 뜨는 코드라고 합니다요")))
                 return

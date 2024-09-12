@@ -24,8 +24,8 @@ public func fetchData<T: Codable>(from urlString: String, completion: @escaping 
             return
         }
         do {
-            let decodedResponse = try JSONDecoder().decode(Response<T>.self, from: data)
-            completion(.success(decodedResponse.data))
+            let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+            completion(.success(decodedResponse))
         } catch {
             completion(.failure(error))
         }

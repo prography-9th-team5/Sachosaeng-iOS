@@ -41,7 +41,7 @@ final class VoteStore: ObservableObject {
         let path = "/api/v1/votes/suggestions/all"
         let token = UserStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<[HotVoteWithCategory]>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseHotvoteWithCategory>, NetworkError>) in
             switch result {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
@@ -49,7 +49,7 @@ final class VoteStore: ObservableObject {
                     
                     var categorizedVotes: [CategorizedVotes] = []
                     
-                    for hotVote in votes.data {
+                    for hotVote in votes.data.categories {
                         if let index = categorizedVotes.firstIndex(where: { $0.category.categoryId == hotVote.category.categoryId }) {
                             categorizedVotes[index].votes.append(contentsOf: hotVote.votes)
                         } else {
@@ -157,12 +157,12 @@ final class VoteStore: ObservableObject {
         let path = "/api/v1/similar-information?category-id=\(categoryId)&vote-id=\(voteId)"
         let token = UserStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) {(result: Result<Response<[Information]>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) {(result: Result<Response<ResponseinformationData>, NetworkError>) in
             switch result {
             case .success(let information):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
-                    currentVoteInformation = information.data
+                    currentVoteInformation = information.data.information
                     completion(true)
                 }
             case .failure(let error):
@@ -182,7 +182,6 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentVoteInformationDetail = informationDetail.data
-//                    jhPrint(currentVoteInformationDetail)
                 }
             case .failure(let error):
                 jhPrint(error)

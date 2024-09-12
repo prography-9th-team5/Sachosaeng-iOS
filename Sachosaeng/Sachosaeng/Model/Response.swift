@@ -18,6 +18,22 @@ struct Response<T: Codable>: Codable {
     }
 }
 
+struct ResponseCategoriesData: Codable {
+    let categories: [Category]
+}
+
+struct ResponseHotvoteWithCategory: Codable {
+    let categories: [HotVoteWithCategory]
+}
+
+struct ResponseinformationData: Codable {
+    let information: [Information]
+}
+
+struct ResponseBookmark: Codable {
+    let votes: [Bookmark]
+}
+
 struct ResponseWithTempData<T: Codable>: Codable {
     let code: Int
     let message: String
@@ -25,9 +41,3 @@ struct ResponseWithTempData<T: Codable>: Codable {
 }
 
 struct EmptyData: Codable {}
-
-struct ResponseEmptyWithTempData: Codable {
-    let code: Int
-    let message: String
-    let data: String?
-}

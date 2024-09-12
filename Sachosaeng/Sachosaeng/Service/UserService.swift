@@ -15,12 +15,12 @@ final class UserService: ObservableObject {
         let token = UserStore.shared.accessToken
         let body = ["userType": userType]
         
-        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/user-type", body: body, token: token) { (result: Result<Response<User>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/user-type", body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
-            case .failure(_):
-                break
+            case .failure(let err):
+                jhPrint(err)
             }
         }
     }
@@ -33,8 +33,8 @@ final class UserService: ObservableObject {
             switch result {
             case .success(let success):
                 jhPrint(success)
-            case .failure(_):
-                break
+            case .failure(let err):
+                jhPrint(err)
             }
         }
     }
@@ -67,7 +67,7 @@ final class UserService: ObservableObject {
         let categoryIds = categories.map { $0.id }
         let body = ["categoryIds": categoryIds]
 
-        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/my-categories", body: body, token: token) { (result: Result<ResponseWithTempData<EmptyData>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/my-categories", body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
@@ -80,15 +80,13 @@ final class UserService: ObservableObject {
     /// 유저가 고른 카테고리들을 가져오는 메서드
     func getUserCategories() {
         let token = UserStore.shared.accessToken
-        
-        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/my-categories", body: nil, token: token) {(result: Result<Response<[Category]>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/my-categories", body: nil, token: token) {(result: Result<Response<ResponseCategoriesData>, NetworkError>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let success):
-                    UserStore.shared.currentUserCategories = success.data
-//                    jhPrint(UserStore.shared.currentUserCategories)
+                    UserStore.shared.currentUserCategories = success.data.categories
                 case .failure(let failure):
-                    jhPrint("여기를 봐주세요 \(failure)", isWarning: true)
+                    jhPrint("getUserCategories \(failure)", isWarning: true)
                 }
             }
         }

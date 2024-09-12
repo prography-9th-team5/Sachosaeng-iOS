@@ -14,13 +14,13 @@ class BookmarkStore: ObservableObject {
     func fetchAllVotesBookmark() {
         let path = "/api/v1/bookmarks/votes"
         let token = UserStore.shared.accessToken
-
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<[Bookmark]>, NetworkError>) in
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseBookmark>, NetworkError>) in
             switch result {
             case .success(let bookmark):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
-                    currentUserVotesBookmark = bookmark.data
+                    currentUserVotesBookmark = bookmark.data.votes
                     jhPrint(currentUserVotesBookmark)
                 }
             case .failure(let failure):

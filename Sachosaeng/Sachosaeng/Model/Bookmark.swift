@@ -11,6 +11,6 @@ struct Bookmark: Codable, Identifiable {
     var voteBookmarkId: Int
     var voteId: Int
     var title: String
-    var dexcription: String
+    var description: String
     var id: Int { return voteId }
 }

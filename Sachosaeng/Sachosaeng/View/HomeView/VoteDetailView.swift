@@ -9,6 +9,7 @@ import SwiftUI
 import Lottie
 
 struct VoteDetailView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var toast: Toast? = nil
     @State private var isSelected: Bool = false
     @State private var isBookmark: Bool = false
@@ -25,7 +26,7 @@ struct VoteDetailView: View {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
             
             if isLottie {
-                LottieView(animation: .named("performVoteAnimation"))
+                LottieView(animation: .named("stamplottie"))
                     .playing()
             }
             
@@ -53,14 +54,14 @@ struct VoteDetailView: View {
                                 }
                                 .overlay(alignment: .trailing) {
                                     Button {
-                                        isBookmark.toggle()
-                                        if isBookmark {
-                                            bookmarkStore.deleteVotesBookmark(voteBookmarkIds: [voteId])
+                                        if voteStore.currentVoteDetail.isBookmarked {
+                                            bookmarkStore.deleteVotesBookmark(voteId: voteId)
                                         } else {
                                             bookmarkStore.updateVotesBookmark(voteId: voteId)
                                         }
+                                        voteStore.currentVoteDetail.isBookmarked.toggle()
                                     } label: {
-                                        Image(isBookmark ? "bookmark" : "bookmark_off")
+                                        Image(voteStore.currentVoteDetail.isBookmarked ? "bookmark" : "bookmark_off")
                                             .frame(width: 16, height: 18)
                                             .padding(.trailing, 20)
                                     }
@@ -132,7 +133,7 @@ struct VoteDetailView: View {
                                 VStack(spacing: 0) {
                                     ForEach(voteStore.currentVoteInformation) { information in
                                         NavigationLink {
-                                            InformationView(voteStore: voteStore, informationId: information.id)
+                                            InformationView(voteStore: voteStore, bookmarkStore: bookmarkStore, informationId: information.id)
                                         } label: {
                                             RoundedRectangle(cornerRadius: 8)
                                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
@@ -167,19 +168,19 @@ struct VoteDetailView: View {
                 
                 Button {
                     if isVoted {
-                        
+                        presentationMode.wrappedValue.dismiss()
                     } else {
                         isVoted = true
                         isLottie = true
                         voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
                             if success {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                     withAnimation {
                                         proxy.scrollTo("bottom")
                                     }
                                     isLottie = false
                                     voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
-                                    toast = Toast(type: .success, message: "투표 완료!")
+                                    toast = Toast(type: .quit, message: "투표 완료!")
                                 }
                             } else {
                                 isLottie = false
@@ -201,7 +202,9 @@ struct VoteDetailView: View {
             .opacity(isLottie ? 0 : 1)
         } //: Zstack
         .onAppear {
-            voteStore.fetchVoteDetail(voteId: voteId)
+            Task {
+                voteStore.fetchVoteDetail(voteId: voteId)
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ struct Vote: Codable, Hashable, Identifiable {
 struct VoteDetail: Codable {
     var voteId: Int
     var isClosed, isVoted: Bool
+    var isBookmarked: Bool
     var chosenVoteOptionID: [Int]?
     var category: Category
     var title: String
@@ -40,15 +41,17 @@ struct LatestVote: Codable {
     var hasNext: Bool
     var nextCursor: Int?
 }
+
 struct CategorizedVotes: Codable, Identifiable {
     var category: Category
     var votes: [VoteWithoutCategory]
     var id: Int { category.id }
 }
+
 let dummyVoteDetail = VoteDetail(
     voteId: 101,
     isClosed: false,
-    isVoted: true,
+    isVoted: true, isBookmarked: true,
     chosenVoteOptionID: [1],
     category: dummyCategory,
     title: "Which technology will dominate in 2024?",

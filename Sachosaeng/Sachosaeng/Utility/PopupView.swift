@@ -145,9 +145,6 @@ struct PopupView: View {
                         .background(CustomColor.GrayScaleColor.black)
                         .cornerRadius(4, corners: .allCorners)
                 }
-                if popupType != .dailyVote {
-                    
-                }
             }
             .padding(.bottom, 16)
             .padding(.horizontal, 16)

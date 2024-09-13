@@ -91,7 +91,7 @@ struct BookmarkView: View {
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
-                                ForEach(categoryStore.allCatagory) { category in
+                                ForEach(selectedButton == "투표" ? bookmarkStore.currentUserCategoriesBookmark : bookmarkStore.currentUserInformationCategoriesBookmark) { category in
                                     Button {
                                         withAnimation {
                                             selectedCategoryId = category.id
@@ -157,16 +157,55 @@ struct BookmarkView: View {
                 VStack(spacing: 0) {
                     if selectedButton == "투표" {
                         ScrollView(showsIndicators: false) {
-                            ForEach($bookmarkStore.currentUserVotesBookmark) { $bookmark in
-                                VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, bookmark: bookmark)
-                                    .padding(.horizontal, 20)
+                            if bookmarkStore.currentUserVotesBookmark.isEmpty {
+                                VStack(spacing: 0) {
+                                    Image("emptyIcon")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                        .padding(.bottom, 16)
+                                    
+                                    Text("투표를 진행해\n북마크를 추가해주세요.")
+                                        .font(.createFont(weight: .semiBold, size: 14))
+                                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                        .lineLimit(2)
+                                        .multilineTextAlignment(.center)
+                                        .lineSpacing(18.2 - 14)
+                                }
+                                .padding(.top, 168)
+                                .padding(.bottom, 311)
+                            } else {
+                                ForEach(bookmarkStore.currentUserVotesBookmark) { bookmark in
+                                    VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, bookmark: bookmark)
+                                        .padding(.horizontal, 20)
+                                }
                             }
                         }
                     } else {
                         ScrollView(showsIndicators: false) {
-                            ForEach(bookmarkStore.currentUserInformationBookmark) { information in
-                                InformationBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, information: information)
-                                    .padding(.horizontal, 20)
+                            
+                            if bookmarkStore.currentUserInformationBookmark.isEmpty {
+                                VStack(spacing: 0) {
+                                    Image("emptyIcon")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                        .padding(.bottom, 16)
+                                    
+                                    Text("투표를 진행해\n북마크를 추가해주세요.")
+                                        .font(.createFont(weight: .semiBold, size: 14))
+                                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                        .lineLimit(2)
+                                        .multilineTextAlignment(.center)
+                                        .lineSpacing(18.2 - 14)
+                                }
+                                .padding(.top, 168)
+                                .padding(.bottom, 311)
+                            } else {
+                                ForEach(bookmarkStore.currentUserInformationBookmark) { information in
+                                    InformationBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, information: information)
+                                        .padding(.horizontal, 20)
+                                }
                             }
                         }
                     }

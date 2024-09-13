@@ -39,3 +39,4 @@ struct TodayVoteCell: View {
         }
     }
 }
+

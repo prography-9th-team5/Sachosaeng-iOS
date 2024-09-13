@@ -10,6 +10,8 @@ import Foundation
 class BookmarkStore: ObservableObject {
     @Published var currentUserVotesBookmark: [Bookmark] = []
     @Published var currentUserInformationBookmark: [InformationInBookmark] = []
+    @Published var currentUserCategoriesBookmark: [Category] = []
+    @Published var currentUserInformationCategoriesBookmark: [Category] = []
     @Published var editBookmarkNumber: [Int] = []
     private let networkService = NetworkService.shared
 
@@ -187,6 +189,46 @@ class BookmarkStore: ObservableObject {
                     guard let self else { return }
                     currentUserInformationBookmark = bookmark.data.information
                     jhPrint("카테고리에 맞는 북마크된 정보를 가져옴")
+                }
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
+            }
+        }
+    }
+    
+    func fetchCategoriesInbookmark() {
+        let path = "/api/v1/bookmarks/vote-categories"
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseCategoriesData>, NetworkError>) in
+            switch result {
+            case .success(let bookmark):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    currentUserCategoriesBookmark = bookmark.data.categories
+                    currentUserCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
+                    /*achosaeng.AllCategory(iconUrl: "https://sachosaeng.store/icon/all-2x.png", backgroundColor: "#E4E7EC")*/
+                    jhPrint("사용자가 북마크한 투표들의 카테고리들만 조회합니다")
+                }
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
+            }
+        }
+    }
+    
+    func fetchInformationCategoriesInbookmark() {
+        let path = "/api/v1/bookmarks/information-categories"
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseCategoriesData>, NetworkError>) in
+            switch result {
+            case .success(let bookmark):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    currentUserInformationCategoriesBookmark = bookmark.data.categories
+                    currentUserInformationCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
+                    /*achosaeng.AllCategory(iconUrl: "https://sachosaeng.store/icon/all-2x.png", backgroundColor: "#E4E7EC")*/
+                    jhPrint("사용자가 북마크한 정보들의 카테고리들만 조회합니다")
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)

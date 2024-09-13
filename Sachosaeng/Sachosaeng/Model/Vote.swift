@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct Vote: Codable, Hashable, Identifiable {
-    let voteId: Int
-    let title: String
-    let participantCount: Int?
-    let isVoted: Bool
-    let category: Category
-    let isClosed: Bool
+    var voteId: Int
+    var title: String
+    var participantCount: Int?
+    var isVoted: Bool
+    var category: Category
+    var isClosed: Bool
     var id: Int { voteId }
 }
 

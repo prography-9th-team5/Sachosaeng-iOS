@@ -159,6 +159,41 @@ class BookmarkStore: ObservableObject {
         }
     }
     
+    func fetchVotesInBookmarkWithCategoryId(categoryId: Int) {
+        let path = "/api/v1/bookmarks/votes/categories/\(categoryId)"
+        let token = UserStore.shared.accessToken
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseBookmark>, NetworkError>) in
+            switch result {
+            case .success(let bookmark):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    currentUserVotesBookmark = bookmark.data.votes
+                    jhPrint("카테고리에 맞는 북마크된 투표를 가져옴")
+                }
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
+            }
+        }
+    }
+    
+    func fetchInformationInBookmarkWithCategory(categoryId: Int) {
+        let path = "/api/v1/bookmarks/information/categories/\(categoryId)"
+        let token = UserStore.shared.accessToken
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseInformation>, NetworkError>) in
+            switch result {
+            case .success(let bookmark):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    currentUserInformationBookmark = bookmark.data.information
+                    jhPrint("카테고리에 맞는 북마크된 정보를 가져옴")
+                }
+            case .failure(let failure):
+                jhPrint(failure, isWarning: true)
+            }
+        }
+    }
+    
     func updateEditBookmarkNumber(_ number: Int) {
         editBookmarkNumber.append(number)
         jhPrint(editBookmarkNumber)

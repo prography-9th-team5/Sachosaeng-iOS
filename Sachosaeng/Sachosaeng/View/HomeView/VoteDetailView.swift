@@ -9,6 +9,7 @@ import SwiftUI
 import Lottie
 
 struct VoteDetailView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var toast: Toast? = nil
     @State private var isSelected: Bool = false
     @State private var isBookmark: Bool = false
@@ -167,7 +168,7 @@ struct VoteDetailView: View {
                 
                 Button {
                     if isVoted {
-                        
+                        presentationMode.wrappedValue.dismiss()
                     } else {
                         isVoted = true
                         isLottie = true
@@ -179,7 +180,7 @@ struct VoteDetailView: View {
                                     }
                                     isLottie = false
                                     voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
-                                    toast = Toast(type: .success, message: "투표 완료!")
+                                    toast = Toast(type: .quit, message: "투표 완료!")
                                 }
                             } else {
                                 isLottie = false
@@ -201,7 +202,9 @@ struct VoteDetailView: View {
             .opacity(isLottie ? 0 : 1)
         } //: Zstack
         .onAppear {
-            voteStore.fetchVoteDetail(voteId: voteId)
+            Task {
+                voteStore.fetchVoteDetail(voteId: voteId)
+            }
         }
     }
 }

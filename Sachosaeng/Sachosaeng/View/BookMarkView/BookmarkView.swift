@@ -95,6 +95,13 @@ struct BookmarkView: View {
                                     Button {
                                         withAnimation {
                                             selectedCategoryId = category.id
+                                            if category.id == 0 {
+                                                bookmarkStore.fetchAllVotesBookmark()
+                                                bookmarkStore.fetchAllInformationInBookmark()
+                                            } else {
+                                                bookmarkStore.fetchVotesInBookmarkWithCategoryId(categoryId: category.id)
+                                                bookmarkStore.fetchInformationInBookmarkWithCategory(categoryId: category.id)
+                                            }
                                             proxy.scrollTo(category.name, anchor: .center)
                                         }
                                     } label: {

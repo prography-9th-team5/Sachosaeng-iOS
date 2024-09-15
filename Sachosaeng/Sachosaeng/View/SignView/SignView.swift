@@ -18,6 +18,7 @@ struct SignView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var signStore: SignStore
+    @EnvironmentObject var versionService: VersionService
     @EnvironmentObject var userService: UserService
     @ObservedObject var userStore = UserStore.shared
     @Binding var path: NavigationPath
@@ -127,6 +128,12 @@ struct SignView: View {
             } //: Vstack
             .padding(.horizontal, 20)
             
+        }
+        .onAppear {
+            Task {
+                versionService.updateVersion()
+                versionService.fetchAllVersion()
+            }
         }
     }
 }

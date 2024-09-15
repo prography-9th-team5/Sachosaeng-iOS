@@ -38,6 +38,10 @@ struct ResponseInformation: Codable {
     let information: [InformationInBookmark]
 }
 
+struct ReponseVersion: Codable {
+    let versions: [Version]
+}
+
 struct ResponseWithTempData<T: Codable>: Codable {
     let code: Int
     let message: String

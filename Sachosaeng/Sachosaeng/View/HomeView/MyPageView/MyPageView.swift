@@ -115,7 +115,7 @@ struct MyPageView: View {
                                                     .foregroundStyle(CustomColor.GrayScaleColor.gs2)
                                                     .padding(.trailing, 16)
                                                 HStack {
-                                                    Text("v0.0.1")
+                                                    Text("\(VersionService.shared.version)")
                                                         .font(.createFont(weight: .medium, size: 15))
                                                         .foregroundStyle(CustomColor.GrayScaleColor.black)
                                                 }

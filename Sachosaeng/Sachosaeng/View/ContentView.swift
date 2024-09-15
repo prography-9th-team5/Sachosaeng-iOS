@@ -13,6 +13,7 @@ struct ContentView: View {
     @ObservedObject var voteStore: VoteStore = VoteStore()
     @ObservedObject var signStore: SignStore = SignStore()
     @EnvironmentObject var userService: UserService
+    @EnvironmentObject var versionService: VersionService
     @State var isSign: Bool = true
     @State var path: NavigationPath = NavigationPath()
     
@@ -20,6 +21,7 @@ struct ContentView: View {
         NavigationStack(path: $path) {
             SignView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, path: $path, isSign: $isSign)
                 .environmentObject(userService)
+                .environmentObject(versionService)
                 .navigationDestination(for: PathType.self) { name in
                     switch name {
                         case .occupation:
@@ -62,9 +64,7 @@ struct ContentView: View {
                 }
         }
         .onAppear {
-            Task {
-                categoryStore.fetchCategories()
-            }
+            versionService.verifyVersion()
         }
     }
 }

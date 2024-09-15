@@ -36,6 +36,7 @@ struct SachosaengApp: App {
     }
     @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
     let userService = UserService.shared
+    @ObservedObject var versionService = VersionService()
     var body: some Scene {
         WindowGroup {
             if isFirstLaunch {
@@ -43,6 +44,7 @@ struct SachosaengApp: App {
             } else {
                 ContentView(categoryStore: CategoryStore(), voteStore: VoteStore())
                     .environmentObject(userService)
+                    .environmentObject(versionService)
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)
                         

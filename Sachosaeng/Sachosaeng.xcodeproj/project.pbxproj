@@ -44,6 +44,7 @@
 		366DFE732C2B43DB009CD87E /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE722C2B43DB009CD87E /* TabView.swift */; };
 		366DFE752C2B4B86009CD87E /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366DFE742C2B4B86009CD87E /* Vote.swift */; };
 		3671E4B92C6A093800B5FAE4 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671E4B82C6A093800B5FAE4 /* BookmarkView.swift */; };
+		367B259D2C9717FF000AE532 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367B259C2C9717FF000AE532 /* Version.swift */; };
 		36842BF52C2298E00023473D /* TempImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36842BF42C2298E00023473D /* TempImageView.swift */; };
 		36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36842BF62C22B2CB0023473D /* UserOccupationView.swift */; };
 		36842BF92C22BA990023473D /* OccupationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36842BF82C22BA990023473D /* OccupationView.swift */; };
@@ -62,7 +63,7 @@
 		3695C2CB2C7B4FB80057007E /* VoteDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CA2C7B4FB80057007E /* VoteDescriptionView.swift */; };
 		3695C2CD2C7B4FCC0057007E /* VoteResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CC2C7B4FCC0057007E /* VoteResultView.swift */; };
 		3695C2CF2C7B65500057007E /* VoteCellWithOutIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CE2C7B65500057007E /* VoteCellWithOutIndex.swift */; };
-		36A61B632C95713E008C6663 /* VersionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A61B622C95713E008C6663 /* VersionStore.swift */; };
+		36A61B632C95713E008C6663 /* VersionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A61B622C95713E008C6663 /* VersionService.swift */; };
 		36A727F62C6C00E500942672 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A727F52C6C00E500942672 /* NetworkService.swift */; };
 		36A81FDC2C2C8AC6006A9305 /* TodayVoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDB2C2C8AC6006A9305 /* TodayVoteCell.swift */; };
 		36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BA20492C294BDC006C54E6 /* HomeView.swift */; };
@@ -121,6 +122,7 @@
 		366DFE722C2B43DB009CD87E /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		366DFE742C2B4B86009CD87E /* Vote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 		3671E4B82C6A093800B5FAE4 /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
+		367B259C2C9717FF000AE532 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		36842BF42C2298E00023473D /* TempImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempImageView.swift; sourceTree = "<group>"; };
 		36842BF62C22B2CB0023473D /* UserOccupationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOccupationView.swift; sourceTree = "<group>"; };
 		36842BF82C22BA990023473D /* OccupationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccupationView.swift; sourceTree = "<group>"; };
@@ -138,7 +140,7 @@
 		3695C2CA2C7B4FB80057007E /* VoteDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteDescriptionView.swift; sourceTree = "<group>"; };
 		3695C2CC2C7B4FCC0057007E /* VoteResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultView.swift; sourceTree = "<group>"; };
 		3695C2CE2C7B65500057007E /* VoteCellWithOutIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCellWithOutIndex.swift; sourceTree = "<group>"; };
-		36A61B622C95713E008C6663 /* VersionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionStore.swift; sourceTree = "<group>"; };
+		36A61B622C95713E008C6663 /* VersionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionService.swift; sourceTree = "<group>"; };
 		36A727F52C6C00E500942672 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		36A81FDB2C2C8AC6006A9305 /* TodayVoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayVoteCell.swift; sourceTree = "<group>"; };
 		36BA20492C294BDC006C54E6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				36A727F52C6C00E500942672 /* NetworkService.swift */,
 				366587A72C6F432E00E85259 /* UserService.swift */,
 				366587A92C6F47D400E85259 /* AuthService.swift */,
+				36A61B622C95713E008C6663 /* VersionService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -269,7 +272,6 @@
 				369595EE2C4FFAEB0098920D /* VoteStore.swift */,
 				360C2B232C3718D80000C0F8 /* UserStore.swift */,
 				36FD59B52C8F6EE100D8979D /* BookmarkStore.swift */,
-				36A61B622C95713E008C6663 /* VersionStore.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -339,6 +341,7 @@
 				366587AB2C6FA49F00E85259 /* Auth.swift */,
 				363EFB632C832710009A70DA /* Information.swift */,
 				36FD59B72C8F701200D8979D /* Bookmark.swift */,
+				367B259C2C9717FF000AE532 /* Version.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				365A12062C388EC500C18796 /* ViewModifier.swift in Sources */,
 				36696B6A2C2B8241006BFCC0 /* ViewExtension.swift in Sources */,
 				36E72F782C78D87500D1785F /* HotVote.swift in Sources */,
+				367B259D2C9717FF000AE532 /* Version.swift in Sources */,
 				36842BFF2C22D8960023473D /* CategoryCellView.swift in Sources */,
 				366053A92C538210000A1D8D /* CustomTextEditor.swift in Sources */,
 				36C12F912C914EFF00D91394 /* VotesBookmarkCell.swift in Sources */,
@@ -561,7 +565,7 @@
 				366587A82C6F432E00E85259 /* UserService.swift in Sources */,
 				362659842C92C17400A833BE /* InformationBookmarkCell.swift in Sources */,
 				36FD59B82C8F701200D8979D /* Bookmark.swift in Sources */,
-				36A61B632C95713E008C6663 /* VersionStore.swift in Sources */,
+				36A61B632C95713E008C6663 /* VersionService.swift in Sources */,
 				36949FA82C514C9E009E099E /* Utility.swift in Sources */,
 				36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,

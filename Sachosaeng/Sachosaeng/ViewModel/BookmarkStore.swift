@@ -206,8 +206,9 @@ class BookmarkStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentUserCategoriesBookmark = bookmark.data.categories
-                    currentUserCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
-                    /*achosaeng.AllCategory(iconUrl: "https://sachosaeng.store/icon/all-2x.png", backgroundColor: "#E4E7EC")*/
+                    if !currentUserCategoriesBookmark.isEmpty {
+                        currentUserCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
+                    }
                     jhPrint("사용자가 북마크한 투표들의 카테고리들만 조회합니다")
                 }
             case .failure(let failure):
@@ -226,8 +227,9 @@ class BookmarkStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentUserInformationCategoriesBookmark = bookmark.data.categories
-                    currentUserInformationCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
-                    /*achosaeng.AllCategory(iconUrl: "https://sachosaeng.store/icon/all-2x.png", backgroundColor: "#E4E7EC")*/
+                    if !currentUserInformationCategoriesBookmark.isEmpty {
+                        currentUserInformationCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
+                    }
                     jhPrint("사용자가 북마크한 정보들의 카테고리들만 조회합니다")
                 }
             case .failure(let failure):

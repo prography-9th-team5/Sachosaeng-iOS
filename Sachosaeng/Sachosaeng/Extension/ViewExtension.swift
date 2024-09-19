@@ -51,6 +51,22 @@ extension View {
             )
         )
     }
+    
+    func showDailyPopupView(
+        isPresented: Binding<Bool>,
+        message: PopupType,
+        primaryAction: @escaping () -> Void,
+        secondaryAction: @escaping () -> Void
+    ) -> some View {
+        return modifier(
+            PopupModifier(
+                isPresented: isPresented,
+                popupType: message,
+                primaryAction: primaryAction,
+                secondaryAction: secondaryAction
+            )
+        )
+    }
 }
 
 struct RoundedCorner: Shape {

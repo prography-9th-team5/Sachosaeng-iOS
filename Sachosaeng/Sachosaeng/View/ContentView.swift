@@ -12,6 +12,7 @@ struct ContentView: View {
     @ObservedObject var categoryStore = CategoryStore()
     @ObservedObject var voteStore: VoteStore = VoteStore()
     @ObservedObject var signStore: SignStore = SignStore()
+    @ObservedObject var bookmarkStore: BookmarkStore = BookmarkStore()
     @EnvironmentObject var userService: UserService
     @EnvironmentObject var versionService: VersionService
     @State var isSign: Bool = true

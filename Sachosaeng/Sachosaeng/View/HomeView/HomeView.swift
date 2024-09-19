@@ -17,7 +17,7 @@ struct HomeView: View {
     @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
     @State private var isCellAnimation: Bool = false
-
+    @State private var isShowDaily: Bool = false
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -57,7 +57,7 @@ struct HomeView: View {
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
                             // MARK: - 사용자가 전체를 선택했을 때 플로우
-                            TodayVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
+                            DailyVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
                                 .padding(.bottom, 32)
                                 .id("top")
                             VStack(spacing: 0) {
@@ -200,7 +200,19 @@ struct HomeView: View {
                 CustomColor.GrayScaleColor.black.ignoresSafeArea()
                     .opacity(0.7)
             }
+//            navigationDestination(isPresented: $isShowDaily) {
+//                let vote = voteStore.dailyVote
+//                DailyVoteDetailView(voteId: vote.voteId, voteStore: voteStore, bookmarkStore: bookmarkStore)
+//            }
         }
+        .showPopupView(isPresented: Binding<Bool>(
+            get: { !voteStore.dailyVote.isVoted },
+            set: { newValue in voteStore.dailyVote.isVoted = !newValue }
+        ), message: .dailyVote, primaryAction: {
+            isShowDaily = true
+        }, secondaryAction: {
+            
+        })
         .onAppear {
             Task {
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))

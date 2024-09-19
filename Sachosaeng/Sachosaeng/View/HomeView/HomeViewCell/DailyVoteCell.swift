@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TodayVoteCell: View {
+struct DailyVoteCell: View {
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
     var body: some View {

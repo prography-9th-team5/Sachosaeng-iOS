@@ -18,6 +18,9 @@ final class VoteStore: ObservableObject {
     @Published var hotVotesInCategory: [CategorizedVotes] = [dummyCategorizedVotes]
     @Published var latestVotes: LatestVote = dummyLatestVote
     
+    func isDailyVote() -> Bool {
+        return !dailyVote.isVoted
+    }
     /// 인기투표 3개를 가져오는 메서드
     func fetchHotVotes() {
         let token = UserStore.shared.accessToken

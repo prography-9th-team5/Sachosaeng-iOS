@@ -18,6 +18,8 @@ AOS, iOS를 지원하는 “**사초생**”을 개발했습니다.
 ```
 - Config.xcconfig
 ```
+2. Sachosaeng.xcodeproj 파일 실행을 해주세요.
+3. Config 폴더에 필수파일을 추가한 뒤 빌드해주세요.
 
 <br/><br/>
 

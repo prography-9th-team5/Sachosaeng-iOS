@@ -6,7 +6,9 @@
 //
 
 import Foundation
-
+enum UpdateType {
+    case force, select, latest
+}
 final class VersionService: ObservableObject {
     private var networkService = NetworkService.shared
     static let shared = VersionService()

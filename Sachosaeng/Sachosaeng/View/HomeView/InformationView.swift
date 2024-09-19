@@ -50,6 +50,7 @@ struct InformationView: View {
                                 Text(voteStore.currentVoteInformationDetail.referenceName)
                                     .foregroundStyle(CustomColor.GrayScaleColor.gs5)
                                     .font(.createFont(weight: .medium, size: 12))
+                                    .underline()
                                 Spacer()
                             }
                             .padding(.top, 20)

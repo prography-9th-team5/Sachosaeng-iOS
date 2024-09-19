@@ -64,7 +64,8 @@ struct RoundedCorner: Shape {
     }
 }
 
-extension UINavigationController: UINavigationBarDelegate, UIGestureRecognizerDelegate {
+extension UINavigationController: @retroactive UIBarPositioningDelegate {}
+extension UINavigationController: @retroactive UINavigationBarDelegate, @retroactive UIGestureRecognizerDelegate {
     open override func viewDidLoad() {
         super.viewDidLoad()
         interactivePopGestureRecognizer?.delegate = self

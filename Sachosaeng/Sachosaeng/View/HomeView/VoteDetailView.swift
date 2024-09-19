@@ -18,6 +18,7 @@ struct VoteDetailView: View {
     @State private var chosenVoteOptionId: [Int] = []
     @State var voteId: Int
     @State private var isLottie: Bool = false
+    @State private var isLoading: Bool = true
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
     
@@ -118,7 +119,7 @@ struct VoteDetailView: View {
                             .padding(.horizontal, 20)
                             .background(CustomColor.GrayScaleColor.white)
                             .cornerRadius(8, corners: [.bottomLeft, .bottomRight])
-
+                            
                             if isVoted {
                                 VoteResultView(description: voteStore.currentVoteDetail.description)
                                     .padding(.bottom, 40)
@@ -143,6 +144,8 @@ struct VoteDetailView: View {
                                                         Text(information.title)
                                                             .foregroundStyle(CustomColor.GrayScaleColor.black)
                                                             .font(.createFont(weight: .medium, size: 15))
+                                                            .lineLimit(1)
+                                                            .truncationMode(.tail)
                                                         Spacer()
                                                     }
                                                     .padding(.leading, 16)
@@ -160,50 +163,52 @@ struct VoteDetailView: View {
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden()
                         .customBackbutton()
-                        
                         Spacer()
                             .frame(height: 128)
                             .id("bottom")
                     }//: ScrollView
-                
-                Button {
-                    if isVoted {
-                        presentationMode.wrappedValue.dismiss()
-                    } else {
-                        isVoted = true
-                        isLottie = true
-                        voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
-                            if success {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                    withAnimation {
-                                        proxy.scrollTo("bottom")
+                    
+                    Button {
+                        if isVoted {
+                            presentationMode.wrappedValue.dismiss()
+                        } else {
+                            isVoted = true
+                            isLottie = true
+                            voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
+                                if success {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        withAnimation {
+                                            proxy.scrollTo("bottom")
+                                        }
+                                        isLottie = false
+                                        voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
+                                        toast = Toast(type: .quit, message: "투표 완료!")
                                     }
+                                } else {
                                     isLottie = false
-                                    voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
-                                    toast = Toast(type: .quit, message: "투표 완료!")
+                                    toast = Toast(type: .quit, message: "투표 실패")
                                 }
-                            } else {
-                                isLottie = false
-                                toast = Toast(type: .quit, message: "투표 실패")
                             }
                         }
+                    } label: {
+                        Text(isVoted ? "다른 투표 보기" : "확인")
+                            .frame(width: PhoneSpace.screenWidth - 40, height: 47)
+                            .foregroundStyle(CustomColor.GrayScaleColor.white)
+                            .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
+                            .cornerRadius(4)
                     }
-                } label: {
-                    Text(isVoted ? "다른 투표 보기" : "확인")
-                        .frame(width: PhoneSpace.screenWidth - 40, height: 47)
-                        .foregroundStyle(CustomColor.GrayScaleColor.white)
-                        .background(isSelected ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
-                        .cornerRadius(4)
-                }
-                .contentShape(Rectangle())
+                    .contentShape(Rectangle())
                 }
             } //: Vstack
             .showToastView(toast: $toast)
             .opacity(isLottie ? 0 : 1)
+            .redacted(reason: isLoading ? .placeholder : [])
         } //: Zstack
         .onAppear {
             Task {
-                voteStore.fetchVoteDetail(voteId: voteId)
+                voteStore.fetchVoteDetail(voteId: voteId) {
+                    isLoading = false
+                }
             }
         }
     }

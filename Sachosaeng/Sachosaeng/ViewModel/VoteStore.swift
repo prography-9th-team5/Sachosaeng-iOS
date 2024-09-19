@@ -119,7 +119,7 @@ final class VoteStore: ObservableObject {
     }
     
     /// 투표의 선택지를 가져오는 메서드
-    func fetchVoteDetail(voteId: Int) {
+    func fetchVoteDetail(voteId: Int, completion: @escaping () -> Void) {
         let path = "/api/v1/votes/\(voteId)"
         let token = UserStore.shared.accessToken
         
@@ -129,6 +129,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentVoteDetail = voteDetail.data
+                    completion()
                 }
             case .failure(let error):
                 jhPrint(error, isWarning: true)

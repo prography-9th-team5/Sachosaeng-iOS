@@ -194,7 +194,6 @@
 		363C205F2C635D5B005F4026 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				36949FA72C514C9E009E099E /* Utility.swift */,
 				36A727F52C6C00E500942672 /* NetworkService.swift */,
 				366587A72C6F432E00E85259 /* UserService.swift */,
 				366587A92C6F47D400E85259 /* AuthService.swift */,
@@ -230,6 +229,7 @@
 		36562FB82C21697A004D1836 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				36949FA72C514C9E009E099E /* Utility.swift */,
 				36842BFC2C22D01A0023473D /* CommonTitle.swift */,
 				36842BF42C2298E00023473D /* TempImageView.swift */,
 				36949FA92C515DE2009E099E /* ToastView.swift */,
@@ -283,7 +283,7 @@
 				36BA20492C294BDC006C54E6 /* HomeView.swift */,
 				3695C2C72C7B489E0057007E /* VoteDetailView.swift */,
 				363EFB652C834353009A70DA /* InformationView.swift */,
-				3695C2C92C7B4FA70057007E /* VoteViewCell */,
+				3695C2C92C7B4FA70057007E /* HomeViewCell */,
 				36696B662C2B762F006BFCC0 /* Cell */,
 				360C2B252C372F1D0000C0F8 /* MyPageView */,
 			);
@@ -302,12 +302,12 @@
 			isa = PBXGroup;
 			children = (
 				3671E4B82C6A093800B5FAE4 /* BookmarkView.swift */,
-				36C12F8F2C914EE500D91394 /* Cell */,
+				36C12F8F2C914EE500D91394 /* BookmarkViewCell */,
 			);
 			path = BookMarkView;
 			sourceTree = "<group>";
 		};
-		3695C2C92C7B4FA70057007E /* VoteViewCell */ = {
+		3695C2C92C7B4FA70057007E /* HomeViewCell */ = {
 			isa = PBXGroup;
 			children = (
 				36A81FDB2C2C8AC6006A9305 /* TodayVoteCell.swift */,
@@ -317,16 +317,16 @@
 				3695C2CA2C7B4FB80057007E /* VoteDescriptionView.swift */,
 				3695C2CC2C7B4FCC0057007E /* VoteResultView.swift */,
 			);
-			path = VoteViewCell;
+			path = HomeViewCell;
 			sourceTree = "<group>";
 		};
-		36C12F8F2C914EE500D91394 /* Cell */ = {
+		36C12F8F2C914EE500D91394 /* BookmarkViewCell */ = {
 			isa = PBXGroup;
 			children = (
 				36C12F902C914EFF00D91394 /* VotesBookmarkCell.swift */,
 				362659832C92C17400A833BE /* InformationBookmarkCell.swift */,
 			);
-			path = Cell;
+			path = BookmarkViewCell;
 			sourceTree = "<group>";
 		};
 		36CBA1582BC45FB50073C50C /* Model */ = {

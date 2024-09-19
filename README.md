@@ -23,5 +23,6 @@ AOS, iOS를 지원하는 “**사초생**”을 개발했습니다.
 
 ## 📌 IA
 
-/Users/ljh/Downloads/Information architecture.png
+![Information architecture](https://github.com/user-attachments/assets/adebc5c4-a8a3-4c67-9252-33f55648791e)
+
 

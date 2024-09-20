@@ -18,6 +18,8 @@ struct HomeView: View {
     @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
     @State private var isCellAnimation: Bool = false
+    @State var isDaily: Bool = false
+
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -179,7 +181,7 @@ struct HomeView: View {
                     } //: ScrollView
                     .refreshable {
                         Task {
-                            voteStore.fetchDailyVote()
+                            voteStore.fetchDailyVote() {_ in }
                             voteStore.fetchHotVotes()
                             voteStore.fetchHotVotesInCategory()
                             voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
@@ -200,28 +202,25 @@ struct HomeView: View {
                 CustomColor.GrayScaleColor.black.ignoresSafeArea()
                     .opacity(0.7)
             }
-
+            
         }
-        .showPopupView(isPresented: Binding<Bool>(
-            get: { !voteStore.dailyVote.isVoted },
-            set: { newValue in
-                if newValue == false {
-                    tabbarStore.isOpacity = false
-                }
-                voteStore.dailyVote.isVoted = !newValue
-            }
-        ), message: .dailyVote, primaryAction: {
+        .showPopupView(isPresented: $isDaily, message: .dailyVote, primaryAction: {
             tabbarStore.isOpacity = true
         }, secondaryAction: {
             path.append(PathType.daily)
         })
         .onAppear {
             Task {
+                voteStore.fetchDailyVote() { isVoted in
+                    isDaily = !isVoted // 이게 투표했으면 안떠야함
+                    jhPrint("isDaily: \(isDaily)", isWarning: true)
+                }
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
             }
             withAnimation {
                 isCellAnimation = true
             }
+            
         }
     }
 }

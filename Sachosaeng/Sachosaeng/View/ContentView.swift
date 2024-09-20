@@ -21,7 +21,6 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             SignView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, path: $path, isSign: $isSign)
-                
                 .navigationDestination(for: PathType.self) { name in
                     switch name {
                         case .occupation:
@@ -61,6 +60,9 @@ struct ContentView: View {
         }
         .onAppear {
             versionService.verifyVersion()
+            versionService.updateVersion()
+            versionService.fetchAllVersion()
+            categoryStore.fetchCategories()
         }
     }
 }

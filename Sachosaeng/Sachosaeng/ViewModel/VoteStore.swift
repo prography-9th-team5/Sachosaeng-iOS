@@ -105,7 +105,7 @@ final class VoteStore: ObservableObject {
         }
     }
     /// 오늘의 투표를 가져오는 메서드
-    func fetchDailyVote() {
+    func fetchDailyVote(completion: @escaping (Bool) -> ()) {
         let token = UserStore.shared.accessToken
         networkService.performRequest(method: "GET", path: "/api/v1/votes/daily", body: nil, token: token) {
             (result: Result<Response<Vote>, NetworkError>) in
@@ -114,6 +114,9 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     dailyVote = vote.data
+                    jhPrint("서버에서 사용자가 투표했나요?: \(dailyVote.isVoted)", isWarning: true)
+                    completion(dailyVote.isVoted)
+                    
                 }
             case .failure(let error):
                 jhPrint(error, isWarning: true)

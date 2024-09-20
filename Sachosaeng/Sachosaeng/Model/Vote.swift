@@ -60,7 +60,7 @@ let dummyVoteDetail = VoteDetail(
     description: "Vote on the technology trend you think will lead in 2024."
 )
 
-let dummyDailyVote = Vote(voteId: 2, title: "더미", participantCount: 0, isVoted: false, category: Sachosaeng.Category(categoryId: 7, name: "조직 문화", iconUrl: "https://sachosaeng.store/icon/organizational-culture-18px-1x.png", backgroundColor: "#1F0BA5EC", textColor: "#FF0BA5EC"), isClosed: false)
+let dummyDailyVote = Vote(voteId: 2, title: "더미", participantCount: 0, isVoted: true, category: Sachosaeng.Category(categoryId: 7, name: "조직 문화", iconUrl: "https://sachosaeng.store/icon/organizational-culture-18px-1x.png", backgroundColor: "#1F0BA5EC", textColor: "#FF0BA5EC"), isClosed: false)
 let dummyOption = VoteOption(voteOptionId: 0, content: "", count: 0)
 // VoteOption 더미 데이터
 let dummyVoteOptions = [

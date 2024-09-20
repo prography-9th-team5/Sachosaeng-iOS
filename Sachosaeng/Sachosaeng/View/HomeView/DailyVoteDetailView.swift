@@ -56,14 +56,15 @@ struct DailyVoteDetailView: View {
                                 }
                                 .overlay(alignment: .trailing) {
                                     Button {
-                                        if voteStore.currentVoteDetail.isBookmarked {
-                                            bookmarkStore.deleteVotesBookmark(voteId: voteId)
-                                        } else {
-                                            bookmarkStore.updateVotesBookmark(voteId: voteId)
-                                        }
+                                        voteStore.currentVoteDetail.isBookmarked
+                                        ? bookmarkStore.deleteVotesBookmark(voteId: voteId)
+                                        : bookmarkStore.updateVotesBookmark(voteId: voteId)
+                                        
                                         voteStore.currentVoteDetail.isBookmarked.toggle()
                                         isBookmark = voteStore.currentVoteDetail.isBookmarked
+                                        
                                         if isBookmark {
+                                            tabBarStore.isOpacity = false
                                             toast = Toast(type: .savedBookMark, message: "저장 완료!")
                                         }
                                     } label: {
@@ -135,7 +136,9 @@ struct DailyVoteDetailView: View {
                     
                     Button {
                         if isVoted {
+                            tabBarStore.isOpacity = false
                             path.removeLast()
+                            
                         } else {
                             isVoted = true
                             isLottie = true

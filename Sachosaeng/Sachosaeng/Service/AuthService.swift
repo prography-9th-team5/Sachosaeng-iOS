@@ -111,11 +111,11 @@ final class AuthService {
         
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
             if let error = error {
-                jhPrint("Google Sign-In Error: \(error.localizedDescription)", isWarning: true)
+//                jhPrint("Google Sign-In Error: \(error.localizedDescription)", isWarning: true)
                 completion(false)
             } else if let signInResult = signInResult {
                 UserStore.shared.currentUserEmail = signInResult.user.profile?.email ?? ""
-                jhPrint("Google Sign-In Success: \(signInResult.user.profile?.email ?? "No Name")")
+//                jhPrint("Google Sign-In Success: \(signInResult.user.profile?.email ?? "No Name")")
                 completion(true)
             } else {
                 completion(false)
@@ -134,10 +134,10 @@ final class AuthService {
                     UserStore.shared.accessToken = response.data.accessToken
                     UserStore.shared.refreshToken = response.data.refreshToken
                     UserStore.shared.userId = response.data.userId
-                    jhPrint("""
-                    ⭐️ Access Token: \(UserStore.shared.accessToken)
-                    ⭐️ Refresh Token: \(UserStore.shared.refreshToken)
-                    """)
+//                    jhPrint("""
+//                    ⭐️ Access Token: \(UserStore.shared.accessToken)
+//                    ⭐️ Refresh Token: \(UserStore.shared.refreshToken)
+//                    """)
                     completion(true)
                 }
             case .failure(let error):
@@ -172,15 +172,15 @@ final class AuthService {
         
         NetworkService.shared.performRequest(method: "POST", path: path, body: body, token: nil) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
-            case .success(let response):
-                jhPrint("회원가입 성공: \(response)")
+            case .success( _):
+//                jhPrint("회원가입 성공: \(response)")
                 completion(.success)
             case .failure(let error):
                 if case .userExists = error {
-                    jhPrint("이미 가입한 유저입니다")
+//                    jhPrint("이미 가입한 유저입니다")
                     completion(.userExists)
                 } else {
-                    jhPrint("회원가입 실패: \(error)")
+//                    jhPrint("회원가입 실패: \(error)")
                     completion(.failed)
                 }
             }

@@ -131,8 +131,7 @@ struct SignView: View {
         }
         .onAppear {
             Task {
-                versionService.updateVersion()
-                versionService.fetchAllVersion()
+                
             }
         }
     }

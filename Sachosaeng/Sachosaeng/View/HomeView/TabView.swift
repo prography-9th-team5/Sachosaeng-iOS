@@ -27,9 +27,15 @@ struct TabView: View {
                 case .home:
                     HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
                         .navigationBarBackButtonHidden()
+                        .onAppear {
+                            tabbarStore.switchTab = .home
+                        }
                         
                 case .bookMark:
                     BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
+                        .onAppear {
+                            tabbarStore.switchTab = .bookMark
+                        }
             }
             
             ZStack {
@@ -72,8 +78,6 @@ struct TabView: View {
         }
         .onAppear {
             Task {
-                categoryStore.fetchCategories()
-                voteStore.fetchDailyVote()
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
                 bookmarkStore.fetchAllVotesBookmark()

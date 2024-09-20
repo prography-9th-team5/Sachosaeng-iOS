@@ -47,7 +47,7 @@ final class UserService: ObservableObject {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let user):
-                    jhPrint(user.data.userType)
+//                    jhPrint(user.data.userType)
                     let nickname = user.data.nickname
                     let userId = user.data.userId
                     let userType = UserStore.shared.convertUserTypeForKorean(user.data.userType)

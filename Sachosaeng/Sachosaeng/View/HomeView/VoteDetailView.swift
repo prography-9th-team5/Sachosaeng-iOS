@@ -85,30 +85,33 @@ struct VoteDetailView: View {
                                     ForEach(voteStore.currentVoteDetail.voteOptions) { vote in
                                         RoundedRectangle(cornerRadius: 4)
                                             .frame(width: PhoneSpace.screenWidth - 80, height: 50)
-                                            .foregroundStyle(vote.voteOptionId == chosenVoteIndex ?  CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.gs2)
-                                            .overlay(alignment: .leading) {
-                                                HStack(spacing: 0) {
-                                                    Text(vote.content)
-                                                        .padding(.leading, 16)
-                                                        .lineLimit(2)
-                                                }
-                                            }
-                                            .overlay {
-                                                RoundedRectangle(cornerRadius: 4)
-                                                    .stroke(vote.voteOptionId == chosenVoteIndex ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
-                                            }
-                                            .onTapGesture {
-                                                isSelected = true
-                                                chosenVoteIndex = vote.voteOptionId
-                                                
-                                                if chosenVoteIndex == vote.voteOptionId {
-                                                    chosenVoteOptionId.append(vote.voteOptionId)
-                                                } else {
-                                                    if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
-                                                        chosenVoteOptionId.remove(at: index)
+                                            .foregroundStyle(chosenVoteOptionId.contains(vote.voteOptionId) ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.gs2) // 여러 개 선택 가능
+                                                    .overlay(alignment: .leading) {
+                                                        HStack(spacing: 0) {
+                                                            Text(vote.content)
+                                                                .padding(.leading, 16)
+                                                                .lineLimit(2)
+                                                        }
                                                     }
-                                                }
-                                            }
+                                                    .overlay {
+                                                                RoundedRectangle(cornerRadius: 4)
+                                                                    .stroke(chosenVoteOptionId.contains(vote.voteOptionId) ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1) // 선택 여부에 따라 변경
+                                                            }
+                                                    .onTapGesture {
+                                                                // 옵션을 선택 또는 해제하는 로직
+                                                                if chosenVoteOptionId.contains(vote.voteOptionId) {
+                                                                    // 이미 선택된 항목을 다시 누르면 해제
+                                                                    if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+                                                                        chosenVoteOptionId.remove(at: index)
+                                                                    }
+                                                                } else {
+                                                                    // 새로운 항목을 선택
+                                                                    chosenVoteOptionId.append(vote.voteOptionId)
+                                                                }
+
+                                                                // 선택된 항목이 하나라도 있으면 버튼 활성화
+                                                                isSelected = !chosenVoteOptionId.isEmpty
+                                                            }
                                     }
                                     if isVoted { VoteDescriptionView() }
                                 }

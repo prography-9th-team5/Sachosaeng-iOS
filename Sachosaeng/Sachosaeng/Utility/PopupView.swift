@@ -150,8 +150,9 @@ struct PopupView: View {
         .frame(width: 248, height: 248)
         .background(CustomColor.GrayScaleColor.gs3)
         .cornerRadius(8, corners: .allCorners)
-        .onAppear {
-            if popupType == .dailyVote {
+        .onAppear{
+            jhPrint("isPresented: \(isPresented)", isWarning: true)
+            if popupType == .dailyVote && isPresented == true {
                 primaryAction()
             }
         }

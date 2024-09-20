@@ -25,7 +25,7 @@ class BookmarkStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentUserVotesBookmark = bookmark.data.votes
-                    jhPrint(currentUserVotesBookmark)
+//                    jhPrint(currentUserVotesBookmark)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -99,7 +99,7 @@ class BookmarkStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentUserInformationBookmark = bookmark.data.information
-                    jhPrint(currentUserVotesBookmark)
+//                    jhPrint(currentUserVotesBookmark)
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -209,7 +209,7 @@ class BookmarkStore: ObservableObject {
                     if !currentUserCategoriesBookmark.isEmpty {
                         currentUserCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
                     }
-                    jhPrint("사용자가 북마크한 투표들의 카테고리들만 조회합니다")
+//                    jhPrint("사용자가 북마크한 투표들의 카테고리들만 조회합니다")
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -230,7 +230,7 @@ class BookmarkStore: ObservableObject {
                     if !currentUserInformationCategoriesBookmark.isEmpty {
                         currentUserInformationCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
                     }
-                    jhPrint("사용자가 북마크한 정보들의 카테고리들만 조회합니다")
+//                    jhPrint("사용자가 북마크한 정보들의 카테고리들만 조회합니다")
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)

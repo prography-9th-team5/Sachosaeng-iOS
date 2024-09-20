@@ -59,6 +59,7 @@ public struct PopupModifier: ViewModifier {
     let popupType: PopupType
     let primaryAction: () -> Void
     let secondaryAction: () -> Void
+    @EnvironmentObject var tabbarStore: TabBarStore
     
     public func body(content: Content) -> some View {
         ZStack {
@@ -70,6 +71,7 @@ public struct PopupModifier: ViewModifier {
                         .ignoresSafeArea()
                         .onTapGesture {
                             self.isPresented = false
+                            tabbarStore.isOpacity = false
                         }
                     
                     PopupView(

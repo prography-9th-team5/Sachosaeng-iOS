@@ -1,29 +1,92 @@
 # Sachosaeng-iOS
-테스트 # Sachosaeng (개발중)
-<aside>
-👫 사회 초년생들을 위한 유용한 팁을 제공하는, 실용적인 앱
 
----
 
-- **Persona**
-    - 처음 입사하여 선배들한테 잘보이기 위해서 뭘 해야하는지 모르는 사회 초년생
-        - 자신의 입사 초기에 선배들에게 어떻게 좋은 인상을 줄지 모르는 상황 (**Problem**)
-        - 조언이나 가이드가 필요하여 자신의 역할과 책임을 이해하고 선배들과의 관계를 조절하는 방법을 배우고자 함 (**Need)**
-            - 소개팅에 갔는데 할 말이 없어서 곧 망할거같은 소개팅 남자
-                - 소개팅 중에 대화가 막히는 상황으로 자신의 매력을 제대로 표현하지 못할까봐 걱정함 (P)
-                - 대화를 이끌어 나갈 수 있는 방법이 필요하며, 상대방과의 호흡을 맞출 수 있는 자신만의 대화 스킬이 필요함 (**N)**
-    - 결혼식에 갔는데 축의금을 얼마 넣어야 할지 모르겠는 사람
-        - 결혼식 축의금의 적절한 액수를 결정하기 어려움 (P)
-        - 결혼식 축의금의 관례나 예절에 대한 이해가 필요하며, 주변 사람들의 기준을 알고 적절한 금액을 결정하고 싶어 함 (**N)**
-    - 한 모임에 갔는데 다 같이 어색하고 얼어붙어있을때 편리하게 아이스브레이킹을 하고 싶은 사람
-        - 모임 분위기가 얼어붙어 있는 상황에서 어색함을 해소하고 싶어함 (P)
-        - 모임 분위기를 활기차게 만들어주는 아이스브레이킹 아이디어나 방법이 필요함으로, 사람들 간의 연결고리를 만들 수 있는 아이디어를 찾고자 함 (**N)**
-        ss
+## 📌 프로젝트 소개
+협업 동아리 프로그라피에서 P.O, 디자이너, 마케터, 백엔드, AOS, iOS 로 구성된 팀으로 
+AOS, iOS를 지원하는 “**사초생**”을 개발했습니다.
 
----
+- 개발 기간 - 2024.06 ~ 출시예정(테스트 플라이트 등록)
 
-- **Goal**
-    - 물어보기 곤란하거나 필수적인 팁을 알려주는 앱이 되어보자
-    </aside>
+### 사회생활 집단지성 투표 플랫폼
+- 사회초년생이 사회생활에서 겪는 주관적인 고민에 대해 투표 시스템을 활용해 가장 실용적인 해결책을 찾도록 돕는 서비스
+- 사회 초년생들을 위한 실용적인 정보를 제공하면서, 어디에서도 찾을 수 없는 정보를 파악하며 내 또래의 사람들로부터 공감을 얻을 수 있는 ‘정보 서비스'
 
----
+<br/><br/>
+
+
+## 📌 설치 / 실행 방법
+1. 아래 파일은 필수 파일이므로 다음 이메일로 파일을 요청해주세요. (dasom8899981@gmail.com)
+```
+- Config.xcconfig
+```
+2. Sachosaeng.xcodeproj 파일 실행을 해주세요.
+3. Config 폴더에 필수파일을 추가한 뒤 빌드해주세요.
+
+<br/><br/>
+
+## 📌 기능 소개
+### 메인기능 
+- 투표: 투표 별 투표 기능 제공
+- 유저가 직접 투표 후 투표 결과 확인 > 타 유저들의 의견 확인 가능
+- 정보 안내: 투표 연관 콘텐츠 안내
+- 북마크 기능: 투표 북마크 기능으로 탐색
+
+### 마이페이지/설정
+- 프로필 수정 / 관심사 설정 / 1:1 문의
+- 설정: 버전 안내 / 오픈소스 라이브러리 / 개인정보 처리 방침 / 서비스 이용 약관 / FAQ / 탈퇴하기
+
+<br/><br/>
+
+## 📌 IA
+
+![Information architecture](https://github.com/user-attachments/assets/adebc5c4-a8a3-4c67-9252-33f55648791e)
+
+<br/><br/>
+
+## 📌 개발 도구 및 기술 스택
+<img src="https://img.shields.io/badge/swift-F05138?style=for-the-badge&logo=swift&logoColor=white"><img src="https://img.shields.io/badge/xcode-147EFB?style=for-the-badge&logo=xcode&logoColor=white"><img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"><img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"><img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=black"><img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
+
+#### 개발환경
+- Swift 5.9, Xcode 15.0.1, iOS 16.0 이상
+
+#### 협업도구
+- Figma
+- Github
+- Team Notion
+- TestFlight
+
+#### 기술스택
+- SwiftUI
+- UIKit
+- Lottie
+- GoogleCloud
+- KakaoSdk
+<br/><br/>
+
+## 📌 Folder Convention 
+```
+📦 Sachosaeng
++-- 🗂 Config
++-- 🗂 Resource 
++-- 🗂 Extention 
+|    +-- 🗂 ColorExtension
+|    +-- 🗂 FontExtension
+|    +-- 🗂 ViewExtension
+|    +-- 🗂 ViewModifier
++-- 🗂 Utility
++-- 🗂 Service
+|    +-- 🗂 NetworkService
+|    +-- 🗂 UserService
+|    +-- 🗂 AuthService
+|    +-- 🗂 VersionService
++-- 🗂 Model
++-- 🗂 ViewModel
++-- 🗂 View
+|    +-- 🗂 SignView
+|    |    +-- 🗂 Cell
+|    +-- 🗂 HomeView
+|    |    +-- 🗂 HomeViewCell
+|    |    +-- 🗂 MyPageCell
+|    +-- 🗂 BookmarkView
+|    |    +-- 🗂 BookmarkViewCell
+```

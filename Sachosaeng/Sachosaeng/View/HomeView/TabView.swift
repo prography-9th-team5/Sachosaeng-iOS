@@ -15,18 +15,27 @@ enum TabItem {
 struct TabView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @State var switchTab: TabItem = .home
-    @ObservedObject var categoryStore = CategoryStore()
-    @ObservedObject var voteStore: VoteStore = VoteStore()
-    @ObservedObject var bookmarkStore: BookmarkStore = BookmarkStore()
+    @EnvironmentObject var tabBarStore: TabBarStore
+    @State private var isPopup: Bool = false
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabbarStore: TabBarStore
     var body: some View {
         VStack(spacing: 0) {
-            switch switchTab {
+            switch tabBarStore.switchTab {
                 case .home:
                     HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
                         .navigationBarBackButtonHidden()
+                        .onAppear {
+                            tabbarStore.switchTab = .home
+                        }
+                        
                 case .bookMark:
                     BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
+                        .onAppear {
+                            tabbarStore.switchTab = .bookMark
+                        }
             }
             
             ZStack {
@@ -34,9 +43,9 @@ struct TabView: View {
                 HStack(spacing: 0) {
                     Spacer()
                     Button {
-                        switchTab = .home
+                        tabBarStore.switchTab = .home
                     } label: {
-                        Image(switchTab == .home ? "HomeTab" : "HomeTab_off")
+                        Image(tabBarStore.switchTab == .home ? "HomeTab" : "HomeTab_off")
                     }
                     .padding(.bottom, 30)
                     .padding(.top, 18)
@@ -44,9 +53,9 @@ struct TabView: View {
                     Spacer()
 
                     Button {
-                        switchTab = .bookMark
+                        tabBarStore.switchTab = .bookMark
                     } label: {
-                        Image(switchTab == .bookMark ? "bookmark" : "bookmark_off")
+                        Image(tabBarStore.switchTab == .bookMark ? "bookmark" : "bookmark_off")
                             .foregroundStyle(CustomColor.GrayScaleColor.gs4)
                     }
                     .padding(.bottom, 30)
@@ -57,15 +66,25 @@ struct TabView: View {
             .frame(height: 76)
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .background(CustomColor.GrayScaleColor.gs2)
+            .overlay {
+                if tabbarStore.isOpacity {
+                    ZStack {
+                        Rectangle()
+                            .fill(CustomColor.GrayScaleColor.black.opacity(0.7))
+                            .ignoresSafeArea()
+                    }
+                }
+            }
         }
         .onAppear {
             Task {
-                categoryStore.fetchCategories()
-                voteStore.fetchDailyVote()
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
+                categoryStore.fetchCategories()
                 bookmarkStore.fetchAllVotesBookmark()
                 bookmarkStore.fetchAllInformationInBookmark()
+                bookmarkStore.fetchCategoriesInbookmark()
+                bookmarkStore.fetchInformationCategoriesInbookmark()
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -73,6 +92,3 @@ struct TabView: View {
     }
 }
 
-#Preview {
-    TabView(isSign: .constant(false), path: .constant(NavigationPath()))
-}

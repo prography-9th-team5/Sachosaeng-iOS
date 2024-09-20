@@ -44,7 +44,6 @@ class CategoryStore: ObservableObject {
                     DispatchQueue.main.async { [weak self] in
                         guard let self else { return }
                         allCatagory.insert(Category(categoryId: 00000, name: "전체 보기", iconUrl: result.data.iconUrl, backgroundColor: result.data.backgroundColor, textColor: ""), at: 0)
-                        
                     }
                 case .failure(let error):
                     jhPrint(error, isWarning: true)

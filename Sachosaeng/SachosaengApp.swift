@@ -11,7 +11,6 @@ import KakaoSDKUser
 import KakaoSDKCommon
 import GoogleSignIn
 
-
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 //        Thread.sleep(forTimeInterval: 2.0)
@@ -36,13 +35,16 @@ struct SachosaengApp: App {
     }
     @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
     let userService = UserService.shared
+    @ObservedObject var versionService = VersionService()
     var body: some Scene {
         WindowGroup {
             if isFirstLaunch {
                 ConsentView(isFirstLaunch: $isFirstLaunch)
             } else {
-                ContentView(categoryStore: CategoryStore(), voteStore: VoteStore())
+                ContentView()
                     .environmentObject(userService)
+                    .environmentObject(versionService)
+                    .environmentObject(TabBarStore())
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)
                         

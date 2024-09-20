@@ -16,5 +16,16 @@ public enum PathType {
     case myPage
     case info
     case quit
+    case daily
+    case usersFavorite
+    case inquiry 
+    case openSource
+    case userData
+    case service
+    case FAQ
 }
 
+struct SachosaengPath: Hashable {
+    let spath: PathType
+    let switchTab: TabItem
+}

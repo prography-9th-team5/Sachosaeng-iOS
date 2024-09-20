@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct Vote: Codable, Hashable, Identifiable {
-    let voteId: Int
-    let title: String
-    let participantCount: Int?
-    let isVoted: Bool
-    let category: Category
-    let isClosed: Bool
+    var voteId: Int
+    var title: String
+    var participantCount: Int?
+    var isVoted: Bool
+    var category: Category
+    var isClosed: Bool
     var id: Int { voteId }
 }
 
@@ -25,6 +25,7 @@ struct VoteDetail: Codable {
     var category: Category
     var title: String
     var participantCount: Int
+    var isMultipleChoiceAllowed: Bool
     var voteOptions: [VoteOption]
     var description: String
 }
@@ -55,12 +56,12 @@ let dummyVoteDetail = VoteDetail(
     chosenVoteOptionID: [1],
     category: dummyCategory,
     title: "Which technology will dominate in 2024?",
-    participantCount: 35,
+    participantCount: 35, isMultipleChoiceAllowed: false,
     voteOptions: dummyVoteOptions,
     description: "Vote on the technology trend you think will lead in 2024."
 )
 
-let dummyDailyVote = Vote(voteId: 2, title: "더미", participantCount: 0, isVoted: false, category: Sachosaeng.Category(categoryId: 7, name: "조직 문화", iconUrl: "https://sachosaeng.store/icon/organizational-culture-18px-1x.png", backgroundColor: "#1F0BA5EC", textColor: "#FF0BA5EC"), isClosed: false)
+let dummyDailyVote = Vote(voteId: 2, title: "더미", participantCount: 0, isVoted: true, category: Sachosaeng.Category(categoryId: 7, name: "조직 문화", iconUrl: "https://sachosaeng.store/icon/organizational-culture-18px-1x.png", backgroundColor: "#1F0BA5EC", textColor: "#FF0BA5EC"), isClosed: false)
 let dummyOption = VoteOption(voteOptionId: 0, content: "", count: 0)
 // VoteOption 더미 데이터
 let dummyVoteOptions = [

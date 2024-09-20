@@ -18,6 +18,9 @@ final class VoteStore: ObservableObject {
     @Published var hotVotesInCategory: [CategorizedVotes] = [dummyCategorizedVotes]
     @Published var latestVotes: LatestVote = dummyLatestVote
     
+    func isDailyVote() -> Bool {
+        return !dailyVote.isVoted
+    }
     /// 인기투표 3개를 가져오는 메서드
     func fetchHotVotes() {
         let token = UserStore.shared.accessToken
@@ -102,7 +105,7 @@ final class VoteStore: ObservableObject {
         }
     }
     /// 오늘의 투표를 가져오는 메서드
-    func fetchDailyVote() {
+    func fetchDailyVote(completion: @escaping (Bool) -> ()) {
         let token = UserStore.shared.accessToken
         networkService.performRequest(method: "GET", path: "/api/v1/votes/daily", body: nil, token: token) {
             (result: Result<Response<Vote>, NetworkError>) in
@@ -111,6 +114,9 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     dailyVote = vote.data
+//                    jhPrint("서버에서 사용자가 투표했나요?: \(dailyVote.isVoted)", isWarning: true)
+                    completion(dailyVote.isVoted)
+                    
                 }
             case .failure(let error):
                 jhPrint(error, isWarning: true)
@@ -119,7 +125,7 @@ final class VoteStore: ObservableObject {
     }
     
     /// 투표의 선택지를 가져오는 메서드
-    func fetchVoteDetail(voteId: Int) {
+    func fetchVoteDetail(voteId: Int, completion: @escaping () -> Void) {
         let path = "/api/v1/votes/\(voteId)"
         let token = UserStore.shared.accessToken
         
@@ -129,6 +135,8 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentVoteDetail = voteDetail.data
+//                    jhPrint(currentVoteDetail)
+                    completion()
                 }
             case .failure(let error):
                 jhPrint(error, isWarning: true)
@@ -137,7 +145,7 @@ final class VoteStore: ObservableObject {
     }
     
     /// 유저가 투표선택한 값을 넣어주는 api 
-    func updateUserVoteChoices(voteId: Int, chosenVoteOptionIds: [Int]) {
+    func updateUserVoteChoices(voteId: Int, chosenVoteOptionIds: [Int], completion: @escaping (Bool) -> Void) {
         let path = "/api/v1/votes/\(voteId)/choices"
         let body = ["chosenVoteOptionIds": chosenVoteOptionIds]
         let token = UserStore.shared.accessToken
@@ -145,7 +153,7 @@ final class VoteStore: ObservableObject {
         networkService.performRequest(method: "PUT", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
-                break
+                completion(true)
             case .failure(let error):
                 jhPrint(error, isWarning: true)
             }

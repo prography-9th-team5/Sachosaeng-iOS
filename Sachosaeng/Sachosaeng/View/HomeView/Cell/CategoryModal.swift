@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CategoryModal: View {
     @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var userStore = UserStore.shared
     @StateObject var voteStore: VoteStore
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
@@ -91,16 +92,16 @@ struct CategoryModal: View {
                         if isEdit {
                             ForEach(categoryStore.categories) { category in
                                 Button {
-                                    if let index = UserStore.shared.currentUserCategories.firstIndex(of: category) {
-                                        UserStore.shared.currentUserCategories.remove(at: index)
+                                    if let index = userStore.currentUserCategories.firstIndex(of: category) {
+                                        userStore.currentUserCategories.remove(at: index)
                                     } else {
-                                        UserStore.shared.currentUserCategories.append(category)
+                                        userStore.currentUserCategories.append(category)
                                     }
                                 } label: {
                                     VStack {
                                         ZStack {
                                             Circle()
-                                                .fill(UserStore.shared.currentUserCategories.contains(category) ? Color(hex: category.backgroundColor) : CustomColor.GrayScaleColor.gs2)
+                                                .fill(userStore.currentUserCategories.contains(category) ? Color(hex: category.backgroundColor) : CustomColor.GrayScaleColor.gs2)
                                                 .frame(width: 72, height: 72)
                                             
                                             AsyncImage(url: URL(string: "\(category.iconUrl)")) { image in
@@ -108,8 +109,8 @@ struct CategoryModal: View {
                                                     .resizable()
                                                     .scaledToFit()
                                                     .frame(width: 32, height: 32)
-                                                    .grayscale(UserStore.shared.currentUserCategories.contains(category) ? 0 : 1)
-                                                    .opacity(UserStore.shared.currentUserCategories.contains(category) ? 1 : 0.25)
+                                                    .grayscale(userStore.currentUserCategories.contains(category) ? 0 : 1)
+                                                    .opacity(userStore.currentUserCategories.contains(category) ? 1 : 0.25)
                                             } placeholder: {
                                                 ProgressView()
                                                     .scaledToFit()

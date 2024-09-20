@@ -13,10 +13,12 @@ struct HomeView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabbarStore: TabBarStore
     @ObservedObject var userStore = UserStore.shared
     @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
     @State private var isCellAnimation: Bool = false
+    @State var isDaily: Bool = false
 
     var body: some View {
         ZStack {
@@ -57,7 +59,7 @@ struct HomeView: View {
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
                             // MARK: - 사용자가 전체를 선택했을 때 플로우
-                            TodayVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
+                            DailyVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
                                 .padding(.bottom, 32)
                                 .id("top")
                             VStack(spacing: 0) {
@@ -179,7 +181,7 @@ struct HomeView: View {
                     } //: ScrollView
                     .refreshable {
                         Task {
-                            voteStore.fetchDailyVote()
+                            voteStore.fetchDailyVote() {_ in }
                             voteStore.fetchHotVotes()
                             voteStore.fetchHotVotesInCategory()
                             voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
@@ -200,14 +202,24 @@ struct HomeView: View {
                 CustomColor.GrayScaleColor.black.ignoresSafeArea()
                     .opacity(0.7)
             }
+            
         }
+        .showPopupView(isPresented: $isDaily, message: .dailyVote, primaryAction: {
+            tabbarStore.isOpacity = true
+        }, secondaryAction: {
+            path.append(PathType.daily)
+        })
         .onAppear {
             Task {
+                voteStore.fetchDailyVote() { isVoted in
+                    isDaily = !isVoted
+                }
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
             }
             withAnimation {
                 isCellAnimation = true
             }
+            
         }
     }
 }

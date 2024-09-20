@@ -53,11 +53,13 @@ public struct DesignForNextWithTapCount: ViewModifier {
             .disabled(tapCount == 0)
     }
 }
+
 public struct PopupModifier: ViewModifier {
     @Binding var isPresented: Bool
     let popupType: PopupType
     let primaryAction: () -> Void
     let secondaryAction: () -> Void
+    @EnvironmentObject var tabbarStore: TabBarStore
     
     public func body(content: Content) -> some View {
         ZStack {
@@ -65,11 +67,11 @@ public struct PopupModifier: ViewModifier {
             ZStack {
                 if isPresented {
                     Rectangle()
-                        .fill(.black.opacity(0.5))
-                        .blur(radius: isPresented ? 2 : 0)
+                        .fill(CustomColor.GrayScaleColor.black.opacity(0.7))
                         .ignoresSafeArea()
                         .onTapGesture {
                             self.isPresented = false
+                            tabbarStore.isOpacity = false
                         }
                     
                     PopupView(

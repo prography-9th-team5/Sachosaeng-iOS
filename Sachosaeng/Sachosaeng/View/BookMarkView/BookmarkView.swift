@@ -7,15 +7,21 @@
 
 import SwiftUI
 
+enum BookmarkType {
+    case vote
+    case content
+}
+
 struct BookmarkView: View {
     @State private var toast: Toast? = nil
-    @State private var selectedButton: String = "투표"
+    @State private var selectedButton: BookmarkType = .vote
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
     @State private var selectedCategoryId: Int?
     @State var isEdit: Bool = false
     @Namespace private var animationNamespace
+    
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -34,15 +40,15 @@ struct BookmarkView: View {
                     HStack(spacing: 0) {
                         Button(action: {
                             withAnimation {
-                                selectedButton = "투표"
+                                selectedButton = .vote
                                 isEdit = false
                             }
                         }) {
                             VStack {
                                 Text("투표")
                                     .font(.createFont(weight: .bold, size: 18))
-                                    .foregroundColor(selectedButton == "투표" ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
-                                if selectedButton == "투표" {
+                                    .foregroundColor(selectedButton == .vote ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
+                                if selectedButton == .vote {
                                     RoundedRectangle(cornerRadius: 2)
                                         .fill(CustomColor.GrayScaleColor.black)
                                         .frame(height: 2)
@@ -60,16 +66,16 @@ struct BookmarkView: View {
                         
                         Button(action: {
                             withAnimation {
-                                selectedButton = "연관콘텐츠"
+                                selectedButton = .content
                                 isEdit = false
                             }
                         }) {
                             VStack {
                                 Text("연관콘텐츠")
                                     .font(.createFont(weight: .bold, size: 18))
-                                    .foregroundColor(selectedButton == "연관콘텐츠" ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
+                                    .foregroundColor(selectedButton == .content ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
                                     .padding(.trailing, 20)
-                                if selectedButton == "연관콘텐츠" {
+                                if selectedButton == .content {
                                     RoundedRectangle(cornerRadius: 2)
                                         .fill(CustomColor.GrayScaleColor.black)
                                         .frame(height: 2)
@@ -91,16 +97,18 @@ struct BookmarkView: View {
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
-                                ForEach(categoryStore.allCatagory) { category in
+                                ForEach(selectedButton == .vote ? bookmarkStore.currentUserCategoriesBookmark : bookmarkStore.currentUserInformationCategoriesBookmark) { category in
                                     Button {
                                         withAnimation {
                                             selectedCategoryId = category.id
                                             if category.id == 0 {
                                                 bookmarkStore.fetchAllVotesBookmark()
                                                 bookmarkStore.fetchAllInformationInBookmark()
+                                                
                                             } else {
                                                 bookmarkStore.fetchVotesInBookmarkWithCategoryId(categoryId: category.id)
                                                 bookmarkStore.fetchInformationInBookmarkWithCategory(categoryId: category.id)
+                                                
                                             }
                                             proxy.scrollTo(category.name, anchor: .center)
                                         }
@@ -142,42 +150,85 @@ struct BookmarkView: View {
                         }
                     }
                     
-                    Button {
-                        isEdit.toggle()
-                    } label: {
-                        Text("편집")
-                            .font(.createFont(weight: .medium, size: 14))
-                            .foregroundStyle(CustomColor.GrayScaleColor.gs5)
-                            .padding(8)
-                            .background(CustomColor.GrayScaleColor.gs2)
-                            .cornerRadius(4)
+                    if isShowEdit(selectedButton: selectedButton) {
+                        Button {
+                            isEdit.toggle()
+                        } label: {
+                            Text("편집")
+                                .font(.createFont(weight: .medium, size: 14))
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                                .padding(8)
+                                .background(CustomColor.GrayScaleColor.gs2)
+                                .cornerRadius(4)
+                        }
+                        .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                     }
-                    .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                 }
                 VStack(spacing: 0) {
-                    if selectedButton == "투표" {
+                    if selectedButton == .vote {
                         ScrollView(showsIndicators: false) {
-                            ForEach($bookmarkStore.currentUserVotesBookmark) { $bookmark in
-                                VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, bookmark: bookmark)
-                                    .padding(.horizontal, 20)
+                            if bookmarkStore.currentUserVotesBookmark.isEmpty {
+                                VStack(spacing: 0) {
+                                    Image("emptyIcon")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                        .padding(.bottom, 16)
+                                    
+                                    Text("북마크한 투표가 없어요")
+                                        .font(.createFont(weight: .semiBold, size: 14))
+                                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                        .lineLimit(2)
+                                        .multilineTextAlignment(.center)
+                                        .lineSpacing(18.2 - 14)
+                                }
+                                .padding(.top, 168)
+                                .padding(.bottom, 311)
+                            } else {
+                                ForEach(bookmarkStore.currentUserVotesBookmark) { bookmark in
+                                    VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, bookmark: bookmark)
+                                        .padding(.horizontal, 20)
+                                }
                             }
                         }
                     } else {
                         ScrollView(showsIndicators: false) {
-                            ForEach(bookmarkStore.currentUserInformationBookmark) { information in
-                                InformationBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, information: information)
-                                    .padding(.horizontal, 20)
+                            
+                            if bookmarkStore.currentUserInformationBookmark.isEmpty {
+                                VStack(spacing: 0) {
+                                    Image("emptyIcon")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                        .padding(.bottom, 16)
+                                    
+                                    Text("북마크한 연관컨텐츠가 없어요")
+                                        .font(.createFont(weight: .semiBold, size: 14))
+                                        .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                        .lineLimit(2)
+                                        .multilineTextAlignment(.center)
+                                        .lineSpacing(18.2 - 14)
+                                }
+                                .padding(.top, 168)
+                                .padding(.bottom, 311)
+                            } else {
+                                ForEach(bookmarkStore.currentUserInformationBookmark) { information in
+                                    InformationBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, information: information)
+                                        .padding(.horizontal, 20)
+                                }
                             }
                         }
                     }
                     if isEdit {
                         Button {
-                            if selectedButton == "투표" {
+                            if selectedButton == .vote {
                                 bookmarkStore.deleteAllVotesBookmark(bookmarkId: bookmarkStore.editBookmarkNumber) {
+                                    bookmarkStore.fetchCategoriesInbookmark()
                                     toast = Toast(type: .success, message: "편집이 완료되었어요!")
                                 }
                             } else {
                                 bookmarkStore.deleteAllInformationsInbookmark(informationId: bookmarkStore.editBookmarkNumber) {
+                                    bookmarkStore.fetchInformationCategoriesInbookmark()
                                     toast = Toast(type: .success, message: "편집이 완료되었어요!")
                                 }
                             }
@@ -191,5 +242,16 @@ struct BookmarkView: View {
             }
         }
         .showToastView(toast: $toast)
+    }
+}
+
+extension BookmarkView {
+    private func isShowEdit(selectedButton: BookmarkType) -> Bool {
+        switch selectedButton {
+            case .vote:
+                return !bookmarkStore.currentUserVotesBookmark.isEmpty
+            case .content:
+                return !bookmarkStore.currentUserInformationBookmark.isEmpty
+        }
     }
 }

@@ -14,84 +14,84 @@ enum PopupType: String {
     
     var imageFrameWidth: CGFloat {
         switch self {
-        case .quit:
-            return 40
-        case .dailyVote:
-            return 76
-        case .saved:
-            return 40
+            case .quit:
+                return 40
+            case .dailyVote:
+                return 76
+            case .saved:
+                return 40
         }
     }
     
     var imageFrameHeight: CGFloat {
         switch self {
-        case .quit:
-            return 40
-        case .dailyVote:
-            return 84
-        case .saved:
-            return 46
+            case .quit:
+                return 40
+            case .dailyVote:
+                return 84
+            case .saved:
+                return 46
         }
     }
     var typeRawValueTextWidth: CGFloat {
         switch self {
-        case .quit, .dailyVote:
-            return 148
-        case .saved:
-            return 92
+            case .quit, .dailyVote:
+                return 148
+            case .saved:
+                return 92
         }
     }
     
     var typeRawValueTextHeight: CGFloat {
         switch self {
-        case .quit:
-            return 54
-        case .dailyVote:
-            return 12
-        case .saved:
-            return 32
+            case .quit:
+                return 54
+            case .dailyVote:
+                return 12
+            case .saved:
+                return 32
         }
     }
     
     var topOfFirstVtackPadding: CGFloat {
         switch self {
-        case .quit:
-            return 40
-        case .dailyVote:
-            return 42
-        case .saved:
-            return 52
+            case .quit:
+                return 40
+            case .dailyVote:
+                return 42
+            case .saved:
+                return 52
         }
     }
     
     var buttonFrameWitdh: CGFloat {
         switch self {
-        case .quit, .saved:
-            return 104
-        case .dailyVote:
-            return 216
+            case .quit, .saved:
+                return 104
+            case .dailyVote:
+                return 216
         }
     }
     
     var primaryButtonText: String {
         switch self {
-        case .quit:
-            return "확인"
-        case .dailyVote:
-            return ""
-        case .saved:
-            return "취소"
+            case .quit:
+                return "확인"
+            case .dailyVote:
+                return ""
+            case .saved:
+                return "취소"
         }
     }
     
     var secondaryButtonText: String {
         switch self {
-        case .quit:
-            return "취소"
-        case .saved:
-            return "바로가기"
-        case .dailyVote:
-            return "투표하기"
+            case .quit:
+                return "취소"
+            case .saved:
+                return "바로가기"
+            case .dailyVote:
+                return "투표하기"
         }
     }
 }

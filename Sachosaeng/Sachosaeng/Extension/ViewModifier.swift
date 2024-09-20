@@ -65,8 +65,7 @@ public struct PopupModifier: ViewModifier {
             ZStack {
                 if isPresented {
                     Rectangle()
-                        .fill(.black.opacity(0.5))
-                        .blur(radius: isPresented ? 2 : 0)
+                        .fill(CustomColor.GrayScaleColor.black.opacity(0.7))
                         .ignoresSafeArea()
                         .onTapGesture {
                             self.isPresented = false

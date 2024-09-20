@@ -9,7 +9,6 @@ import SwiftUI
 import Lottie
 
 struct DailyVoteDetailView: View {
-    @Environment(\.presentationMode) var presentationMode
     @State private var toast: Toast? = nil
     @State private var isSelected: Bool = false
     @State private var isBookmark: Bool = false
@@ -21,6 +20,7 @@ struct DailyVoteDetailView: View {
     @State private var isLoading: Bool = true
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
+    @Binding var path: NavigationPath
     
     var body: some View {
         ZStack {
@@ -61,6 +61,10 @@ struct DailyVoteDetailView: View {
                                             bookmarkStore.updateVotesBookmark(voteId: voteId)
                                         }
                                         voteStore.currentVoteDetail.isBookmarked.toggle()
+                                        isBookmark = voteStore.currentVoteDetail.isBookmarked
+                                        if isBookmark {
+                                            toast = Toast(type: .savedBookMark, message: "저장 완료!")
+                                        }
                                     } label: {
                                         Image(voteStore.currentVoteDetail.isBookmarked ? "bookmark" : "bookmark_off")
                                             .frame(width: 16, height: 18)
@@ -130,7 +134,7 @@ struct DailyVoteDetailView: View {
                     
                     Button {
                         if isVoted {
-                            presentationMode.wrappedValue.dismiss()
+                            path.removeLast()
                         } else {
                             isVoted = true
                             isLottie = true
@@ -161,6 +165,10 @@ struct DailyVoteDetailView: View {
             .opacity(isLottie ? 0 : 1)
             .redacted(reason: isLoading ? .placeholder : [])
         } //: Zstack
+        .showPopupView(isPresented: $isBookmark, message: .saved, primaryAction: {}, secondaryAction: {
+            path.append(PathType.home)
+        })
+        .showToastView(toast: $toast)
         .onAppear {
             Task {
                 voteStore.fetchVoteDetail(voteId: voteId) {

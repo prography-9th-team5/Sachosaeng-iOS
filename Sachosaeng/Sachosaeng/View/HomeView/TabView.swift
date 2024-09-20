@@ -16,15 +16,17 @@ struct TabView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State var switchTab: TabItem = .home
-    @ObservedObject var categoryStore = CategoryStore()
-    @ObservedObject var voteStore: VoteStore = VoteStore()
-    @ObservedObject var bookmarkStore: BookmarkStore = BookmarkStore()
+    @State private var isPopup: Bool = false
+    @StateObject var categoryStore: CategoryStore
+    @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
     var body: some View {
         VStack(spacing: 0) {
             switch switchTab {
                 case .home:
                     HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
                         .navigationBarBackButtonHidden()
+                        
                 case .bookMark:
                     BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
             }
@@ -58,6 +60,16 @@ struct TabView: View {
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .background(CustomColor.GrayScaleColor.gs2)
         }
+        .showPopupView(isPresented: Binding<Bool>(
+            get: { !voteStore.dailyVote.isVoted },
+            set: {
+                newValue in voteStore.dailyVote.isVoted = !newValue
+            }
+        ), message: .dailyVote, primaryAction: {
+            
+        }, secondaryAction: {
+            path.append(PathType.daily)
+        })
         .onAppear {
             Task {
                 categoryStore.fetchCategories()
@@ -75,6 +87,3 @@ struct TabView: View {
     }
 }
 
-#Preview {
-    TabView(isSign: .constant(false), path: .constant(NavigationPath()))
-}

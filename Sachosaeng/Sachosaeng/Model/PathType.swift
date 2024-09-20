@@ -16,5 +16,6 @@ public enum PathType {
     case myPage
     case info
     case quit
+    case daily
 }
 

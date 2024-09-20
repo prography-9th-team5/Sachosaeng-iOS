@@ -40,7 +40,7 @@ struct ContentView: View {
                                 .navigationBarBackButtonHidden()
                                 .environmentObject(userService)
                         case .home:
-                            TabView(isSign: $isSign, path: $path)
+                            TabView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
                         case .myPage:
                             MyPageView(isSign: $isSign, path: $path)
                                 .customBackbutton {
@@ -61,6 +61,8 @@ struct ContentView: View {
                                 .environmentObject(userService)
                         case .sign:
                             SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: $path, isSign: $isSign)
+                        case .daily:
+                            DailyVoteDetailView(voteId: voteStore.dailyVote.voteId, voteStore: voteStore, bookmarkStore: BookmarkStore(), path: $path)
                     }
                 }
         }

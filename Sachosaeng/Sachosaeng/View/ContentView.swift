@@ -21,24 +21,20 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             SignView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, path: $path, isSign: $isSign)
-                .environmentObject(userService)
-                .environmentObject(versionService)
+                
                 .navigationDestination(for: PathType.self) { name in
                     switch name {
                         case .occupation:
                             UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                                 .navigationBarBackButtonHidden()
-                                .environmentObject(userService)
                         case .favorite:
                             UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                                 .customBackbutton {
 //                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
                                 }
-                                .environmentObject(userService)
                         case .signSuccess:
                             SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
                                 .navigationBarBackButtonHidden()
-                                .environmentObject(userService)
                         case .home:
                             TabView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
                         case .myPage:
@@ -46,19 +42,16 @@ struct ContentView: View {
                                 .customBackbutton {
 //                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
                                 }
-                                .environmentObject(userService)
                         case .info:
                             EditMyInfoView(isSign: $isSign, path: $path)
                                 .customBackbutton {
 //                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
                                 }
-                                .environmentObject(userService)
                         case .quit:
                             QuitView(isSign: $isSign, path: $path)
                                 .customBackbutton {
 //                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
                                 }
-                                .environmentObject(userService)
                         case .sign:
                             SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: $path, isSign: $isSign)
                         case .daily:

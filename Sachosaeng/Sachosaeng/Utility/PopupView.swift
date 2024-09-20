@@ -101,7 +101,6 @@ struct PopupView: View {
     let popupType: PopupType
     let primaryAction: () -> Void
     let secondaryAction: () -> Void
-    
     var body: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
@@ -132,7 +131,6 @@ struct PopupView: View {
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                             .cornerRadius(4, corners: .allCorners)
                     }
-                    
                 }
                 Button {
                     secondaryAction()
@@ -152,13 +150,10 @@ struct PopupView: View {
         .frame(width: 248, height: 248)
         .background(CustomColor.GrayScaleColor.gs3)
         .cornerRadius(8, corners: .allCorners)
-    }
-}
-
-#Preview {
-    PopupView(isPresented: .constant(true), popupType: .dailyVote) {
-        
-    } secondaryAction: {
-        
+        .onAppear {
+            if popupType == .dailyVote {
+                primaryAction()
+            }
+        }
     }
 }

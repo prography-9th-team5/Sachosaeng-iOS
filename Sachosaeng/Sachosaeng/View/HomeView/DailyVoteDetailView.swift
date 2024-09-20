@@ -21,6 +21,7 @@ struct DailyVoteDetailView: View {
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
     @Binding var path: NavigationPath
+    @EnvironmentObject var tabBarStore: TabBarStore
     
     var body: some View {
         ZStack {
@@ -167,6 +168,7 @@ struct DailyVoteDetailView: View {
         } //: Zstack
         .showPopupView(isPresented: $isBookmark, message: .saved, primaryAction: {}, secondaryAction: {
             path.append(PathType.home)
+            tabBarStore.switchTab = .bookMark
         })
         .showToastView(toast: $toast)
         .onAppear {

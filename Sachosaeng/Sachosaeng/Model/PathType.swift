@@ -19,3 +19,7 @@ public enum PathType {
     case daily
 }
 
+struct SachosaengPath: Hashable {
+    let spath: PathType
+    let switchTab: TabItem
+}

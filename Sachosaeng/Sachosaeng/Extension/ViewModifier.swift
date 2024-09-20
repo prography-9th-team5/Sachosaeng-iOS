@@ -53,6 +53,7 @@ public struct DesignForNextWithTapCount: ViewModifier {
             .disabled(tapCount == 0)
     }
 }
+
 public struct PopupModifier: ViewModifier {
     @Binding var isPresented: Bool
     let popupType: PopupType

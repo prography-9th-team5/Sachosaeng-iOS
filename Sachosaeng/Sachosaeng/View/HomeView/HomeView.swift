@@ -13,6 +13,7 @@ struct HomeView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabbarStore: TabBarStore
     @ObservedObject var userStore = UserStore.shared
     @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
@@ -201,7 +202,19 @@ struct HomeView: View {
             }
 
         }
-        
+        .showPopupView(isPresented: Binding<Bool>(
+            get: { !voteStore.dailyVote.isVoted },
+            set: { newValue in
+                if newValue == false {
+                    tabbarStore.isOpacity = false
+                }
+                voteStore.dailyVote.isVoted = !newValue
+            }
+        ), message: .dailyVote, primaryAction: {
+            tabbarStore.isOpacity = true
+        }, secondaryAction: {
+            path.append(PathType.daily)
+        })
         .onAppear {
             Task {
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))

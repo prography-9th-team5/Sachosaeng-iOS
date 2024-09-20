@@ -15,14 +15,15 @@ enum TabItem {
 struct TabView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @State var switchTab: TabItem = .home
+    @EnvironmentObject var tabBarStore: TabBarStore
     @State private var isPopup: Bool = false
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabbarStore: TabBarStore
     var body: some View {
         VStack(spacing: 0) {
-            switch switchTab {
+            switch tabBarStore.switchTab {
                 case .home:
                     HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
                         .navigationBarBackButtonHidden()
@@ -36,9 +37,9 @@ struct TabView: View {
                 HStack(spacing: 0) {
                     Spacer()
                     Button {
-                        switchTab = .home
+                        tabBarStore.switchTab = .home
                     } label: {
-                        Image(switchTab == .home ? "HomeTab" : "HomeTab_off")
+                        Image(tabBarStore.switchTab == .home ? "HomeTab" : "HomeTab_off")
                     }
                     .padding(.bottom, 30)
                     .padding(.top, 18)
@@ -46,9 +47,9 @@ struct TabView: View {
                     Spacer()
 
                     Button {
-                        switchTab = .bookMark
+                        tabBarStore.switchTab = .bookMark
                     } label: {
-                        Image(switchTab == .bookMark ? "bookmark" : "bookmark_off")
+                        Image(tabBarStore.switchTab == .bookMark ? "bookmark" : "bookmark_off")
                             .foregroundStyle(CustomColor.GrayScaleColor.gs4)
                     }
                     .padding(.bottom, 30)
@@ -59,17 +60,16 @@ struct TabView: View {
             .frame(height: 76)
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .background(CustomColor.GrayScaleColor.gs2)
-        }
-        .showPopupView(isPresented: Binding<Bool>(
-            get: { !voteStore.dailyVote.isVoted },
-            set: {
-                newValue in voteStore.dailyVote.isVoted = !newValue
+            .overlay {
+                if tabbarStore.isOpacity {
+                    ZStack {
+                        Rectangle()
+                            .fill(CustomColor.GrayScaleColor.black.opacity(0.7))
+                            .ignoresSafeArea()
+                    }
+                }
             }
-        ), message: .dailyVote, primaryAction: {
-            
-        }, secondaryAction: {
-            path.append(PathType.daily)
-        })
+        }
         .onAppear {
             Task {
                 categoryStore.fetchCategories()

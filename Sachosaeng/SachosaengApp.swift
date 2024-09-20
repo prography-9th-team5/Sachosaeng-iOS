@@ -44,6 +44,7 @@ struct SachosaengApp: App {
                 ContentView(categoryStore: CategoryStore(), voteStore: VoteStore())
                     .environmentObject(userService)
                     .environmentObject(versionService)
+                    .environmentObject(TabBarStore())
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)
                         

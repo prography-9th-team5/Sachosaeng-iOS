@@ -114,7 +114,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     dailyVote = vote.data
-                    jhPrint("서버에서 사용자가 투표했나요?: \(dailyVote.isVoted)", isWarning: true)
+//                    jhPrint("서버에서 사용자가 투표했나요?: \(dailyVote.isVoted)", isWarning: true)
                     completion(dailyVote.isVoted)
                     
                 }
@@ -135,6 +135,7 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentVoteDetail = voteDetail.data
+                    jhPrint(currentVoteDetail)
                     completion()
                 }
             case .failure(let error):

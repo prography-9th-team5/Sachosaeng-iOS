@@ -31,6 +31,7 @@
 		36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36562FB42C210BA6004D1836 /* FontExtension.swift */; };
 		365A12062C388EC500C18796 /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365A12052C388EC500C18796 /* ViewModifier.swift */; };
 		365B5D592C9D6F2D00AB851D /* TabBarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365B5D582C9D6F2D00AB851D /* TabBarStore.swift */; };
+		365B5D5C2C9DCB0D00AB851D /* FavoriteCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365B5D5B2C9DCB0D00AB851D /* FavoriteCategoryView.swift */; };
 		366053A72C533E03000A1D8D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366053A62C533E03000A1D8D /* CustomTextField.swift */; };
 		366053A92C538210000A1D8D /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366053A82C538210000A1D8D /* CustomTextEditor.swift */; };
 		366053AB2C53A243000A1D8D /* PathType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366053AA2C53A243000A1D8D /* PathType.swift */; };
@@ -113,6 +114,7 @@
 		36562FB42C210BA6004D1836 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		365A12052C388EC500C18796 /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
 		365B5D582C9D6F2D00AB851D /* TabBarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStore.swift; sourceTree = "<group>"; };
+		365B5D5B2C9DCB0D00AB851D /* FavoriteCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCategoryView.swift; sourceTree = "<group>"; };
 		366053A62C533E03000A1D8D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		366053A82C538210000A1D8D /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		366053AA2C53A243000A1D8D /* PathType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathType.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				360C2B262C372F330000C0F8 /* MyPageView.swift */,
 				369595F22C50425B0098920D /* EditMyInfoView.swift */,
 				36949FAD2C51CA9D009E099E /* QuitView.swift */,
+				365B5D5B2C9DCB0D00AB851D /* FavoriteCategoryView.swift */,
 			);
 			path = MyPageView;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				36A61B632C95713E008C6663 /* VersionService.swift in Sources */,
 				36949FA82C514C9E009E099E /* Utility.swift in Sources */,
 				36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */,
+				365B5D5C2C9DCB0D00AB851D /* FavoriteCategoryView.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,
 				36A81FDC2C2C8AC6006A9305 /* DailyVoteCell.swift in Sources */,
 				36842BFD2C22D01A0023473D /* CommonTitle.swift in Sources */,

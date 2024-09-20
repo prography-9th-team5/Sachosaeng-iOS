@@ -80,6 +80,7 @@ struct TabView: View {
             Task {
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
+                categoryStore.fetchCategories()
                 bookmarkStore.fetchAllVotesBookmark()
                 bookmarkStore.fetchAllInformationInBookmark()
                 bookmarkStore.fetchCategoriesInbookmark()

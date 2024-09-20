@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum myPageOption: String , CaseIterable {
-    case changeName = "닉네임 변경"
+    case usersFavorite = "관심사 설정"
     case inquiry = "1:1 문의"
 }
 
@@ -60,16 +60,21 @@ struct MyPageView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 28)
                 
-                ForEach(myPageOption.allCases, id: \.self) { name in
+                ForEach(myPageOption.allCases, id: \.self) { myPageOptionPath in
                     Button {
-                        path.append(name.rawValue)
+                        switch myPageOptionPath {
+                        case .usersFavorite:
+                            path.append(PathType.usersFavorite)
+                        case .inquiry:
+                            path.append(PathType.inquiry)
+                        }
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
                             .frame(width: PhoneSpace.screenWidth - 40, height: 60)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .overlay {
                                 HStack(spacing: 0) {
-                                    Text(name.rawValue)
+                                    Text(myPageOptionPath.rawValue)
                                         .padding(.horizontal, 10)
                                         .font(.createFont(weight: .medium, size: 15))
                                         .foregroundStyle(CustomColor.GrayScaleColor.black)
@@ -89,21 +94,32 @@ struct MyPageView: View {
                 }
                 .padding(EdgeInsets(top: 32, leading: 20, bottom: 14, trailing: 20))
                 
-                ForEach(settingOption.allCases, id: \.self) { name in
+                ForEach(settingOption.allCases, id: \.self) { settingOptionPath in
                     Button {
-                        path.append(name.rawValue)
+                        switch settingOptionPath {
+                        case .openSource:
+                            path.append(PathType.openSource)
+                        case .userData:
+                            path.append(PathType.userData)
+                        case .service:
+                            path.append(PathType.service)
+                        case .FAQ:
+                            path.append(PathType.FAQ)
+                        case .version:
+                            break
+                        }
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
                             .frame(width: PhoneSpace.screenWidth - 40,height: 60)
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .overlay {
                                 HStack(spacing: 0) {
-                                    Text(name.rawValue)
+                                    Text(settingOptionPath.rawValue)
                                         .padding(.horizontal, 10)
                                         .font(.createFont(weight: .medium, size: 15))
                                         .foregroundStyle(CustomColor.GrayScaleColor.black)
                                     Spacer()
-                                    if name.rawValue == "버전 안내" {
+                                    if settingOptionPath.rawValue == "버전 안내" {
                                         HStack(spacing: 0) {
                                             Text("최신 버전")
                                                 .padding(.horizontal, 8)

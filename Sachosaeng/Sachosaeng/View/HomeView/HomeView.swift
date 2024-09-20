@@ -212,8 +212,7 @@ struct HomeView: View {
         .onAppear {
             Task {
                 voteStore.fetchDailyVote() { isVoted in
-                    isDaily = !isVoted // 이게 투표했으면 안떠야함
-                    jhPrint("isDaily: \(isDaily)", isWarning: true)
+                    isDaily = !isVoted
                 }
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
             }

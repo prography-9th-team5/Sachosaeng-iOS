@@ -25,6 +25,7 @@ struct VoteDetail: Codable {
     var category: Category
     var title: String
     var participantCount: Int
+    var isMultipleChoiceAllowed: Bool
     var voteOptions: [VoteOption]
     var description: String
 }
@@ -55,7 +56,7 @@ let dummyVoteDetail = VoteDetail(
     chosenVoteOptionID: [1],
     category: dummyCategory,
     title: "Which technology will dominate in 2024?",
-    participantCount: 35,
+    participantCount: 35, isMultipleChoiceAllowed: false,
     voteOptions: dummyVoteOptions,
     description: "Vote on the technology trend you think will lead in 2024."
 )

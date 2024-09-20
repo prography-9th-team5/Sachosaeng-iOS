@@ -55,6 +55,18 @@ struct ContentView: View {
                             SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: $path, isSign: $isSign)
                         case .daily:
                             DailyVoteDetailView(voteId: voteStore.dailyVote.voteId, voteStore: voteStore, bookmarkStore: BookmarkStore(), path: $path)
+                        case .usersFavorite:
+                            FavoriteCategoryView(path: $path, categoryStore: categoryStore)
+                        case .inquiry:
+                            EmptyView()
+                        case .openSource:
+                            EmptyView()
+                        case .userData:
+                            EmptyView()
+                        case .service:
+                            EmptyView()
+                        case .FAQ:
+                            EmptyView()
                     }
                 }
         }

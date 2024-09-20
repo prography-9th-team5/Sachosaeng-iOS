@@ -41,7 +41,7 @@ struct SachosaengApp: App {
             if isFirstLaunch {
                 ConsentView(isFirstLaunch: $isFirstLaunch)
             } else {
-                ContentView(categoryStore: CategoryStore(), voteStore: VoteStore())
+                ContentView()
                     .environmentObject(userService)
                     .environmentObject(versionService)
                     .environmentObject(TabBarStore())

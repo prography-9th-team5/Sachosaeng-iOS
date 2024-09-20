@@ -111,7 +111,7 @@ final class AuthService {
         
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
             if let error = error {
-//                jhPrint("Google Sign-In Error: \(error.localizedDescription)", isWarning: true)
+                jhPrint("Google Sign-In Error: \(error.localizedDescription)", isWarning: true)
                 completion(false)
             } else if let signInResult = signInResult {
                 UserStore.shared.currentUserEmail = signInResult.user.profile?.email ?? ""

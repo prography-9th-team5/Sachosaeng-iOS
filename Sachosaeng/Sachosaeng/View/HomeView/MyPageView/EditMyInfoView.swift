@@ -133,11 +133,6 @@ struct EditMyInfoView: View {
                         Spacer()
                     }
                 }
-                .showPopupView(isPresented: $isSelectedQuitButton, message: .quit, primaryAction: {
-                    path.append(PathType.quit)
-                }, secondaryAction: {
-                    
-                })
                 .showToastView(toast: $toast)
                 .navigationTitle("내 정보 수정")
                 .navigationBarTitleDisplayMode(.inline)
@@ -166,15 +161,11 @@ struct EditMyInfoView: View {
                 .disabled(isSelected || !textField.isEmpty ? false : true)
             }
         }
+        .showPopupView(isPresented: $isSelectedQuitButton, message: .quit, primaryAction: {
+            path.append(PathType.quit)
+        }, secondaryAction: { })
         .onTapGesture {
             self.hideKeyboard()
         }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        EditMyInfoView(isSign: .constant(false), path: .constant(NavigationPath()))
-        
     }
 }

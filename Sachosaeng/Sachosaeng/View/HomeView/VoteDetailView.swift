@@ -21,6 +21,7 @@ struct VoteDetailView: View {
     @State private var isLoading: Bool = true
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabBarStore: TabBarStore
     
     var body: some View {
         ZStack {
@@ -83,9 +84,45 @@ struct VoteDetailView: View {
                                 
                                 VStack(spacing: 8) {
                                     ForEach(voteStore.currentVoteDetail.voteOptions) { vote in
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .frame(width: PhoneSpace.screenWidth - 80, height: 50)
-                                            .foregroundStyle(chosenVoteOptionId.contains(vote.voteOptionId) ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.gs2) // 여러 개 선택 가능
+                                        let totalVotes = voteStore.currentVoteDetail.voteOptions.map { $0.count }.reduce(0, +)
+                                        let votePercentage = totalVotes > 0 ? CGFloat(vote.count) / CGFloat(totalVotes) : 0
+                                        // 다중 선택 여부에 따라 선택된 옵션을 관리
+                                        let isChosenOption = voteStore.currentVoteDetail.isMultipleChoiceAllowed
+                                            ? chosenVoteOptionId.contains(vote.voteOptionId)
+                                            : vote.voteOptionId == chosenVoteIndex
+
+                                        ZStack(alignment: .leading) {
+                                            if isVoted {
+                                                // 투표 완료 후
+                                                RoundedRectangle(cornerRadius: 4)
+                                                    .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 0)
+                                                    .frame(width: PhoneSpace.screenWidth - 80, height: 50)
+                                                    .background(isChosenOption ? CustomColor.GrayScaleColor.gs5 : CustomColor.GrayScaleColor.gs3)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+
+                                                RoundedRectangle(cornerRadius: 4)
+                                                    .fill(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
+                                                    .frame(width: (PhoneSpace.screenWidth - 80) * votePercentage, height: 50)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                                                    .animation(.easeInOut(duration: 0.5), value: votePercentage)
+
+                                                HStack {
+                                                    Text(vote.content)
+                                                        .foregroundColor(isChosenOption ? .white : .black)
+                                                        .font(.createFont(weight: isChosenOption ? .bold : .medium, size: 14))
+                                                        .padding(.leading, 16)
+                                                        .lineLimit(2)
+                                                    Spacer()
+                                                    Text(String(format: "%.0f%%", votePercentage * 100))
+                                                        .foregroundColor(isChosenOption ? .white : .black)
+                                                        .font(.createFont(weight: isChosenOption ? .bold : .medium, size: 14))
+                                                        .padding(.trailing, 16)
+                                                }
+                                            } else {
+                                                // 투표 완료 전
+                                                RoundedRectangle(cornerRadius: 4)
+                                                    .frame(width: PhoneSpace.screenWidth - 80, height: 50)
+                                                    .foregroundStyle(isChosenOption ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.gs2)
                                                     .overlay(alignment: .leading) {
                                                         HStack(spacing: 0) {
                                                             Text(vote.content)
@@ -94,24 +131,31 @@ struct VoteDetailView: View {
                                                         }
                                                     }
                                                     .overlay {
-                                                                RoundedRectangle(cornerRadius: 4)
-                                                                    .stroke(chosenVoteOptionId.contains(vote.voteOptionId) ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1) // 선택 여부에 따라 변경
-                                                            }
+                                                        RoundedRectangle(cornerRadius: 4)
+                                                            .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
+                                                    }
                                                     .onTapGesture {
-                                                                // 옵션을 선택 또는 해제하는 로직
-                                                                if chosenVoteOptionId.contains(vote.voteOptionId) {
-                                                                    // 이미 선택된 항목을 다시 누르면 해제
-                                                                    if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
-                                                                        chosenVoteOptionId.remove(at: index)
-                                                                    }
-                                                                } else {
-                                                                    // 새로운 항목을 선택
-                                                                    chosenVoteOptionId.append(vote.voteOptionId)
+                                                        if voteStore.currentVoteDetail.isMultipleChoiceAllowed {
+                                                            // 다중 선택 로직
+                                                            if isChosenOption {
+                                                                // 이미 선택된 경우 제거
+                                                                if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+                                                                    chosenVoteOptionId.remove(at: index)
+                                                                    if chosenVoteOptionId.isEmpty { isSelected = false }
                                                                 }
-
-                                                                // 선택된 항목이 하나라도 있으면 버튼 활성화
-                                                                isSelected = !chosenVoteOptionId.isEmpty
+                                                            } else {
+                                                                // 선택되지 않은 경우 추가
+                                                                isSelected = true
+                                                                chosenVoteOptionId.append(vote.voteOptionId)
                                                             }
+                                                        } else {
+                                                            // 단일 선택 로직
+                                                            isSelected = true
+                                                            chosenVoteIndex = vote.voteOptionId
+                                                        }
+                                                    }
+                                            }
+                                        }
                                     }
                                     if isVoted { VoteDescriptionView() }
                                 }
@@ -201,6 +245,7 @@ struct VoteDetailView: View {
                             .cornerRadius(4)
                     }
                     .contentShape(Rectangle())
+                    .disabled(chosenVoteOptionId.isEmpty)
                 }
             } //: Vstack
             .showToastView(toast: $toast)

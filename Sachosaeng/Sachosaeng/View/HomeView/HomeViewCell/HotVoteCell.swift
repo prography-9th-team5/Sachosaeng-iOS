@@ -52,6 +52,7 @@ struct HotVoteCell: View {
                                     Text("\(participantCount)명 참여 중")
                                         .font(.createFont(weight: .medium, size: 12))
                                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                        .padding(.leading, 8)
                                     Spacer()
                                 }
                             }

@@ -19,10 +19,11 @@ struct VoteDetailView: View {
     @State var voteId: Int
     @State private var isLottie: Bool = false
     @State private var isLoading: Bool = true
-    @StateObject var voteStore: VoteStore
+    @ObservedObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
     @EnvironmentObject var tabBarStore: TabBarStore
-    
+    @State private var animatedPercentages: [Int: CGFloat] = [:]
+
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -85,6 +86,7 @@ struct VoteDetailView: View {
                                 VStack(spacing: 8) {
                                     ForEach(voteStore.currentVoteDetail.voteOptions) { vote in
                                         let totalVotes = voteStore.currentVoteDetail.voteOptions.map { $0.count }.reduce(0, +)
+                                          
                                         let votePercentage = totalVotes > 0 ? CGFloat(vote.count) / CGFloat(totalVotes) : 0
                                         // 다중 선택 여부에 따라 선택된 옵션을 관리
                                         let isChosenOption = voteStore.currentVoteDetail.isMultipleChoiceAllowed
@@ -99,13 +101,19 @@ struct VoteDetailView: View {
                                                     .frame(width: PhoneSpace.screenWidth - 80, height: 50)
                                                     .background(isChosenOption ? CustomColor.GrayScaleColor.gs5 : CustomColor.GrayScaleColor.gs3)
                                                     .clipShape(RoundedRectangle(cornerRadius: 4))
-
+                                                
                                                 RoundedRectangle(cornerRadius: 4)
                                                     .fill(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
-                                                    .frame(width: (PhoneSpace.screenWidth - 80) * votePercentage, height: 50)
+                                                    .frame(width: (PhoneSpace.screenWidth - 80) * (animatedPercentages[vote.voteOptionId] ?? 0), height: 50)
                                                     .clipShape(RoundedRectangle(cornerRadius: 4))
-                                                    .animation(.easeInOut(duration: 0.5), value: votePercentage)
-
+                                                    .onAppear {
+                                                        
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                                            withAnimation(.easeInOut(duration: 2.8)) {
+                                                                animatedPercentages[vote.voteOptionId] = votePercentage
+                                                            }
+                                                        }
+                                                    }
                                                 HStack {
                                                     Text(vote.content)
                                                         .foregroundColor(isChosenOption ? .white : .black)
@@ -136,22 +144,27 @@ struct VoteDetailView: View {
                                                     }
                                                     .onTapGesture {
                                                         if voteStore.currentVoteDetail.isMultipleChoiceAllowed {
-                                                            // 다중 선택 로직
                                                             if isChosenOption {
-                                                                // 이미 선택된 경우 제거
                                                                 if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
                                                                     chosenVoteOptionId.remove(at: index)
                                                                     if chosenVoteOptionId.isEmpty { isSelected = false }
                                                                 }
                                                             } else {
-                                                                // 선택되지 않은 경우 추가
                                                                 isSelected = true
                                                                 chosenVoteOptionId.append(vote.voteOptionId)
                                                             }
                                                         } else {
-                                                            // 단일 선택 로직
-                                                            isSelected = true
-                                                            chosenVoteIndex = vote.voteOptionId
+                                                            if chosenVoteIndex == vote.voteOptionId {
+                                                                if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+                                                                    chosenVoteIndex = nil
+                                                                    chosenVoteOptionId.remove(at: index)
+                                                                }
+                                                                isSelected = false
+                                                            } else {
+                                                                chosenVoteIndex = vote.voteOptionId
+                                                                chosenVoteOptionId.append(vote.voteOptionId)
+                                                                isSelected = true
+                                                            }
                                                         }
                                                     }
                                             }
@@ -219,16 +232,19 @@ struct VoteDetailView: View {
                         if isVoted {
                             presentationMode.wrappedValue.dismiss()
                         } else {
-                            isVoted = true
                             isLottie = true
                             voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
                                 if success {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        withAnimation {
-                                            proxy.scrollTo("bottom")
+//                                        withAnimation {
+//                                            proxy.scrollTo("bottom")
+//                                        }
+                                        voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { isSuccess in
+                                            voteStore.fetchVoteDetail(voteId: voteId) {
+                                                isLottie = false
+                                                isVoted = true
+                                            }
                                         }
-                                        isLottie = false
-                                        voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
                                         toast = Toast(type: .quit, message: "투표 완료!")
                                     }
                                 } else {
@@ -245,7 +261,8 @@ struct VoteDetailView: View {
                             .cornerRadius(4)
                     }
                     .contentShape(Rectangle())
-                    .disabled(chosenVoteOptionId.isEmpty)
+                    .disabled(voteStore.currentVoteDetail.isMultipleChoiceAllowed ? chosenVoteOptionId.isEmpty : chosenVoteIndex == nil)
+//                    .disabled(chosenVoteOptionId.isEmpty || chosenVoteIndex == nil)
                 }
             } //: Vstack
             .showToastView(toast: $toast)

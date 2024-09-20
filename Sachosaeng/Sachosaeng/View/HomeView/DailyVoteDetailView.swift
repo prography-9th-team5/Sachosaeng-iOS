@@ -146,8 +146,9 @@ struct DailyVoteDetailView: View {
                                 if success {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                         isLottie = false
-                                        voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId)
-                                        toast = Toast(type: .quit, message: "투표 완료!")
+                                        voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId) { isSuccess in
+                                            toast = Toast(type: .quit, message: "투표 완료!")
+                                        }
                                     }
                                 } else {
                                     isLottie = false

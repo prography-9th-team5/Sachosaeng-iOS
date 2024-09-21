@@ -32,7 +32,7 @@ final class SignStore: ObservableObject {
         case .success(let authResults):
             switch authResults.credential {
                 case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                    UserStore.shared.currentUserEmail = appleIDCredential.user
+                    UserInfoStore.shared.currentUserEmail = appleIDCredential.user
                     jhPrint(appleIDCredential.user)
                     completion(true)
                 default:

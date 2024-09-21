@@ -28,22 +28,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 @main
 struct SachosaengApp: App {
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
+    
     init() {
         if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
         }
     }
-    @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
-    let userService = UserService.shared
-    @ObservedObject var versionService = VersionService()
+    
     var body: some Scene {
         WindowGroup {
             if isFirstLaunch {
                 ConsentView(isFirstLaunch: $isFirstLaunch)
             } else {
                 ContentView()
-                    .environmentObject(userService)
-                    .environmentObject(versionService)
+                    .environmentObject(SignStore())
+                    .environmentObject(UserService.shared)
+                    .environmentObject(VersionService.shared)
+                    .environmentObject(UserInfoStore.shared)
                     .environmentObject(TabBarStore())
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)

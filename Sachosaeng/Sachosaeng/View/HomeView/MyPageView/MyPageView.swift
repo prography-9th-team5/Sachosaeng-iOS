@@ -23,7 +23,7 @@ enum settingOption: String, CaseIterable {
 struct MyPageView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @ObservedObject var userStore = UserStore.shared
+    @ObservedObject var userStore = UserInfoStore.shared
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.edgesIgnoringSafeArea(.all)

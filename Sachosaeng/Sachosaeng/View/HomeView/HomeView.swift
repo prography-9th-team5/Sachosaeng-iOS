@@ -14,7 +14,7 @@ struct HomeView: View {
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
     @EnvironmentObject var tabbarStore: TabBarStore
-    @ObservedObject var userStore = UserStore.shared
+    @ObservedObject var userStore = UserInfoStore.shared
     @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
     @State private var isCellAnimation: Bool = false

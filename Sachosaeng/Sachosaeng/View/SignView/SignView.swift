@@ -17,10 +17,10 @@ enum PhoneSpace {
 struct SignView: View {
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
-    @StateObject var signStore: SignStore
+    @EnvironmentObject var signStore: SignStore
     @EnvironmentObject var versionService: VersionService
     @EnvironmentObject var userService: UserService
-    @ObservedObject var userStore = UserStore.shared
+    @ObservedObject var userStore = UserInfoStore.shared
     @Binding var path: NavigationPath
     @Binding var isSign: Bool
     
@@ -135,10 +135,6 @@ struct SignView: View {
             }
         }
     }
-}
-
-#Preview {
-    SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: .constant(NavigationPath()), isSign: .constant(false))
 }
 
 extension SignView {

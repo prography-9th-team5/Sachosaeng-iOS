@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct CategoryCellView: View {
-    @State var isAllCategory: Bool = false
     @Binding var tapCount: Int
-    @State var isSelected: Bool = false
     @State var category: Category
     @State var categoryNumber: Int
+    @State private var isAllCategory: Bool = false
+    @State private var isSelected: Bool = false
+    
     var body: some View {
         VStack {
             ZStack {
@@ -50,10 +51,10 @@ struct CategoryCellView: View {
             if !isAllCategory {
                 isSelected.toggle()
                 if isSelected {
-                    UserStore.shared.selectedCategoriesInSignFlow.append(category)
+                    UserInfoStore.shared.selectedCategoriesInSignFlow.append(category)
                     tapCount += 1
                 } else {
-                    UserStore.shared.selectedCategoriesInSignFlow.removeAll { $0 == category }
+                    UserInfoStore.shared.selectedCategoriesInSignFlow.removeAll { $0 == category }
                     tapCount -= 1
                 }
             }

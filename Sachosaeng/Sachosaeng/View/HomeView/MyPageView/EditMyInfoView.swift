@@ -26,7 +26,7 @@ struct EditMyInfoView: View {
     @State private var userTypeArray: [UserType] = UserType.allCases
     @State private var textField: String = ""
     @State private var controlDisableModifier: Bool = true
-    @ObservedObject var userStore = UserStore.shared
+    @ObservedObject var userStore = UserInfoStore.shared
     @EnvironmentObject var userService: UserService
 
     private let imageFrame = 127.54
@@ -144,7 +144,7 @@ struct EditMyInfoView: View {
                     }
                     if !textField.isEmpty {
                         userStore.currentUserState.nickname = textField
-                        userService.updateUserNickname(UserStore.shared.currentUserState.nickname)
+                        userService.updateUserNickname(UserInfoStore.shared.currentUserState.nickname)
                     }
                     toast = Toast(type: .saved, message: "저장되었습니다")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

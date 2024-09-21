@@ -11,10 +11,9 @@ struct UserFavoriteCategoryView: View {
     // MARK: - Properties
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
-    @StateObject var signStore: SignStore
-    @ObservedObject var userStore = UserStore.shared
+    @EnvironmentObject var signStore: SignStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var userService: UserService
-
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
@@ -42,8 +41,8 @@ struct UserFavoriteCategoryView: View {
                             footerFont: .medium, isSuccessView: false)
                 VStack(spacing: 0) {
                     Button {
-                        userStore.selectedCategoriesInSignFlow.removeAll()
-                        userService.updateUserCategory(userStore.selectedCategoriesInSignFlow)
+                        userInfoStore.selectedCategoriesInSignFlow.removeAll()
+                        userService.updateUserCategory(userInfoStore.selectedCategoriesInSignFlow)
                         path.append(PathType.signSuccess)
                     } label: {
                         Text("SKIP")
@@ -76,7 +75,7 @@ struct UserFavoriteCategoryView: View {
             .padding(.top, 20)
             
             Button {
-                userService.updateUserCategory(userStore.selectedCategoriesInSignFlow)
+                userService.updateUserCategory(userInfoStore.selectedCategoriesInSignFlow)
                 path.append(PathType.signSuccess)
             } label: {
                 Text("시작")
@@ -100,11 +99,5 @@ struct UserFavoriteCategoryView: View {
 extension UserFavoriteCategoryView {
     private func gridSwitch() {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
-    }
-}
-
-#Preview {
-    NavigationStack {
-        UserFavoriteCategoryView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), isSign: .constant(true), path: .constant(NavigationPath()))
     }
 }

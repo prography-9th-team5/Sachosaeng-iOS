@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct UserOccupationView: View {
-    
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
-    @StateObject var signStore: SignStore
-    @ObservedObject var userStore = UserStore.shared
+    @EnvironmentObject var signStore: SignStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var userService: UserService
-
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var selectedOccupations: [Bool] = Array(repeating: false, count: 4)
-    @State var isSelected: Bool = false
+    @State private var isSelected: Bool = false
 
     // MARK: - Body
     var body: some View {
@@ -48,7 +46,7 @@ struct UserOccupationView: View {
                         Button {
                             selectedOccupations[occupationNumber] = true
                             isSelected = true
-                            userStore.currentUserState.userType = occupationDescription[occupationNumber]
+                            userInfoStore.currentUserState.userType = occupationDescription[occupationNumber]
                             for index in 0..<selectedOccupations.count {
                                 if index != occupationNumber {
                                     selectedOccupations[index] = false
@@ -67,7 +65,7 @@ struct UserOccupationView: View {
             .navigationBarTitleDisplayMode(.inline)
             Spacer()
             Button {
-                userService.updateUserType(UserStore.shared.currentUserState.userType)
+                userService.updateUserType(UserInfoStore.shared.currentUserState.userType)
                 path.append(PathType.favorite)
             } label: {
                 Text("다음")
@@ -77,11 +75,4 @@ struct UserOccupationView: View {
             .disabled(!isSelected)
         } //: Vstack
     }
-}
-
-#Preview {
-    NavigationStack {
-        UserOccupationView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), isSign: .constant(true), path: .constant(NavigationPath()), isSelected: true)
-    }
-    
 }

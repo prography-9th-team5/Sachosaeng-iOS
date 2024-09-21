@@ -17,7 +17,7 @@ class BookmarkStore: ObservableObject {
 
     func fetchAllVotesBookmark() {
         let path = "/api/v1/bookmarks/votes"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseBookmark>, NetworkError>) in
             switch result {
@@ -36,7 +36,7 @@ class BookmarkStore: ObservableObject {
     func deleteAllVotesBookmark(bookmarkId: [Int], completion: @escaping () -> Void) {
         let path = "/api/v1/bookmarks/votes"
         let body = ["voteBookmarkIds": bookmarkId]
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "DELETE", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
@@ -59,7 +59,7 @@ class BookmarkStore: ObservableObject {
     func updateVotesBookmark(voteId: Int) {
         let path = "/api/v1/bookmarks/votes"
         let body = ["voteId": voteId]
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
@@ -75,7 +75,7 @@ class BookmarkStore: ObservableObject {
     
     func deleteVotesBookmark(voteId: Int) {
         let path = "/api/v1/bookmarks/votes/\(voteId)"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "DELETE", path: path, body: nil, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
@@ -91,7 +91,7 @@ class BookmarkStore: ObservableObject {
     
     func fetchAllInformationInBookmark() {
         let path = "/api/v1/bookmarks/information"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseInformation>, NetworkError>) in
             switch result {
@@ -110,7 +110,7 @@ class BookmarkStore: ObservableObject {
     func deleteAllInformationsInbookmark(informationId: [Int], completion: @escaping () -> Void) {
         let path = "/api/v1/bookmarks/information"
         let body = ["informationBookmarkIds": informationId]
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "DELETE", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
@@ -132,7 +132,7 @@ class BookmarkStore: ObservableObject {
     
     func updateInformationsInBookmark(informationId: Int) {
         let path = "/api/v1/bookmarks/information"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         let body = [ "informationId" : informationId ]
         networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
@@ -148,7 +148,7 @@ class BookmarkStore: ObservableObject {
     
     func deleteInformationsInBookmark(informationId: Int) {
         let path = "/api/v1/bookmarks/information/\(informationId)"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         networkService.performRequest(method: "DELETE", path: path, body: nil, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
@@ -163,7 +163,7 @@ class BookmarkStore: ObservableObject {
     
     func fetchVotesInBookmarkWithCategoryId(categoryId: Int) {
         let path = "/api/v1/bookmarks/votes/categories/\(categoryId)"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseBookmark>, NetworkError>) in
             switch result {
             case .success(let bookmark):
@@ -180,7 +180,7 @@ class BookmarkStore: ObservableObject {
     
     func fetchInformationInBookmarkWithCategory(categoryId: Int) {
         let path = "/api/v1/bookmarks/information/categories/\(categoryId)"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseInformation>, NetworkError>) in
             switch result {
@@ -198,7 +198,7 @@ class BookmarkStore: ObservableObject {
     
     func fetchCategoriesInbookmark() {
         let path = "/api/v1/bookmarks/vote-categories"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseCategoriesData>, NetworkError>) in
             switch result {
@@ -219,7 +219,7 @@ class BookmarkStore: ObservableObject {
     
     func fetchInformationCategoriesInbookmark() {
         let path = "/api/v1/bookmarks/information-categories"
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseCategoriesData>, NetworkError>) in
             switch result {

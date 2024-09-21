@@ -12,7 +12,7 @@ struct VoteResultView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            Image("vote_\(UserStore.shared.currentUserState.userType)")
+            Image("vote_\(UserInfoStore.shared.currentUserState.userType)")
             VStack(spacing: 0) {
                 Text(description)
                     .font(.createFont(weight: .medium, size: 14))

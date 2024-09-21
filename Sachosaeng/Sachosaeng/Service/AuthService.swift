@@ -49,8 +49,8 @@ final class AuthService {
             if let error = error {
                 self.handleLoginError(error)
             } else {
-                UserStore.shared.oauthToken = oauthToken
-                if self.handleOAuthToken(UserStore.shared.oauthToken) {
+                UserInfoStore.shared.oauthToken = oauthToken
+                if self.handleOAuthToken(UserInfoStore.shared.oauthToken) {
                     self.getKakaoUser { type in
                         completion(type)
                     }
@@ -65,8 +65,8 @@ final class AuthService {
             if let error = error {
                 self.handleLoginError(error)
             } else {
-                UserStore.shared.oauthToken = oauthToken
-                if self.handleOAuthToken(UserStore.shared.oauthToken) {
+                UserInfoStore.shared.oauthToken = oauthToken
+                if self.handleOAuthToken(UserInfoStore.shared.oauthToken) {
                     self.getKakaoUser { type in
                         completion(type)
                     }
@@ -81,7 +81,7 @@ final class AuthService {
                 jhPrint("유저 데이터를 가져오는 데 실패했습니다. \(error.localizedDescription)", isWarning: true)
                 completion(false)
             } else if let email = user?.kakaoAccount?.email {
-                UserStore.shared.currentUserEmail = email
+                UserInfoStore.shared.currentUserEmail = email
                 jhPrint("유저 데이터 가져오기 성공: \(email)")
                 completion(true)
             } else {
@@ -114,7 +114,7 @@ final class AuthService {
                 jhPrint("Google Sign-In Error: \(error.localizedDescription)", isWarning: true)
                 completion(false)
             } else if let signInResult = signInResult {
-                UserStore.shared.currentUserEmail = signInResult.user.profile?.email ?? ""
+                UserInfoStore.shared.currentUserEmail = signInResult.user.profile?.email ?? ""
 //                jhPrint("Google Sign-In Success: \(signInResult.user.profile?.email ?? "No Name")")
                 completion(true)
             } else {
@@ -124,16 +124,16 @@ final class AuthService {
     }
     
     func loginUser(isApple: Bool = false, completion: @escaping (Bool) -> Void) {
-        let body = ["email": UserStore.shared.currentUserEmail]
+        let body = ["email": UserInfoStore.shared.currentUserEmail]
         let path = isApple ?
         "/api/v1/auth/login?type=APPLE" : "/api/v1/auth/login"
         NetworkService.shared.performRequest(method: "POST", path: path, body: body, token: nil) { (result: Result<AuthResponse, NetworkError>) in
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    UserStore.shared.accessToken = response.data.accessToken
-                    UserStore.shared.refreshToken = response.data.refreshToken
-                    UserStore.shared.userId = response.data.userId
+                    UserInfoStore.shared.accessToken = response.data.accessToken
+                    UserInfoStore.shared.refreshToken = response.data.refreshToken
+                    UserInfoStore.shared.userId = response.data.userId
 //                    jhPrint("""
 //                    ⭐️ Access Token: \(UserStore.shared.accessToken)
 //                    ⭐️ Refresh Token: \(UserStore.shared.refreshToken)
@@ -148,7 +148,7 @@ final class AuthService {
     }
     
     func withdrawUserAccount() {
-        let token = UserStore.shared.accessToken
+        let token = UserInfoStore.shared.accessToken
         jhPrint("Access Token: \(token)", isWarning: true)
         let body = ["reason": "hi"]
         
@@ -156,8 +156,8 @@ final class AuthService {
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    UserStore.shared.accessToken = ""
-                    jhPrint("탈퇴 성공: \(response) UserStore.shared.accessToken: \(UserStore.shared.accessToken)")
+                    UserInfoStore.shared.accessToken = ""
+                    jhPrint("탈퇴 성공: \(response) UserStore.shared.accessToken: \(UserInfoStore.shared.accessToken)")
                 }
             case .failure(let error):
                 jhPrint("탈퇴 실패: \(error)")
@@ -167,7 +167,7 @@ final class AuthService {
     
     func registerUser(isApple: Bool = false, completion: @escaping (AuthTypeKeys) -> Void) {
         let body = [
-            "email": UserStore.shared.currentUserEmail,
+            "email": UserInfoStore.shared.currentUserEmail,
             "userType": "STUDENT"
             ]
         let path = isApple ? 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CategoryModal: View {
     @ObservedObject var categoryStore: CategoryStore
-    @ObservedObject var userStore = UserStore.shared
+    @ObservedObject var userStore = UserInfoStore.shared
     @StateObject var voteStore: VoteStore
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
@@ -160,7 +160,7 @@ struct CategoryModal: View {
                                 }
                             }
                         } else {
-                            ForEach(UserStore.shared.currentUserCategories) { category in
+                            ForEach(UserInfoStore.shared.currentUserCategories) { category in
                                 Button {
                                     categoryName = category.name
                                     voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))
@@ -199,7 +199,7 @@ struct CategoryModal: View {
                 .padding(.top, 28)
                 .background(CustomColor.GrayScaleColor.gs1)
                 .overlay {
-                    if UserStore.shared.currentUserCategories.isEmpty && !isEdit && !isAll {
+                    if UserInfoStore.shared.currentUserCategories.isEmpty && !isEdit && !isAll {
                         VStack(spacing: 0) {
                             Image("emptyIcon")
                                 .resizable()
@@ -243,6 +243,6 @@ extension CategoryModal {
         gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
     }
     private func performCategorySetting(completion: @escaping () -> Void) {
-        UserService.shared.updateUserCategory(UserStore.shared.currentUserCategories)
+        UserService.shared.updateUserCategory(UserInfoStore.shared.currentUserCategories)
     }
 }

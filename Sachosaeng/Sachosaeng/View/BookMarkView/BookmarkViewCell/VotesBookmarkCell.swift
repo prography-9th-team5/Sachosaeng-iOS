@@ -13,7 +13,7 @@ struct VotesBookmarkCell: View {
     @StateObject var bookmarkStore: BookmarkStore
     @Binding var isEdit: Bool
     @State var isTap: Bool = false
-    var bookmark: Bookmark
+    @State var bookmark: Bookmark
     
     var body: some View {
         ZStack {
@@ -27,7 +27,7 @@ struct VotesBookmarkCell: View {
                     }
             } else {
                 NavigationLink {
-                    VoteDetailView(voteId: bookmark.voteId, voteStore: voteStore, bookmarkStore: bookmarkStore)
+                    VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: bookmark.voteId)
                 } label: {
                     cellContent
                 } //: navigation

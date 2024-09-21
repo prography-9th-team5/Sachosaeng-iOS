@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Binding var isSign: Bool
-    @Binding var path: NavigationPath
     @StateObject var categoryStore: CategoryStore
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
-    @EnvironmentObject var tabbarStore: TabBarStore
-    @ObservedObject var userStore = UserInfoStore.shared
+    @EnvironmentObject var tabBarStore: TabBarStore
+    @EnvironmentObject var userInStore: UserInfoStore
+    @Binding var isSign: Bool
+    @Binding var path: NavigationPath
     @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
     @State private var isCellAnimation: Bool = false
@@ -36,7 +36,9 @@ struct HomeView: View {
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                     }
                     .sheet(isPresented: $isSheet) {
-                        CategoryModal(categoryStore: categoryStore, voteStore: voteStore, isSheet: $isSheet, categoryName: $categoryName)
+                        CategoryModal(voteStore: voteStore,
+                                      categoryStore: categoryStore,
+                                      isSheet: $isSheet, categoryName: $categoryName)
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                     }
@@ -46,7 +48,7 @@ struct HomeView: View {
                     Button {
                         path.append(PathType.myPage)
                     } label: {
-                        Image("온보딩_\(userStore.currentUserState.userType)")
+                        Image("온보딩_\(userInStore.currentUserState.userType)")
                             .resizable()
                             .scaledToFit()
                             .clipShape(Circle())
@@ -58,7 +60,6 @@ struct HomeView: View {
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         if categoryName == "전체" {
-                            // MARK: - 사용자가 전체를 선택했을 때 플로우
                             DailyVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
                                 .padding(.bottom, 32)
                                 .id("top")
@@ -82,7 +83,7 @@ struct HomeView: View {
                                 
                                 VStack(spacing: 0) {
                                     ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
-                                        HotVoteCell(vote: vote, voteStore: voteStore, bookmarkStore: bookmarkStore, index: index + 1)
+                                        HotVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote, index: index + 1)
                                             .padding(.horizontal, 20)
                                     }
                                 }
@@ -205,7 +206,7 @@ struct HomeView: View {
             
         }
         .showPopupView(isPresented: $isDaily, message: .dailyVote, primaryAction: {
-            tabbarStore.isOpacity = true
+            tabBarStore.isOpacity = true
         }, secondaryAction: {
             path.append(PathType.daily)
         })
@@ -238,5 +239,4 @@ extension HomeView {
         }
         return ""
     }
-    
 }

@@ -9,19 +9,19 @@ import SwiftUI
 import Lottie
 
 struct DailyVoteDetailView: View {
+    @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabBarStore: TabBarStore
+    @State var voteId: Int
+    @Binding var path: NavigationPath
     @State private var toast: Toast? = nil
     @State private var isSelected: Bool = false
     @State private var isBookmark: Bool = false
     @State private var isVoted: Bool = false
     @State private var chosenVoteIndex: Int?
     @State private var chosenVoteOptionId: [Int] = []
-    @State var voteId: Int
     @State private var isLottie: Bool = false
     @State private var isLoading: Bool = true
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
-    @Binding var path: NavigationPath
-    @EnvironmentObject var tabBarStore: TabBarStore
     
     var body: some View {
         ZStack {

@@ -9,19 +9,19 @@ import SwiftUI
 import Lottie
 
 struct VoteDetailView: View {
+    @StateObject var voteStore: VoteStore
+    @StateObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabBarStore: TabBarStore
     @Environment(\.presentationMode) var presentationMode
+    @State var voteId: Int
     @State private var toast: Toast? = nil
     @State private var isSelected: Bool = false
     @State private var isBookmark: Bool = false
     @State private var isVoted: Bool = false
     @State private var chosenVoteIndex: Int?
     @State private var chosenVoteOptionId: [Int] = []
-    @State var voteId: Int
     @State private var isLottie: Bool = false
     @State private var isLoading: Bool = true
-    @ObservedObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
-    @EnvironmentObject var tabBarStore: TabBarStore
     @State private var animatedPercentages: [Int: CGFloat] = [:]
 
     var body: some View {

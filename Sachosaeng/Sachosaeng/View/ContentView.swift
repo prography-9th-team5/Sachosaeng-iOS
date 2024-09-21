@@ -43,7 +43,7 @@ struct ContentView: View {
                             SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, isSign: $isSign, path: $path)
                                 .navigationBarBackButtonHidden()
                         case .home:
-                            TabView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
+                            TabView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isSign: $isSign, path: $path)
                         case .myPage:
                             MyPageView(isSign: $isSign, path: $path)
                                 .customBackbutton {
@@ -62,7 +62,7 @@ struct ContentView: View {
                         case .sign:
                             SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), path: $path, isSign: $isSign)
                         case .daily:
-                            DailyVoteDetailView(voteId: voteStore.dailyVote.voteId, voteStore: voteStore, bookmarkStore: BookmarkStore(), path: $path)
+                            DailyVoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteStore.dailyVote.voteId, path: $path)
                         case .usersFavorite:
                             FavoriteCategoryView(path: $path, categoryStore: categoryStore)
                         case .inquiry:

@@ -20,7 +20,3 @@ struct VoteDescriptionView: View {
         .padding(.top, 7)
     }
 }
-
-#Preview {
-    VoteDescriptionView()
-}

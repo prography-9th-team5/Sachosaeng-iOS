@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct CategoryModal: View {
-    @ObservedObject var categoryStore: CategoryStore
-    @ObservedObject var userStore = UserInfoStore.shared
     @StateObject var voteStore: VoteStore
+    @StateObject var categoryStore: CategoryStore
+    @EnvironmentObject var userStore: UserInfoStore
+    @Binding var isSheet: Bool
+    @Binding var categoryName: String
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var tapCount = 0
     @State private var isMyCategory = true
     @State private var isEdit = false
     @State private var isAll = false
-    @Binding var isSheet: Bool
-    @Binding var categoryName: String
     
     var body: some View {
         VStack(spacing: 0) {

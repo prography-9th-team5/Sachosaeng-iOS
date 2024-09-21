@@ -14,7 +14,7 @@ struct VoteCellWithOutIndex: View {
     
     var body: some View {
         NavigationLink {
-            VoteDetailView(voteId: vote.voteId, voteStore: voteStore, bookmarkStore: bookmarkStore)
+            VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: vote.voteId)
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)

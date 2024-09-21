@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct HotVoteCell: View {
-    var vote: Vote
     @StateObject var voteStore: VoteStore
     @StateObject var bookmarkStore: BookmarkStore
+    var vote: Vote
     var index: Int
+    
     var body: some View {
         NavigationLink {
-            VoteDetailView(voteId: vote.voteId, voteStore: voteStore, bookmarkStore: bookmarkStore)
+            VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: vote.voteId)
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
@@ -76,7 +77,6 @@ struct HotVoteCell: View {
                     .padding(.trailing, 16)
                 }
             }
-//            .frame(height: 60)
             .padding(.bottom, 6)
         }
     }

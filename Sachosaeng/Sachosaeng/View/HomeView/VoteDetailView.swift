@@ -149,8 +149,10 @@ struct VoteDetailView: View {
                                                                     if chosenVoteOptionId.isEmpty { isSelected = false }
                                                                 }
                                                             } else {
-                                                                isSelected = true
-                                                                chosenVoteOptionId.append(vote.voteOptionId)
+                                                                if !chosenVoteOptionId.contains(vote.voteOptionId) {
+                                                                    isSelected = true
+                                                                    chosenVoteOptionId.append(vote.voteOptionId)
+                                                                }
                                                             }
                                                         } else {
                                                             if chosenVoteIndex == vote.voteOptionId {
@@ -161,7 +163,7 @@ struct VoteDetailView: View {
                                                                 isSelected = false
                                                             } else {
                                                                 chosenVoteIndex = vote.voteOptionId
-                                                                chosenVoteOptionId.append(vote.voteOptionId)
+                                                                chosenVoteOptionId = [vote.voteOptionId]
                                                                 isSelected = true
                                                             }
                                                         }
@@ -232,6 +234,7 @@ struct VoteDetailView: View {
                             presentationMode.wrappedValue.dismiss()
                         } else {
                             isLottie = true
+                            jhPrint(chosenVoteOptionId)
                             voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { isSuccess in
                                 if isSuccess {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

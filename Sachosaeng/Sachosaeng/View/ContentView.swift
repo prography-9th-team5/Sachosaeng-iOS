@@ -80,7 +80,7 @@ struct ContentView: View {
         }
         .onAppear {
             versionService.verifyVersion()
-            versionService.updateVersion()
+//            versionService.updateVersion()
             versionService.fetchAllVersion()
             categoryStore.fetchCategories()
         }

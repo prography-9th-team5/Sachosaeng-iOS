@@ -16,9 +16,11 @@ enum UserType: String, CaseIterable, Identifiable {
 }
 
 struct EditMyInfoView: View {
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var userService: UserService
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @Environment(\.dismiss) var dismiss
     @State private var selectedType: UserType?
     @State private var isSelected: Bool = false
     @State private var isSelectedQuitButton: Bool = false
@@ -26,9 +28,6 @@ struct EditMyInfoView: View {
     @State private var userTypeArray: [UserType] = UserType.allCases
     @State private var textField: String = ""
     @State private var controlDisableModifier: Bool = true
-    @ObservedObject var userStore = UserInfoStore.shared
-    @EnvironmentObject var userService: UserService
-
     private let imageFrame = 127.54
     private let rows = [GridItem(.fixed(48)), GridItem(.fixed(48))]
     private let columns = [GridItem(), GridItem()]
@@ -39,13 +38,13 @@ struct EditMyInfoView: View {
             VStack {
                 ScrollView {
                     VStack(spacing: 0) {
-                        Image("온보딩_\(selectedType?.rawValue ?? userStore.currentUserState.userType)")
+                        Image("온보딩_\(selectedType?.rawValue ?? userInfoStore.currentUserState.userType)")
                             .resizable()
                             .scaledToFit()
                             .frame(width: imageFrame, height: imageFrame)
                             .padding(.top, 10)
                             .padding(.bottom, 16)
-                        Text(selectedType?.rawValue ?? userStore.currentUserState.userType)
+                        Text(selectedType?.rawValue ?? userInfoStore.currentUserState.userType)
                             .font(.createFont(weight: .bold, size: 16))
                     }
                     .padding(.bottom, 56)
@@ -66,7 +65,7 @@ struct EditMyInfoView: View {
                             .overlay(alignment: .leading) {
                                 if textField.isEmpty {
                                     HStack {
-                                        Text(userStore.currentUserState.nickname)
+                                        Text(userInfoStore.currentUserState.nickname)
                                             .font(.createFont(weight: .medium, size: 15))
                                             .padding(16)
                                         .padding(.bottom, 34)
@@ -139,11 +138,11 @@ struct EditMyInfoView: View {
                 
                 Button {
                     if isSelected {
-                        userStore.currentUserState.userType = selectedType!.rawValue
-                        userService.updateUserType(userStore.convertUserTypeForEnglish(selectedType?.rawValue ?? "학생"))
+                        userInfoStore.currentUserState.userType = selectedType!.rawValue
+                        userService.updateUserType(userInfoStore.convertUserTypeForEnglish(selectedType?.rawValue ?? "학생"))
                     }
                     if !textField.isEmpty {
-                        userStore.currentUserState.nickname = textField
+                        userInfoStore.currentUserState.nickname = textField
                         userService.updateUserNickname(UserInfoStore.shared.currentUserState.nickname)
                     }
                     toast = Toast(type: .saved, message: "저장되었습니다")

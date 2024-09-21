@@ -14,20 +14,13 @@ enum FavoriteCategory {
 }
 
 struct FavoriteCategoryView: View {
-    @Binding var path: NavigationPath
     @ObservedObject var categoryStore: CategoryStore
-    @ObservedObject var userStore = UserInfoStore.shared
+    @EnvironmentObject var userStore: UserInfoStore
+    @Binding var path: NavigationPath
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var isFavoriteCategory: FavoriteCategory = .all
     @State private var toast: Toast? = nil
-    
-    private func gridSwitch() {
-        gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
-    }
-    private func performCategorySetting(completion: @escaping () -> Void) {
-        UserService.shared.updateUserCategory(UserInfoStore.shared.currentUserCategories)
-    }
     
     var body: some View {
         ZStack {
@@ -178,5 +171,14 @@ struct FavoriteCategoryView: View {
                 }
             }
         }
+    }
+}
+
+extension FavoriteCategoryView {
+    private func gridSwitch() {
+        gridLayout = Array(repeating: .init(.flexible()), count: Int(gridColumn))
+    }
+    private func performCategorySetting(completion: @escaping () -> Void) {
+        UserService.shared.updateUserCategory(UserInfoStore.shared.currentUserCategories)
     }
 }

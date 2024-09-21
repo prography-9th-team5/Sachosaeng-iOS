@@ -64,7 +64,7 @@ struct ContentView: View {
                         case .daily:
                             DailyVoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteStore.dailyVote.voteId, path: $path)
                         case .usersFavorite:
-                            FavoriteCategoryView(path: $path, categoryStore: categoryStore)
+                            FavoriteCategoryView(categoryStore: categoryStore, path: $path)
                         case .inquiry:
                             EmptyView()
                         case .openSource:

@@ -19,13 +19,13 @@ struct QuitView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var toast: Toast? = nil
-    private let quitTypeArray: [QuitType] = QuitType.allCases
     @State private var isSelected: Bool = false
     @State private var isTapped: QuitType?
-    @State private var isTappedEtc: Bool = false
+    @State private var isTappedEtc: Bool = false    
+    @State private var text: String = ""
     @FocusState private var keyboardVisible: Bool
+    private let quitTypeArray: [QuitType] = QuitType.allCases
 
-    @State var text: String = ""
     
     var body: some View {
         VStack(spacing: 0) {

@@ -15,8 +15,8 @@ enum PhoneSpace {
 }
 
 struct SignView: View {
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
     @EnvironmentObject var signStore: SignStore
     @EnvironmentObject var versionService: VersionService
     @EnvironmentObject var userService: UserService

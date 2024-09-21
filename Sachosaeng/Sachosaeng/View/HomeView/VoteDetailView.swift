@@ -9,8 +9,8 @@ import SwiftUI
 import Lottie
 
 struct VoteDetailView: View {
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
     @EnvironmentObject var tabBarStore: TabBarStore
     @Environment(\.presentationMode) var presentationMode
     @State var voteId: Int
@@ -220,7 +220,7 @@ struct VoteDetailView: View {
                             Spacer()
                         } //: Vstack
                         .padding(.top, 26)
-                        .navigationTitle("경조사")
+                        .navigationTitle(voteStore.currentVoteDetail.category.name)
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden()
                         .customBackbutton()

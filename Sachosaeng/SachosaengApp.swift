@@ -29,7 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 struct SachosaengApp: App {
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
-    
+    @StateObject var userSerVice: UserService = UserService.shared
+    @StateObject var userInfoStore: UserInfoStore = UserInfoStore.shared
+    @StateObject var tabBarStore: TabBarStore = TabBarStore()
+    @StateObject var versionService: VersionService = VersionService.shared
+    @StateObject var signStore: SignStore = SignStore()
     init() {
         if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
@@ -42,11 +46,11 @@ struct SachosaengApp: App {
                 ConsentView(isFirstLaunch: $isFirstLaunch)
             } else {
                 ContentView()
-                    .environmentObject(SignStore())
-                    .environmentObject(UserService.shared)
-                    .environmentObject(VersionService.shared)
-                    .environmentObject(UserInfoStore.shared)
-                    .environmentObject(TabBarStore())
+                    .environmentObject(signStore)
+                    .environmentObject(userSerVice)
+                    .environmentObject(versionService)
+                    .environmentObject(userInfoStore)
+                    .environmentObject(tabBarStore)
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)
                         

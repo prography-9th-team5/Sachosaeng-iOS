@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
     @EnvironmentObject var tabBarStore: TabBarStore
     @EnvironmentObject var userInStore: UserInfoStore
     @Binding var isSign: Bool

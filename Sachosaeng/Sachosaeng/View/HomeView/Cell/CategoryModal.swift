@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CategoryModal: View {
-    @StateObject var voteStore: VoteStore
-    @StateObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var categoryStore: CategoryStore
     @EnvironmentObject var userStore: UserInfoStore
     @Binding var isSheet: Bool
     @Binding var categoryName: String

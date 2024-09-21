@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SignSuccessView: View {
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
     @EnvironmentObject var signStore: SignStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     @Binding var isSign: Bool

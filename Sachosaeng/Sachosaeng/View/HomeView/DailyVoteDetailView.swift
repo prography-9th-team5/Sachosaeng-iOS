@@ -9,8 +9,8 @@ import SwiftUI
 import Lottie
 
 struct DailyVoteDetailView: View {
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
     @EnvironmentObject var tabBarStore: TabBarStore
     @State var voteId: Int
     @Binding var path: NavigationPath

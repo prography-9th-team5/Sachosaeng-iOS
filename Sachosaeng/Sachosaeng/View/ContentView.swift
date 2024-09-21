@@ -17,9 +17,9 @@ struct ContentView: View {
      - .UserInfoStore.shared
      - .TabBarStore
      */
-    @ObservedObject var categoryStore = CategoryStore()
-    @ObservedObject var voteStore: VoteStore = VoteStore()
-    @ObservedObject var bookmarkStore: BookmarkStore = BookmarkStore()
+    @StateObject var categoryStore = CategoryStore()
+    @StateObject var voteStore: VoteStore = VoteStore()
+    @StateObject var bookmarkStore: BookmarkStore = BookmarkStore()
     @EnvironmentObject var signStore: SignStore
     @EnvironmentObject var userService: UserService
     @EnvironmentObject var versionService: VersionService

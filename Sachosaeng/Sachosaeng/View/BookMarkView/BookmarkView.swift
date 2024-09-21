@@ -13,11 +13,11 @@ enum BookmarkType {
 }
 
 struct BookmarkView: View {
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
     @State private var toast: Toast? = nil
     @State private var selectedButton: BookmarkType = .vote
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
     @State private var selectedCategoryId: Int?
     @State var isEdit: Bool = false
     @Namespace private var animationNamespace
@@ -91,7 +91,7 @@ struct BookmarkView: View {
                         }
                         .frame(maxWidth: .infinity)
                     }
-                } // Hstack <- 트표 연관컼ㄴ체
+                } // Hstack
                 
                 HStack(spacing: 0) {
                     ScrollViewReader { proxy in
@@ -143,7 +143,6 @@ struct BookmarkView: View {
                                                 )
                                         )
                                     }
-                                    
                                 }
                             }
                             .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
@@ -193,7 +192,6 @@ struct BookmarkView: View {
                         }
                     } else {
                         ScrollView(showsIndicators: false) {
-                            
                             if bookmarkStore.currentUserInformationBookmark.isEmpty {
                                 VStack(spacing: 0) {
                                     Image("emptyIcon")

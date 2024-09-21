@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct InformationView: View {
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
     @State var isBookmark: Bool = false
     var informationId: Int
 

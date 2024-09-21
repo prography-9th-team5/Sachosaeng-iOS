@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct DailyVoteCell: View {
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
     
     var body: some View {
         NavigationLink {

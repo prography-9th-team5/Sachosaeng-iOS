@@ -9,8 +9,8 @@ import SwiftUI
 
 struct UserFavoriteCategoryView: View {
     // MARK: - Properties
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
     @EnvironmentObject var signStore: SignStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var userService: UserService

@@ -44,15 +44,15 @@ struct SignSuccessView: View {
         }
         .padding(.top, 70)
         .onAppear {
-            UserService.shared.getUserInfo()
             withAnimation {
                 isImageAnimation = true
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                isActive = true
+                userStore.convertToUserType(userStore.currentUserState.userType) {
+                    isActive = true
+                    isSign = false
+                }
                 path.append(PathType.home)
-                isSign = false
-                userStore.convertToUserType(userStore.currentUserState.userType)
             }
         }
     }

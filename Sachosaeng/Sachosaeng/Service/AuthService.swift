@@ -155,7 +155,10 @@ final class AuthService {
         NetworkService.shared.performRequest(method: "DELETE", path: "/api/v1/auth/withdraw", body: body, token: token) { (result: Result<AuthResponse, NetworkError>) in
             switch result {
             case .success(let response):
-                jhPrint("탈퇴 성공: \(response)")
+                DispatchQueue.main.async {
+                    UserStore.shared.accessToken = ""
+                    jhPrint("탈퇴 성공: \(response) UserStore.shared.accessToken: \(UserStore.shared.accessToken)")
+                }
             case .failure(let error):
                 jhPrint("탈퇴 실패: \(error)")
             }

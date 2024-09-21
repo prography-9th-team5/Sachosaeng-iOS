@@ -22,7 +22,7 @@ final class UserStore: ObservableObject {
    
     private init() {}
     
-    func convertToUserType(_ type: String) {
+    func convertToUserType(_ type: String, completion: @escaping () -> ()) {
         switch type {
         case "학생":
             currentUserState.userType = "STUDENT"

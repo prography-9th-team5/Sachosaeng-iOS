@@ -111,6 +111,7 @@ struct QuitView: View {
                     toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         isSign = true
+                        AuthService().withdrawUserAccount()
                         path = .init()
                     }
                 }

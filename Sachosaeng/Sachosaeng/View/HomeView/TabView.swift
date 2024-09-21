@@ -78,6 +78,9 @@ struct TabView: View {
         }
         .onAppear {
             Task {
+                
+                UserService.shared.getUserInfo()
+                UserService.shared.getUserCategories()
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
                 categoryStore.fetchCategories()

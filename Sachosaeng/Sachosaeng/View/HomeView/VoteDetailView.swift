@@ -134,6 +134,7 @@ struct VoteDetailView: View {
                                                     .overlay(alignment: .leading) {
                                                         HStack(spacing: 0) {
                                                             Text(vote.content)
+                                                                .font(.createFont(weight: isChosenOption ? .bold : .medium, size: 14))
                                                                 .padding(.leading, 16)
                                                                 .lineLimit(2)
                                                         }

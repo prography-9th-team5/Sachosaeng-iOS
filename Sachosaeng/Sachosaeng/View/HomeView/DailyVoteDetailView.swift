@@ -230,7 +230,7 @@ struct DailyVoteDetailView: View {
         .showToastView(toast: $toast)
         .onAppear {
             Task {
-                voteStore.fetchVoteDetail(voteId: voteId) {
+                voteStore.fetchVoteDetail(voteId: voteId) { _ in
                     isLoading = false
                 }
             }

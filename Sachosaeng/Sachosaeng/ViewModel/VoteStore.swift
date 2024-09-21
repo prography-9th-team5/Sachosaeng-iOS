@@ -125,7 +125,7 @@ final class VoteStore: ObservableObject {
     }
     
     /// 투표의 선택지를 가져오는 메서드
-    func fetchVoteDetail(voteId: Int, completion: @escaping () -> Void) {
+    func fetchVoteDetail(voteId: Int, completion: @escaping (Bool) -> Void) {
         let path = "/api/v1/votes/\(voteId)"
         let token = UserInfoStore.shared.accessToken
         
@@ -136,9 +136,10 @@ final class VoteStore: ObservableObject {
                     guard let self else { return }
                     currentVoteDetail = voteDetail.data
 //                    jhPrint(currentVoteDetail)
-                    completion()
+                    completion(true)
                 }
             case .failure(let error):
+                    completion(false)
                 jhPrint(error, isWarning: true)
             }
         }
@@ -155,6 +156,7 @@ final class VoteStore: ObservableObject {
             case .success( _):
                 completion(true)
             case .failure(let error):
+                completion(false)
                 jhPrint(error, isWarning: true)
             }
         }

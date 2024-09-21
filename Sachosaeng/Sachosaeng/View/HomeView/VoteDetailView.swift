@@ -107,7 +107,7 @@ struct VoteDetailView: View {
                                                     .onAppear {
                                                         
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                                            withAnimation(.easeInOut(duration: 2.8)) {
+                                                            withAnimation(.easeInOut(duration: 0.8)) {
                                                                 animatedPercentages[vote.voteOptionId] = votePercentage
                                                             }
                                                         }
@@ -232,14 +232,11 @@ struct VoteDetailView: View {
                             presentationMode.wrappedValue.dismiss()
                         } else {
                             isLottie = true
-                            voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
-                                if success {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                                        withAnimation {
-//                                            proxy.scrollTo("bottom")
-//                                        }
-                                        voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { isSuccess in
-                                            voteStore.fetchVoteDetail(voteId: voteId) {
+                            voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { isSuccess in
+                                if isSuccess {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { _ in
+                                            voteStore.fetchVoteDetail(voteId: voteId) { _ in
                                                 isLottie = false
                                                 isVoted = true
                                             }
@@ -251,6 +248,22 @@ struct VoteDetailView: View {
                                     toast = Toast(type: .quit, message: "투표 실패")
                                 }
                             }
+//                            voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { isSuccess in
+//                                voteStore.fetchVoteDetail(voteId: voteId) {
+//                                    voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
+//                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                                            if success {
+//                                                isLottie = false
+//                                                isVoted = true
+//                                                toast = Toast(type: .quit, message: "투표 완료!")
+//                                            } else {
+//                                                isLottie = false
+//                                                toast = Toast(type: .quit, message: "투표 실패")
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
                         }
                     } label: {
                         Text(isVoted ? "다른 투표 보기" : "확인")
@@ -272,7 +285,7 @@ struct VoteDetailView: View {
             Task {
                 ViewTracker.shared.updateCurrentView(to: .vote)
 
-                voteStore.fetchVoteDetail(voteId: voteId) {
+                voteStore.fetchVoteDetail(voteId: voteId) { _ in
                     isLoading = false
                 }
             }

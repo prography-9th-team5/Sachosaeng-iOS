@@ -31,7 +31,6 @@ struct SachosaengApp: App {
     @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
     @StateObject var userSerVice: UserService = UserService.shared
     @StateObject var userInfoStore: UserInfoStore = UserInfoStore.shared
-    @StateObject var tabBarStore: TabBarStore = TabBarStore()
     @StateObject var versionService: VersionService = VersionService.shared
     @StateObject var signStore: SignStore = SignStore()
     init() {
@@ -50,7 +49,7 @@ struct SachosaengApp: App {
                     .environmentObject(userSerVice)
                     .environmentObject(versionService)
                     .environmentObject(userInfoStore)
-                    .environmentObject(tabBarStore)
+                    .environmentObject(TabBarStore())
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)
                         

@@ -22,6 +22,7 @@ enum settingOption: String, CaseIterable {
 
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserInfoStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     var body: some View {
@@ -149,7 +150,8 @@ struct MyPageView: View {
                 }
                 
                 Button {
-                    
+                    userInfoStore.resetUserInfo()
+                    path = .init()
                 } label: {
                     HStack {
                         Text("로그아웃")
@@ -164,6 +166,9 @@ struct MyPageView: View {
             .scrollIndicators(.hidden)
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
+        }
+        .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .mypage)
         }
     }
 }

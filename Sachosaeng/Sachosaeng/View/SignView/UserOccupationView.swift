@@ -74,5 +74,8 @@ struct UserOccupationView: View {
             }
             .disabled(!isSelected)
         } //: Vstack
+        .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .sign)
+        }
     }
 }

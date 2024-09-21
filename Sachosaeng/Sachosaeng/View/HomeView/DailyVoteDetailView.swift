@@ -89,32 +89,85 @@ struct DailyVoteDetailView: View {
                                 
                                 VStack(spacing: 8) {
                                     ForEach(voteStore.currentVoteDetail.voteOptions) { vote in
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .frame(width: PhoneSpace.screenWidth - 80, height: 50)
-                                            .foregroundStyle(vote.voteOptionId == chosenVoteIndex ?  CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.gs2)
-                                            .overlay(alignment: .leading) {
-                                                HStack(spacing: 0) {
-                                                    Text(vote.content)
-                                                        .padding(.leading, 16)
-                                                        .lineLimit(2)
-                                                }
-                                            }
-                                            .overlay {
-                                                RoundedRectangle(cornerRadius: 4)
-                                                    .stroke(vote.voteOptionId == chosenVoteIndex ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
-                                            }
-                                            .onTapGesture {
-                                                isSelected = true
-                                                chosenVoteIndex = vote.voteOptionId
-                                                
-                                                if chosenVoteIndex == vote.voteOptionId {
-                                                    chosenVoteOptionId.append(vote.voteOptionId)
-                                                } else {
-                                                    if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
-                                                        chosenVoteOptionId.remove(at: index)
+                                        let isChosenOption = voteStore.currentVoteDetail.isMultipleChoiceAllowed
+                                            ? chosenVoteOptionId.contains(vote.voteOptionId)
+                                            : vote.voteOptionId == chosenVoteIndex
+                                        if isVoted {
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .frame(width: PhoneSpace.screenWidth - 80, height: 50)
+                                                .foregroundStyle(isChosenOption ?  CustomColor.GrayScaleColor.gs6 : CustomColor.GrayScaleColor.gs2)
+                                                .overlay(alignment: .leading) {
+                                                    HStack(spacing: 0) {
+                                                        Image(isChosenOption ? "check_white" : "check_off")
+                                                        Text(vote.content)
+                                                            .font(.createFont(weight: isChosenOption ? .semiBold : .medium, size: 16))
+                                                            .foregroundStyle(isChosenOption ? CustomColor.GrayScaleColor.white : CustomColor.GrayScaleColor.black)
+                                                            .padding(.leading, 8)
+                                                            .lineLimit(2)
                                                     }
+                                                    .padding(.leading, 8)
                                                 }
-                                            }
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 4)
+                                                        .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
+                                                }
+                                        } else {
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .frame(width: PhoneSpace.screenWidth - 80, height: 50)
+                                                .foregroundStyle(isChosenOption ?  CustomColor.GrayScaleColor.gs6 : CustomColor.GrayScaleColor.gs2)
+                                                .overlay(alignment: .leading) {
+                                                    HStack(spacing: 0) {
+                                                        Image(isChosenOption ? "check_white" : "check_off")
+                                                        Text(vote.content)
+                                                            .font(.createFont(weight: isChosenOption ? .semiBold : .medium, size: 16))
+                                                            .foregroundStyle(isChosenOption ? CustomColor.GrayScaleColor.white : CustomColor.GrayScaleColor.black)
+                                                            .padding(.leading, 8)
+                                                            .lineLimit(2)
+                                                    }
+                                                    .padding(.leading, 8)
+                                                }
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 4)
+                                                        .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
+                                                }
+                                                .onTapGesture {
+//                                                    isSelected = true
+//                                                    chosenVoteIndex = vote.voteOptionId
+//                                                    
+//                                                    if chosenVoteIndex == vote.voteOptionId {
+//                                                        chosenVoteOptionId.append(vote.voteOptionId)
+//                                                    } else {
+//                                                        if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+//                                                            chosenVoteOptionId.remove(at: index)
+//                                                        }
+//                                                    }
+                                                    if voteStore.currentVoteDetail.isMultipleChoiceAllowed {
+                                                        if isChosenOption {
+                                                            if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+                                                                chosenVoteOptionId.remove(at: index)
+                                                                if chosenVoteOptionId.isEmpty { isSelected = false }
+                                                            }
+                                                        } else {
+                                                            isSelected = true
+                                                            chosenVoteOptionId.append(vote.voteOptionId)
+                                                        }
+                                                    } else {
+                                                        if chosenVoteIndex == vote.voteOptionId {
+                                                            if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+                                                                chosenVoteIndex = nil
+                                                                chosenVoteOptionId.remove(at: index)
+                                                            }
+                                                            isSelected = false
+                                                        } else {
+                                                            chosenVoteIndex = vote.voteOptionId
+                                                            chosenVoteOptionId.append(vote.voteOptionId)
+                                                            isSelected = true
+                                                        }
+                                                    }
+                                                
+                                                
+                                                }
+                                        }
                                     }
                                     if isVoted { VoteDescriptionView() }
                                 }

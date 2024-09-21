@@ -133,7 +133,6 @@ struct QuitView: View {
             hideKeyboard()
         }
         .showToastView(toast: $toast)
-        
     }
 }
 

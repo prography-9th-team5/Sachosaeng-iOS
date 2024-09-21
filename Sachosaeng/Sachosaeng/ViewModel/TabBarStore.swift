@@ -10,5 +10,4 @@ import Foundation
 class TabBarStore: ObservableObject {
     @Published var switchTab: TabItem = .home
     @Published var isOpacity: Bool = false
-    
 }

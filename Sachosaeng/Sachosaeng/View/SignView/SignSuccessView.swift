@@ -44,6 +44,8 @@ struct SignSuccessView: View {
         }
         .padding(.top, 70)
         .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .success)
+            
             UserService.shared.getUserInfo()
             withAnimation {
                 isImageAnimation = true

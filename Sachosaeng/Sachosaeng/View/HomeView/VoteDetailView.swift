@@ -88,14 +88,12 @@ struct VoteDetailView: View {
                                         let totalVotes = voteStore.currentVoteDetail.voteOptions.map { $0.count }.reduce(0, +)
                                           
                                         let votePercentage = totalVotes > 0 ? CGFloat(vote.count) / CGFloat(totalVotes) : 0
-                                        // 다중 선택 여부에 따라 선택된 옵션을 관리
                                         let isChosenOption = voteStore.currentVoteDetail.isMultipleChoiceAllowed
                                             ? chosenVoteOptionId.contains(vote.voteOptionId)
                                             : vote.voteOptionId == chosenVoteIndex
 
                                         ZStack(alignment: .leading) {
                                             if isVoted {
-                                                // 투표 완료 후
                                                 RoundedRectangle(cornerRadius: 4)
                                                     .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 0)
                                                     .frame(width: PhoneSpace.screenWidth - 80, height: 50)
@@ -272,6 +270,8 @@ struct VoteDetailView: View {
         } //: Zstack
         .onAppear {
             Task {
+                ViewTracker.shared.updateCurrentView(to: .vote)
+
                 voteStore.fetchVoteDetail(voteId: voteId) {
                     isLoading = false
                 }

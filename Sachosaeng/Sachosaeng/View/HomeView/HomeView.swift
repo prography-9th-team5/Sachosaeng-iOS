@@ -211,6 +211,7 @@ struct HomeView: View {
             path.append(PathType.daily)
         })
         .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .home)
             Task {
                 voteStore.fetchDailyVote() { isVoted in
                     isDaily = !isVoted
@@ -240,3 +241,4 @@ extension HomeView {
         return ""
     }
 }
+

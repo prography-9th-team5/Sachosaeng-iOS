@@ -93,6 +93,9 @@ struct UserFavoriteCategoryView: View {
         .navigationTitle("카테고리 선택")
         .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 16)
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .category)
+        }
     }
 }
 

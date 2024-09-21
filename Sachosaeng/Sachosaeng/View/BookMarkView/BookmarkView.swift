@@ -240,6 +240,9 @@ struct BookmarkView: View {
             }
         }
         .showToastView(toast: $toast)
+        .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .bookmark)
+        }
     }
 }
 

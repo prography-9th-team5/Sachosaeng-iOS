@@ -17,7 +17,8 @@ final class VoteStore: ObservableObject {
     @Published var hotVotesWithSelectedCategory: HotVoteWithCategory = dummyHotVoteWithCategory
     @Published var hotVotesInCategory: [CategorizedVotes] = [dummyCategorizedVotes]
     @Published var latestVotes: LatestVote = dummyLatestVote
-    @Published var cursor: Int?
+    @Published var nextCursorForVote: Int?
+    @Published var categoryName: String = "전체"
     
     func isDailyVote() -> Bool {
         return !dailyVote.isVoted
@@ -104,11 +105,10 @@ final class VoteStore: ObservableObject {
                     latestVotes = votes.data
                     
                     if votes.data.hasNext {
-                        self.cursor = votes.data.nextCursor
+                        nextCursorForVote = votes.data.nextCursor
                     } else {
-                        self.cursor = nil
+                        nextCursorForVote = nil
                     }
-                    
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
@@ -121,7 +121,7 @@ final class VoteStore: ObservableObject {
         
         let path = "/api/v1/votes/categories/\(categoryId)?size=\(10)&cursor=\(nextCursor)"
         let token = UserInfoStore.shared.accessToken
-        
+        jhPrint("카테고리 \(categoryId)")
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<LatestVote>, NetworkError>) in
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
@@ -130,7 +130,6 @@ final class VoteStore: ObservableObject {
                         latestVotes.votes.append(contentsOf: response.data.votes)
                         latestVotes.hasNext = response.data.hasNext
                         latestVotes.nextCursor = response.data.nextCursor
-                        jhPrint("hasNext: \(response.data.hasNext), nextCursor: \(response.data.nextCursor)")
                     case .failure(let error):
                         jhPrint(error.localizedDescription)
                 }
@@ -159,10 +158,12 @@ final class VoteStore: ObservableObject {
     }
     
     /// 투표의 선택지를 가져오는 메서드
-    func fetchVoteDetail(voteId: Int, completion: @escaping (Bool) -> Void) {
-        let path = "/api/v1/votes/\(voteId)"
+    func fetchVoteDetail(voteId: Int, categoryId: Int? = nil, completion: @escaping (Bool) -> Void) {
+        var path = "/api/v1/votes/\(voteId)"
         let token = UserInfoStore.shared.accessToken
-        
+        if let categoryId = categoryId {
+            path += "?category-id=\(categoryId)"
+        }
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<VoteDetail>, NetworkError>) in
             switch result {
             case .success(let voteDetail):

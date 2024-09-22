@@ -10,7 +10,7 @@ import SwiftUI
 struct DailyVoteCell: View {
     @ObservedObject var voteStore: VoteStore
     @ObservedObject var bookmarkStore: BookmarkStore
-    
+
     var body: some View {
         NavigationLink {
             VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteStore.dailyVote.voteId)

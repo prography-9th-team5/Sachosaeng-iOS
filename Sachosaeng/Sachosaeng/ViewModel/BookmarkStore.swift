@@ -13,8 +13,9 @@ class BookmarkStore: ObservableObject {
     @Published var currentUserCategoriesBookmark: [Category] = []
     @Published var currentUserInformationCategoriesBookmark: [Category] = []
     @Published var editBookmarkNumber: [Int] = []
+    @Published var nextCursorForInformation: Int?
     private let networkService = NetworkService.shared
-
+    
     func fetchAllVotesBookmark() {
         let path = "/api/v1/bookmarks/votes"
         let token = UserInfoStore.shared.accessToken
@@ -89,8 +90,12 @@ class BookmarkStore: ObservableObject {
         }
     }
     
-    func fetchAllInformationInBookmark() {
-        let path = "/api/v1/bookmarks/information"
+    func fetchAllInformationInBookmark(cursor: Int? = nil, size: Int = 10) {
+        var path = "/api/v1/bookmarks/information?size=\(size)"
+        if let cursor = cursor {
+            path += "&cursor=\(cursor)"
+        }
+        
         let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseInformation>, NetworkError>) in
@@ -99,6 +104,11 @@ class BookmarkStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentUserInformationBookmark = bookmark.data.information
+                    if bookmark.data.hasNext {
+                        nextCursorForInformation = bookmark.data.nextCursor
+                    } else {
+                        nextCursorForInformation = nil
+                    }
 //                    jhPrint(currentUserVotesBookmark)
                 }
             case .failure(let failure):

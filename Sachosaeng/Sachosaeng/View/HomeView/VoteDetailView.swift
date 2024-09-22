@@ -274,7 +274,6 @@ struct VoteDetailView: View {
                     }
                     .contentShape(Rectangle())
                     .disabled(voteStore.currentVoteDetail.isMultipleChoiceAllowed ? chosenVoteOptionId.isEmpty : chosenVoteIndex == nil)
-//                    .disabled(chosenVoteOptionId.isEmpty || chosenVoteIndex == nil)
                 }
             } //: Vstack
             .showToastView(toast: $toast)
@@ -285,7 +284,7 @@ struct VoteDetailView: View {
             Task {
                 ViewTracker.shared.updateCurrentView(to: .vote)
 
-                voteStore.fetchVoteDetail(voteId: voteId) { _ in
+                voteStore.fetchVoteDetail(voteId: voteId, categoryId: voteStore.categoryID(voteStore.categoryName)) { _ in
                     isLoading = false
                 }
             }

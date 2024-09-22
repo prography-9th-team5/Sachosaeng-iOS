@@ -15,7 +15,7 @@ struct HomeView: View {
     @EnvironmentObject var userInStore: UserInfoStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @State var categoryName: String = "전체"
+//    @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
     @State private var isCellAnimation: Bool = false
     @State var isDaily: Bool = false
@@ -25,7 +25,7 @@ struct HomeView: View {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    Text(categoryName)
+                    Text(voteStore.categoryName)
                         .font(.createFont(weight: .bold, size: 26))
                         .padding(.trailing, 7)
                     Button {
@@ -52,7 +52,7 @@ struct HomeView: View {
                 
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
-                        if categoryName == "전체" {
+                        if voteStore.categoryName == "전체" {
                             DailyVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
                                 .padding(.bottom, 32)
                                 .id("top")
@@ -128,7 +128,7 @@ struct HomeView: View {
                                     .id("top")
                                     .overlay {
                                         HStack(spacing: 0) {
-                                            AsyncImage(url: URL(string: setImageForCategory(categoryName))) { image in
+                                            AsyncImage(url: URL(string: setImageForCategory(voteStore.categoryName))) { image in
                                                 image
                                                     .resizable()
                                                     .scaledToFit()
@@ -172,7 +172,7 @@ struct HomeView: View {
                                         .onAppear {
                                             if vote == voteStore.latestVotes.votes.last {
                                                 if voteStore.latestVotes.hasNext {
-                                                    voteStore.fetchLatestVoteWithCursor(categoryId: voteStore.categoryID(categoryName))
+                                                    voteStore.fetchLatestVoteWithCursor(categoryId: voteStore.categoryID(voteStore.categoryName))
                                                 }
                                             }
                                         }
@@ -181,12 +181,12 @@ struct HomeView: View {
                         }
                     } //: ScrollView
                     .refreshable {
-                        Task {
-                            voteStore.fetchDailyVote() {_ in }
-                            voteStore.fetchHotVotes()
-                            voteStore.fetchHotVotesInCategory()
-                            voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
-                        }
+//                        (Task {
+//                            voteStore.fetchDailyVote() {_ in }
+//                            voteStore.fetchHotVotes()
+//                            voteStore.fetchHotVotesInCategory()
+//                            voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
+//                        })
                     }
                     .overlay(alignment: .bottomTrailing) {
                         Button {
@@ -200,7 +200,7 @@ struct HomeView: View {
                     .sheet(isPresented: $isSheet) {
                         CategoryModal(voteStore: voteStore,
                                       categoryStore: categoryStore,
-                                      isSheet: $isSheet, categoryName: $categoryName)
+                                      isSheet: $isSheet, categoryName: $voteStore.categoryName)
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                             .onDisappear {
@@ -228,12 +228,11 @@ struct HomeView: View {
                 voteStore.fetchDailyVote() { isVoted in
                     isDaily = !isVoted
                 }
-                voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
+                voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(voteStore.categoryName))
             }
             withAnimation {
                 isCellAnimation = true
             }
-            
         }
     }
 }

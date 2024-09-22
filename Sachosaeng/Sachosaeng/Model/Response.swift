@@ -36,6 +36,8 @@ struct ResponseBookmark: Codable {
 
 struct ResponseInformation: Codable {
     let information: [InformationInBookmark]
+    let hasNext: Bool
+    let nextCursor: Int?
 }
 
 struct ReponseVersion: Codable {

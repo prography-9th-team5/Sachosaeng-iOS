@@ -101,6 +101,7 @@ struct BookmarkView: View {
                                     Button {
                                         withAnimation {
 //                                            voteStore.categoryName = category.name
+                                            voteStore.categoryNameForBookmark = category.name
                                             selectedCategoryId = category.id
                                             if category.id == 0 {
                                                 bookmarkStore.fetchAllVotesBookmark()

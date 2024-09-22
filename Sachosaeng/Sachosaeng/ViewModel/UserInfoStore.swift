@@ -11,6 +11,7 @@ import KakaoSDKAuth
 final class UserInfoStore: ObservableObject {
     static let shared = UserInfoStore()
     
+    @Published var signType: SignType?
     @Published var oauthToken: OAuthToken?
     @Published var accessToken: String = ""
     @Published var refreshToken: String = ""

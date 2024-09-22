@@ -224,9 +224,6 @@ struct VoteDetailView: View {
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden()
                         .customBackbutton()
-                        Spacer()
-                            .frame(height: 128)
-                            .id("bottom")
                     }//: ScrollView
                     
                     Button {

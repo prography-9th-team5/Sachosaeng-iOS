@@ -22,7 +22,6 @@ class ViewTracker: ObservableObject {
     @Published var currentView: TrackingType = .sign
         
     func updateCurrentView(to newView: TrackingType) {
-        jhPrint(newView)
         currentView = newView
     }
 }

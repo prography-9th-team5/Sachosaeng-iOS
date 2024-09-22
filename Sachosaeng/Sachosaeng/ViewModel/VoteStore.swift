@@ -17,6 +17,7 @@ final class VoteStore: ObservableObject {
     @Published var hotVotesWithSelectedCategory: HotVoteWithCategory = dummyHotVoteWithCategory
     @Published var hotVotesInCategory: [CategorizedVotes] = [dummyCategorizedVotes]
     @Published var latestVotes: LatestVote = dummyLatestVote
+    @Published var cursor: Int?
     
     func isDailyVote() -> Bool {
         return !dailyVote.isVoted
@@ -87,8 +88,12 @@ final class VoteStore: ObservableObject {
         }
     }
     
-    func fetchLatestVotesInSelectedCategory(categoryId: Int) {
-        let path = "/api/v1/votes/categories/\(categoryId)"
+    func fetchLatestVotesInSelectedCategory(categoryId: Int, cursor: Int? = nil, size: Int = 10) {
+        var path = "/api/v1/votes/categories/\(categoryId)?size=\(size)"
+        if let cursor = cursor {
+            path += "&cursor=\(cursor)"
+        }
+        
         let token = UserInfoStore.shared.accessToken
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<LatestVote>, NetworkError>) in
@@ -97,13 +102,42 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     latestVotes = votes.data
-//                    jhPrint(latestVotes)
+                    
+                    if votes.data.hasNext {
+                        self.cursor = votes.data.nextCursor
+                    } else {
+                        self.cursor = nil
+                    }
+                    
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)
             }
         }
     }
+    
+    func fetchLatestVoteWithCursor(categoryId: Int) {
+        guard let nextCursor = latestVotes.nextCursor else { return }
+        
+        let path = "/api/v1/votes/categories/\(categoryId)?size=\(10)&cursor=\(nextCursor)"
+        let token = UserInfoStore.shared.accessToken
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<LatestVote>, NetworkError>) in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                switch result {
+                    case .success(let response):
+                        latestVotes.votes.append(contentsOf: response.data.votes)
+                        latestVotes.hasNext = response.data.hasNext
+                        latestVotes.nextCursor = response.data.nextCursor
+                        jhPrint("hasNext: \(response.data.hasNext), nextCursor: \(response.data.nextCursor)")
+                    case .failure(let error):
+                        jhPrint(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     /// 오늘의 투표를 가져오는 메서드
     func fetchDailyVote(completion: @escaping (Bool) -> ()) {
         let token = UserInfoStore.shared.accessToken

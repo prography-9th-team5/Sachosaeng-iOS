@@ -35,13 +35,6 @@ struct HomeView: View {
                             .font(.createFont(weight: .medium, size: 14))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                     }
-                    .sheet(isPresented: $isSheet) {
-                        CategoryModal(voteStore: voteStore,
-                                      categoryStore: categoryStore,
-                                      isSheet: $isSheet, categoryName: $categoryName)
-                            .cornerRadius(12)
-                            .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
-                    }
                     
                     Spacer()
                     
@@ -128,7 +121,7 @@ struct HomeView: View {
                             }
                         } else {
                             // MARK: - 사용자가 카테고리를 선택했을 때 플로우
-                            VStack(spacing: 0) {
+                            LazyVStack(spacing: 0) {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundStyle(Color(hex: voteStore.hotVotesWithSelectedCategory.category.backgroundColor))
                                     .frame(width: PhoneSpace.screenWidth - 40, height: 85)
@@ -176,6 +169,13 @@ struct HomeView: View {
                                     VoteCellWithOutIndex(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote)
                                         .padding(.horizontal, 20)
                                         .padding(.bottom, 6)
+                                        .onAppear {
+                                            if vote == voteStore.latestVotes.votes.last {
+                                                if voteStore.latestVotes.hasNext {
+                                                    voteStore.fetchLatestVoteWithCursor(categoryId: voteStore.categoryID(categoryName))
+                                                }
+                                            }
+                                        }
                                 }
                             } //: Vstack
                         }
@@ -196,6 +196,18 @@ struct HomeView: View {
                         } label: {
                             Image("Floating button")
                         }
+                    }
+                    .sheet(isPresented: $isSheet) {
+                        CategoryModal(voteStore: voteStore,
+                                      categoryStore: categoryStore,
+                                      isSheet: $isSheet, categoryName: $categoryName)
+                            .cornerRadius(12)
+                            .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
+                            .onDisappear {
+                                withAnimation {
+                                    proxy.scrollTo("top")
+                                }
+                            }
                     }
                 }
             }

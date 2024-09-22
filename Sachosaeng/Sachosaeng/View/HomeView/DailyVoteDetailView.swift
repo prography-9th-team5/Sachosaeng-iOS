@@ -224,8 +224,8 @@ struct DailyVoteDetailView: View {
             .redacted(reason: isLoading ? .placeholder : [])
         } //: Zstack
         .showPopupView(isPresented: $isBookmark, message: .saved, primaryAction: {}, secondaryAction: {
-            path.append(PathType.home)
             tabBarStore.switchTab = .bookMark
+            path.append(PathType.home)
         })
         .showToastView(toast: $toast)
         .onAppear {

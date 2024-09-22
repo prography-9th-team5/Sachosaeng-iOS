@@ -283,8 +283,9 @@ struct VoteDetailView: View {
         .onAppear {
             Task {
                 ViewTracker.shared.updateCurrentView(to: .vote)
-
-                voteStore.fetchVoteDetail(voteId: voteId, categoryId: voteStore.categoryID(voteStore.categoryName)) { _ in
+                
+                let categoryID = voteStore.categoryName == "전체" ? nil : voteStore.categoryID(voteStore.categoryName)
+                voteStore.fetchVoteDetail(voteId: voteId, categoryId: categoryID) { _ in
                     isLoading = false
                 }
             }

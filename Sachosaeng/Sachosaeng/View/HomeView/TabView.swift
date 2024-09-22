@@ -25,15 +25,19 @@ struct TabView: View {
         VStack(spacing: 0) {
             switch tabBarStore.switchTab {
             case .home:
-                    HomeView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isSign: $isSign, path: $path)
-                    .navigationBarBackButtonHidden()
-                    .onAppear {
+                HomeView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isSign: $isSign, path: $path)
+                .navigationBarBackButtonHidden()
+                .onAppear {
+                    if tabBarStore.switchTab != .home {
                         tabBarStore.switchTab = .home
                     }
+                }
             case .bookMark:
                 BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
                     .onAppear {
-                        tabBarStore.switchTab = .bookMark
+                        if tabBarStore.switchTab != .bookMark {
+                            tabBarStore.switchTab = .bookMark
+                        }
                     }
             }
             

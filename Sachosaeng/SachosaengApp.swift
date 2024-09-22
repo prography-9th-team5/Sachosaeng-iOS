@@ -33,6 +33,7 @@ struct SachosaengApp: App {
     @StateObject var userInfoStore: UserInfoStore = UserInfoStore.shared
     @StateObject var versionService: VersionService = VersionService.shared
     @StateObject var signStore: SignStore = SignStore()
+    @StateObject var tabBarStore: TabBarStore = TabBarStore()
     init() {
         if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
@@ -49,7 +50,7 @@ struct SachosaengApp: App {
                     .environmentObject(userSerVice)
                     .environmentObject(versionService)
                     .environmentObject(userInfoStore)
-                    .environmentObject(TabBarStore())
+                    .environmentObject(tabBarStore)
                     .onOpenURL(perform: { url in
                         GIDSignIn.sharedInstance.handle(url)
                         

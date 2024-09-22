@@ -19,7 +19,7 @@ final class VoteStore: ObservableObject {
     @Published var latestVotes: LatestVote = dummyLatestVote
     @Published var nextCursorForVote: Int?
     @Published var categoryName: String = "전체"
-    @Published var categoryNameForBookmark: String = "전체"
+    @Published var categoryNameForBookmark: String = "ALL"
     
     func isDailyVote() -> Bool {
         return !dailyVote.isVoted

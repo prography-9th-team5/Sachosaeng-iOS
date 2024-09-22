@@ -218,7 +218,7 @@ class BookmarkStore: ObservableObject {
                     guard let self else { return }
                     currentUserCategoriesBookmark = bookmark.data.categories
                     if !currentUserCategoriesBookmark.isEmpty {
-                        currentUserCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
+                        currentUserCategoriesBookmark.insert(Category(categoryId: 0, name: "ALL", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
                     }
 //                    jhPrint("사용자가 북마크한 투표들의 카테고리들만 조회합니다")
                 }
@@ -239,7 +239,7 @@ class BookmarkStore: ObservableObject {
                     guard let self else { return }
                     currentUserInformationCategoriesBookmark = bookmark.data.categories
                     if !currentUserInformationCategoriesBookmark.isEmpty {
-                        currentUserInformationCategoriesBookmark.insert(Category(categoryId: 0, name: "전체 보기", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
+                        currentUserInformationCategoriesBookmark.insert(Category(categoryId: 0, name: "ALL", iconUrl: "", backgroundColor: "#E4E7EC", textColor: ""), at: 0)
                     }
 //                    jhPrint("사용자가 북마크한 정보들의 카테고리들만 조회합니다")
                 }

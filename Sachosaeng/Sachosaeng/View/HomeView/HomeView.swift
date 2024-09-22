@@ -15,7 +15,6 @@ struct HomeView: View {
     @EnvironmentObject var userInStore: UserInfoStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-//    @State var categoryName: String = "전체"
     @State private var isSheet: Bool = false
     @State private var isCellAnimation: Bool = false
     @State var isDaily: Bool = false

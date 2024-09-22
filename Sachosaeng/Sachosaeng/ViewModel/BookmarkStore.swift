@@ -199,7 +199,7 @@ class BookmarkStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     currentUserInformationBookmark = bookmark.data.information
-                    jhPrint("카테고리에 맞는 북마크된 정보를 가져옴")
+                    jhPrint("카테고리에 맞는 연관컨텐츠 정보를 가져옴")
                 }
             case .failure(let failure):
                 jhPrint(failure, isWarning: true)

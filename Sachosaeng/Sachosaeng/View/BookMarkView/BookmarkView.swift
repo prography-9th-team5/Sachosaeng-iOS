@@ -16,6 +16,8 @@ struct BookmarkView: View {
     @ObservedObject var categoryStore: CategoryStore
     @ObservedObject var voteStore: VoteStore
     @ObservedObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @Binding var path: NavigationPath
     @State private var toast: Toast? = nil
     @State private var selectedButton: BookmarkType = .vote
     @State private var selectedCategoryId: Int?
@@ -34,8 +36,17 @@ struct BookmarkView: View {
                             .frame(height: 40)
 
                         Spacer()
+                        Button {
+                            path.append(PathType.myPage)
+                        } label: {
+                            Image("온보딩_\(userInfoStore.currentUserState.userType)")
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(Circle())
+                                .frame(width: 40, height: 40)
+                        }
                     }
-                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 0))
+                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20))
                     
                     HStack(spacing: 0) {
                         Button(action: {
@@ -100,17 +111,14 @@ struct BookmarkView: View {
                                 ForEach(selectedButton == .vote ? bookmarkStore.currentUserCategoriesBookmark : bookmarkStore.currentUserInformationCategoriesBookmark) { category in
                                     Button {
                                         withAnimation {
-//                                            voteStore.categoryName = category.name
                                             voteStore.categoryNameForBookmark = category.name
                                             selectedCategoryId = category.id
                                             if category.id == 0 {
                                                 bookmarkStore.fetchAllVotesBookmark()
                                                 bookmarkStore.fetchAllInformationInBookmark()
-                                                
                                             } else {
                                                 bookmarkStore.fetchVotesInBookmarkWithCategoryId(categoryId: category.id)
                                                 bookmarkStore.fetchInformationInBookmarkWithCategory(categoryId: category.id)
-                                                
                                             }
                                             proxy.scrollTo(category.name, anchor: .center)
                                         }

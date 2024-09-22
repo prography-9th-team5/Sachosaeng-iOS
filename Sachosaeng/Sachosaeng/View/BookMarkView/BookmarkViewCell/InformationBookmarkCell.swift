@@ -21,9 +21,7 @@ struct InformationBookmarkCell: View {
                 cellContent
                     .onTapGesture {
                         isTap.toggle()
-                        if isTap {
-                            bookmarkStore.updateEditBookmarkNumber(information.informationBookmarkId)
-                        }
+                        bookmarkStore.updateEditBookmarkNumber(information.informationBookmarkId)
                     }
             } else {
                 NavigationLink {
@@ -33,6 +31,9 @@ struct InformationBookmarkCell: View {
                 }
             }
         } //: ZSTACK
+        .onAppear {
+            bookmarkStore.editBookmarkNumber.removeAll()
+        }
     }
     
     @ViewBuilder

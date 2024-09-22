@@ -33,7 +33,7 @@ struct TabView: View {
                     }
                 }
             case .bookMark:
-                BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
+                    BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, path: $path)
                     .onAppear {
                         if tabBarStore.switchTab != .bookMark {
                             tabBarStore.switchTab = .bookMark

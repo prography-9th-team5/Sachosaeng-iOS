@@ -100,6 +100,7 @@ struct BookmarkView: View {
                                 ForEach(selectedButton == .vote ? bookmarkStore.currentUserCategoriesBookmark : bookmarkStore.currentUserInformationCategoriesBookmark) { category in
                                     Button {
                                         withAnimation {
+//                                            voteStore.categoryName = category.name
                                             selectedCategoryId = category.id
                                             if category.id == 0 {
                                                 bookmarkStore.fetchAllVotesBookmark()
@@ -230,7 +231,6 @@ struct BookmarkView: View {
                                     toast = Toast(type: .success, message: "편집이 완료되었어요!")
                                 }
                             }
-                            
                         } label: {
                             Text("버튼")
                         }
@@ -242,6 +242,7 @@ struct BookmarkView: View {
         .showToastView(toast: $toast)
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .bookmark)
+            ViewTracker.shared.currentTap = .bookmark
         }
     }
 }

@@ -224,6 +224,8 @@ struct HomeView: View {
         })
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .home)
+            ViewTracker.shared.currentTap = .home
+
             Task {
                 voteStore.fetchDailyVote() { isVoted in
                     isDaily = !isVoted

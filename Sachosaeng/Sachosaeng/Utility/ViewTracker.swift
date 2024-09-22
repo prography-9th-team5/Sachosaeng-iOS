@@ -17,10 +17,16 @@ enum TrackingType {
     case bookmark
 }
 
+enum TrackingTabType {
+    case home
+    case bookmark
+}
+
 class ViewTracker: ObservableObject {
     static let shared = ViewTracker()
     @Published var currentView: TrackingType = .sign
-        
+    @Published var currentTap: TrackingTabType = .home
+    
     func updateCurrentView(to newView: TrackingType) {
         currentView = newView
     }

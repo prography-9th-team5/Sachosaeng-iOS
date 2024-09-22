@@ -283,8 +283,14 @@ struct VoteDetailView: View {
         .onAppear {
             Task {
                 ViewTracker.shared.updateCurrentView(to: .vote)
+                var categoryID: Int?
                 
-                let categoryID = voteStore.categoryName == "전체" ? nil : voteStore.categoryID(voteStore.categoryName)
+                if ViewTracker.shared.currentTap == .home {
+                    categoryID = voteStore.categoryName == "전체" ? nil : voteStore.categoryID(voteStore.categoryName)
+                } else {
+                    categoryID = voteStore.categoryNameForBookmark == "전체" ? nil : voteStore.categoryID(voteStore.categoryNameForBookmark)
+                }
+                
                 voteStore.fetchVoteDetail(voteId: voteId, categoryId: categoryID) { _ in
                     isLoading = false
                 }

@@ -19,6 +19,7 @@ final class VoteStore: ObservableObject {
     @Published var latestVotes: LatestVote = dummyLatestVote
     @Published var nextCursorForVote: Int?
     @Published var categoryName: String = "전체"
+    @Published var categoryNameForBookmark: String = "전체"
     
     func isDailyVote() -> Bool {
         return !dailyVote.isVoted
@@ -185,7 +186,7 @@ final class VoteStore: ObservableObject {
         let path = "/api/v1/votes/\(voteId)/choices"
         let body = ["chosenVoteOptionIds": chosenVoteOptionIds]
         let token = UserInfoStore.shared.accessToken
-        
+        jhPrint(body)
         networkService.performRequest(method: "PUT", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):

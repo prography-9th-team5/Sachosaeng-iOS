@@ -80,8 +80,8 @@ final class SignStore: ObservableObject {
         }
     }
     
-    func withdrawUserAccount() {
-        authService.withdrawUserAccount()
+    func withdrawUserAccount(_ reason: String) {
+        authService.withdrawUserAccount(reason)
     }
     
     func withdrawOfKakaoTalk() {

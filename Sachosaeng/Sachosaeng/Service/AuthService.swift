@@ -153,7 +153,7 @@ final class AuthService {
     }
     
     // 사용자 계정 탈퇴
-    func withdrawUserAccount() {
+    func withdrawUserAccount(_ reason: String) {
         switch UserInfoStore.shared.signType {
         case .apple:
             break
@@ -166,14 +166,13 @@ final class AuthService {
         }
         
         let token = UserInfoStore.shared.accessToken
-        jhPrint("Access Token: \(token)", isWarning: true)
-        let body = ["reason": "hi"]
+        let body = ["reason": reason]
         
-        NetworkService.shared.performRequest(method: "DELETE", path: "/api/v1/auth/withdraw", body: body, token: token) { (result: Result<AuthResponse, NetworkError>) in
+        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/withdraw", body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    UserInfoStore.shared.accessToken = ""
+                    UserInfoStore.shared.resetUserInfo()
                     jhPrint("탈퇴 성공: \(response) UserStore.shared.accessToken: \(UserInfoStore.shared.accessToken)")
                 }
             case .failure(let error):

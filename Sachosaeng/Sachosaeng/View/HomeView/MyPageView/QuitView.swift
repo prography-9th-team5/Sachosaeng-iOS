@@ -16,13 +16,14 @@ enum QuitType: String, CaseIterable, Identifiable {
 }
 
 struct QuitView: View {
+    @EnvironmentObject var signStore: SignStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var toast: Toast? = nil
     @State private var isSelected: Bool = false
-    @State private var isTapped: QuitType?
+    @State private var tappedQuitType: QuitType?
     @State private var isTappedEtc: Bool = false    
-    @State private var text: String = ""
+    @State private var etcText: String = ""
     @FocusState private var keyboardVisible: Bool
     private let quitTypeArray: [QuitType] = QuitType.allCases
 
@@ -38,15 +39,15 @@ struct QuitView: View {
                     ForEach(quitTypeArray, id: \.self) { type in
                         Button {
                             isSelected = true
-                            isTapped = type
+                            tappedQuitType = type
                         } label: {
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(isTapped == type ? Color.black : Color.clear, lineWidth: 1)
+                                .stroke(tappedQuitType == type ? Color.black : Color.clear, lineWidth: 1)
                                 .frame(maxWidth: .infinity, minHeight: 60)
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                                 .overlay(alignment: .leading) {
                                     HStack(spacing: 0) {
-                                        Image(isTapped == type ? "check_on" : "check_off")
+                                        Image(tappedQuitType == type ? "check_on" : "check_off")
                                             .padding(.leading, 16)
                                             .padding(.trailing, 8)
                                         Text(type.rawValue)
@@ -58,14 +59,14 @@ struct QuitView: View {
                         }
                     }
                     
-                    if isTapped == .etc {
+                    if tappedQuitType == .etc {
                         VStack {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 8)
                                     .frame(width: UIScreen.main.bounds.width - 42, height: 105)
                                     .padding(8)
                                     .foregroundStyle(CustomColor.GrayScaleColor.gs2)
-                                CustomTextEditor(text: $text)
+                                CustomTextEditor(text: $etcText)
                                     .frame(width: UIScreen.main.bounds.width - 80, height: 75)
                                     .background(Color.clear)
                                     .focused($keyboardVisible)
@@ -73,7 +74,7 @@ struct QuitView: View {
                                         isTappedEtc = true
                                     }
                                     .overlay(alignment: .topLeading) {
-                                        if text.isEmpty && !isTappedEtc {
+                                        if etcText.isEmpty && !isTappedEtc {
                                             HStack(spacing: 0) {
                                                 Text("사유를 작성해 주세요")
                                                     .foregroundColor(CustomColor.GrayScaleColor.gs5)
@@ -111,7 +112,15 @@ struct QuitView: View {
                     toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         isSign = true
-                        AuthService().withdrawUserAccount()
+                        switch tappedQuitType {
+                            case .content, .service, .use:
+                                signStore.withdrawUserAccount(tappedQuitType?.rawValue ?? "sad")
+                            case .etc:
+                                signStore.withdrawUserAccount(etcText)
+                            case .none:
+                                toast = Toast(type: .quit, message: "탈퇴 실패 다시 시도해주세요.")
+
+                        }
                         path = .init()
                     }
                 }

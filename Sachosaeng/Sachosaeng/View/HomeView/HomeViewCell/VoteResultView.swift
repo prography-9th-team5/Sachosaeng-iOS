@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct VoteResultView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     var description: String
     
     var body: some View {
         HStack(spacing: 0) {
-            Image("vote_\(UserStore.shared.currentUserState.userType)")
+            Image("vote_\(userInfoStore.currentUserState.userType)")
             VStack(spacing: 0) {
                 Text(description)
                     .font(.createFont(weight: .medium, size: 14))
@@ -22,8 +23,4 @@ struct VoteResultView: View {
         }
         .padding()
     }
-}
-
-#Preview {
-    VoteResultView(description: "학생")
 }

@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct HotVoteCell: View {
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
     var vote: Vote
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
     var index: Int
+    
     var body: some View {
         NavigationLink {
-            VoteDetailView(voteId: vote.voteId, voteStore: voteStore, bookmarkStore: bookmarkStore)
+            VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: vote.voteId)
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
@@ -52,7 +53,6 @@ struct HotVoteCell: View {
                                     Text("\(participantCount)명 참여 중")
                                         .font(.createFont(weight: .medium, size: 12))
                                         .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                                        .padding(.leading, 8)
                                     Spacer()
                                 }
                             }
@@ -76,7 +76,6 @@ struct HotVoteCell: View {
                     .padding(.trailing, 16)
                 }
             }
-//            .frame(height: 60)
             .padding(.bottom, 6)
         }
     }

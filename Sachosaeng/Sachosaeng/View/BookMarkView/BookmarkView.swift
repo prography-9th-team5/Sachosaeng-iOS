@@ -13,11 +13,13 @@ enum BookmarkType {
 }
 
 struct BookmarkView: View {
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @Binding var path: NavigationPath
     @State private var toast: Toast? = nil
     @State private var selectedButton: BookmarkType = .vote
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
     @State private var selectedCategoryId: Int?
     @State var isEdit: Bool = false
     @Namespace private var animationNamespace
@@ -34,12 +36,22 @@ struct BookmarkView: View {
                             .frame(height: 40)
 
                         Spacer()
+                        Button {
+                            path.append(PathType.myPage)
+                        } label: {
+                            Image("온보딩_\(userInfoStore.currentUserState.userType)")
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(Circle())
+                                .frame(width: 40, height: 40)
+                        }
                     }
-                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 0))
+                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20))
                     
                     HStack(spacing: 0) {
                         Button(action: {
                             withAnimation {
+                                voteStore.categoryNameForBookmark = "ALL"
                                 selectedButton = .vote
                                 isEdit = false
                             }
@@ -66,6 +78,7 @@ struct BookmarkView: View {
                         
                         Button(action: {
                             withAnimation {
+                                voteStore.categoryNameForBookmark = "ALL"
                                 selectedButton = .content
                                 isEdit = false
                             }
@@ -91,8 +104,9 @@ struct BookmarkView: View {
                         }
                         .frame(maxWidth: .infinity)
                     }
-                } // Hstack <- 트표 연관컼ㄴ체
+                } // Hstack
                 
+                // 카테고리 셀들 나열하는곳
                 HStack(spacing: 0) {
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
@@ -100,21 +114,28 @@ struct BookmarkView: View {
                                 ForEach(selectedButton == .vote ? bookmarkStore.currentUserCategoriesBookmark : bookmarkStore.currentUserInformationCategoriesBookmark) { category in
                                     Button {
                                         withAnimation {
+                                            voteStore.categoryNameForBookmark = category.name
                                             selectedCategoryId = category.id
-                                            if category.id == 0 {
-                                                bookmarkStore.fetchAllVotesBookmark()
-                                                bookmarkStore.fetchAllInformationInBookmark()
-                                                
-                                            } else {
-                                                bookmarkStore.fetchVotesInBookmarkWithCategoryId(categoryId: category.id)
-                                                bookmarkStore.fetchInformationInBookmarkWithCategory(categoryId: category.id)
-                                                
+                                            switch selectedButton {
+                                            case .vote:
+                                                if category.id == 0 {
+                                                    bookmarkStore.fetchAllVotesBookmark()
+                                                } else {
+                                                    bookmarkStore.fetchVotesInBookmarkWithCategoryId(categoryId: category.id)
+                                                }
+                                            case .content:
+                                                if category.id == 0 {
+                                                    bookmarkStore.fetchAllInformationInBookmark()
+                                                } else {
+                                                    bookmarkStore.fetchInformationInBookmarkWithCategory(categoryId: category.id)
+                                                }
                                             }
+                                            
                                             proxy.scrollTo(category.name, anchor: .center)
                                         }
                                     } label: {
                                         HStack {
-                                            if category.name != "전체 보기" {
+                                            if category.name != "ALL" {
                                                 AsyncImage(url: URL(string: category.iconUrl)) { image in
                                                     image
                                                         .resizable()
@@ -127,7 +148,7 @@ struct BookmarkView: View {
                                                 }
                                             }
                                             
-                                            Text("\(category.name == "전체 보기" ? "ALL" : category.name)")
+                                            Text(category.name)
                                                 .foregroundColor(Color(hex: category.textColor))
                                                 .font(.createFont(weight: .semiBold, size: 15))
                                                 .id(category.name)
@@ -143,7 +164,6 @@ struct BookmarkView: View {
                                                 )
                                         )
                                     }
-                                    
                                 }
                             }
                             .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
@@ -164,8 +184,10 @@ struct BookmarkView: View {
                         .padding(EdgeInsets(top: 16, leading: 20, bottom: 24, trailing: 20))
                     }
                 }
+                // 밑에 북마크된 셀들 나타나는곳
                 VStack(spacing: 0) {
-                    if selectedButton == .vote {
+                    switch selectedButton {
+                    case .vote:
                         ScrollView(showsIndicators: false) {
                             if bookmarkStore.currentUserVotesBookmark.isEmpty {
                                 VStack(spacing: 0) {
@@ -189,11 +211,20 @@ struct BookmarkView: View {
                                     VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, bookmark: bookmark)
                                         .padding(.horizontal, 20)
                                 }
+                                .onAppear {
+                                    let categoryID = voteStore.categoryID(voteStore.categoryNameForBookmark)
+                                    Task {
+                                        if voteStore.categoryNameForBookmark == "ALL" {
+                                            bookmarkStore.fetchAllVotesBookmark()
+                                        } else {
+                                            bookmarkStore.fetchVotesInBookmarkWithCategoryId(categoryId: categoryID)
+                                        }
+                                    }
+                                }
                             }
                         }
-                    } else {
+                    case .content:
                         ScrollView(showsIndicators: false) {
-                            
                             if bookmarkStore.currentUserInformationBookmark.isEmpty {
                                 VStack(spacing: 0) {
                                     Image("emptyIcon")
@@ -216,9 +247,19 @@ struct BookmarkView: View {
                                     InformationBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, information: information)
                                         .padding(.horizontal, 20)
                                 }
+                                .onAppear {
+                                    let categoryID = voteStore.categoryID(voteStore.categoryNameForBookmark)
+                                    if voteStore.categoryNameForBookmark == "ALL" {
+                                        bookmarkStore.fetchAllInformationInBookmark()
+                                    } else {
+                                        bookmarkStore.fetchInformationInBookmarkWithCategory(categoryId: categoryID)
+                                    }
+                                }
                             }
                         }
                     }
+                    
+                    // 투표 편집버튼을 눌렀을 때 나오는 버튼
                     if isEdit {
                         Button {
                             if selectedButton == .vote {
@@ -232,7 +273,6 @@ struct BookmarkView: View {
                                     toast = Toast(type: .success, message: "편집이 완료되었어요!")
                                 }
                             }
-                            
                         } label: {
                             Text("버튼")
                         }
@@ -242,6 +282,11 @@ struct BookmarkView: View {
             }
         }
         .showToastView(toast: $toast)
+        .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .bookmark)
+            ViewTracker.shared.currentTap = .bookmark
+            
+        }
     }
 }
 

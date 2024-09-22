@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct VotesBookmarkCell: View {
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
     @Binding var isEdit: Bool
     @State var isTap: Bool = false
-    var bookmark: Bookmark
+    @State var bookmark: Bookmark
     
     var body: some View {
         ZStack {
@@ -21,18 +21,19 @@ struct VotesBookmarkCell: View {
                 cellContent
                     .onTapGesture {
                         isTap.toggle()
-                        if isTap {
-                            bookmarkStore.updateEditBookmarkNumber(bookmark.voteBookmarkId)
-                        }
+                        bookmarkStore.updateEditBookmarkNumber(bookmark.voteBookmarkId)
                     }
             } else {
                 NavigationLink {
-                    VoteDetailView(voteId: bookmark.voteId, voteStore: voteStore, bookmarkStore: bookmarkStore)
+                    VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: bookmark.voteId)
                 } label: {
                     cellContent
                 } //: navigation
             }
         } //: ZSTACK
+        .onAppear {
+            bookmarkStore.editBookmarkNumber.removeAll()
+        }
     }
     
     @ViewBuilder

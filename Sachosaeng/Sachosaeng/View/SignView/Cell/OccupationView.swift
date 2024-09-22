@@ -34,8 +34,3 @@ struct OccupationView: View {
         }
     }
 }
-
-#Preview {
-    OccupationView(isSelected: .constant(false), occupationNumber: 1)
-}
-// TODO: 이미지 받으면 변경예정 

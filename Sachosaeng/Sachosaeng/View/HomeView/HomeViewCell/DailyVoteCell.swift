@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct DailyVoteCell: View {
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
+
     var body: some View {
         NavigationLink {
-            VoteDetailView(voteId: voteStore.dailyVote.voteId, voteStore: voteStore, bookmarkStore: bookmarkStore)
+            VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteStore.dailyVote.voteId)
         } label: {
             VStack(spacing: 0) {
                 RoundedRectangle(cornerRadius: 8)

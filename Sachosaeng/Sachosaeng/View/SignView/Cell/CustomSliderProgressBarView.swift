@@ -9,9 +9,9 @@ import SwiftUI
 
 struct CustomSliderProgressBarView: View {
     var progress: CGFloat
-    @State var setProgress: CGFloat = 0.0
     var isImageHide: Bool
-    
+    @State private var setProgress: CGFloat = 0.0
+
     var body: some View {
         HStack(spacing: 0) {
             GeometryReader { geometry in
@@ -48,9 +48,4 @@ struct CustomSliderProgressBarView: View {
             }
         }
     }
-}
-
-#Preview {
-    CustomSliderProgressBarView(progress: 1, isImageHide: false)
-        .padding()
 }

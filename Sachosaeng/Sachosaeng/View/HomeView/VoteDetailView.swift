@@ -9,19 +9,19 @@ import SwiftUI
 import Lottie
 
 struct VoteDetailView: View {
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabBarStore: TabBarStore
     @Environment(\.presentationMode) var presentationMode
+    @State var voteId: Int
     @State private var toast: Toast? = nil
     @State private var isSelected: Bool = false
     @State private var isBookmark: Bool = false
     @State private var isVoted: Bool = false
     @State private var chosenVoteIndex: Int?
     @State private var chosenVoteOptionId: [Int] = []
-    @State var voteId: Int
     @State private var isLottie: Bool = false
     @State private var isLoading: Bool = true
-    @ObservedObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
-    @EnvironmentObject var tabBarStore: TabBarStore
     @State private var animatedPercentages: [Int: CGFloat] = [:]
 
     var body: some View {
@@ -88,14 +88,12 @@ struct VoteDetailView: View {
                                         let totalVotes = voteStore.currentVoteDetail.voteOptions.map { $0.count }.reduce(0, +)
                                           
                                         let votePercentage = totalVotes > 0 ? CGFloat(vote.count) / CGFloat(totalVotes) : 0
-                                        // 다중 선택 여부에 따라 선택된 옵션을 관리
                                         let isChosenOption = voteStore.currentVoteDetail.isMultipleChoiceAllowed
                                             ? chosenVoteOptionId.contains(vote.voteOptionId)
                                             : vote.voteOptionId == chosenVoteIndex
 
                                         ZStack(alignment: .leading) {
                                             if isVoted {
-                                                // 투표 완료 후
                                                 RoundedRectangle(cornerRadius: 4)
                                                     .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 0)
                                                     .frame(width: PhoneSpace.screenWidth - 80, height: 50)
@@ -109,7 +107,7 @@ struct VoteDetailView: View {
                                                     .onAppear {
                                                         
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                                            withAnimation(.easeInOut(duration: 2.8)) {
+                                                            withAnimation(.easeInOut(duration: 0.8)) {
                                                                 animatedPercentages[vote.voteOptionId] = votePercentage
                                                             }
                                                         }
@@ -134,6 +132,7 @@ struct VoteDetailView: View {
                                                     .overlay(alignment: .leading) {
                                                         HStack(spacing: 0) {
                                                             Text(vote.content)
+                                                                .font(.createFont(weight: isChosenOption ? .bold : .medium, size: 14))
                                                                 .padding(.leading, 16)
                                                                 .lineLimit(2)
                                                         }
@@ -150,8 +149,10 @@ struct VoteDetailView: View {
                                                                     if chosenVoteOptionId.isEmpty { isSelected = false }
                                                                 }
                                                             } else {
-                                                                isSelected = true
-                                                                chosenVoteOptionId.append(vote.voteOptionId)
+                                                                if !chosenVoteOptionId.contains(vote.voteOptionId) {
+                                                                    isSelected = true
+                                                                    chosenVoteOptionId.append(vote.voteOptionId)
+                                                                }
                                                             }
                                                         } else {
                                                             if chosenVoteIndex == vote.voteOptionId {
@@ -162,7 +163,7 @@ struct VoteDetailView: View {
                                                                 isSelected = false
                                                             } else {
                                                                 chosenVoteIndex = vote.voteOptionId
-                                                                chosenVoteOptionId.append(vote.voteOptionId)
+                                                                chosenVoteOptionId = [vote.voteOptionId]
                                                                 isSelected = true
                                                             }
                                                         }
@@ -219,13 +220,10 @@ struct VoteDetailView: View {
                             Spacer()
                         } //: Vstack
                         .padding(.top, 26)
-                        .navigationTitle("경조사")
+                        .navigationTitle(voteStore.currentVoteDetail.category.name)
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden()
                         .customBackbutton()
-                        Spacer()
-                            .frame(height: 128)
-                            .id("bottom")
                     }//: ScrollView
                     
                     Button {
@@ -233,14 +231,12 @@ struct VoteDetailView: View {
                             presentationMode.wrappedValue.dismiss()
                         } else {
                             isLottie = true
-                            voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
-                                if success {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                                        withAnimation {
-//                                            proxy.scrollTo("bottom")
-//                                        }
-                                        voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { isSuccess in
-                                            voteStore.fetchVoteDetail(voteId: voteId) {
+                            jhPrint(chosenVoteOptionId)
+                            voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { isSuccess in
+                                if isSuccess {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { _ in
+                                            voteStore.fetchVoteDetail(voteId: voteId) { _ in
                                                 isLottie = false
                                                 isVoted = true
                                             }
@@ -252,6 +248,22 @@ struct VoteDetailView: View {
                                     toast = Toast(type: .quit, message: "투표 실패")
                                 }
                             }
+//                            voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { isSuccess in
+//                                voteStore.fetchVoteDetail(voteId: voteId) {
+//                                    voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
+//                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                                            if success {
+//                                                isLottie = false
+//                                                isVoted = true
+//                                                toast = Toast(type: .quit, message: "투표 완료!")
+//                                            } else {
+//                                                isLottie = false
+//                                                toast = Toast(type: .quit, message: "투표 실패")
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
                         }
                     } label: {
                         Text(isVoted ? "다른 투표 보기" : "확인")
@@ -262,7 +274,6 @@ struct VoteDetailView: View {
                     }
                     .contentShape(Rectangle())
                     .disabled(voteStore.currentVoteDetail.isMultipleChoiceAllowed ? chosenVoteOptionId.isEmpty : chosenVoteIndex == nil)
-//                    .disabled(chosenVoteOptionId.isEmpty || chosenVoteIndex == nil)
                 }
             } //: Vstack
             .showToastView(toast: $toast)
@@ -271,7 +282,16 @@ struct VoteDetailView: View {
         } //: Zstack
         .onAppear {
             Task {
-                voteStore.fetchVoteDetail(voteId: voteId) {
+                ViewTracker.shared.updateCurrentView(to: .vote)
+                var categoryID: Int?
+                
+                if ViewTracker.shared.currentTap == .home {
+                    categoryID = voteStore.categoryName == "전체" ? nil : voteStore.categoryID(voteStore.categoryName)
+                } else {
+                    categoryID = voteStore.categoryNameForBookmark == "전체" ? nil : voteStore.categoryID(voteStore.categoryNameForBookmark)
+                }
+                
+                voteStore.fetchVoteDetail(voteId: voteId, categoryId: categoryID) { _ in
                     isLoading = false
                 }
             }

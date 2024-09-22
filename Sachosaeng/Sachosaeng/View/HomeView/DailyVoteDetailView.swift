@@ -9,19 +9,19 @@ import SwiftUI
 import Lottie
 
 struct DailyVoteDetailView: View {
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabBarStore: TabBarStore
+    @State var voteId: Int
+    @Binding var path: NavigationPath
     @State private var toast: Toast? = nil
     @State private var isSelected: Bool = false
     @State private var isBookmark: Bool = false
     @State private var isVoted: Bool = false
     @State private var chosenVoteIndex: Int?
     @State private var chosenVoteOptionId: [Int] = []
-    @State var voteId: Int
     @State private var isLottie: Bool = false
     @State private var isLoading: Bool = true
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
-    @Binding var path: NavigationPath
-    @EnvironmentObject var tabBarStore: TabBarStore
     
     var body: some View {
         ZStack {
@@ -89,32 +89,85 @@ struct DailyVoteDetailView: View {
                                 
                                 VStack(spacing: 8) {
                                     ForEach(voteStore.currentVoteDetail.voteOptions) { vote in
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .frame(width: PhoneSpace.screenWidth - 80, height: 50)
-                                            .foregroundStyle(vote.voteOptionId == chosenVoteIndex ?  CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.gs2)
-                                            .overlay(alignment: .leading) {
-                                                HStack(spacing: 0) {
-                                                    Text(vote.content)
-                                                        .padding(.leading, 16)
-                                                        .lineLimit(2)
-                                                }
-                                            }
-                                            .overlay {
-                                                RoundedRectangle(cornerRadius: 4)
-                                                    .stroke(vote.voteOptionId == chosenVoteIndex ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
-                                            }
-                                            .onTapGesture {
-                                                isSelected = true
-                                                chosenVoteIndex = vote.voteOptionId
-                                                
-                                                if chosenVoteIndex == vote.voteOptionId {
-                                                    chosenVoteOptionId.append(vote.voteOptionId)
-                                                } else {
-                                                    if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
-                                                        chosenVoteOptionId.remove(at: index)
+                                        let isChosenOption = voteStore.currentVoteDetail.isMultipleChoiceAllowed
+                                            ? chosenVoteOptionId.contains(vote.voteOptionId)
+                                            : vote.voteOptionId == chosenVoteIndex
+                                        if isVoted {
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .frame(width: PhoneSpace.screenWidth - 80, height: 50)
+                                                .foregroundStyle(isChosenOption ?  CustomColor.GrayScaleColor.gs6 : CustomColor.GrayScaleColor.gs2)
+                                                .overlay(alignment: .leading) {
+                                                    HStack(spacing: 0) {
+                                                        Image(isChosenOption ? "check_white" : "check_off")
+                                                        Text(vote.content)
+                                                            .font(.createFont(weight: isChosenOption ? .semiBold : .medium, size: 16))
+                                                            .foregroundStyle(isChosenOption ? CustomColor.GrayScaleColor.white : CustomColor.GrayScaleColor.black)
+                                                            .padding(.leading, 8)
+                                                            .lineLimit(2)
                                                     }
+                                                    .padding(.leading, 8)
                                                 }
-                                            }
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 4)
+                                                        .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
+                                                }
+                                        } else {
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .frame(width: PhoneSpace.screenWidth - 80, height: 50)
+                                                .foregroundStyle(isChosenOption ?  CustomColor.GrayScaleColor.gs6 : CustomColor.GrayScaleColor.gs2)
+                                                .overlay(alignment: .leading) {
+                                                    HStack(spacing: 0) {
+                                                        Image(isChosenOption ? "check_white" : "check_off")
+                                                        Text(vote.content)
+                                                            .font(.createFont(weight: isChosenOption ? .semiBold : .medium, size: 16))
+                                                            .foregroundStyle(isChosenOption ? CustomColor.GrayScaleColor.white : CustomColor.GrayScaleColor.black)
+                                                            .padding(.leading, 8)
+                                                            .lineLimit(2)
+                                                    }
+                                                    .padding(.leading, 8)
+                                                }
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 4)
+                                                        .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
+                                                }
+                                                .onTapGesture {
+//                                                    isSelected = true
+//                                                    chosenVoteIndex = vote.voteOptionId
+//                                                    
+//                                                    if chosenVoteIndex == vote.voteOptionId {
+//                                                        chosenVoteOptionId.append(vote.voteOptionId)
+//                                                    } else {
+//                                                        if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+//                                                            chosenVoteOptionId.remove(at: index)
+//                                                        }
+//                                                    }
+                                                    if voteStore.currentVoteDetail.isMultipleChoiceAllowed {
+                                                        if isChosenOption {
+                                                            if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+                                                                chosenVoteOptionId.remove(at: index)
+                                                                if chosenVoteOptionId.isEmpty { isSelected = false }
+                                                            }
+                                                        } else {
+                                                            isSelected = true
+                                                            chosenVoteOptionId.append(vote.voteOptionId)
+                                                        }
+                                                    } else {
+                                                        if chosenVoteIndex == vote.voteOptionId {
+                                                            if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+                                                                chosenVoteIndex = nil
+                                                                chosenVoteOptionId.remove(at: index)
+                                                            }
+                                                            isSelected = false
+                                                        } else {
+                                                            chosenVoteIndex = vote.voteOptionId
+                                                            chosenVoteOptionId.append(vote.voteOptionId)
+                                                            isSelected = true
+                                                        }
+                                                    }
+                                                
+                                                
+                                                }
+                                        }
                                     }
                                     if isVoted { VoteDescriptionView() }
                                 }
@@ -171,13 +224,13 @@ struct DailyVoteDetailView: View {
             .redacted(reason: isLoading ? .placeholder : [])
         } //: Zstack
         .showPopupView(isPresented: $isBookmark, message: .saved, primaryAction: {}, secondaryAction: {
-            path.append(PathType.home)
             tabBarStore.switchTab = .bookMark
+            path.append(PathType.home)
         })
         .showToastView(toast: $toast)
         .onAppear {
             Task {
-                voteStore.fetchVoteDetail(voteId: voteId) {
+                voteStore.fetchVoteDetail(voteId: voteId) { _ in
                     isLoading = false
                 }
             }

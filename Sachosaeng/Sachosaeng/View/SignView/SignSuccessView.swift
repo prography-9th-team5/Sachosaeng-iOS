@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SignSuccessView: View {
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
-    @StateObject var signStore: SignStore
-    @ObservedObject var userStore = UserStore.shared
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
+    @EnvironmentObject var signStore: SignStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var isActive: Bool = false
@@ -20,7 +20,7 @@ struct SignSuccessView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                CommonTitle(top: userStore.currentUserState.nickname,
+                CommonTitle(top: userInfoStore.currentUserState.nickname,
                             topFont: .bold,
                             middle: "사초생에 오신 걸 환영해요",
                             middleFont: .bold,
@@ -35,7 +35,7 @@ struct SignSuccessView: View {
                     .frame(height: 400)
             }
                 
-            Image("온보딩_\(userStore.currentUserState.userType)")
+            Image("온보딩_\(userInfoStore.currentUserState.userType)")
                 .frame(width: 248, height: 248)
                 .opacity(isImageAnimation ? 1 : 0)
                 .animation(.easeInOut(duration: 0.5), value: isImageAnimation)
@@ -44,15 +44,19 @@ struct SignSuccessView: View {
         }
         .padding(.top, 70)
         .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .success)
+            
             UserService.shared.getUserInfo()
             withAnimation {
                 isImageAnimation = true
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                isActive = true
+                let userType = userInfoStore.currentUserState.userType
+                userInfoStore.convertToUserType(userType) {
+                    isActive = true
+                    isSign = false
+                }
                 path.append(PathType.home)
-                isSign = false
-                userStore.convertToUserType(userStore.currentUserState.userType)
             }
         }
     }

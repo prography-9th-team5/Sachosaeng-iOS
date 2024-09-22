@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 class CategoryStore: ObservableObject {
     private let networkService = NetworkService.shared
     @Published var categories = [Category]()

@@ -21,9 +21,10 @@ enum settingOption: String, CaseIterable {
 }
 
 struct MyPageView: View {
+    @EnvironmentObject var userStore: UserInfoStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @ObservedObject var userStore = UserStore.shared
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.edgesIgnoringSafeArea(.all)
@@ -149,7 +150,8 @@ struct MyPageView: View {
                 }
                 
                 Button {
-                    
+                    userInfoStore.resetUserInfo()
+                    path = .init()
                 } label: {
                     HStack {
                         Text("로그아웃")
@@ -165,11 +167,8 @@ struct MyPageView: View {
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        MyPageView(isSign: .constant(false), path: .constant(NavigationPath()))
+        .onAppear {
+            ViewTracker.shared.updateCurrentView(to: .mypage)
+        }
     }
 }

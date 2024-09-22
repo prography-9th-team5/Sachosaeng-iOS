@@ -13,29 +13,32 @@ enum TabItem {
 }
 
 struct TabView: View {
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
+    @ObservedObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabBarStore: TabBarStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @EnvironmentObject var tabBarStore: TabBarStore
     @State private var isPopup: Bool = false
-    @StateObject var categoryStore: CategoryStore
-    @StateObject var voteStore: VoteStore
-    @StateObject var bookmarkStore: BookmarkStore
-    @EnvironmentObject var tabbarStore: TabBarStore
+    
     var body: some View {
         VStack(spacing: 0) {
             switch tabBarStore.switchTab {
-                case .home:
-                    HomeView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
-                        .navigationBarBackButtonHidden()
-                        .onAppear {
-                            tabbarStore.switchTab = .home
+            case .home:
+                HomeView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isSign: $isSign, path: $path)
+                .navigationBarBackButtonHidden()
+                .onAppear {
+                    if tabBarStore.switchTab != .home {
+                        tabBarStore.switchTab = .home
+                    }
+                }
+            case .bookMark:
+                    BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, path: $path)
+                    .onAppear {
+                        if tabBarStore.switchTab != .bookMark {
+                            tabBarStore.switchTab = .bookMark
                         }
-                        
-                case .bookMark:
-                    BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
-                        .onAppear {
-                            tabbarStore.switchTab = .bookMark
-                        }
+                    }
             }
             
             ZStack {
@@ -67,7 +70,7 @@ struct TabView: View {
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .background(CustomColor.GrayScaleColor.gs2)
             .overlay {
-                if tabbarStore.isOpacity {
+                if tabBarStore.isOpacity {
                     ZStack {
                         Rectangle()
                             .fill(CustomColor.GrayScaleColor.black.opacity(0.7))
@@ -78,6 +81,8 @@ struct TabView: View {
         }
         .onAppear {
             Task {
+                UserService.shared.getUserInfo()
+                UserService.shared.getUserCategories()
                 voteStore.fetchHotVotes()
                 voteStore.fetchHotVotesInCategory()
                 categoryStore.fetchCategories()

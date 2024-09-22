@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+
 extension View {
     @available(iOS 14, *)
     func navigationBarTitleTextColor(_ color: Color, _ font: UIFont.FontWeight, size: CGFloat) -> some View {
@@ -17,9 +18,6 @@ extension View {
         return self
     }
     @available(iOS 14, *)
-//    func navigationBarTitleTextFont(_ font: Font) -> some View {
-//        
-//    }
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
@@ -66,12 +64,23 @@ struct RoundedCorner: Shape {
 
 extension UINavigationController: @retroactive UIBarPositioningDelegate {}
 extension UINavigationController: @retroactive UINavigationBarDelegate, @retroactive UIGestureRecognizerDelegate {
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         interactivePopGestureRecognizer?.delegate = self
     }
+    
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return viewControllers.count > 1
+        var isEnabled: Bool = false
+        switch ViewTracker.shared.currentView {
+            case .home, .sign, .bookmark, .success:
+                isEnabled = false
+            case .mypage, .vote, .category:
+                isEnabled = true
+        }
+        return viewControllers.count > 1 && isEnabled
+        
     }
 }
+
 

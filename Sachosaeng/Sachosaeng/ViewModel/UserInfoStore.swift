@@ -8,21 +8,33 @@
 import Foundation
 import KakaoSDKAuth
 
-final class UserStore: ObservableObject {
-    static let shared = UserStore()
+final class UserInfoStore: ObservableObject {
+    static let shared = UserInfoStore()
     
+    @Published var signType: SignType?
     @Published var oauthToken: OAuthToken?
     @Published var accessToken: String = ""
     @Published var refreshToken: String = ""
     @Published var userId: Int = 0
     @Published var currentUserEmail: String = ""
     @Published var currentUserCategories: [Category] = []
-    @Published var currentUserState = User(userId: 0, nickname: "temp", userType: "학생")
+    @Published var currentUserState = User(userId: 0, nickname: "랜덤이름", userType: "학생")
     @Published var selectedCategoriesInSignFlow: [Category] = []
    
     private init() {}
     
-    func convertToUserType(_ type: String) {
+    func resetUserInfo() {
+        oauthToken = nil
+        accessToken = ""
+        refreshToken = ""
+        userId = 0
+        currentUserEmail = ""
+        currentUserCategories = []
+        currentUserState = User(userId: 0, nickname: "temp", userType: "학생")
+        selectedCategoriesInSignFlow = []
+    }
+    
+    func convertToUserType(_ type: String, completion: @escaping () -> ()) {
         switch type {
         case "학생":
             currentUserState.userType = "STUDENT"

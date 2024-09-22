@@ -9,10 +9,18 @@ import SwiftUI
 import KakaoSDKAuth
 
 struct ContentView: View {
-    @ObservedObject var categoryStore = CategoryStore()
-    @ObservedObject var voteStore: VoteStore = VoteStore()
-    @ObservedObject var signStore: SignStore = SignStore()
-    @ObservedObject var bookmarkStore: BookmarkStore = BookmarkStore()
+    /*
+     EnvironmentObject
+     - .SignStore
+     - .UserService.shared
+     - .VersionService.shared
+     - .UserInfoStore.shared
+     - .TabBarStore
+     */
+    @StateObject var categoryStore = CategoryStore()
+    @StateObject var voteStore: VoteStore = VoteStore()
+    @StateObject var bookmarkStore: BookmarkStore = BookmarkStore()
+    @EnvironmentObject var signStore: SignStore
     @EnvironmentObject var userService: UserService
     @EnvironmentObject var versionService: VersionService
     @State var isSign: Bool = true
@@ -20,22 +28,22 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack(path: $path) {
-            SignView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, path: $path, isSign: $isSign)
+            SignView(categoryStore: categoryStore, voteStore: voteStore, path: $path, isSign: $isSign)
                 .navigationDestination(for: PathType.self) { name in
                     switch name {
                         case .occupation:
-                            UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                            UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, isSign: $isSign, path: $path)
                                 .navigationBarBackButtonHidden()
                         case .favorite:
-                            UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                            UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, isSign: $isSign, path: $path)
                                 .customBackbutton {
 //                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
                                 }
                         case .signSuccess:
-                            SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, signStore: signStore, isSign: $isSign, path: $path)
+                            SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, isSign: $isSign, path: $path)
                                 .navigationBarBackButtonHidden()
                         case .home:
-                            TabView(isSign: $isSign, path: $path, categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore)
+                            TabView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isSign: $isSign, path: $path)
                         case .myPage:
                             MyPageView(isSign: $isSign, path: $path)
                                 .customBackbutton {
@@ -52,11 +60,11 @@ struct ContentView: View {
 //                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
                                 }
                         case .sign:
-                            SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), signStore: SignStore(), path: $path, isSign: $isSign)
+                            SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), path: $path, isSign: $isSign)
                         case .daily:
-                            DailyVoteDetailView(voteId: voteStore.dailyVote.voteId, voteStore: voteStore, bookmarkStore: BookmarkStore(), path: $path)
+                            DailyVoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteStore.dailyVote.voteId, path: $path)
                         case .usersFavorite:
-                            FavoriteCategoryView(path: $path, categoryStore: categoryStore)
+                            FavoriteCategoryView(categoryStore: categoryStore, path: $path)
                         case .inquiry:
                             EmptyView()
                         case .openSource:
@@ -72,7 +80,7 @@ struct ContentView: View {
         }
         .onAppear {
             versionService.verifyVersion()
-            versionService.updateVersion()
+//            versionService.updateVersion()
             versionService.fetchAllVersion()
             categoryStore.fetchCategories()
         }

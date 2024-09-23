@@ -172,7 +172,6 @@ final class AuthService {
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    UserInfoStore.shared.resetUserInfo()
                     jhPrint("탈퇴 성공: \(response) UserStore.shared.accessToken: \(UserInfoStore.shared.accessToken)")
                 }
             case .failure(let error):

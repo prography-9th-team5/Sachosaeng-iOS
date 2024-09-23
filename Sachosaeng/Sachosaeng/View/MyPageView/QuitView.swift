@@ -17,6 +17,8 @@ enum QuitType: String, CaseIterable, Identifiable {
 
 struct QuitView: View {
     @EnvironmentObject var signStore: SignStore
+    @EnvironmentObject var tabBarStore: TabBarStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var toast: Toast? = nil
@@ -31,18 +33,17 @@ struct QuitView: View {
     var body: some View {
         VStack(spacing: 0) {
             CommonTitle(top: "랜덤이름님", topFont: .bold, middle: "떠난다니 아쉬워요...", middleFont: .bold, footer: "사초생 탈퇴 사유를 알려주세요.", footerFont: .medium, isSuccessView: false)
-                .padding(.bottom, 45.5)
             
             ScrollViewReader { reader in
                 ScrollView {
-                    Spacer()
+                    Spacer().frame(height: 20)
                     ForEach(quitTypeArray, id: \.self) { type in
                         Button {
                             isSelected = true
                             tappedQuitType = type
                         } label: {
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(tappedQuitType == type ? Color.black : Color.clear, lineWidth: 1)
+                                .stroke(tappedQuitType == type ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.5)
                                 .frame(maxWidth: .infinity, minHeight: 60)
                                 .foregroundStyle(CustomColor.GrayScaleColor.white)
                                 .overlay(alignment: .leading) {
@@ -103,6 +104,7 @@ struct QuitView: View {
                     }
                 }
                 .scrollIndicators(.hidden)
+                .padding(.top, 20)
             }
             Spacer()
             Button {
@@ -111,6 +113,8 @@ struct QuitView: View {
                 } else {
                     toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        tabBarStore.reset()
+                        userInfoStore.resetUserInfo()
                         isSign = true
                         switch tappedQuitType {
                             case .content, .service, .use:
@@ -119,7 +123,6 @@ struct QuitView: View {
                                 signStore.withdrawUserAccount(etcText)
                             case .none:
                                 toast = Toast(type: .quit, message: "탈퇴 실패 다시 시도해주세요.")
-
                         }
                         path = .init()
                     }
@@ -142,12 +145,5 @@ struct QuitView: View {
             hideKeyboard()
         }
         .showToastView(toast: $toast)
-    }
-}
-
-#Preview {
-    NavigationStack {
-        QuitView(isSign: .constant(false), path: .constant(NavigationPath()))
-            .customBackbutton()
     }
 }

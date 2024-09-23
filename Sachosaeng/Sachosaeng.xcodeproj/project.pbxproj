@@ -261,6 +261,7 @@
 				36F8D3E52C64ED1E006E4FA2 /* ConsentView.swift */,
 				366057A32BC41260004F8216 /* SignView */,
 				36696B652C2B7620006BFCC0 /* HomeView */,
+				360C2B252C372F1D0000C0F8 /* MyPageView */,
 				3671E4B72C6A091900B5FAE4 /* BookMarkView */,
 			);
 			path = View;
@@ -300,18 +301,17 @@
 				3622FA172C9C5763000FDE03 /* DailyVoteDetailView.swift */,
 				363EFB652C834353009A70DA /* InformationView.swift */,
 				3695C2C92C7B4FA70057007E /* HomeViewCell */,
-				36696B662C2B762F006BFCC0 /* Cell */,
-				360C2B252C372F1D0000C0F8 /* MyPageView */,
+				36696B662C2B762F006BFCC0 /* CategoryCell */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
 		};
-		36696B662C2B762F006BFCC0 /* Cell */ = {
+		36696B662C2B762F006BFCC0 /* CategoryCell */ = {
 			isa = PBXGroup;
 			children = (
 				36696B632C2B6900006BFCC0 /* CategoryModal.swift */,
 			);
-			path = Cell;
+			path = CategoryCell;
 			sourceTree = "<group>";
 		};
 		3671E4B72C6A091900B5FAE4 /* BookMarkView */ = {

@@ -7,13 +7,16 @@
 
 import Foundation
 
-class BookmarkStore: ObservableObject {
+final class BookmarkStore: ObservableObject {
     @Published var currentUserVotesBookmark: [Bookmark] = []
     @Published var currentUserInformationBookmark: [InformationInBookmark] = []
     @Published var currentUserCategoriesBookmark: [Category] = []
     @Published var currentUserInformationCategoriesBookmark: [Category] = []
     @Published var editBookmarkNumber: [Int] = []
     @Published var nextCursorForInformation: Int?
+    @Published var selectedButton: BookmarkType = .vote
+    @Published var isEditBookMark: Bool = false
+
     private let networkService = NetworkService.shared
     
     func fetchAllVotesBookmark() {

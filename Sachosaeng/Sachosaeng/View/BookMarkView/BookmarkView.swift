@@ -17,12 +17,12 @@ struct BookmarkView: View {
     @ObservedObject var voteStore: VoteStore
     @ObservedObject var bookmarkStore: BookmarkStore
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var tabBarStore: TabBarStore
     @Binding var path: NavigationPath
     @State private var toast: Toast? = nil
-    @State private var selectedButton: BookmarkType = .vote
+//    @State private var selectedButton: BookmarkType = .vote
     @State private var selectedCategoryId: Int?
-    @State var isEdit: Bool = false
-//    @State var categoryID =
+//    @State var isEdit: Bool = false
 
     @Namespace private var animationNamespace
     
@@ -54,15 +54,15 @@ struct BookmarkView: View {
                         Button(action: {
                             withAnimation {
                                 voteStore.categoryNameForBookmark = "ALL"
-                                selectedButton = .vote
-                                isEdit = false
+                                bookmarkStore.selectedButton = .vote
+                                bookmarkStore.isEditBookMark = false
                             }
                         }) {
                             VStack {
                                 Text("투표")
                                     .font(.createFont(weight: .bold, size: 18))
-                                    .foregroundColor(selectedButton == .vote ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
-                                if selectedButton == .vote {
+                                    .foregroundColor(bookmarkStore.selectedButton == .vote ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
+                                if bookmarkStore.selectedButton == .vote {
                                     RoundedRectangle(cornerRadius: 2)
                                         .fill(CustomColor.GrayScaleColor.black)
                                         .frame(height: 2)
@@ -81,16 +81,16 @@ struct BookmarkView: View {
                         Button(action: {
                             withAnimation {
                                 voteStore.categoryNameForBookmark = "ALL"
-                                selectedButton = .content
-                                isEdit = false
+                                bookmarkStore.selectedButton = .content
+                                bookmarkStore.isEditBookMark = false
                             }
                         }) {
                             VStack {
                                 Text("연관콘텐츠")
                                     .font(.createFont(weight: .bold, size: 18))
-                                    .foregroundColor(selectedButton == .content ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
+                                    .foregroundColor(bookmarkStore.selectedButton == .content ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
                                     .padding(.trailing, 20)
-                                if selectedButton == .content {
+                                if bookmarkStore.selectedButton == .content {
                                     RoundedRectangle(cornerRadius: 2)
                                         .fill(CustomColor.GrayScaleColor.black)
                                         .frame(height: 2)
@@ -113,12 +113,12 @@ struct BookmarkView: View {
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
-                                ForEach(selectedButton == .vote ? bookmarkStore.currentUserCategoriesBookmark : bookmarkStore.currentUserInformationCategoriesBookmark) { category in
+                                ForEach(bookmarkStore.selectedButton == .vote ? bookmarkStore.currentUserCategoriesBookmark : bookmarkStore.currentUserInformationCategoriesBookmark) { category in
                                     Button {
                                         withAnimation {
                                             voteStore.categoryNameForBookmark = category.name
                                             selectedCategoryId = category.id
-                                            switch selectedButton {
+                                            switch bookmarkStore.selectedButton {
                                             case .vote:
                                                 if category.id == 0 {
                                                     bookmarkStore.fetchAllVotesBookmark()
@@ -172,9 +172,10 @@ struct BookmarkView: View {
                         }
                     }
                     
-                    if isShowEdit(selectedButton: selectedButton) {
+                    if isShowEdit(selectedButton: bookmarkStore.selectedButton) {
                         Button {
-                            isEdit.toggle()
+                            bookmarkStore.isEditBookMark = true
+                            tabBarStore.switchTab = .edit
                         } label: {
                             Text("편집")
                                 .font(.createFont(weight: .medium, size: 14))
@@ -188,7 +189,7 @@ struct BookmarkView: View {
                 }
                 // 밑에 북마크된 셀들 나타나는곳
                 VStack(spacing: 0) {
-                    switch selectedButton {
+                    switch bookmarkStore.selectedButton {
                     case .vote:
                         ScrollView(showsIndicators: false) {
                             if bookmarkStore.currentUserVotesBookmark.isEmpty {
@@ -210,7 +211,7 @@ struct BookmarkView: View {
                                 .padding(.bottom, 311)
                             } else {
                                 ForEach(bookmarkStore.currentUserVotesBookmark) { bookmark in
-                                    VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, bookmark: bookmark)
+                                    VotesBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $bookmarkStore.isEditBookMark, bookmark: bookmark)
                                         .padding(.horizontal, 20)
                                 }
                                 .onAppear {
@@ -224,6 +225,7 @@ struct BookmarkView: View {
                                     }
                                 }
                             }
+                            Spacer()
                         }
                     case .content:
                         ScrollView(showsIndicators: false) {
@@ -246,7 +248,7 @@ struct BookmarkView: View {
                                 .padding(.bottom, 311)
                             } else {
                                 ForEach(bookmarkStore.currentUserInformationBookmark) { information in
-                                    InformationBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $isEdit, information: information)
+                                    InformationBookmarkCell(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isEdit: $bookmarkStore.isEditBookMark, information: information)
                                         .padding(.horizontal, 20)
                                 }
                                 .onAppear {
@@ -258,29 +260,10 @@ struct BookmarkView: View {
                                     }
                                 }
                             }
-                        }
-                    }
-                    
-                    // 투표 편집버튼을 눌렀을 때 나오는 버튼
-                    if isEdit {
-                        Button {
-                            if selectedButton == .vote {
-                                bookmarkStore.deleteAllVotesBookmark(bookmarkId: bookmarkStore.editBookmarkNumber) {
-                                    bookmarkStore.fetchCategoriesInbookmark()
-                                    toast = Toast(type: .success, message: "편집이 완료되었어요!")
-                                }
-                            } else {
-                                bookmarkStore.deleteAllInformationsInbookmark(informationId: bookmarkStore.editBookmarkNumber) {
-                                    bookmarkStore.fetchInformationCategoriesInbookmark()
-                                    toast = Toast(type: .success, message: "편집이 완료되었어요!")
-                                }
-                            }
-                        } label: {
-                            Text("버튼")
+                            Spacer()
                         }
                     }
                 }
-                Spacer()
             }
         }
         .showToastView(toast: $toast)
@@ -289,6 +272,7 @@ struct BookmarkView: View {
             ViewTracker.shared.currentTap = .bookmark
             
         }
+        
     }
 }
 
@@ -299,6 +283,42 @@ extension BookmarkView {
                 return !bookmarkStore.currentUserVotesBookmark.isEmpty
             case .content:
                 return !bookmarkStore.currentUserInformationBookmark.isEmpty
+        }
+    }
+}
+
+struct DeleteButtonView: View {
+    @ObservedObject var bookmarkStore: BookmarkStore
+    @EnvironmentObject var tabBarStore: TabBarStore
+    @Binding var selectedButton: BookmarkType
+    @Binding var isEdit: Bool
+    @Binding var toast: Toast?
+    
+    var body: some View {
+        Button {
+            withAnimation {
+                if selectedButton == .vote {
+                    bookmarkStore.deleteAllVotesBookmark(bookmarkId: bookmarkStore.editBookmarkNumber) {
+                        bookmarkStore.fetchCategoriesInbookmark()
+                        toast = Toast(type: .success, message: "편집이 완료되었어요!")
+                    }
+                } else {
+                    bookmarkStore.deleteAllInformationsInbookmark(informationId: bookmarkStore.editBookmarkNumber) {
+                        bookmarkStore.fetchInformationCategoriesInbookmark()
+                        toast = Toast(type: .success, message: "편집이 완료되었어요!")
+                    }
+                }
+            }
+            
+            isEdit = false
+            tabBarStore.switchTab = .bookMark
+        } label: {
+            Text("삭제")
+                .font(.createFont(weight: .medium, size: 16))
+                .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
+                .foregroundStyle(CustomColor.GrayScaleColor.white)
+                .background(CustomColor.GrayScaleColor.black)
+                .cornerRadius(4)
         }
     }
 }

@@ -45,7 +45,7 @@ struct VotesBookmarkCell: View {
                 HStack(spacing: 0) {
                     if isEdit {
                         Image("checkCircle_\(isTap)")
-                            .frame(width: 16, height: 16)
+                            .circleImage(frame: 16)
                             .padding(.leading, 16)
                     }
                     VStack(alignment: .leading, spacing: 0) {

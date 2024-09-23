@@ -46,8 +46,7 @@ struct TabView: View {
             ZStack {
                 if tabBarStore.switchTab == .edit {
                     CustomColor.GrayScaleColor.gs2
-                            // 투표 편집버튼을 눌렀을 때 나오는 버튼
-                    DeleteButtonView(bookmarkStore: bookmarkStore, selectedButton: $bookmarkStore.selectedButton, isEdit: $bookmarkStore.isEditBookMark, toast: $toast)
+                    BookmarkDeleteView(bookmarkStore: bookmarkStore, selectedButton: $bookmarkStore.selectedButton, isEdit: $bookmarkStore.isEditBookMark, toast: $toast)
                         .padding(.bottom, 20)
                 } else {
                     CustomColor.GrayScaleColor.gs4
@@ -88,7 +87,6 @@ struct TabView: View {
                 }
             }
         }
-        
         .onAppear {
             Task {
                 UserService.shared.getUserInfo()
@@ -106,4 +104,3 @@ struct TabView: View {
         .ignoresSafeArea(edges: .bottom)
     }
 }
-

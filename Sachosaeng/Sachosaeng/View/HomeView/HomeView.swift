@@ -16,9 +16,8 @@ struct HomeView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var isSheet: Bool = false
-    @State private var isCellAnimation: Bool = false
-    @State var isDaily: Bool = false
-
+    @State var isShowDaily: Bool = false
+    
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -73,6 +72,7 @@ struct HomeView: View {
                                 }
                                 .padding(.horizontal, 20)
                                 
+                                // 인기투표 3종이 나오는것
                                 VStack(spacing: 0) {
                                     ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
                                         HotVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote, index: index + 1)
@@ -216,7 +216,7 @@ struct HomeView: View {
             }
             
         }
-        .showPopupView(isPresented: $isDaily, message: .dailyVote, primaryAction: {
+        .showPopupView(isPresented: $isShowDaily, message: .dailyVote, primaryAction: {
             tabBarStore.isOpacity = true
         }, secondaryAction: {
             path.append(PathType.daily)
@@ -224,16 +224,17 @@ struct HomeView: View {
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .home)
             ViewTracker.shared.currentTap = .home
-
             Task {
                 voteStore.fetchDailyVote() { isVoted in
-                    isDaily = !isVoted
+                    isShowDaily = !isVoted
                 }
-                voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(voteStore.categoryName))
+                let categoryId = voteStore.categoryID(voteStore.categoryName)
+                if voteStore.categoryName != "전체" {
+                    voteStore.fetchHotVotesWithSelectedCategory(categoryId: categoryId)
+                }
+                voteStore.fetchLatestVotesInSelectedCategory(categoryId: categoryId)
             }
-            withAnimation {
-                isCellAnimation = true
-            }
+            
         }
     }
 }

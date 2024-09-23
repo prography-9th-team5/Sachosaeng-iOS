@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		360B0CC12CA1D08900524C98 /* BookmarkDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360B0CC02CA1D08900524C98 /* BookmarkDeleteView.swift */; };
+		360B0CC32CA1E2FC00524C98 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360B0CC22CA1E2FC00524C98 /* Image+.swift */; };
 		360C2B1C2C35890D0000C0F8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B1B2C35890D0000C0F8 /* Category.swift */; };
 		360C2B202C35893B0000C0F8 /* CategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */; };
 		360C2B222C37184E0000C0F8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B212C37184E0000C0F8 /* User.swift */; };
@@ -91,6 +93,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		360B0CC02CA1D08900524C98 /* BookmarkDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDeleteView.swift; sourceTree = "<group>"; };
+		360B0CC22CA1E2FC00524C98 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
 		360C2B1B2C35890D0000C0F8 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStore.swift; sourceTree = "<group>"; };
 		360C2B212C37184E0000C0F8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -337,6 +341,7 @@
 			children = (
 				36C12F902C914EFF00D91394 /* VotesBookmarkCell.swift */,
 				362659832C92C17400A833BE /* InformationBookmarkCell.swift */,
+				360B0CC02CA1D08900524C98 /* BookmarkDeleteView.swift */,
 			);
 			path = BookmarkViewCell;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 				36562FB42C210BA6004D1836 /* FontExtension.swift */,
 				36696B692C2B8241006BFCC0 /* ViewExtension.swift */,
 				365A12052C388EC500C18796 /* ViewModifier.swift */,
+				360B0CC22CA1E2FC00524C98 /* Image+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -555,6 +561,8 @@
 				36949FAA2C515DE2009E099E /* ToastView.swift in Sources */,
 				36E72F762C78D0A200D1785F /* HotVoteCell.swift in Sources */,
 				360C2B222C37184E0000C0F8 /* User.swift in Sources */,
+				360B0CC12CA1D08900524C98 /* BookmarkDeleteView.swift in Sources */,
+				360B0CC32CA1E2FC00524C98 /* Image+.swift in Sources */,
 				3695C2CB2C7B4FB80057007E /* VoteDescriptionView.swift in Sources */,
 				36842BFB2C22C9FF0023473D /* UserFavoriteCategoryView.swift in Sources */,
 				369595F32C50425B0098920D /* EditMyInfoView.swift in Sources */,

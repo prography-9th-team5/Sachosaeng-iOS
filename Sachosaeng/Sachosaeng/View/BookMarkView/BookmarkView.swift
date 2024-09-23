@@ -22,6 +22,8 @@ struct BookmarkView: View {
     @State private var selectedButton: BookmarkType = .vote
     @State private var selectedCategoryId: Int?
     @State var isEdit: Bool = false
+//    @State var categoryID =
+
     @Namespace private var animationNamespace
     
     var body: some View {
@@ -160,7 +162,7 @@ struct BookmarkView: View {
                                                 .fill(Color(hex: category.backgroundColor))
                                                 .overlay(
                                                     RoundedRectangle(cornerRadius: 4)
-                                                        .stroke(selectedCategoryId == category.id ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
+                                                        .stroke(voteStore.categoryNameForBookmark == category.name ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1.4)
                                                 )
                                         )
                                     }

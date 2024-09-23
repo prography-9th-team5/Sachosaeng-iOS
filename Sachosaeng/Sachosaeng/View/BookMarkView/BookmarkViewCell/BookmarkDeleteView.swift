@@ -29,7 +29,6 @@ struct BookmarkDeleteView: View {
                     }
                 }
             }
-            
             isEdit = false
             tabBarStore.switchTab = .bookMark
         } label: {

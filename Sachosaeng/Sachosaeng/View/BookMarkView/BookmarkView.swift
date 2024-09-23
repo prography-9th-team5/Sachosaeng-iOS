@@ -56,6 +56,7 @@ struct BookmarkView: View {
                                 voteStore.categoryNameForBookmark = "ALL"
                                 bookmarkStore.selectedButton = .vote
                                 bookmarkStore.isEditBookMark = false
+                                tabBarStore.switchTab = .bookMark
                             }
                         }) {
                             VStack {
@@ -83,6 +84,7 @@ struct BookmarkView: View {
                                 voteStore.categoryNameForBookmark = "ALL"
                                 bookmarkStore.selectedButton = .content
                                 bookmarkStore.isEditBookMark = false
+                                tabBarStore.switchTab = .bookMark
                             }
                         }) {
                             VStack {
@@ -270,9 +272,7 @@ struct BookmarkView: View {
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .bookmark)
             ViewTracker.shared.currentTap = .bookmark
-            
         }
-        
     }
 }
 

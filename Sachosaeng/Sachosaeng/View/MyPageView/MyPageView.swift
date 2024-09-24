@@ -23,6 +23,7 @@ enum settingOption: String, CaseIterable {
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserInfoStore
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var signStore: SignStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     var body: some View {
@@ -150,7 +151,7 @@ struct MyPageView: View {
                 }
                 
                 Button {
-                    userInfoStore.resetUserInfo()
+                    signStore.logOut()
                     path = .init()
                 } label: {
                     HStack {

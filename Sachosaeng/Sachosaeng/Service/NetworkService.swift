@@ -53,6 +53,7 @@ final class NetworkService {
             }
             
             guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 || httpResponse.statusCode == 409 || httpResponse.statusCode == 400 else {
+                
                 completion(.failure(.invalidResponse))
                 return
             }
@@ -66,7 +67,6 @@ final class NetworkService {
                 completion(.failure(.userExists))
                 return
             }
-            
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedData))

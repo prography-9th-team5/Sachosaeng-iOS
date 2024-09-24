@@ -97,8 +97,18 @@ final class AuthService {
             }
         }
     }
-    
-    // 카카오톡 회원 탈퇴
+    // 카카오톡 로그아웃
+    func logOutKakaoTalk() {
+        UserApi.shared.logout {(error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("logout() success.")
+            }
+        }
+    }
+    // 카카오톡 회원탈퇴
     func withdrawOfKakaoTalk() {
         UserApi.shared.unlink { error in
             if let error = error {
@@ -130,6 +140,10 @@ final class AuthService {
             }
         }
     }
+    // 구글 회원탈퇴
+    func withOutGoogle() {
+        GIDSignIn.sharedInstance.disconnect()
+    }
     
     // 사용자 로그인
     func loginUser(isApple: Bool = false, completion: @escaping (Bool) -> Void) {
@@ -152,7 +166,7 @@ final class AuthService {
         }
     }
     
-    // 사용자 계정 탈퇴
+    // 사용자 회원탈퇴
     func withdrawUserAccount(_ reason: String) {
         switch UserInfoStore.shared.signType {
         case .apple:
@@ -160,7 +174,7 @@ final class AuthService {
         case .kakao:
             withdrawOfKakaoTalk()
         case .google:
-            break
+            withOutGoogle()
         case .none:
             break
         }
@@ -172,10 +186,12 @@ final class AuthService {
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
+                    UserInfoStore.shared.resetUserInfo()
                     jhPrint("탈퇴 성공: \(response) UserStore.shared.accessToken: \(UserInfoStore.shared.accessToken)")
+
                 }
             case .failure(let error):
-                jhPrint("탈퇴 실패: \(error)")
+                jhPrint("탈퇴 실패: \(error) UserStore.shared.accessToken: \(UserInfoStore.shared.accessToken)")
             }
         }
     }
@@ -200,5 +216,27 @@ final class AuthService {
                 }
             }
         }
+    }
+    
+    /// 사초생 로그아웃
+    func logOut() {
+        switch UserInfoStore.shared.signType {
+        case .apple:
+            break
+        case .kakao:
+            logOutKakaoTalk()
+        case .google:
+            GIDSignIn.sharedInstance.signOut()
+            GIDSignIn.sharedInstance.restorePreviousSignIn { user, err in
+                if err != nil || user == nil {
+                    jhPrint("로그아웃 상태입니다.")
+                } else {
+                    jhPrint("로그인 상태입니다.: \(user?.profile?.email as Any)")
+                }
+            }
+        case .none:
+            break
+        }
+        UserInfoStore.shared.resetUserInfo()
     }
 }

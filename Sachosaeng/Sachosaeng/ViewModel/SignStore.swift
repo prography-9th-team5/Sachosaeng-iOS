@@ -84,8 +84,7 @@ final class SignStore: ObservableObject {
         authService.withdrawUserAccount(reason)
     }
     
-    func withdrawOfKakaoTalk() {
-        authService.withdrawOfKakaoTalk()
+    func logOut() {
+        authService.logOut()
     }
 }
-

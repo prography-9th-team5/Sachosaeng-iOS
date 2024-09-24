@@ -127,7 +127,6 @@ struct SignView: View {
                 .padding(.bottom, 8)
             } //: Vstack
             .padding(.horizontal, 20)
-            
         }
         .onAppear {
             Task {

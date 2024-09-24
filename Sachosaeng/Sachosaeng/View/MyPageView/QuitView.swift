@@ -114,7 +114,6 @@ struct QuitView: View {
                     toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         tabBarStore.reset()
-                        userInfoStore.resetUserInfo()
                         isSign = true
                         switch tappedQuitType {
                             case .content, .service, .use:

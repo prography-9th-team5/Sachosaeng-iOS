@@ -7,11 +7,12 @@
 
 import Foundation
 import KakaoSDKAuth
+import UIKit
 
 final class UserInfoStore: ObservableObject {
     static let shared = UserInfoStore()
     
-    @Published var signType: SignType?
+    @Published var signType: SignType = .noSign
     @Published var oauthToken: OAuthToken?
     @Published var accessToken: String = ""
     @Published var refreshToken: String = ""
@@ -20,7 +21,7 @@ final class UserInfoStore: ObservableObject {
     @Published var currentUserCategories: [Category] = []
     @Published var currentUserState = User(userId: 0, nickname: "랜덤이름", userType: "학생")
     @Published var selectedCategoriesInSignFlow: [Category] = []
-   
+    let deviceInfo = UIDevice.current.identifierForVendor?.uuidString ?? ""
     private init() {}
     
     func resetUserInfo() {

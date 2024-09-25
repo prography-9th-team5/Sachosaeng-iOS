@@ -18,3 +18,8 @@ struct AuthData: Codable {
     let refreshToken: String
     let userId: Int
 }
+
+struct RefreshData: Codable {
+    let accessToken: String
+    let refreshToken: String
+}

@@ -21,8 +21,8 @@ final class NetworkService {
     
     private init() {}
     
-    func performRequest<T: Decodable>(method: String, path: String, body: [String: Any]?, token: String?, completion: @escaping (Result<T, NetworkError>) -> Void) {
-        
+    func performRequest<T: Decodable>(method: String, path: String, body: [String: Any]?, token: String?, headers: [String: String]? = nil,  completion: @escaping (Result<T, NetworkError>) -> Void) {
+//        jhPrint(path)
         guard let url = URL(string: "https://sachosaeng.store" + path) else {
             completion(.failure(.badURL))
             return
@@ -34,6 +34,12 @@ final class NetworkService {
         if let token = token {
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             
+        }
+        
+        if let headers = headers {
+            for (key , value) in headers {
+                request.addValue(value, forHTTPHeaderField: key)
+            }
         }
         
         if let body = body {
@@ -48,25 +54,28 @@ final class NetworkService {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
+                jhPrint(path, isWarning: true)
                 completion(.failure(.requestFailed(error)))
                 return
             }
             
-            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 || httpResponse.statusCode == 409 || httpResponse.statusCode == 400 else {
-                
+            guard let data = data, let httpResponse = response as? HTTPURLResponse else {
+                jhPrint(path, isWarning: true)
                 completion(.failure(.invalidResponse))
                 return
             }
-            
-            guard httpResponse.statusCode != 400 else {
+//            jhPrint("httpResponse.statusCode: \(httpResponse.statusCode)")
+            if httpResponse.statusCode == 400 {
                 completion(.failure(.valueAlreadyExists("code: 400입니다. 무언가 있기에 뜨는 코드라고 합니다요")))
+                return
+            } else if httpResponse.statusCode == 409 {
+                completion(.failure(.userExists))
+                return
+            } else if httpResponse.statusCode != 200 {
+                completion(.failure(.invalidResponse))
                 return
             }
 
-            guard httpResponse.statusCode != 409 else {
-                completion(.failure(.userExists))
-                return
-            }
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedData))
@@ -79,6 +88,7 @@ final class NetworkService {
                             Decoding message: \(jsonString)
                             """ , isWarning: true)
                 }
+                jhPrint("httpResponse.statusCode : \(httpResponse.statusCode)", isWarning: true)
                 completion(.failure(.decodingFailed(decodingError)))
             }
         }

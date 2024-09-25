@@ -23,7 +23,23 @@ final class UserInfoStore: ObservableObject {
     @Published var selectedCategoriesInSignFlow: [Category] = []
     let deviceInfo = UIDevice.current.identifierForVendor?.uuidString ?? ""
     private init() {}
-    
+    func performSetSignType() {
+        guard let UserdefaultsSignType = UserDefaults.standard.string(forKey: "SignType") else { return }
+        switch UserdefaultsSignType {
+            case "애플":
+                UserInfoStore.shared.signType = .apple
+            case "구글":
+                UserInfoStore.shared.signType = .google
+            case "카카오":
+                UserInfoStore.shared.signType = .kakao
+            case "":
+                UserInfoStore.shared.signType = .noSign
+            default:
+                UserInfoStore.shared.signType = .noSign
+        }
+        jhPrint(UserDefaults.standard.string(forKey: "SignType") as Any)
+        jhPrint(UserInfoStore.shared.signType)
+    }
     func resetUserInfo() {
         oauthToken = nil
         accessToken = ""

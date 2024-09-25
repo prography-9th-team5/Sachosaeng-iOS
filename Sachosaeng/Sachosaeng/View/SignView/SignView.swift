@@ -130,7 +130,7 @@ struct SignView: View {
         }
         .onAppear {
             Task {
-                signStore.loginByTokenWithKakao()
+                
             }
         }
     }

@@ -44,7 +44,7 @@ final class AuthService {
             }
         }
     }
-    /// 카카오 자동로그인
+    /// 카카오 토큰체크
     func loginByTokenWithKakao(completion: @escaping (Bool) -> Void) {
         if (AuthApi.hasToken()) {
             UserApi.shared.accessTokenInfo { (_, error) in
@@ -56,13 +56,11 @@ final class AuthService {
                     }
                     else {
                         completion(false)
-                        jhPrint(error.localizedDescription)
                     }
                 }
                 else {
                     //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
                     completion(true)
-//                    jhPrint("토큰 있따")
                 }
             }
         }
@@ -136,7 +134,6 @@ final class AuthService {
             } else if let signInResult = signInResult {
                 UserInfoStore.shared.signType = .google
                 UserInfoStore.shared.currentUserEmail = signInResult.user.profile?.email ?? ""
-//                UserDefaults.standard.set(UserInfoStore.shared.signType, forKey: "SignType")
                 completion(true)
             } else {
                 completion(false)
@@ -151,8 +148,9 @@ final class AuthService {
                 case let appleIDCredential as ASAuthorizationAppleIDCredential:
                     UserInfoStore.shared.signType = .apple
 //                    UserDefaults.standard.set(UserInfoStore.shared.signType, forKey: "SignType")
-                    jhPrint(appleIDCredential.authorizationCode)
+                    jhPrint(appleIDCredential.authorizationCode as Any)
                     UserInfoStore.shared.currentUserEmail = appleIDCredential.user
+                    UserDefaults.standard.set(appleIDCredential.authorizationCode, forKey: "appleToken")
                     completion(true)
                 default:
                     jhPrint("안됩니다.", isWarning: true)

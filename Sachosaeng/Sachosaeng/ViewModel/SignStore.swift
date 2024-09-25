@@ -26,6 +26,7 @@ final class SignStore: ObservableObject {
 
     func loginKakao(completion: @escaping (Bool) -> Void) {
         authService.loginKakao { success in
+            UserDefaults.standard.set(UserInfoStore.shared.signType.rawValue, forKey: "SignType")
             completion(success)
         }
     }
@@ -40,10 +41,16 @@ final class SignStore: ObservableObject {
     }
     func loginGoogle(completion: @escaping (Bool) -> Void) {
         authService.loginGoogle { success in
+            UserDefaults.standard.set(UserInfoStore.shared.signType.rawValue, forKey: "SignType")
             completion(success)
         }
     }
-    
+    func loginApple(result: Result<ASAuthorization, Error>, completion: @escaping (Bool) -> Void) {
+        authService.loginApple(result: result) { success in
+            UserDefaults.standard.set(UserInfoStore.shared.signType.rawValue, forKey: "SignType")
+            completion(success)
+        }
+    }
 //    func loginByToken() {
 //        authService.loginByToken()
 //    }
@@ -59,15 +66,7 @@ final class SignStore: ObservableObject {
     }
     
     
-    func loginApple(result: Result<ASAuthorization, Error>, completion: @escaping (Bool) -> Void) {
-        authService.loginApple(result: result) { isSign in
-            if isSign {
-                completion(true)
-            } else {
-                completion(false)
-            }
-        }
-    }
+    
     
     func loginUser(isApple: Bool = false, completion: @escaping (Bool) -> Void) {
         authService.loginUser(isApple: isApple) { success in

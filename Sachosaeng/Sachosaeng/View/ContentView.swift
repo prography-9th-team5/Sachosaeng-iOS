@@ -74,7 +74,21 @@ struct ContentView: View {
             signStore.refreshToken { isSuccess in
                 if isSuccess {
                     userService.getUserInfo()
-                    jhPrint(UserInfoStore.shared.signType ?? "s")
+                    guard let UserdefaultsSignType = UserDefaults.standard.string(forKey: "SignType") else { return }
+                    switch UserdefaultsSignType {
+                        case "애플":
+                            UserInfoStore.shared.signType = .apple
+                        case "구글":
+                            UserInfoStore.shared.signType = .google
+                        case "카카오":
+                            UserInfoStore.shared.signType = .kakao
+                        case "":
+                            UserInfoStore.shared.signType = .noSign
+                        default:
+                            UserInfoStore.shared.signType = .noSign
+                    }
+                    jhPrint(UserDefaults.standard.string(forKey: "SignType") as Any)
+                    jhPrint(UserInfoStore.shared.signType)
                     path.append(PathType.home)
                 }
             }

@@ -1,0 +1,3 @@
+add-version-numbers: true
+
+LicensePlist Version: 3.25.1

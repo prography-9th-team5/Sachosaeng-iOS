@@ -100,7 +100,9 @@ struct MyPageView: View {
                     Button {
                         switch settingOptionPath {
                         case .openSource:
-                            path.append(PathType.openSource)
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(url)
+                            }
                         case .userData:
                             path.append(PathType.userData)
                         case .service:

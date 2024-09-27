@@ -10,12 +10,11 @@ import Foundation
 final class UserService: ObservableObject {
     static let shared = UserService()
     private init() {}
-    
+    private let token = KeychainService.shared.getSachoSaengAccessToken()
     func updateUserType(_ userType: String) {
-        let token = UserInfoStore.shared.accessToken
         let body = ["userType": userType]
         
-        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/user-type", body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/user-type", body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
@@ -26,10 +25,9 @@ final class UserService: ObservableObject {
     }
     /// 사초생 API 메서드: 닉네임 갱신
     func updateUserNickname(_ userName: String) {
-        let token = UserInfoStore.shared.accessToken
         let body = ["nickname": userName]
         
-        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/nickname", body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/users/nickname", body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
@@ -41,9 +39,7 @@ final class UserService: ObservableObject {
     
     /// 유저 정보 가져오는건데요 ?
     func getUserInfo() {
-        let token = UserInfoStore.shared.accessToken
-        
-        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/users", body: nil, token: token) {(result: Result<Response<User>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/users", body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) {(result: Result<Response<User>, NetworkError>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let user):
@@ -63,11 +59,10 @@ final class UserService: ObservableObject {
     
     /// 유저가 고른 카테고리를 갱신하는 메서드
     func updateUserCategory(_ categories: [Category]) {
-        let token = UserInfoStore.shared.accessToken
         let categoryIds = categories.map { $0.id }
         let body = ["categoryIds": categoryIds]
 
-        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/my-categories", body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "PUT", path: "/api/v1/my-categories", body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let success):
                 jhPrint(success)
@@ -79,8 +74,7 @@ final class UserService: ObservableObject {
     
     /// 유저가 고른 카테고리들을 가져오는 메서드
     func getUserCategories() {
-        let token = UserInfoStore.shared.accessToken
-        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/my-categories", body: nil, token: token) {(result: Result<Response<ResponseCategoriesData>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "GET", path: "/api/v1/my-categories", body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) {(result: Result<Response<ResponseCategoriesData>, NetworkError>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let success):

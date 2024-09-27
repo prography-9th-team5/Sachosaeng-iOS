@@ -20,15 +20,25 @@ final class VoteStore: ObservableObject {
     @Published var nextCursorForVote: Int?
     @Published var categoryName: String = "전체"
     @Published var categoryNameForBookmark: String = "ALL"
-    
+    private var token = KeychainService.shared.getSachoSaengAccessToken()
+    func reset() {
+        hotVotes = dummyHotVote
+        dailyVote = dummyDailyVote
+        currentVoteDetail = dummyVoteDetail
+        currentVoteInformation = []
+        currentVoteInformationDetail = dummyInformationDetail
+        hotVotesWithSelectedCategory = dummyHotVoteWithCategory
+        hotVotesInCategory = [dummyCategorizedVotes]
+        latestVotes = dummyLatestVote
+        categoryName = "전체"
+        categoryNameForBookmark = "ALL"
+    }
     func isDailyVote() -> Bool {
         return !dailyVote.isVoted
     }
     /// 인기투표 3개를 가져오는 메서드
     func fetchHotVotes() {
-        let token = UserInfoStore.shared.accessToken
-
-        networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: token) { (result: Result<Response<HotVote>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<HotVote>, NetworkError>) in
             switch result {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
@@ -44,9 +54,8 @@ final class VoteStore: ObservableObject {
     /// 전체 카테고리 투표를 3개씩 조회 (지금은 최신순 3개로 조회시킨다고함)
     func fetchHotVotesInCategory() {
         let path = "/api/v1/votes/suggestions/all"
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseHotvoteWithCategory>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<ResponseHotvoteWithCategory>, NetworkError>) in
             switch result {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
@@ -74,9 +83,8 @@ final class VoteStore: ObservableObject {
     /// 사용자가 특정 카테고리를 눌렀을 경우 그에 맞는 인기 투표 3개를 나타내는 메서드
     func fetchHotVotesWithSelectedCategory(categoryId: Int) {
         let path = "/api/v1/votes/hot/categories/\(categoryId)"
-        let token = UserInfoStore.shared.accessToken
 
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<HotVoteWithCategory>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<HotVoteWithCategory>, NetworkError>) in
             switch result {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
@@ -96,9 +104,7 @@ final class VoteStore: ObservableObject {
             path += "&cursor=\(cursor)"
         }
         
-        let token = UserInfoStore.shared.accessToken
-        
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<LatestVote>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<LatestVote>, NetworkError>) in
             switch result {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
@@ -121,9 +127,8 @@ final class VoteStore: ObservableObject {
         guard let nextCursor = latestVotes.nextCursor else { return }
         
         let path = "/api/v1/votes/categories/\(categoryId)?size=\(10)&cursor=\(nextCursor)"
-        let token = UserInfoStore.shared.accessToken
         jhPrint("카테고리 \(categoryId)")
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<LatestVote>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<LatestVote>, NetworkError>) in
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 switch result {
@@ -140,8 +145,7 @@ final class VoteStore: ObservableObject {
     
     /// 오늘의 투표를 가져오는 메서드
     func fetchDailyVote(completion: @escaping (Bool) -> ()) {
-        let token = UserInfoStore.shared.accessToken
-        networkService.performRequest(method: "GET", path: "/api/v1/votes/daily", body: nil, token: token) {
+        networkService.performRequest(method: "GET", path: "/api/v1/votes/daily", body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) {
             (result: Result<Response<Vote>, NetworkError>) in
             switch result {
             case .success(let vote):
@@ -161,11 +165,10 @@ final class VoteStore: ObservableObject {
     /// 투표의 선택지를 가져오는 메서드
     func fetchVoteDetail(voteId: Int, categoryId: Int? = nil, completion: @escaping (Bool) -> Void) {
         var path = "/api/v1/votes/\(voteId)"
-        let token = UserInfoStore.shared.accessToken
         if let categoryId = categoryId {
             path += "?category-id=\(categoryId)"
         }
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<VoteDetail>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<VoteDetail>, NetworkError>) in
             switch result {
             case .success(let voteDetail):
                 DispatchQueue.main.async { [weak self] in
@@ -185,9 +188,8 @@ final class VoteStore: ObservableObject {
     func updateUserVoteChoices(voteId: Int, chosenVoteOptionIds: [Int], completion: @escaping (Bool) -> Void) {
         let path = "/api/v1/votes/\(voteId)/choices"
         let body = ["chosenVoteOptionIds": chosenVoteOptionIds]
-        let token = UserInfoStore.shared.accessToken
         jhPrint(body)
-        networkService.performRequest(method: "PUT", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        networkService.performRequest(method: "PUT", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 completion(true)
@@ -200,9 +202,8 @@ final class VoteStore: ObservableObject {
     
     func searchInformation(categoryId: Int, voteId: Int, completion: @escaping (Bool) -> Void) {
         let path = "/api/v1/similar-information?category-id=\(categoryId)&vote-id=\(voteId)"
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) {(result: Result<Response<ResponseinformationData>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) {(result: Result<Response<ResponseinformationData>, NetworkError>) in
             switch result {
             case .success(let information):
                 DispatchQueue.main.async { [weak self] in
@@ -219,9 +220,8 @@ final class VoteStore: ObservableObject {
     
     func fetchInformation(informationId: Int) {
         let path = "/api/v1/information/\(informationId)"
-        let token = UserInfoStore.shared.accessToken
 
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<InformationDetail>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<InformationDetail>, NetworkError>) in
             switch result {
             case .success(let informationDetail):
                 DispatchQueue.main.async { [weak self] in

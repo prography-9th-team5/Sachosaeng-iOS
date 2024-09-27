@@ -21,15 +21,14 @@ enum SignType: String {
 
 final class SignStore: ObservableObject {
     private let authService = AuthService()
-    let bundle = Bundle.main.bundleIdentifier!
-    let appleTeamID = Bundle.main.object(forInfoDictionaryKey: "Apple_Team_Id") as? String
-
+    
     func loginKakao(completion: @escaping (Bool) -> Void) {
         authService.loginKakao { success in
-            UserDefaults.standard.set(UserInfoStore.shared.signType.rawValue, forKey: "SignType")
+            UserDefaults.standard.setValue(UserInfoStore.shared.signType.rawValue, forKey: .signType)
             completion(success)
         }
     }
+    
     func loginByTokenWithKakao() {
         authService.loginByTokenWithKakao { isSuccess in
             if isSuccess {
@@ -51,9 +50,6 @@ final class SignStore: ObservableObject {
             completion(success)
         }
     }
-//    func loginByToken() {
-//        authService.loginByToken()
-//    }
     
     func refreshToken(completion: @escaping (Bool) -> Void) {
         authService.refreshAccessToken() { isSuccess in
@@ -64,9 +60,6 @@ final class SignStore: ObservableObject {
             }
         }
     }
-    
-    
-    
     
     func loginUser(isApple: Bool = false, completion: @escaping (Bool) -> Void) {
         authService.loginUser(isApple: isApple) { success in

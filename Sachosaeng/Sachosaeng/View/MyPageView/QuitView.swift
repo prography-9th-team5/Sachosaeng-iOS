@@ -28,7 +28,6 @@ struct QuitView: View {
     @State private var etcText: String = ""
     @FocusState private var keyboardVisible: Bool
     private let quitTypeArray: [QuitType] = QuitType.allCases
-
     
     var body: some View {
         VStack(spacing: 0) {

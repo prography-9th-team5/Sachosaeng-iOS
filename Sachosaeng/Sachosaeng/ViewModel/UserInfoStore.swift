@@ -13,16 +13,13 @@ final class UserInfoStore: ObservableObject {
     static let shared = UserInfoStore()
     
     @Published var signType: SignType = .noSign
-    @Published var oauthToken: OAuthToken?
-    @Published var accessToken: String = ""
-    @Published var refreshToken: String = ""
     @Published var userId: Int = 0
-    @Published var currentUserEmail: String = ""
     @Published var currentUserCategories: [Category] = []
     @Published var currentUserState = User(userId: 0, nickname: "랜덤이름", userType: "학생")
     @Published var selectedCategoriesInSignFlow: [Category] = []
     let deviceInfo = UIDevice.current.identifierForVendor?.uuidString ?? ""
     private init() {}
+    
     func performSetSignType() {
         guard let UserdefaultsSignType = UserDefaults.standard.string(forKey: "SignType") else { return }
         switch UserdefaultsSignType {
@@ -37,15 +34,9 @@ final class UserInfoStore: ObservableObject {
             default:
                 UserInfoStore.shared.signType = .noSign
         }
-        jhPrint(UserDefaults.standard.string(forKey: "SignType") as Any)
-        jhPrint(UserInfoStore.shared.signType)
     }
-    func resetUserInfo() {
-        oauthToken = nil
-        accessToken = ""
-        refreshToken = ""
+    func resetUserInfoStore() {
         userId = 0
-        currentUserEmail = ""
         currentUserCategories = []
         currentUserState = User(userId: 0, nickname: "temp", userType: "학생")
         selectedCategoriesInSignFlow = []

@@ -11,9 +11,10 @@ enum KeychainServiceKey: String {
     case sachosaengAccessToken = "SachoSaengAccessToken"
     case sachosaengRefreshToken = "SachoSaengRefreshToken"
     case appleUserID = "appleUserID"
-    case appleToken = "appleToken"
+    case appleAccessToken = "appleToken"
     case oauthToken = "oauthToken"
     case userEmail = "userEmail"
+    case appleJWT = "appleJWT"
 }
 
 class KeychainService {
@@ -101,11 +102,20 @@ class KeychainService {
         }
         return token
     }
+    
+    func getAppleJWT() -> String? {
+        guard let data = KeychainService.shared.load(key: .appleJWT),
+          let token = String(data: data, encoding: .utf8) else {
+            jhPrint("appleJWT이 없습니다.", isWarning: true)
+            return nil
+        }
+        return token
+    }
     func deleteAll() {
         let allKeys: [KeychainServiceKey] = [
             .sachosaengAccessToken,
             .sachosaengRefreshToken,
-            .appleToken,
+            .appleAccessToken,
             .oauthToken,
             .appleUserID,
             .userEmail

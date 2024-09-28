@@ -73,6 +73,8 @@
 		36980CE72CA68113002C4AB3 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36980CE62CA68113002C4AB3 /* KeychainService.swift */; };
 		36980CEC2CA6B574002C4AB3 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 36980CEB2CA6B574002C4AB3 /* SkeletonView */; };
 		36980CEE2CA6B6BD002C4AB3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 36980CED2CA6B6BD002C4AB3 /* Settings.bundle */; };
+		36980CF02CA786CC002C4AB3 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36980CEF2CA786CC002C4AB3 /* MailView.swift */; };
+		36980CF22CA78F93002C4AB3 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36980CF12CA78F93002C4AB3 /* SafariView.swift */; };
 		36A61B632C95713E008C6663 /* VersionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A61B622C95713E008C6663 /* VersionService.swift */; };
 		36A727F62C6C00E500942672 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A727F52C6C00E500942672 /* NetworkService.swift */; };
 		36A81FDC2C2C8AC6006A9305 /* DailyVoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDB2C2C8AC6006A9305 /* DailyVoteCell.swift */; };
@@ -160,6 +162,8 @@
 		36980CE42CA65C13002C4AB3 /* AppleToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleToken.swift; sourceTree = "<group>"; };
 		36980CE62CA68113002C4AB3 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		36980CED2CA6B6BD002C4AB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		36980CEF2CA786CC002C4AB3 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
+		36980CF12CA78F93002C4AB3 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		36A61B622C95713E008C6663 /* VersionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionService.swift; sourceTree = "<group>"; };
 		36A727F52C6C00E500942672 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		36A81FDB2C2C8AC6006A9305 /* DailyVoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVoteCell.swift; sourceTree = "<group>"; };
@@ -262,6 +266,8 @@
 				366053A62C533E03000A1D8D /* CustomTextField.swift */,
 				366053A82C538210000A1D8D /* CustomTextEditor.swift */,
 				36E3E6C12C9F064D002A4872 /* ViewTracker.swift */,
+				36980CEF2CA786CC002C4AB3 /* MailView.swift */,
+				36980CF12CA78F93002C4AB3 /* SafariView.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -587,6 +593,7 @@
 				369595EF2C4FFAEB0098920D /* VoteStore.swift in Sources */,
 				36EB01672BC400E400050CC7 /* ContentView.swift in Sources */,
 				366053A72C533E03000A1D8D /* CustomTextField.swift in Sources */,
+				36980CF22CA78F93002C4AB3 /* SafariView.swift in Sources */,
 				365A12062C388EC500C18796 /* ViewModifier.swift in Sources */,
 				36696B6A2C2B8241006BFCC0 /* ViewExtension.swift in Sources */,
 				36E72F782C78D87500D1785F /* HotVote.swift in Sources */,
@@ -635,6 +642,7 @@
 				3695C2CF2C7B65500057007E /* VoteCellWithOutIndex.swift in Sources */,
 				36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */,
 				36980CE72CA68113002C4AB3 /* KeychainService.swift in Sources */,
+				36980CF02CA786CC002C4AB3 /* MailView.swift in Sources */,
 				366DFE752C2B4B86009CD87E /* Vote.swift in Sources */,
 				362E14AC2C7AEB4700C053AB /* VoteCell.swift in Sources */,
 				3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */,

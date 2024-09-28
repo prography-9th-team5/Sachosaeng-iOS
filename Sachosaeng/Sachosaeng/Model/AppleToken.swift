@@ -6,7 +6,8 @@
 //
 
 import Foundation
-struct AppleTokenResponse: Codable {
+
+struct AppleJWT: Codable {
     var access_token: String?
     var token_type: String?
     var expires_in: Int?
@@ -17,4 +18,3 @@ struct AppleTokenResponse: Codable {
         case refresh_token = "refresh_token"
     }
 }
-

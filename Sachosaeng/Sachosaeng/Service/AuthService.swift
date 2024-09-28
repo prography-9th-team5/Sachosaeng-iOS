@@ -22,7 +22,6 @@ enum AuthTypeKeys {
 final class AuthService {
     private let bundle = Bundle.main.bundleIdentifier!
     private let appleTeamID = Bundle.main.object(forInfoDictionaryKey: "Apple_Team_Id") as? String
-    private let clientSecret = ""
     private var token = KeychainService.shared.getSachoSaengAccessToken()
     // MARK: - 카카오
     
@@ -195,7 +194,7 @@ final class AuthService {
                                 authCodeString: \(authCodeString)
                                 identifyTokenString: \(identifyTokenString)
                                 """)
-                        if KeychainService.shared.save(key: .appleToken, data: authorizationCode) {
+                        if KeychainService.shared.save(key: .appleAccessToken, data: authorizationCode) {
                             jhPrint("애플토큰 키체인에 등록 완료")
                         } else {
                             jhPrint("애플토큰 키체인에 등록 실패 ")
@@ -250,9 +249,15 @@ final class AuthService {
     /// 애플 토큰 리프레쉬
     func getAppleRefreshToken(completion: @escaping (String?) -> Void) {
         // 키체인에서 appleToken 불러오기
-        guard let appleTokenData = KeychainService.shared.load(key: .appleToken),
+        guard let appleTokenData = KeychainService.shared.load(key: .appleAccessToken),
               let appleToken = String(data: appleTokenData, encoding: .utf8) else {
             jhPrint("appleToken이 없습니다.", isWarning: true)
+            completion(nil)
+            return
+        }
+        guard let clientSecretData = KeychainService.shared.load(key: .appleJWT),
+              let clientSecret = String(data: clientSecretData, encoding: .utf8) else {
+            jhPrint("JWT가 없어요.")
             completion(nil)
             return
         }
@@ -265,7 +270,7 @@ final class AuthService {
             .responseData { response in
                 switch response.result {
                 case .success(let output):
-                    if let decodedData = try? JSONDecoder().decode(AppleTokenResponse.self, from: output) {
+                    if let decodedData = try? JSONDecoder().decode(AppleJWT.self, from: output) {
                         completion(decodedData.refresh_token)
                     } else {
                         jhPrint("디코딩 실패")
@@ -276,6 +281,22 @@ final class AuthService {
                     completion(nil)
                 }
             }
+    }
+    
+    func getAppleToKenInSachoSaeng() {
+        let path = "/api/v1/auth/apple-token"
+        NetworkService.shared.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()) { (result: Result<Response<ResponseAppleToken>, NetworkError>) in
+            switch result {
+                case .success(let appleToken):
+                    if KeychainService.shared.save(key: .appleJWT, data: appleToken.data.appleToken.data(using: .utf8)!) {
+                        jhPrint("\(appleToken.data.appleToken.data(using: .utf8)!)애플토큰 키체인에 등록완료")
+                    } else {
+                        jhPrint("애플토큰 키체인에 등록실패")
+                    }
+                case .failure(let error):
+                    jhPrint("애플 토큰 발급 실패 - \(error.localizedDescription)")
+            }
+        }
     }
 //    func logout() {
 //        let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -310,8 +331,13 @@ final class AuthService {
                 jhPrint("refreshToken을 가져오는 데 실패했습니다.", isWarning: true)
                 return completion(false)
             }
-            
-            let url = "https://appleid.apple.com/auth/revoke?client_id=\(self.bundle)&client_secret=\(self.clientSecret)&token=\(refreshToken)&token_type_hint=refresh_token"
+            guard let clientSecretData = KeychainService.shared.load(key: .appleJWT),
+                  let clientSecret = String(data: clientSecretData, encoding: .utf8) else {
+                jhPrint("JWT가 없어요.")
+                
+                return completion(false)
+            }
+            let url = "https://appleid.apple.com/auth/revoke?client_id=\(self.bundle)&client_secret=\(clientSecret)&token=\(refreshToken)&token_type_hint=refresh_token"
             let headers: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded"]
             
             AF.request(url, method: .post, headers: headers)
@@ -375,7 +401,8 @@ final class AuthService {
         NetworkService.shared.performRequest(method: "POST", path: path, body: body, token: nil, headers: header) { (result: Result<AuthResponse, NetworkError>) in
             switch result {
             case .success(let response):
-                DispatchQueue.main.async {
+                    DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
                     UserInfoStore.shared.userId = response.data.userId
 //                    jhPrint(response.data.accessToken)
                     if KeychainService.shared.save(key: .sachosaengAccessToken, data: response.data.accessToken.data(using: .utf8)!) {
@@ -384,6 +411,7 @@ final class AuthService {
                     if KeychainService.shared.save(key: .sachosaengRefreshToken, data: response.data.refreshToken.data(using: .utf8)!) {
                         jhPrint("Refresh token 키체인에 저장 완료")
                     }
+                    getAppleToKenInSachoSaeng()
                     UserDefaults.standard.setValue(UserInfoStore.shared.signType.rawValue, forKey: .signType)
                     completion(true)
                 }
@@ -422,7 +450,7 @@ final class AuthService {
             break
         }
         
-        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/withdraw", body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        NetworkService.shared.performRequest(method: "POST", path: "/api/v1/auth/withdraw", body: body, token: KeychainService.shared.getSachoSaengAccessToken()) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import WebKit
 import SafariServices
 import MessageUI
 
@@ -29,10 +28,13 @@ struct MyPageView: View {
     @EnvironmentObject var signStore: SignStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @State var showWK = false
-    @State var urlLink = ""
+    @State var showWK1 = false
+    @State var showWK2 = false
+    @State var showWK3 = false
+    
     @State var choosenSettingOption: settingOption = .version
     @State private var showingMailView = false
+    @State private var webUrl: URL?
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     var body: some View {
         ZStack {
@@ -107,21 +109,18 @@ struct MyPageView: View {
                 ForEach(settingOption.allCases, id: \.self) { settingOptionPath in
                     Button {
                         switch settingOptionPath {
-                        case .openSource:
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                UIApplication.shared.open(url)
-                            }
-                        case .userData:
-                            choosenSettingOption = .userData
-                            showWK = true
-                        case .service:
-                            choosenSettingOption = .service
-                            showWK = true
-                        case .FAQ:
-                            choosenSettingOption = .FAQ
-                            showWK = true
-                        case .version:
-                            break
+                            case .openSource:
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    UIApplication.shared.open(url)
+                                }
+                            case .userData:
+                                showWK1 = true
+                            case .service:
+                                showWK2 = true
+                            case .FAQ:
+                                showWK3 = true
+                            case .version:
+                                break
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
@@ -178,19 +177,14 @@ struct MyPageView: View {
                 }
                 .padding(20)
             }
-            .sheet(isPresented: $showWK) {
-                switch choosenSettingOption {
-                    case .version:
-                        EmptyView()
-                    case .openSource:
-                        EmptyView()
-                    case .userData:
-                        SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/d3ea3926640746ce9156fc23251fda7e")!)
-                    case .service:
-                        SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/7621154595c445068d833c931a4cefc5?pvs=74")!)
-                    case .FAQ:
-                        SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/FAQ-107a24e5b9e88045bd68c6bc5507fd4f")!)
-                }
+            .sheet(isPresented: $showWK1) {
+                SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/d3ea3926640746ce9156fc23251fda7e")!)
+            }
+            .sheet(isPresented: $showWK2) {
+                SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/7621154595c445068d833c931a4cefc5?pvs=74")!)
+            }
+            .sheet(isPresented: $showWK3) {
+                SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/FAQ-107a24e5b9e88045bd68c6bc5507fd4f")!)
             }
             .sheet(isPresented: $showingMailView) {
                 MailView(result: self.$mailResult, recipients: ["dasom8899981@gmail.com"], subject: "1:1 문의", messageBody: """
@@ -211,63 +205,4 @@ struct MyPageView: View {
             ViewTracker.shared.updateCurrentView(to: .mypage)
         }
     }
-}
-
-struct SafariView: UIViewControllerRepresentable {
-
-    let url: URL
-
-    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
-        return SFSafariViewController(url: url)
-    }
-
-    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
-
-    }
-
-}
-
-struct MailView: UIViewControllerRepresentable {
-    @Environment(\.presentationMode) var presentation
-    @Binding var result: Result<MFMailComposeResult, Error>?
-
-    var recipients: [String]?
-    var subject: String?
-    var messageBody: String?
-
-    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
-        @Binding var presentation: PresentationMode
-        @Binding var result: Result<MFMailComposeResult, Error>?
-
-        init(presentation: Binding<PresentationMode>, result: Binding<Result<MFMailComposeResult, Error>?>) {
-            _presentation = presentation
-            _result = result
-        }
-
-        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-            defer {
-                $presentation.wrappedValue.dismiss()
-            }
-            if let error = error {
-                self.result = .failure(error)
-            } else {
-                self.result = .success(result)
-            }
-        }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(presentation: presentation, result: $result)
-    }
-
-    func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
-        let vc = MFMailComposeViewController()
-        vc.mailComposeDelegate = context.coordinator
-        vc.setToRecipients(recipients)
-        vc.setSubject(subject ?? "")
-        vc.setMessageBody(messageBody ?? "", isHTML: false)
-        return vc
-    }
-
-    func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: UIViewControllerRepresentableContext<MailView>) {}
 }

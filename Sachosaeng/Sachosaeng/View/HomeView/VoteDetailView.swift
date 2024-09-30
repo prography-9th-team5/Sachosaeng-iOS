@@ -288,7 +288,7 @@ struct VoteDetailView: View {
                 if ViewTracker.shared.currentTap == .home {
                     categoryID = voteStore.categoryName == "전체" ? nil : voteStore.categoryID(voteStore.categoryName)
                 } else {
-                    categoryID = voteStore.categoryNameForBookmark == "전체" ? nil : voteStore.categoryID(voteStore.categoryNameForBookmark)
+                    categoryID = voteStore.categoryNameForBookmark == "ALL" ? nil : voteStore.categoryID(voteStore.categoryNameForBookmark)
                 }
                 
                 voteStore.fetchVoteDetail(voteId: voteId, categoryId: categoryID) { _ in

@@ -38,18 +38,14 @@ struct SignSuccessView: View {
             Image("온보딩_\(userInfoStore.currentUserState.userType)")
                 .frame(width: 248, height: 248)
                 .opacity(isImageAnimation ? 1 : 0)
-                .animation(.easeInOut(duration: 0.5), value: isImageAnimation)
-
+                .animation(.easeInOut(duration: 1), value: isImageAnimation)
             Spacer()
         }
         .padding(.top, 70)
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .success)
-            
             UserService.shared.getUserInfo()
-            withAnimation {
-                isImageAnimation = true
-            }
+            isImageAnimation = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let userType = userInfoStore.currentUserState.userType
                 userInfoStore.convertToUserType(userType) {

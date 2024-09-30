@@ -45,7 +45,7 @@ struct VotesBookmarkCell: View {
                 HStack(spacing: 0) {
                     if isEdit {
                         Image("checkCircle_\(isTap)")
-                            .frame(width: 16, height: 16)
+                            .circleImage(frame: 16)
                             .padding(.leading, 16)
                     }
                     VStack(alignment: .leading, spacing: 0) {
@@ -57,13 +57,17 @@ struct VotesBookmarkCell: View {
                                 .lineLimit(1)
                             Spacer()
                         }
-                        .padding(.bottom, 10)
-                        HStack(spacing: 0) {
-                            Text(bookmark.description)
-                                .font(.createFont(weight: .bold, size: 12))
-                                .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                                .lineLimit(1)
-                            Spacer()
+                        .padding(.bottom, bookmark.description == "" ? 0 : 10)
+                        if bookmark.description == "" {
+                            
+                        } else {
+                            HStack(spacing: 0) {
+                                Text(bookmark.description)
+                                    .font(.createFont(weight: .bold, size: 12))
+                                    .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                    .lineLimit(1)
+                                Spacer()
+                            }
                         }
                     }
                     .padding(.horizontal, 16)

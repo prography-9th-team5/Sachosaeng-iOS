@@ -23,11 +23,9 @@ struct VoteCellWithOutIndex: View {
                 
                 HStack(spacing: 0) {
                     if vote.isVoted {
-                        Image("checkCircle")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
-                            .padding(.trailing, 8)
+                        Image("checkCircle_true")
+                            .circleImage(frame: 16)
+                            .padding(.leading, 16)
                     }
                     VStack(alignment: .leading, spacing: 0) {
                         HStack(spacing: 0) {
@@ -37,7 +35,6 @@ struct VoteCellWithOutIndex: View {
                                 .lineLimit(1)
                             Spacer()
                         }
-                        
                         if let participantCount = vote.participantCount, participantCount > 10 {
                             HStack(spacing: 0) {
                                 Text("\(participantCount)명 참여 중")
@@ -47,8 +44,8 @@ struct VoteCellWithOutIndex: View {
                             }
                         }
                     }
+                    .padding(.leading, 10)
                 }
-                .padding(.horizontal, 16)
             }
         }
     }

@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SafariServices
+import MessageUI
 
 enum myPageOption: String , CaseIterable {
     case usersFavorite = "관심사 설정"
@@ -23,8 +25,17 @@ enum settingOption: String, CaseIterable {
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserInfoStore
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var signStore: SignStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
+    @State private var showWK1 = false
+    @State private var showWK2 = false
+    @State private var showWK3 = false
+    @State private var choosenSettingOption: settingOption = .version
+    @State private var showingMailView = false
+    @State private var webUrl: URL?
+    @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
+    @State var isPopUpView: Bool = false
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.edgesIgnoringSafeArea(.all)
@@ -67,7 +78,7 @@ struct MyPageView: View {
                         case .usersFavorite:
                             path.append(PathType.usersFavorite)
                         case .inquiry:
-                            path.append(PathType.inquiry)
+                            showingMailView.toggle()
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
@@ -98,16 +109,18 @@ struct MyPageView: View {
                 ForEach(settingOption.allCases, id: \.self) { settingOptionPath in
                     Button {
                         switch settingOptionPath {
-                        case .openSource:
-                            path.append(PathType.openSource)
-                        case .userData:
-                            path.append(PathType.userData)
-                        case .service:
-                            path.append(PathType.service)
-                        case .FAQ:
-                            path.append(PathType.FAQ)
-                        case .version:
-                            break
+                            case .openSource:
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    UIApplication.shared.open(url)
+                                }
+                            case .userData:
+                                showWK1 = true
+                            case .service:
+                                showWK2 = true
+                            case .FAQ:
+                                showWK3 = true
+                            case .version:
+                                break
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
@@ -145,13 +158,13 @@ struct MyPageView: View {
                                     }
                                 }
                             }
+                           
                     }
                     .padding(.bottom, 1)
                 }
                 
                 Button {
-                    userInfoStore.resetUserInfo()
-                    path = .init()
+                    isPopUpView = true
                 } label: {
                     HStack {
                         Text("로그아웃")
@@ -163,10 +176,36 @@ struct MyPageView: View {
                 }
                 .padding(20)
             }
+            .sheet(isPresented: $showWK1) {
+                SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/d3ea3926640746ce9156fc23251fda7e")!)
+            }
+            .sheet(isPresented: $showWK2) {
+                SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/7621154595c445068d833c931a4cefc5?pvs=74")!)
+            }
+            .sheet(isPresented: $showWK3) {
+                SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/FAQ-107a24e5b9e88045bd68c6bc5507fd4f")!)
+            }
+            .sheet(isPresented: $showingMailView) {
+                MailView(result: self.$mailResult, recipients: ["dasom8899981@gmail.com"], subject: "1:1 문의", messageBody: """
+                                    문의할 사항을 입력해주세요. 
+                                    
+                                    
+                                    
+                                    Device Model : \(userInfoStore.getDeviceModelName())
+                                    Device OS : \(UIDevice.current.systemVersion)
+                                    App Version : \(VersionService.shared.version)
+                                    """)
+            }
             .scrollIndicators(.hidden)
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .showPopupView(isPresented: $isPopUpView, message: .logOut, primaryAction: {
+            signStore.logOut()
+            path = .init()
+        }, secondaryAction: {
+            
+        })
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .mypage)
         }

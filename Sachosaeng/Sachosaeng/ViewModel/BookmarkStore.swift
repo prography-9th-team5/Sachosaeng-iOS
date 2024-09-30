@@ -7,20 +7,22 @@
 
 import Foundation
 
-class BookmarkStore: ObservableObject {
+final class BookmarkStore: ObservableObject {
     @Published var currentUserVotesBookmark: [Bookmark] = []
     @Published var currentUserInformationBookmark: [InformationInBookmark] = []
     @Published var currentUserCategoriesBookmark: [Category] = []
     @Published var currentUserInformationCategoriesBookmark: [Category] = []
     @Published var editBookmarkNumber: [Int] = []
     @Published var nextCursorForInformation: Int?
+    @Published var selectedButton: BookmarkType = .vote
+    @Published var isEditBookMark: Bool = false
+    private var token = KeychainService.shared.getSachoSaengAccessToken()
     private let networkService = NetworkService.shared
     
     func fetchAllVotesBookmark() {
         let path = "/api/v1/bookmarks/votes"
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseBookmark>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<ResponseBookmark>, NetworkError>) in
             switch result {
             case .success(let bookmark):
                 DispatchQueue.main.async { [weak self] in
@@ -38,9 +40,8 @@ class BookmarkStore: ObservableObject {
         jhPrint(bookmarkId)
         let path = "/api/v1/bookmarks/votes/delete"
         let body = ["voteBookmarkIds": bookmarkId]
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        networkService.performRequest(method: "POST", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async { [weak self] in
@@ -61,9 +62,8 @@ class BookmarkStore: ObservableObject {
     func updateVotesBookmark(voteId: Int) {
         let path = "/api/v1/bookmarks/votes"
         let body = ["voteId": voteId]
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        networkService.performRequest(method: "POST", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async {
@@ -77,9 +77,8 @@ class BookmarkStore: ObservableObject {
     
     func deleteVotesBookmark(voteId: Int) {
         let path = "/api/v1/bookmarks/votes/\(voteId)"
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "DELETE", path: path, body: nil, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        networkService.performRequest(method: "DELETE", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async {
@@ -97,9 +96,8 @@ class BookmarkStore: ObservableObject {
             path += "&cursor=\(cursor)"
         }
         
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseInformation>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<ResponseInformation>, NetworkError>) in
             switch result {
             case .success(let bookmark):
                 DispatchQueue.main.async { [weak self] in
@@ -121,9 +119,8 @@ class BookmarkStore: ObservableObject {
     func deleteAllInformationsInbookmark(informationId: [Int], completion: @escaping () -> Void) {
         let path = "/api/v1/bookmarks/information/delete"
         let body = ["informationBookmarkIds": informationId]
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        networkService.performRequest(method: "POST", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async { [weak self] in
@@ -143,9 +140,8 @@ class BookmarkStore: ObservableObject {
     
     func updateInformationsInBookmark(informationId: Int) {
         let path = "/api/v1/bookmarks/information"
-        let token = UserInfoStore.shared.accessToken
         let body = [ "informationId" : informationId ]
-        networkService.performRequest(method: "POST", path: path, body: body, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        networkService.performRequest(method: "POST", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async {
@@ -159,8 +155,7 @@ class BookmarkStore: ObservableObject {
     
     func deleteInformationsInBookmark(informationId: Int) {
         let path = "/api/v1/bookmarks/information/\(informationId)"
-        let token = UserInfoStore.shared.accessToken
-        networkService.performRequest(method: "DELETE", path: path, body: nil, token: token) { (result: Result<Response<EmptyData>, NetworkError>) in
+        networkService.performRequest(method: "DELETE", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
             case .success( _):
                 DispatchQueue.main.async {
@@ -174,8 +169,7 @@ class BookmarkStore: ObservableObject {
     
     func fetchVotesInBookmarkWithCategoryId(categoryId: Int) {
         let path = "/api/v1/bookmarks/votes/categories/\(categoryId)"
-        let token = UserInfoStore.shared.accessToken
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseBookmark>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<ResponseBookmark>, NetworkError>) in
             switch result {
             case .success(let bookmark):
                 DispatchQueue.main.async { [weak self] in
@@ -191,9 +185,8 @@ class BookmarkStore: ObservableObject {
     
     func fetchInformationInBookmarkWithCategory(categoryId: Int) {
         let path = "/api/v1/bookmarks/information/categories/\(categoryId)"
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseInformation>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<ResponseInformation>, NetworkError>) in
             switch result {
             case .success(let bookmark):
                 DispatchQueue.main.async { [weak self] in
@@ -209,9 +202,8 @@ class BookmarkStore: ObservableObject {
     
     func fetchCategoriesInbookmark() {
         let path = "/api/v1/bookmarks/vote-categories"
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseCategoriesData>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<ResponseCategoriesData>, NetworkError>) in
             switch result {
             case .success(let bookmark):
                 DispatchQueue.main.async { [weak self] in
@@ -230,9 +222,8 @@ class BookmarkStore: ObservableObject {
     
     func fetchInformationCategoriesInbookmark() {
         let path = "/api/v1/bookmarks/information-categories"
-        let token = UserInfoStore.shared.accessToken
         
-        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<ResponseCategoriesData>, NetworkError>) in
+        networkService.performRequest(method: "GET", path: path, body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<ResponseCategoriesData>, NetworkError>) in
             switch result {
             case .success(let bookmark):
                 DispatchQueue.main.async { [weak self] in

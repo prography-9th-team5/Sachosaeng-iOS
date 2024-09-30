@@ -22,7 +22,8 @@ final class VersionService: ObservableObject {
         networkService.performRequest(method: "GET", path: path, body: nil, token: nil) { (result: Result<Response<ReponseVersion>, NetworkError>) in
             switch result {
             case .success(let version):
-                jhPrint("\(version.data)")
+                break
+//                jhPrint("\(version.data)")
             case .failure(let error):
                 jhPrint(error)
             }
@@ -37,21 +38,23 @@ final class VersionService: ObservableObject {
             
             switch result {
             case .success(_):
-                jhPrint("버전 등록 성공")
+//                jhPrint("버전 등록 성공")
+                    break
             case .failure(let error):
                 jhPrint(error)
             }
         }
     }
     
-    func verifyVersion() {
+    func verifyVersion(completion: @escaping (_ forceUpdate: Bool, _ isLatest: Bool) -> Void) {
         let path = "/api/v1/versions/ios/\(version)"
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: nil) { (result: Result<Response<Version>, NetworkError>) in
             
             switch result {
             case .success(let version):
-                    jhPrint("버전 등록 성공\(version.data)")
+                jhPrint("버전 체크 \(version.data)")
+                    completion(version.data.forceUpdateRequired, version.data.isLatest)
             case .failure(let error):
                 jhPrint(error)
             }

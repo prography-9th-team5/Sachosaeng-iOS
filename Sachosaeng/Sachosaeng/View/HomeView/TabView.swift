@@ -10,6 +10,7 @@ import SwiftUI
 enum TabItem {
     case home
     case bookMark
+    case edit
 }
 
 struct TabView: View {
@@ -20,7 +21,7 @@ struct TabView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var isPopup: Bool = false
-    
+    @State private var toast: Toast?
     var body: some View {
         VStack(spacing: 0) {
             switch tabBarStore.switchTab {
@@ -32,38 +33,45 @@ struct TabView: View {
                         tabBarStore.switchTab = .home
                     }
                 }
-            case .bookMark:
+                case .bookMark, .edit:
                     BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, path: $path)
                     .onAppear {
                         if tabBarStore.switchTab != .bookMark {
                             tabBarStore.switchTab = .bookMark
                         }
                     }
+                    .showToastView(toast: $toast)
             }
             
             ZStack {
-                CustomColor.GrayScaleColor.gs4
-                HStack(spacing: 0) {
-                    Spacer()
-                    Button {
-                        tabBarStore.switchTab = .home
-                    } label: {
-                        Image(tabBarStore.switchTab == .home ? "HomeTab" : "HomeTab_off")
+                if tabBarStore.switchTab == .edit {
+                    CustomColor.GrayScaleColor.gs2
+                    BookmarkDeleteView(bookmarkStore: bookmarkStore, selectedButton: $bookmarkStore.selectedButton, isEdit: $bookmarkStore.isEditBookMark, toast: $toast)
+                        .padding(.bottom, 20)
+                } else {
+                    CustomColor.GrayScaleColor.gs4
+                    HStack(spacing: 0) {
+                        Spacer()
+                        Button {
+                            tabBarStore.switchTab = .home
+                        } label: {
+                            Image(tabBarStore.switchTab == .home ? "HomeTab" : "HomeTab_off")
+                        }
+                        .padding(.bottom, 30)
+                        .padding(.top, 18)
+                        
+                        Spacer()
+                        
+                        Button {
+                            tabBarStore.switchTab = .bookMark
+                        } label: {
+                            Image(tabBarStore.switchTab == .bookMark ? "bookmark" : "bookmark_off")
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs4)
+                        }
+                        .padding(.bottom, 30)
+                        .padding(.top, 18)
+                        Spacer()
                     }
-                    .padding(.bottom, 30)
-                    .padding(.top, 18)
-                    
-                    Spacer()
-
-                    Button {
-                        tabBarStore.switchTab = .bookMark
-                    } label: {
-                        Image(tabBarStore.switchTab == .bookMark ? "bookmark" : "bookmark_off")
-                            .foregroundStyle(CustomColor.GrayScaleColor.gs4)
-                    }
-                    .padding(.bottom, 30)
-                    .padding(.top, 18)
-                    Spacer()
                 }
             }
             .frame(height: 76)
@@ -96,4 +104,3 @@ struct TabView: View {
         .ignoresSafeArea(edges: .bottom)
     }
 }
-

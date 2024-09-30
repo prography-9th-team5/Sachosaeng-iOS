@@ -28,6 +28,7 @@ struct EditMyInfoView: View {
     @State private var userTypeArray: [UserType] = UserType.allCases
     @State private var textField: String = ""
     @State private var controlDisableModifier: Bool = true
+    @FocusState private var keyboardVisible: Bool
     private let imageFrame = 127.54
     private let rows = [GridItem(.fixed(48)), GridItem(.fixed(48))]
     private let columns = [GridItem(), GridItem()]
@@ -76,6 +77,7 @@ struct EditMyInfoView: View {
                                     .font(.createFont(weight: .medium, size: 15))
                                     .padding(16)
                                     .padding(.bottom, 34)
+                                    .focused($keyboardVisible)
                             }
                         
                         HStack {
@@ -132,39 +134,68 @@ struct EditMyInfoView: View {
                         Spacer()
                     }
                 }
-                .showToastView(toast: $toast)
                 .navigationTitle("내 정보 수정")
                 .navigationBarTitleDisplayMode(.inline)
                 
                 Button {
-                    if isSelected {
-                        userInfoStore.currentUserState.userType = selectedType!.rawValue
-                        userService.updateUserType(userInfoStore.convertUserTypeForEnglish(selectedType?.rawValue ?? "학생"))
-                    }
-                    if !textField.isEmpty {
-                        userInfoStore.currentUserState.nickname = textField
-                        userService.updateUserNickname(UserInfoStore.shared.currentUserState.nickname)
-                    }
-                    toast = Toast(type: .saved, message: "저장되었습니다")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        dismiss()
+                    if keyboardVisible {
+                        hideKeyboard()
+                    } else {
+                        if isSelected {
+                            let userType = selectedType!.rawValue
+                            userInfoStore.currentUserState.userType = userType
+                            userService.updateUserType(userInfoStore.convertUserTypeForEnglish(userType))
+                        }
+                        if !textField.isEmpty {
+                            userInfoStore.currentUserState.nickname = textField
+                            userService.updateUserNickname(userInfoStore.currentUserState.nickname)
+                        }
+                        
+                        toast = Toast(type: .saved, message: performToastString())
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            dismiss()
+                        }
                     }
                 } label: {
-                    Text("저장")
-                        .font(.createFont(weight: .medium, size: 16))
-                        .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
-                        .foregroundStyle(CustomColor.GrayScaleColor.white)
-                        .background(isSelected || !textField.isEmpty ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
-                        .cornerRadius(4)
+                    if keyboardVisible {
+                        Text("완료")
+                            .font(.createFont(weight: .medium, size: 16))
+                            .foregroundStyle(CustomColor.GrayScaleColor.white)
+                            .frame(width: PhoneSpace.screenWidth, height: 47)
+                            .background(!textField.isEmpty ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
+                    } else {
+                        Text("저장")
+                            .font(.createFont(weight: .medium, size: 16))
+                            .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
+                            .foregroundStyle(CustomColor.GrayScaleColor.white)
+                            .background(isSelected || !textField.isEmpty ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
+                            .cornerRadius(4)
+                    }
                 }
                 .disabled(isSelected || !textField.isEmpty ? false : true)
             }
+            .showToastView(toast: $toast)
+            .showPopupView(isPresented: $isSelectedQuitButton, message: .quit, primaryAction: {
+                path.append(PathType.quit)
+            }, secondaryAction: { })
+            .onTapGesture {
+                self.hideKeyboard()
+            }
         }
-        .showPopupView(isPresented: $isSelectedQuitButton, message: .quit, primaryAction: {
-            path.append(PathType.quit)
-        }, secondaryAction: { })
         .onTapGesture {
-            self.hideKeyboard()
+            hideKeyboard()
+        }
+    }
+}
+
+extension EditMyInfoView {
+    private func performToastString() -> String {
+        if isSelected && !textField.isEmpty {
+            return "저장되었습니다"
+        } else if isSelected {
+            return "유형이 변경되었습니다"
+        } else {
+            return "닉네임이 변경되었습니다"
         }
     }
 }

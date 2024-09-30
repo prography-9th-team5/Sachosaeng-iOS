@@ -110,6 +110,3 @@ struct ToastModifier: ViewModifier {
     }
     
 }
-#Preview {
-    ToastView(type: Toast(type: .quit, message: "나가이새기ㅣ야"))
-}

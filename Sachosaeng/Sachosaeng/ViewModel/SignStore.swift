@@ -12,59 +12,52 @@ import KakaoSDKCommon
 import AuthenticationServices
 import GoogleSignIn
 
-enum SignType {
-    case apple
-    case kakao
-    case google
+enum SignType: String {
+    case apple = "애플"
+    case kakao = "카카오"
+    case google = "구글"
+    case noSign = ""
 }
 
 final class SignStore: ObservableObject {
     private let authService = AuthService()
-    let bundle = Bundle.main.bundleIdentifier!
-    let appleTeamID = Bundle.main.object(forInfoDictionaryKey: "Apple_Team_Id") as? String
-
+    
     func loginKakao(completion: @escaping (Bool) -> Void) {
         authService.loginKakao { success in
+            UserDefaults.standard.setValue(UserInfoStore.shared.signType.rawValue, forKey: .signType)
             completion(success)
         }
     }
     
+    func loginByTokenWithKakao() {
+        authService.loginByTokenWithKakao { isSuccess in
+            if isSuccess {
+//                self.loginByToken()
+            } else {
+                jhPrint("카카오 자동로그인 안됩니다.")
+            }
+        }
+    }
     func loginGoogle(completion: @escaping (Bool) -> Void) {
         authService.loginGoogle { success in
+            UserDefaults.standard.set(UserInfoStore.shared.signType.rawValue, forKey: "SignType")
+            completion(success)
+        }
+    }
+    func loginApple(result: Result<ASAuthorization, Error>, completion: @escaping (Bool) -> Void) {
+        authService.loginApple(result: result) { success in
+            UserDefaults.standard.set(UserInfoStore.shared.signType.rawValue, forKey: "SignType")
             completion(success)
         }
     }
     
-//    func revokeAppleToken(clientSecret: String, token: String, completionHandler: @escaping () -> Void) {
-//            let url = "https://appleid.apple.com/auth/revoke?client_id=com.Prography.Sachosaeng&client_secret=\(clientSecret)&token=\(token)&token_type_hint=refresh_token"
-//            let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded"]
-//
-//            AF.request(url,
-//                       method: .post,
-//                       headers: header)
-//            .validate(statusCode: 200..<600)
-//            .responseData { response in
-//                guard let statusCode = response.response?.statusCode else { return }
-//                if statusCode == 200 {
-//                    print("애플 토큰 삭제 성공!")
-//                    completionHandler()
-//                }
-//            }
-//        }
-    
-    func loginApple(result: Result<ASAuthorization, Error>, completion: @escaping (Bool) -> Void) {
-        switch result {
-        case .success(let authResults):
-            switch authResults.credential {
-                case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                    UserInfoStore.shared.signType = .apple
-                    UserInfoStore.shared.currentUserEmail = appleIDCredential.user
-                default:
-                    jhPrint("안됩니다.", isWarning: true)
+    func refreshToken(completion: @escaping (Bool) -> Void) {
+        authService.refreshAccessToken() { isSuccess in
+            if isSuccess {
+                completion(true)
+            } else {
+                completion(false)
             }
-        case .failure(let failure):
-            jhPrint(failure.localizedDescription)
-            jhPrint("error")
         }
     }
     
@@ -84,8 +77,7 @@ final class SignStore: ObservableObject {
         authService.withdrawUserAccount(reason)
     }
     
-    func withdrawOfKakaoTalk() {
-        authService.withdrawOfKakaoTalk()
+    func logOut() {
+        authService.logOutSachosaeng()
     }
 }
-

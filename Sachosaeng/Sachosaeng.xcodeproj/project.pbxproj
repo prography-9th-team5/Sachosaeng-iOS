@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		360B0CC12CA1D08900524C98 /* BookmarkDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360B0CC02CA1D08900524C98 /* BookmarkDeleteView.swift */; };
+		360B0CC32CA1E2FC00524C98 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360B0CC22CA1E2FC00524C98 /* Image+.swift */; };
 		360C2B1C2C35890D0000C0F8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B1B2C35890D0000C0F8 /* Category.swift */; };
 		360C2B202C35893B0000C0F8 /* CategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */; };
 		360C2B222C37184E0000C0F8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B212C37184E0000C0F8 /* User.swift */; };
@@ -66,6 +68,13 @@
 		3695C2CB2C7B4FB80057007E /* VoteDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CA2C7B4FB80057007E /* VoteDescriptionView.swift */; };
 		3695C2CD2C7B4FCC0057007E /* VoteResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CC2C7B4FCC0057007E /* VoteResultView.swift */; };
 		3695C2CF2C7B65500057007E /* VoteCellWithOutIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3695C2CE2C7B65500057007E /* VoteCellWithOutIndex.swift */; };
+		36980CE32CA63B14002C4AB3 /* UserDefaultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36980CE22CA63B14002C4AB3 /* UserDefaultService.swift */; };
+		36980CE52CA65C13002C4AB3 /* AppleToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36980CE42CA65C13002C4AB3 /* AppleToken.swift */; };
+		36980CE72CA68113002C4AB3 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36980CE62CA68113002C4AB3 /* KeychainService.swift */; };
+		36980CEC2CA6B574002C4AB3 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 36980CEB2CA6B574002C4AB3 /* SkeletonView */; };
+		36980CEE2CA6B6BD002C4AB3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 36980CED2CA6B6BD002C4AB3 /* Settings.bundle */; };
+		36980CF02CA786CC002C4AB3 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36980CEF2CA786CC002C4AB3 /* MailView.swift */; };
+		36980CF22CA78F93002C4AB3 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36980CF12CA78F93002C4AB3 /* SafariView.swift */; };
 		36A61B632C95713E008C6663 /* VersionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A61B622C95713E008C6663 /* VersionService.swift */; };
 		36A727F62C6C00E500942672 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A727F52C6C00E500942672 /* NetworkService.swift */; };
 		36A81FDC2C2C8AC6006A9305 /* DailyVoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A81FDB2C2C8AC6006A9305 /* DailyVoteCell.swift */; };
@@ -91,6 +100,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		360B0CC02CA1D08900524C98 /* BookmarkDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDeleteView.swift; sourceTree = "<group>"; };
+		360B0CC22CA1E2FC00524C98 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
 		360C2B1B2C35890D0000C0F8 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStore.swift; sourceTree = "<group>"; };
 		360C2B212C37184E0000C0F8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -147,6 +158,12 @@
 		3695C2CA2C7B4FB80057007E /* VoteDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteDescriptionView.swift; sourceTree = "<group>"; };
 		3695C2CC2C7B4FCC0057007E /* VoteResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultView.swift; sourceTree = "<group>"; };
 		3695C2CE2C7B65500057007E /* VoteCellWithOutIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCellWithOutIndex.swift; sourceTree = "<group>"; };
+		36980CE22CA63B14002C4AB3 /* UserDefaultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultService.swift; sourceTree = "<group>"; };
+		36980CE42CA65C13002C4AB3 /* AppleToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleToken.swift; sourceTree = "<group>"; };
+		36980CE62CA68113002C4AB3 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		36980CED2CA6B6BD002C4AB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		36980CEF2CA786CC002C4AB3 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
+		36980CF12CA78F93002C4AB3 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		36A61B622C95713E008C6663 /* VersionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionService.swift; sourceTree = "<group>"; };
 		36A727F52C6C00E500942672 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		36A81FDB2C2C8AC6006A9305 /* DailyVoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVoteCell.swift; sourceTree = "<group>"; };
@@ -180,6 +197,7 @@
 				3689C8EE2C87498A003A153F /* Lottie in Frameworks */,
 				3663D3DC2BE317EE007AA77A /* GoogleSignIn in Frameworks */,
 				36F049B72C5B9FC400732F1A /* KakaoSDKUser in Frameworks */,
+				36980CEC2CA6B574002C4AB3 /* SkeletonView in Frameworks */,
 				36F049B12C5B9FC400732F1A /* KakaoSDK in Frameworks */,
 				36F049B52C5B9FC400732F1A /* KakaoSDKCommon in Frameworks */,
 				36F049B32C5B9FC400732F1A /* KakaoSDKAuth in Frameworks */,
@@ -204,9 +222,11 @@
 			isa = PBXGroup;
 			children = (
 				36A727F52C6C00E500942672 /* NetworkService.swift */,
+				36A61B622C95713E008C6663 /* VersionService.swift */,
 				366587A72C6F432E00E85259 /* UserService.swift */,
 				366587A92C6F47D400E85259 /* AuthService.swift */,
-				36A61B622C95713E008C6663 /* VersionService.swift */,
+				36980CE22CA63B14002C4AB3 /* UserDefaultService.swift */,
+				36980CE62CA68113002C4AB3 /* KeychainService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -246,6 +266,8 @@
 				366053A62C533E03000A1D8D /* CustomTextField.swift */,
 				366053A82C538210000A1D8D /* CustomTextEditor.swift */,
 				36E3E6C12C9F064D002A4872 /* ViewTracker.swift */,
+				36980CEF2CA786CC002C4AB3 /* MailView.swift */,
+				36980CF12CA78F93002C4AB3 /* SafariView.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -257,6 +279,7 @@
 				36F8D3E52C64ED1E006E4FA2 /* ConsentView.swift */,
 				366057A32BC41260004F8216 /* SignView */,
 				36696B652C2B7620006BFCC0 /* HomeView */,
+				360C2B252C372F1D0000C0F8 /* MyPageView */,
 				3671E4B72C6A091900B5FAE4 /* BookMarkView */,
 			);
 			path = View;
@@ -277,11 +300,11 @@
 		366057A62BC4306C004F8216 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				366057A42BC41C80004F8216 /* SignStore.swift */,
+				360C2B232C3718D80000C0F8 /* UserInfoStore.swift */,
 				360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */,
 				369595EE2C4FFAEB0098920D /* VoteStore.swift */,
 				36FD59B52C8F6EE100D8979D /* BookmarkStore.swift */,
-				366057A42BC41C80004F8216 /* SignStore.swift */,
-				360C2B232C3718D80000C0F8 /* UserInfoStore.swift */,
 				365B5D582C9D6F2D00AB851D /* TabBarStore.swift */,
 			);
 			path = ViewModel;
@@ -296,18 +319,17 @@
 				3622FA172C9C5763000FDE03 /* DailyVoteDetailView.swift */,
 				363EFB652C834353009A70DA /* InformationView.swift */,
 				3695C2C92C7B4FA70057007E /* HomeViewCell */,
-				36696B662C2B762F006BFCC0 /* Cell */,
-				360C2B252C372F1D0000C0F8 /* MyPageView */,
+				36696B662C2B762F006BFCC0 /* CategoryCell */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
 		};
-		36696B662C2B762F006BFCC0 /* Cell */ = {
+		36696B662C2B762F006BFCC0 /* CategoryCell */ = {
 			isa = PBXGroup;
 			children = (
 				36696B632C2B6900006BFCC0 /* CategoryModal.swift */,
 			);
-			path = Cell;
+			path = CategoryCell;
 			sourceTree = "<group>";
 		};
 		3671E4B72C6A091900B5FAE4 /* BookMarkView */ = {
@@ -337,6 +359,7 @@
 			children = (
 				36C12F902C914EFF00D91394 /* VotesBookmarkCell.swift */,
 				362659832C92C17400A833BE /* InformationBookmarkCell.swift */,
+				360B0CC02CA1D08900524C98 /* BookmarkDeleteView.swift */,
 			);
 			path = BookmarkViewCell;
 			sourceTree = "<group>";
@@ -354,6 +377,7 @@
 				363EFB632C832710009A70DA /* Information.swift */,
 				36FD59B72C8F701200D8979D /* Bookmark.swift */,
 				367B259C2C9717FF000AE532 /* Version.swift */,
+				36980CE42CA65C13002C4AB3 /* AppleToken.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -374,6 +398,7 @@
 				36562FB42C210BA6004D1836 /* FontExtension.swift */,
 				36696B692C2B8241006BFCC0 /* ViewExtension.swift */,
 				365A12052C388EC500C18796 /* ViewModifier.swift */,
+				360B0CC22CA1E2FC00524C98 /* Image+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -381,6 +406,7 @@
 		36EB01582BC400E400050CC7 = {
 			isa = PBXGroup;
 			children = (
+				36980CED2CA6B6BD002C4AB3 /* Settings.bundle */,
 				36EB01642BC400E400050CC7 /* SachosaengApp.swift */,
 				36EB01632BC400E400050CC7 /* Sachosaeng */,
 				36EB01622BC400E400050CC7 /* Products */,
@@ -458,6 +484,7 @@
 				36F049B42C5B9FC400732F1A /* KakaoSDKCommon */,
 				36F049B62C5B9FC400732F1A /* KakaoSDKUser */,
 				3689C8ED2C87498A003A153F /* Lottie */,
+				36980CEB2CA6B574002C4AB3 /* SkeletonView */,
 			);
 			productName = Sachosaeng;
 			productReference = 36EB01612BC400E400050CC7 /* Sachosaeng.app */;
@@ -491,6 +518,7 @@
 				3663D3DA2BE317EE007AA77A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				36F049AF2C5B9FC400732F1A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				3689C8EC2C87498A003A153F /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				36980CEA2CA6B574002C4AB3 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = 36EB01622BC400E400050CC7 /* Products */;
 			projectDirPath = "";
@@ -512,6 +540,7 @@
 				36562FAC2C210B80004D1836 /* Pretendard-ExtraBold.otf in Resources */,
 				36CEA3222C9301A00028F9DD /* stamplottie.json in Resources */,
 				36562FAF2C210B80004D1836 /* Pretendard-Medium.otf in Resources */,
+				36980CEE2CA6B6BD002C4AB3 /* Settings.bundle in Resources */,
 				36562FB32C210B80004D1836 /* Pretendard-Light.otf in Resources */,
 				36562FAD2C210B80004D1836 /* Pretendard-SemiBold.otf in Resources */,
 				36EB016C2BC400E500050CC7 /* Preview Assets.xcassets in Resources */,
@@ -555,6 +584,8 @@
 				36949FAA2C515DE2009E099E /* ToastView.swift in Sources */,
 				36E72F762C78D0A200D1785F /* HotVoteCell.swift in Sources */,
 				360C2B222C37184E0000C0F8 /* User.swift in Sources */,
+				360B0CC12CA1D08900524C98 /* BookmarkDeleteView.swift in Sources */,
+				360B0CC32CA1E2FC00524C98 /* Image+.swift in Sources */,
 				3695C2CB2C7B4FB80057007E /* VoteDescriptionView.swift in Sources */,
 				36842BFB2C22C9FF0023473D /* UserFavoriteCategoryView.swift in Sources */,
 				369595F32C50425B0098920D /* EditMyInfoView.swift in Sources */,
@@ -562,6 +593,7 @@
 				369595EF2C4FFAEB0098920D /* VoteStore.swift in Sources */,
 				36EB01672BC400E400050CC7 /* ContentView.swift in Sources */,
 				366053A72C533E03000A1D8D /* CustomTextField.swift in Sources */,
+				36980CF22CA78F93002C4AB3 /* SafariView.swift in Sources */,
 				365A12062C388EC500C18796 /* ViewModifier.swift in Sources */,
 				36696B6A2C2B8241006BFCC0 /* ViewExtension.swift in Sources */,
 				36E72F782C78D87500D1785F /* HotVote.swift in Sources */,
@@ -574,6 +606,7 @@
 				36842BF52C2298E00023473D /* TempImageView.swift in Sources */,
 				36842BF92C22BA990023473D /* OccupationView.swift in Sources */,
 				360C2B202C35893B0000C0F8 /* CategoryStore.swift in Sources */,
+				36980CE52CA65C13002C4AB3 /* AppleToken.swift in Sources */,
 				366587A82C6F432E00E85259 /* UserService.swift in Sources */,
 				362659842C92C17400A833BE /* InformationBookmarkCell.swift in Sources */,
 				36FD59B82C8F701200D8979D /* Bookmark.swift in Sources */,
@@ -590,6 +623,7 @@
 				366057A52BC41C80004F8216 /* SignStore.swift in Sources */,
 				366587AA2C6F47D400E85259 /* AuthService.swift in Sources */,
 				369595F12C503F050098920D /* Response.swift in Sources */,
+				36980CE32CA63B14002C4AB3 /* UserDefaultService.swift in Sources */,
 				36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */,
 				36696B642C2B6900006BFCC0 /* CategoryModal.swift in Sources */,
 				365B5D592C9D6F2D00AB851D /* TabBarStore.swift in Sources */,
@@ -607,6 +641,8 @@
 				3671E4B92C6A093800B5FAE4 /* BookmarkView.swift in Sources */,
 				3695C2CF2C7B65500057007E /* VoteCellWithOutIndex.swift in Sources */,
 				36BA204A2C294BDC006C54E6 /* HomeView.swift in Sources */,
+				36980CE72CA68113002C4AB3 /* KeychainService.swift in Sources */,
+				36980CF02CA786CC002C4AB3 /* MailView.swift in Sources */,
 				366DFE752C2B4B86009CD87E /* Vote.swift in Sources */,
 				362E14AC2C7AEB4700C053AB /* VoteCell.swift in Sources */,
 				3663D3E02BE31A0A007AA77A /* ColorExtension.swift in Sources */,
@@ -748,7 +784,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sachosaeng/Sachosaeng.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Sachosaeng/Preview Content\"";
 				DEVELOPMENT_TEAM = DZLBBL27FT;
 				ENABLE_PREVIEWS = YES;
@@ -769,7 +805,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Prography.Sachosaeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -790,7 +826,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sachosaeng/Sachosaeng.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Sachosaeng/Preview Content\"";
 				DEVELOPMENT_TEAM = DZLBBL27FT;
 				ENABLE_PREVIEWS = YES;
@@ -811,7 +847,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Prography.Sachosaeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -864,6 +900,14 @@
 				minimumVersion = 4.5.0;
 			};
 		};
+		36980CEA2CA6B574002C4AB3 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
 		36F049AF2C5B9FC400732F1A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
@@ -889,6 +933,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3689C8EC2C87498A003A153F /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		36980CEB2CA6B574002C4AB3 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36980CEA2CA6B574002C4AB3 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 		36F049B02C5B9FC400732F1A /* KakaoSDK */ = {
 			isa = XCSwiftPackageProductDependency;

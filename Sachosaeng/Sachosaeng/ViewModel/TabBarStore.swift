@@ -10,4 +10,9 @@ import Foundation
 class TabBarStore: ObservableObject {
     @Published var switchTab: TabItem = .home
     @Published var isOpacity: Bool = false
+    
+    func reset() {
+        switchTab = .home
+        isOpacity = false
+    }
 }

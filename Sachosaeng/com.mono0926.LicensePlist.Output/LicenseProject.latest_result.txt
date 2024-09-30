@@ -1,0 +1,19 @@
+name: Alamofire, nameSpecified: Alamofire, owner: Alamofire, version: 5.9.1, source: https://github.com/Alamofire/Alamofire
+
+name: AppAuth-iOS, nameSpecified: AppAuth, owner: openid, version: 1.7.5, source: https://github.com/openid/AppAuth-iOS
+
+name: GoogleSignIn-iOS, nameSpecified: GoogleSignIn, owner: google, version: 7.1.0, source: https://github.com/google/GoogleSignIn-iOS
+
+name: gtm-session-fetcher, nameSpecified: gtm-session-fetcher, owner: google, version: 3.4.1, source: https://github.com/google/gtm-session-fetcher
+
+name: GTMAppAuth, nameSpecified: GTMAppAuth, owner: google, version: 4.1.1, source: https://github.com/google/GTMAppAuth
+
+name: kakao-ios-sdk, nameSpecified: KakaoOpenSDK, owner: kakao, version: 2.22.5, source: https://github.com/kakao/kakao-ios-sdk
+
+name: lottie-ios, nameSpecified: Lottie, owner: airbnb, version: 4.5.0, source: https://github.com/airbnb/lottie-ios
+
+name: SkeletonView, nameSpecified: SkeletonView, owner: Juanpe, version: 1.31.0, source: https://github.com/Juanpe/SkeletonView
+
+add-version-numbers: true
+
+LicensePlist Version: 3.25.1

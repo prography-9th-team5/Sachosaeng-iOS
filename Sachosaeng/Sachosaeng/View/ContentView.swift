@@ -16,6 +16,8 @@ struct ContentView: View {
     @EnvironmentObject var userService: UserService
     @EnvironmentObject var versionService: VersionService
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @State var isPopUpView: Bool = false
+    @State var isPopUpType: PopupType?
     @State var isSign: Bool = true
     @State var path: NavigationPath = NavigationPath()
     
@@ -71,17 +73,46 @@ struct ContentView: View {
                     }
                 }
         }
-        .onAppear {
+        .showPopupView(isPresented: $isPopUpView, message: isPopUpType ?? .forceUpdate, primaryAction: {
             signStore.refreshToken { isSuccess in
                 if isSuccess {
                     userService.getUserInfo()
                     userInfoStore.performSetSignType()
+                    categoryStore.fetchCategories()
                     path.append(PathType.home)
                 }
             }
-            versionService.verifyVersion()
-            versionService.fetchAllVersion()
-            categoryStore.fetchCategories()
+        }, secondaryAction: {
+                DispatchQueue.main.async {
+                    guard let appleID = Bundle.main.object(forInfoDictionaryKey: "AppleId") as? String,
+                          let url = URL(string: "itms-apps://itunes.apple.com/app/\(appleID)"),
+                          UIApplication.shared.canOpenURL(url) else {
+                        return
+                    }
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+        })
+        .onAppear {
+            versionService.verifyVersion { isForceUpdateRequired, isLatest  in
+                if isForceUpdateRequired {
+                    isPopUpType = .forceUpdate
+                    isPopUpView = true
+                } else {
+                    if !isLatest {
+                        signStore.refreshToken { isSuccess in
+                            if isSuccess {
+                                userService.getUserInfo()
+                                userInfoStore.performSetSignType()
+                                categoryStore.fetchCategories()
+                                path.append(PathType.home)
+                            }
+                        }
+                    } else {
+                        isPopUpType = .latestVersion
+                        isPopUpView = true
+                    }
+                }
+            }
         }
     }
 }

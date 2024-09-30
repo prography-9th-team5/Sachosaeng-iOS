@@ -28,14 +28,14 @@ struct MyPageView: View {
     @EnvironmentObject var signStore: SignStore
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
-    @State var showWK1 = false
-    @State var showWK2 = false
-    @State var showWK3 = false
-    
-    @State var choosenSettingOption: settingOption = .version
+    @State private var showWK1 = false
+    @State private var showWK2 = false
+    @State private var showWK3 = false
+    @State private var choosenSettingOption: settingOption = .version
     @State private var showingMailView = false
     @State private var webUrl: URL?
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
+    @State var isPopUpView: Bool = false
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.edgesIgnoringSafeArea(.all)
@@ -164,8 +164,7 @@ struct MyPageView: View {
                 }
                 
                 Button {
-                    signStore.logOut()
-                    path = .init()
+                    isPopUpView = true
                 } label: {
                     HStack {
                         Text("로그아웃")
@@ -201,6 +200,12 @@ struct MyPageView: View {
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .showPopupView(isPresented: $isPopUpView, message: .logOut, primaryAction: {
+            signStore.logOut()
+            path = .init()
+        }, secondaryAction: {
+            
+        })
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .mypage)
         }

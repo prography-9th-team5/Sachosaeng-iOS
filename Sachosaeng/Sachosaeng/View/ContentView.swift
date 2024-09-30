@@ -84,7 +84,7 @@ struct ContentView: View {
             }
         }, secondaryAction: {
                 DispatchQueue.main.async {
-                    guard let appleID = Bundle.main.object(forInfoDictionaryKey: "AppleId") as? String,
+                    guard let appleID = Bundle.main.object(forInfoDictionaryKey: "Apple_Id") as? String,
                           let url = URL(string: "itms-apps://itunes.apple.com/app/\(appleID)"),
                           UIApplication.shared.canOpenURL(url) else {
                         return
@@ -98,7 +98,7 @@ struct ContentView: View {
                     isPopUpType = .forceUpdate
                     isPopUpView = true
                 } else {
-                    if !isLatest {
+                    if isLatest {
                         signStore.refreshToken { isSuccess in
                             if isSuccess {
                                 userService.getUserInfo()

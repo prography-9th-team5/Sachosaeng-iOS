@@ -302,8 +302,8 @@
 			children = (
 				366057A42BC41C80004F8216 /* SignStore.swift */,
 				360C2B232C3718D80000C0F8 /* UserInfoStore.swift */,
-				360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */,
 				369595EE2C4FFAEB0098920D /* VoteStore.swift */,
+				360C2B1F2C35893B0000C0F8 /* CategoryStore.swift */,
 				36FD59B52C8F6EE100D8979D /* BookmarkStore.swift */,
 				365B5D582C9D6F2D00AB851D /* TabBarStore.swift */,
 			);

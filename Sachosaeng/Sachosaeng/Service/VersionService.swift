@@ -21,7 +21,7 @@ final class VersionService: ObservableObject {
         
         networkService.performRequest(method: "GET", path: path, body: nil, token: nil) { (result: Result<Response<ReponseVersion>, NetworkError>) in
             switch result {
-            case .success(let version):
+            case .success( _):
                 break
 //                jhPrint("\(version.data)")
             case .failure(let error):

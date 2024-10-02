@@ -237,6 +237,7 @@ struct VoteDetailView: View {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                         voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { _ in
                                             voteStore.fetchVoteDetail(voteId: voteId) { _ in
+                                                AnalyticsService.shared.trackAction("VoteAction")
                                                 isLottie = false
                                                 isVoted = true
                                             }
@@ -282,7 +283,8 @@ struct VoteDetailView: View {
         } //: Zstack
         .onAppear {
             Task {
-                ViewTracker.shared.updateCurrentView(to: .vote)
+                ViewTracker.shared.updateCurrentView(to: .voteDetail)
+                AnalyticsService.shared.trackView("VoteDetailView")
                 var categoryID: Int?
                 
                 if ViewTracker.shared.currentTap == .home {

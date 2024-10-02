@@ -84,8 +84,10 @@ struct InformationView: View {
         .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 18)
         .customBackbutton()
         .onAppear {
-            ViewTracker.shared.updateCurrentView(to: .vote)
+            ViewTracker.shared.updateCurrentView(to: .information)
             voteStore.fetchInformation(informationId: informationId)
+            AnalyticsService.shared.trackView("InformationView")
+
         }
     }
 }

@@ -272,6 +272,7 @@ struct BookmarkView: View {
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .bookmark)
             ViewTracker.shared.currentTap = .bookmark
+            AnalyticsService.shared.trackView("Bookmark")
         }
     }
 }

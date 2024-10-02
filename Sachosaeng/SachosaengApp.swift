@@ -11,6 +11,9 @@ import KakaoSDKUser
 import KakaoSDKCommon
 import GoogleSignIn
 import Lottie
+import FirebaseCore
+import FirebaseAnalytics
+import FirebaseCrashlytics
 
 @main
 struct SachosaengApp: App {
@@ -91,6 +94,9 @@ struct SachosaengApp: App {
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 //        Thread.sleep(forTimeInterval: 2.0)
+
+        FirebaseApp.configure()
+        Analytics.setAnalyticsCollectionEnabled(true)
         return true
     }
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

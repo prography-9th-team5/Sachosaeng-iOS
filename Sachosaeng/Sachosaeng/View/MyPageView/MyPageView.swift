@@ -208,6 +208,7 @@ struct MyPageView: View {
         })
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .mypage)
+            AnalyticsService.shared.trackView("MypageView")
         }
     }
 }

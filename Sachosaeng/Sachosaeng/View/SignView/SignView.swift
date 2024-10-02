@@ -8,6 +8,7 @@
 import SwiftUI
 import GoogleSignInSwift
 import _AuthenticationServices_SwiftUI
+import FirebaseAnalytics
 
 enum PhoneSpace {
     static let screenWidth = UIScreen.main.bounds.width

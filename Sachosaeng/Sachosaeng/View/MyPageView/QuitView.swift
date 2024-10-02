@@ -139,6 +139,9 @@ struct QuitView: View {
                 }
             }
         }
+        .onAppear(perform: {
+            ViewTracker.shared.updateCurrentView(to: .quit)
+        })
         .onTapGesture {
             hideKeyboard()
         }

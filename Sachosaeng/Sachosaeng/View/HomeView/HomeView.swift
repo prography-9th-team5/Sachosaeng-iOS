@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct HomeView: View {
     @ObservedObject var categoryStore: CategoryStore
     @ObservedObject var voteStore: VoteStore
@@ -224,6 +225,7 @@ struct HomeView: View {
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .home)
             ViewTracker.shared.currentTap = .home
+            AnalyticsService.shared.trackView("HomeView")
             Task {
                 voteStore.fetchDailyVote() { isVoted in
                     isShowDaily = !isVoted

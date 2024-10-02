@@ -40,33 +40,6 @@ enum PopupType: String {
                 return 0
         }
     }
-
-//    var typeRawValueTextWidth: CGFloat {
-//        switch self {
-//            case .quit, .dailyVote:
-//                return 148
-//            case .saved:
-//                return 92
-//            case .logOut:
-//                return 148
-//            case .forceUpdate:
-//                return 0
-//        }
-//    }
-//    
-//    var typeRawValueTextHeight: CGFloat {
-//        switch self {
-//            case .quit:
-//                return 54
-//            case .dailyVote:
-//                return 12
-//            case .saved:
-//                return 32
-//            case .logOut:
-//                return 32
-//        }
-//    }
-//    
     var topOfFirstVtackPadding: CGFloat {
         switch self {
             case .quit:

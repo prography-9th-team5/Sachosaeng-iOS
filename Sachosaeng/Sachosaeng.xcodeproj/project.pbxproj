@@ -20,6 +20,10 @@
 		363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B66772C25A7E30098B0C1 /* SignSuccessView.swift */; };
 		363EFB642C832710009A70DA /* Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363EFB632C832710009A70DA /* Information.swift */; };
 		363EFB662C834353009A70DA /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363EFB652C834353009A70DA /* InformationView.swift */; };
+		36455ED42CACEDE90006583B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 36455ED32CACEDE90006583B /* FirebaseAnalytics */; };
+		36455ED72CACFEA80006583B /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 36455ED62CACFEA80006583B /* FirebaseCrashlytics */; };
+		36455ED92CAD40280006583B /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36455ED82CAD40280006583B /* AnalyticsService.swift */; };
+		36455EDB2CAD8B360006583B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36455EDA2CAD8B360006583B /* GoogleService-Info.plist */; };
 		364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */; };
 		36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */; };
 		36562FAC2C210B80004D1836 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA32C210B7F004D1836 /* Pretendard-ExtraBold.otf */; };
@@ -113,6 +117,8 @@
 		363B66772C25A7E30098B0C1 /* SignSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignSuccessView.swift; sourceTree = "<group>"; };
 		363EFB632C832710009A70DA /* Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Information.swift; sourceTree = "<group>"; };
 		363EFB652C834353009A70DA /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
+		36455ED82CAD40280006583B /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		36455EDA2CAD8B360006583B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderProgressBarView.swift; sourceTree = "<group>"; };
 		36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		36562FA32C210B7F004D1836 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -200,7 +206,9 @@
 				36980CEC2CA6B574002C4AB3 /* SkeletonView in Frameworks */,
 				36F049B12C5B9FC400732F1A /* KakaoSDK in Frameworks */,
 				36F049B52C5B9FC400732F1A /* KakaoSDKCommon in Frameworks */,
+				36455ED72CACFEA80006583B /* FirebaseCrashlytics in Frameworks */,
 				36F049B32C5B9FC400732F1A /* KakaoSDKAuth in Frameworks */,
+				36455ED42CACEDE90006583B /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +235,7 @@
 				366587A92C6F47D400E85259 /* AuthService.swift */,
 				36980CE22CA63B14002C4AB3 /* UserDefaultService.swift */,
 				36980CE62CA68113002C4AB3 /* KeychainService.swift */,
+				36455ED82CAD40280006583B /* AnalyticsService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -408,6 +417,7 @@
 			children = (
 				36980CED2CA6B6BD002C4AB3 /* Settings.bundle */,
 				36EB01642BC400E400050CC7 /* SachosaengApp.swift */,
+				36455EDA2CAD8B360006583B /* GoogleService-Info.plist */,
 				36EB01632BC400E400050CC7 /* Sachosaeng */,
 				36EB01622BC400E400050CC7 /* Products */,
 			);
@@ -469,7 +479,7 @@
 				36EB015D2BC400E400050CC7 /* Sources */,
 				36EB015E2BC400E400050CC7 /* Frameworks */,
 				36EB015F2BC400E400050CC7 /* Resources */,
-				36CBA14F2BC4420B0073C50C /* SwiftLint Script */,
+				36455ED52CACFD870006583B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -485,6 +495,8 @@
 				36F049B62C5B9FC400732F1A /* KakaoSDKUser */,
 				3689C8ED2C87498A003A153F /* Lottie */,
 				36980CEB2CA6B574002C4AB3 /* SkeletonView */,
+				36455ED32CACEDE90006583B /* FirebaseAnalytics */,
+				36455ED62CACFEA80006583B /* FirebaseCrashlytics */,
 			);
 			productName = Sachosaeng;
 			productReference = 36EB01612BC400E400050CC7 /* Sachosaeng.app */;
@@ -519,6 +531,7 @@
 				36F049AF2C5B9FC400732F1A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				3689C8EC2C87498A003A153F /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				36980CEA2CA6B574002C4AB3 /* XCRemoteSwiftPackageReference "SkeletonView" */,
+				36455ED22CACEDE90006583B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 36EB01622BC400E400050CC7 /* Products */;
 			projectDirPath = "";
@@ -536,6 +549,7 @@
 			files = (
 				36562FB02C210B80004D1836 /* Pretendard-ExtraLight.otf in Resources */,
 				36F8C37F2C1FFD33002B4AD7 /* Launch Screen.storyboard in Resources */,
+				36455EDB2CAD8B360006583B /* GoogleService-Info.plist in Resources */,
 				36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */,
 				36562FAC2C210B80004D1836 /* Pretendard-ExtraBold.otf in Resources */,
 				36CEA3222C9301A00028F9DD /* stamplottie.json in Resources */,
@@ -554,9 +568,8 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		36CBA14F2BC4420B0073C50C /* SwiftLint Script */ = {
+		36455ED52CACFD870006583B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -564,15 +577,13 @@
 			);
 			inputPaths = (
 			);
-			name = "SwiftLint Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "
-";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -604,6 +615,7 @@
 				36949FAE2C51CA9D009E099E /* QuitView.swift in Sources */,
 				36CBA1532BC45C510073C50C /* SignView.swift in Sources */,
 				36842BF52C2298E00023473D /* TempImageView.swift in Sources */,
+				36455ED92CAD40280006583B /* AnalyticsService.swift in Sources */,
 				36842BF92C22BA990023473D /* OccupationView.swift in Sources */,
 				360C2B202C35893B0000C0F8 /* CategoryStore.swift in Sources */,
 				36980CE52CA65C13002C4AB3 /* AppleToken.swift in Sources */,
@@ -784,7 +796,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sachosaeng/Sachosaeng.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 3;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Sachosaeng/Preview Content\"";
 				DEVELOPMENT_TEAM = DZLBBL27FT;
 				ENABLE_PREVIEWS = YES;
@@ -797,15 +810,15 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Prography.Sachosaeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -826,7 +839,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sachosaeng/Sachosaeng.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Sachosaeng/Preview Content\"";
 				DEVELOPMENT_TEAM = DZLBBL27FT;
 				ENABLE_PREVIEWS = YES;
@@ -839,15 +852,15 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Prography.Sachosaeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -884,6 +897,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		36455ED22CACEDE90006583B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.3.0;
+			};
+		};
 		3663D3DA2BE317EE007AA77A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -919,6 +940,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		36455ED32CACEDE90006583B /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36455ED22CACEDE90006583B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		36455ED62CACFEA80006583B /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseCrashlytics;
+		};
 		3663D3DB2BE317EE007AA77A /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3663D3DA2BE317EE007AA77A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 enum TabItem {
     case home
@@ -33,6 +34,7 @@ struct TabView: View {
                         tabBarStore.switchTab = .home
                     }
                 }
+                    
                 case .bookMark, .edit:
                     BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, path: $path)
                     .onAppear {

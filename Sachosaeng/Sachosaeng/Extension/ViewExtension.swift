@@ -75,7 +75,7 @@ extension UINavigationController: @retroactive UINavigationBarDelegate, @retroac
         switch ViewTracker.shared.currentView {
             case .home, .sign, .bookmark, .success:
                 isEnabled = false
-            case .mypage, .vote, .category:
+            case .mypage, .voteDetail, .category, .information, .quit:
                 isEnabled = true
         }
         return viewControllers.count > 1 && isEnabled

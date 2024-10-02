@@ -20,10 +20,10 @@
 		363B66782C25A7E30098B0C1 /* SignSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B66772C25A7E30098B0C1 /* SignSuccessView.swift */; };
 		363EFB642C832710009A70DA /* Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363EFB632C832710009A70DA /* Information.swift */; };
 		363EFB662C834353009A70DA /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363EFB652C834353009A70DA /* InformationView.swift */; };
-		36455ED12CACED7E0006583B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36455ED02CACED7E0006583B /* GoogleService-Info.plist */; };
 		36455ED42CACEDE90006583B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 36455ED32CACEDE90006583B /* FirebaseAnalytics */; };
 		36455ED72CACFEA80006583B /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 36455ED62CACFEA80006583B /* FirebaseCrashlytics */; };
 		36455ED92CAD40280006583B /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36455ED82CAD40280006583B /* AnalyticsService.swift */; };
+		36455EDB2CAD8B360006583B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36455EDA2CAD8B360006583B /* GoogleService-Info.plist */; };
 		364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */; };
 		36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */; };
 		36562FAC2C210B80004D1836 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA32C210B7F004D1836 /* Pretendard-ExtraBold.otf */; };
@@ -117,8 +117,8 @@
 		363B66772C25A7E30098B0C1 /* SignSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignSuccessView.swift; sourceTree = "<group>"; };
 		363EFB632C832710009A70DA /* Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Information.swift; sourceTree = "<group>"; };
 		363EFB652C834353009A70DA /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
-		36455ED02CACED7E0006583B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		36455ED82CAD40280006583B /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		36455EDA2CAD8B360006583B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderProgressBarView.swift; sourceTree = "<group>"; };
 		36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		36562FA32C210B7F004D1836 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -417,7 +417,7 @@
 			children = (
 				36980CED2CA6B6BD002C4AB3 /* Settings.bundle */,
 				36EB01642BC400E400050CC7 /* SachosaengApp.swift */,
-				36455ED02CACED7E0006583B /* GoogleService-Info.plist */,
+				36455EDA2CAD8B360006583B /* GoogleService-Info.plist */,
 				36EB01632BC400E400050CC7 /* Sachosaeng */,
 				36EB01622BC400E400050CC7 /* Products */,
 			);
@@ -549,7 +549,7 @@
 			files = (
 				36562FB02C210B80004D1836 /* Pretendard-ExtraLight.otf in Resources */,
 				36F8C37F2C1FFD33002B4AD7 /* Launch Screen.storyboard in Resources */,
-				36455ED12CACED7E0006583B /* GoogleService-Info.plist in Resources */,
+				36455EDB2CAD8B360006583B /* GoogleService-Info.plist in Resources */,
 				36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */,
 				36562FAC2C210B80004D1836 /* Pretendard-ExtraBold.otf in Resources */,
 				36CEA3222C9301A00028F9DD /* stamplottie.json in Resources */,
@@ -796,7 +796,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sachosaeng/Sachosaeng.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Sachosaeng/Preview Content\"";
 				DEVELOPMENT_TEAM = DZLBBL27FT;
@@ -839,7 +839,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sachosaeng/Sachosaeng.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Sachosaeng/Preview Content\"";
 				DEVELOPMENT_TEAM = DZLBBL27FT;
 				ENABLE_PREVIEWS = YES;

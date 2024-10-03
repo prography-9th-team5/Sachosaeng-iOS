@@ -54,7 +54,7 @@ struct SignView: View {
                                 .foregroundStyle(.white)
                         }
                         .overlay(alignment: .leading) {
-                            Image("애플")
+                            Image("apple")
                                 .frame(width: 28, height: 28)
                                 .padding(12)
                         }
@@ -93,7 +93,7 @@ struct SignView: View {
                                 .foregroundStyle(CustomColor.GrayScaleColor.black)
                         }
                         .overlay(alignment: .leading) {
-                            Image("카카오")
+                            Image("kakao")
                                 .frame(width: 28, height: 28)
                                 .padding(12)
                         }
@@ -114,7 +114,7 @@ struct SignView: View {
                                 .foregroundStyle(CustomColor.GrayScaleColor.black)
                         }
                         .overlay(alignment: .leading) {
-                            Image("구글")
+                            Image("google")
                                 .frame(width: 28, height: 28)
                                 .padding(12)
                         }

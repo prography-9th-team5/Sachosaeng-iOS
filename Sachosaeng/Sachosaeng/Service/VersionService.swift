@@ -67,7 +67,6 @@ final class VersionService: ObservableObject {
                 "forceUpdateRequired": true
         ]
         networkService.performRequest(method: "PUT", path: path, body: body, token: nil) { (result: Result<Response<Version>, NetworkError>) in
-            
             switch result {
             case .success(let version):
                 jhPrint("버전 체크 \(version.data)")

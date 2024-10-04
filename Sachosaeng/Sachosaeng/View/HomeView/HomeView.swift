@@ -199,11 +199,15 @@ struct HomeView: View {
                                       isSheet: $isSheet, categoryName: $voteStore.categoryName)
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
-//                            .onDisappear {
-//                                withAnimation {
-//                                    proxy.scrollTo("top")
-//                                }
-//                            }
+                            .onDisappear {
+                                if voteStore.categoryName == "전체" {
+                                
+                                } else {
+                                    withAnimation {
+                                        proxy.scrollTo("top")
+                                    }
+                                }
+                            }
                     }
                 }
             }

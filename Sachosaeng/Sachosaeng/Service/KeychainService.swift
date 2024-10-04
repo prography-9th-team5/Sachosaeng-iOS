@@ -17,7 +17,7 @@ enum KeychainServiceKey: String {
     case appleJWT = "appleJWT"
 }
 
-class KeychainService {
+final class KeychainService {
     static let shared = KeychainService()
     
     func save(key: KeychainServiceKey, data: Data) -> Bool {
@@ -119,7 +119,6 @@ class KeychainService {
             .oauthToken,
             .appleUserID,
             .userEmail
-            // 여기에 다른 KeychainServiceKey 열거형 값들도 추가하세요.
         ]
         
         for key in allKeys {

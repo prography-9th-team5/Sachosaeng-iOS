@@ -1,5 +1,7 @@
 # Sachosaeng-iOS
 
+## 📌 contact 
+AppDev - dasom8899981@gamil.com
 
 ## 📌 프로젝트 소개
 협업 동아리 프로그라피에서 P.O, 디자이너, 마케터, 백엔드, AOS, iOS 로 구성된 팀으로 

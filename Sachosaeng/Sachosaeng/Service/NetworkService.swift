@@ -22,8 +22,11 @@ final class NetworkService {
     private init() {}
     
     func performRequest<T: Decodable>(method: String, path: String, body: [String: Any]?, token: String?, headers: [String: String]? = nil,  completion: @escaping (Result<T, NetworkError>) -> Void) {
-//        jhPrint(path)
-        guard let url = URL(string: "https://sachosaeng.store" + path) else {
+        guard let sachosaengUrl = Bundle.main.object(forInfoDictionaryKey: "sachosaengUrl") as? String else {
+            completion(.failure(.badURL))
+            return
+        }
+        guard let url = URL(string: "https://" + sachosaengUrl + path) else {
             completion(.failure(.badURL))
             return
         }

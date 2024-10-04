@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "애플 3.png",
+      "filename" : "kakao.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "애플 4.png",
+      "filename" : "kakao_1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "애플.png",
+      "filename" : "kakao_2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

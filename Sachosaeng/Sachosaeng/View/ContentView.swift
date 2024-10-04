@@ -78,39 +78,44 @@ struct ContentView: View {
                 if isSuccess {
                     userService.getUserInfo()
                     userInfoStore.performSetSignType()
-                    categoryStore.fetchCategories()
                     path.append(PathType.home)
                 }
             }
         }, secondaryAction: {
-                DispatchQueue.main.async {
-                    guard let appleID = Bundle.main.object(forInfoDictionaryKey: "Apple_Id") as? String,
-                          let url = URL(string: "itms-apps://itunes.apple.com/app/\(appleID)"),
-                          UIApplication.shared.canOpenURL(url) else {
-                        return
-                    }
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            DispatchQueue.main.async {
+                guard let appleID = Bundle.main.object(forInfoDictionaryKey: "Apple_Id") as? String,
+                      let url = URL(string: "itms-apps://itunes.apple.com/app/\(appleID)"),
+                      UIApplication.shared.canOpenURL(url) else {
+                    return
                 }
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         })
         .onAppear {
-            versionService.verifyVersion { isForceUpdateRequired, isLatest  in
+            categoryStore.fetchCategories()
+            performVersionChecking()
+        }
+    }
+}
+
+extension ContentView {
+    private func performVersionChecking() {
+        versionService.verifyVersion { isForceUpdateRequired, isLatest  in
+            if isLatest {
+                signStore.refreshToken { isSuccess in
+                    if isSuccess {
+                        userService.getUserInfo()
+                        userInfoStore.performSetSignType()
+                        path.append(PathType.home)
+                    }
+                }
+            } else {
                 if isForceUpdateRequired {
                     isPopUpType = .forceUpdate
                     isPopUpView = true
                 } else {
-                    if isLatest {
-                        signStore.refreshToken { isSuccess in
-                            if isSuccess {
-                                userService.getUserInfo()
-                                userInfoStore.performSetSignType()
-                                categoryStore.fetchCategories()
-                                path.append(PathType.home)
-                            }
-                        }
-                    } else {
-                        isPopUpType = .latestVersion
-                        isPopUpView = true
-                    }
+                    isPopUpType = .latestVersion
+                    isPopUpView = true
                 }
             }
         }

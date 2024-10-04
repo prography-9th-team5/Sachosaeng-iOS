@@ -21,7 +21,8 @@ struct FavoriteCategoryView: View {
     @State private var gridColumn: Double = 3.0
     @State private var isFavoriteCategory: FavoriteCategory = .all
     @State private var toast: Toast? = nil
-    
+    @State private var isSuccessperform: Bool = true
+
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -153,12 +154,17 @@ struct FavoriteCategoryView: View {
             .overlay(alignment: .bottom) {
                 if isFavoriteCategory == .edit {
                     Button {
-                        toast = Toast(type: .quit, message: "저장되었습니다")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            path.removeLast()
-                        }
-                        performCategorySetting {
-                            UserService.shared.getUserCategories()
+                        if isSuccessperform {
+                            isSuccessperform = false
+                            performCategorySetting {
+                                UserService.shared.getUserCategories()
+                            }
+                            toast = Toast(type: .quit, message: "저장되었습니다")
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                path.removeLast()
+                            }
+                        } else {
+                            toast = Toast(type: .quit, message: "이미 확인 버튼을 누르셨어요 ")
                         }
                     } label: {
                         Text("완료")

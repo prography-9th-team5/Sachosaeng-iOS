@@ -61,7 +61,7 @@ struct SachosaengApp: App {
                                Image("RollingC")
                                    .rotationEffect(Angle.degrees(rotateImage ? 360 : 0))
                                    .scaleEffect(scaleImage ? 1.2 : 1.0)
-                                   .animation(.easeInOut(duration: 2).repeatForever(autoreverses: false), value: rotateImage)
+                                   .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: rotateImage)
                                    .onAppear {
                                        rotateImage = true
                                        scaleImage = true
@@ -81,12 +81,12 @@ struct SachosaengApp: App {
                  withAnimation {
                      isBackground = false
                  }
-            } else if newPhase == .inactive {
+             } else if newPhase == .inactive  {
                 jhPrint("비활성화 되기전 ")
                 withAnimation {
                     isBackground = true
                 }
-            }
+             }
         }
     }
 }
@@ -95,8 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 //        Thread.sleep(forTimeInterval: 2.0)
 //
-        FirebaseApp.configure()
-        Analytics.setAnalyticsCollectionEnabled(true)
+//        FirebaseApp.configure()
+//        Analytics.setAnalyticsCollectionEnabled(true)
         return true
     }
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

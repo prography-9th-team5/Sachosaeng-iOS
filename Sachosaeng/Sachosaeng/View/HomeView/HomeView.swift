@@ -18,7 +18,8 @@ struct HomeView: View {
     @Binding var path: NavigationPath
     @State private var isSheet: Bool = false
     @State var isShowDaily: Bool = false
-    
+    @State private var isTouched = false
+
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -178,16 +179,11 @@ struct HomeView: View {
                                         }
                                 }
                             } //: Vstack
+                            
+
                         }
                     } //: ScrollView
-                    .refreshable {
-//                        (Task {
-//                            voteStore.fetchDailyVote() {_ in }
-//                            voteStore.fetchHotVotes()
-//                            voteStore.fetchHotVotesInCategory()
-//                            voteStore.fetchLatestVotesInSelectedCategory(categoryId: voteStore.categoryID(categoryName))
-//                        })
-                    }
+                    
                     .overlay(alignment: .bottomTrailing) {
                         Button {
                             withAnimation {
@@ -203,11 +199,11 @@ struct HomeView: View {
                                       isSheet: $isSheet, categoryName: $voteStore.categoryName)
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
-                            .onDisappear {
-                                withAnimation {
-                                    proxy.scrollTo("top")
-                                }
-                            }
+//                            .onDisappear {
+//                                withAnimation {
+//                                    proxy.scrollTo("top")
+//                                }
+//                            }
                     }
                 }
             }
@@ -257,3 +253,13 @@ extension HomeView {
     }
 }
 
+struct DisableMultiTouch: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        view.isMultipleTouchEnabled = false  // 다중 터치 비활성화
+        
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}

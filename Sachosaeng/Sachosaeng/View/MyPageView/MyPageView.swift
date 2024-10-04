@@ -158,7 +158,6 @@ struct MyPageView: View {
                                     }
                                 }
                             }
-                           
                     }
                     .padding(.bottom, 1)
                 }

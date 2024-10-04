@@ -19,7 +19,8 @@ struct CategoryModal: View {
     @State private var isMyCategory = true
     @State private var isEdit = false
     @State private var isAll = false
-    
+    @State private var isSuccessperform: Bool = true
+
     var body: some View {
         VStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 32.24)

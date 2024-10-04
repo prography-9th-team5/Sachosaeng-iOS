@@ -22,7 +22,8 @@ struct DailyVoteDetailView: View {
     @State private var chosenVoteOptionId: [Int] = []
     @State private var isLottie: Bool = false
     @State private var isLoading: Bool = true
-    
+    @State private var isSuccessperform: Bool = true
+
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -189,9 +190,11 @@ struct DailyVoteDetailView: View {
                     
                     Button {
                         if isVoted {
-                            tabBarStore.isOpacity = false
-                            path.removeLast()
-                            
+                            if isSuccessperform {
+                                tabBarStore.isOpacity = false
+                                isSuccessperform = false
+                                path.removeLast()
+                            }
                         } else {
                             isVoted = true
                             isLottie = true

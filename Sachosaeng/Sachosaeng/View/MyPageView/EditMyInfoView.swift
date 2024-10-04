@@ -73,11 +73,11 @@ struct EditMyInfoView: View {
                                         Spacer()
                                     }
                                 }
-                                TextField("", text: $textField)
-                                    .font(.createFont(weight: .medium, size: 15))
-                                    .padding(16)
-                                    .padding(.bottom, 34)
-                                    .focused($keyboardVisible)
+//                                TextField("", text: $textField)
+//                                    .font(.createFont(weight: .medium, size: 15))
+//                                    .padding(16)
+//                                    .padding(.bottom, 34)
+//                                    .focused($keyboardVisible)
                             }
                         
                         HStack {
@@ -98,10 +98,15 @@ struct EditMyInfoView: View {
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 48)
                                         .foregroundStyle(CustomColor.GrayScaleColor.white)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .stroke(selectedType == type ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1)
-                                        )
+                                        .overlay {
+                                            if !isSelected {
+                                                RoundedRectangle(cornerRadius: 8)
+                                                    .stroke(userInfoStore.currentUserState.userType == type.rawValue ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1)
+                                            } else {
+                                                RoundedRectangle(cornerRadius: 8)
+                                                    .stroke(selectedType == type ? CustomColor.GrayScaleColor.black : Color.clear, lineWidth: 1)
+                                            }
+                                        }
                                     
                                 }
                                 .overlay(alignment: .leading) {
@@ -110,8 +115,13 @@ struct EditMyInfoView: View {
                                         .padding(16)
                                 }
                                 .overlay(alignment: .trailing) {
-                                    Image(selectedType == type ? "check_on" : "check_off")
-                                        .padding(16)
+                                    if !isSelected {
+                                        Image(userInfoStore.currentUserState.userType == type.rawValue ? "check_on" : "check_off")
+                                            .padding(16)
+                                    } else {
+                                        Image(selectedType == type ? "check_on" : "check_off")
+                                            .padding(16)
+                                    }
                                 }
                             }
                         }
@@ -185,6 +195,11 @@ struct EditMyInfoView: View {
         .onTapGesture {
             hideKeyboard()
         }
+    }
+    
+    @ViewBuilder
+    func firstTypeView() -> some View {
+        
     }
 }
 

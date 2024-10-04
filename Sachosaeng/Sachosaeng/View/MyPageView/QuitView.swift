@@ -31,7 +31,7 @@ struct QuitView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            CommonTitle(top: "랜덤이름님", topFont: .bold, middle: "떠난다니 아쉬워요...", middleFont: .bold, footer: "사초생 탈퇴 사유를 알려주세요.", footerFont: .medium, isSuccessView: false)
+            CommonTitle(top: userInfoStore.currentUserState.nickname + "님", topFont: .bold, middle: "떠난다니 아쉬워요...", middleFont: .bold, footer: "사초생 탈퇴 사유를 알려주세요.", footerFont: .medium, isSuccessView: false)
             
             ScrollViewReader { reader in
                 ScrollView {

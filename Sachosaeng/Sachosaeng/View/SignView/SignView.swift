@@ -26,7 +26,6 @@ struct SignView: View {
     @Binding var path: NavigationPath
     @Binding var isSign: Bool
     @State var isPopUpView: Bool = false
-    @State var isPopUpType: PopupType?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -132,6 +131,24 @@ struct SignView: View {
             } //: Vstack
             .padding(.horizontal, 20)
         }
+        .showPopupView(isPresented: $isPopUpView, message: .forceUpdate, primaryAction: {
+            
+        }, secondaryAction: {
+            DispatchQueue.main.async {
+                guard let appleID = Bundle.main.object(forInfoDictionaryKey: "Apple_Id") as? String else {
+                    return
+                }
+
+                let modifiedAppleID = appleID.replacingOccurrences(of: "apple", with: "").trimmingCharacters(in: .whitespaces)
+
+                guard let url = URL(string: "itms-apps://itunes.apple.com/app/\(modifiedAppleID)"),
+                      UIApplication.shared.canOpenURL(url) else {
+                    return
+                }
+
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        })
         .onAppear {
             Task {
                 ViewTracker.shared.currentView = .sign
@@ -142,49 +159,60 @@ struct SignView: View {
 
 extension SignView {
     private func performSignApple() {
-        signStore.registerUser(isApple: true) { type in
-            switch type {
-                case .success:
-                    signStore.loginUser(isApple: true) { isSuccessAuthLogin in
-                        if isSuccessAuthLogin {
-                            path.append(PathType.occupation)
-                        }
+        versionService.verifyVersion { forceUpdate, isLatest in
+            if forceUpdate && !isLatest {
+                isPopUpView = true
+            } else {
+                signStore.registerUser(isApple: true) { type in
+                    switch type {
+                        case .success:
+                            signStore.loginUser(isApple: true) { isSuccessAuthLogin in
+                                if isSuccessAuthLogin {
+                                    path.append(PathType.occupation)
+                                }
+                            }
+                        case .failed:
+                            jhPrint("실패")
+                        case .userExists:
+                            signStore.loginUser(isApple: true) { isSuccessAuthLogin in
+                                if isSuccessAuthLogin {
+                                    userService.getUserInfo()
+                                    userService.getUserCategories()
+                                    path.append(PathType.home)
+                                }
+                            }
                     }
-                case .failed:
-                    jhPrint("실패")
-                case .userExists:
-                    signStore.loginUser(isApple: true) { isSuccessAuthLogin in
-                        if isSuccessAuthLogin {
-                            userService.getUserInfo()
-                            userService.getUserCategories()
-                            path.append(PathType.home)
-                        }
-                    }
-                    
+                }
             }
         }
     }
     
     private func performSignLogic() {
-            signStore.registerUser { type in
-                switch type {
-                    case .success:
-                        signStore.loginUser { isSuccessAuthLogin in
-                            if isSuccessAuthLogin {
-                                path.append(PathType.occupation)
+        versionService.verifyVersion { forceUpdate, isLatest in
+            if forceUpdate && !isLatest {
+                isPopUpView = true
+            } else {
+                signStore.registerUser { type in
+                    switch type {
+                        case .success:
+                            signStore.loginUser { isSuccessAuthLogin in
+                                if isSuccessAuthLogin {
+                                    path.append(PathType.occupation)
+                                }
                             }
-                        }
-                    case .failed:
-                        jhPrint("실패")
-                    case .userExists:
-                        signStore.loginUser { isSuccessAuthLogin in
-                            if isSuccessAuthLogin {
-                                userService.getUserInfo()
-                                userService.getUserCategories()
-                                path.append(PathType.home)
+                        case .failed:
+                            jhPrint("실패")
+                        case .userExists:
+                            signStore.loginUser { isSuccessAuthLogin in
+                                if isSuccessAuthLogin {
+                                    userService.getUserInfo()
+                                    userService.getUserCategories()
+                                    path.append(PathType.home)
+                                }
                             }
-                        }
+                    }
                 }
             }
         }
+    }
 }

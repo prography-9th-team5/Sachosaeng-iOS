@@ -109,6 +109,7 @@ extension ContentView {
     private func performVersionChecking() {
         versionService.verifyVersion { isForceUpdateRequired, isLatest  in
             if isLatest { // 최신버전
+                guard KeychainService.shared.getSachosaengRefreshToken() != nil else { return }
                 signStore.refreshToken { isSuccess in
                     if isSuccess {
                         userService.getUserInfo()

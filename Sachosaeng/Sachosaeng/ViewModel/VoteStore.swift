@@ -33,9 +33,7 @@ final class VoteStore: ObservableObject {
         categoryName = "전체"
         categoryNameForBookmark = "ALL"
     }
-    func isDailyVote() -> Bool {
-        return !dailyVote.isVoted
-    }
+    
     /// 인기투표 3개를 가져오는 메서드
     func fetchHotVotes() {
         networkService.performRequest(method: "GET", path: "/api/v1/votes/hot", body: nil, token: KeychainService.shared.getSachoSaengAccessToken()!) { (result: Result<Response<HotVote>, NetworkError>) in
@@ -43,6 +41,7 @@ final class VoteStore: ObservableObject {
             case .success(let votes):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
+                    
                     hotVotes = votes.data
                 }
             case .failure(let failure):

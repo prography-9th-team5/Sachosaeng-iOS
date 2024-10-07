@@ -60,4 +60,19 @@ final class VersionService: ObservableObject {
             }
         }
     }
+    func setForceUpdate() {
+        let path = "/api/v1/versions/ios/force-update"
+        let body: [String: Any] = [
+                "versions": [version],
+                "forceUpdateRequired": true
+        ]
+        networkService.performRequest(method: "PUT", path: path, body: body, token: nil) { (result: Result<Response<Version>, NetworkError>) in
+            switch result {
+            case .success(let version):
+                jhPrint("버전 체크 \(version.data)")
+            case .failure(let error):
+                jhPrint(error)
+            }
+        }
+    }
 }

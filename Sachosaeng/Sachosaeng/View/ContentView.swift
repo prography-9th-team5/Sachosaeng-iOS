@@ -58,6 +58,7 @@ struct ContentView: View {
                         SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), path: $path, isSign: $isSign)
                     case .daily:
                         DailyVoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteStore.dailyVote.voteId, path: $path)
+                                .navigationBarBackButtonHidden()
                     case .usersFavorite:
                         FavoriteCategoryView(categoryStore: categoryStore, path: $path)
                     case .inquiry:
@@ -78,39 +79,50 @@ struct ContentView: View {
                 if isSuccess {
                     userService.getUserInfo()
                     userInfoStore.performSetSignType()
-                    categoryStore.fetchCategories()
                     path.append(PathType.home)
                 }
             }
         }, secondaryAction: {
-                DispatchQueue.main.async {
-                    guard let appleID = Bundle.main.object(forInfoDictionaryKey: "Apple_Id") as? String,
-                          let url = URL(string: "itms-apps://itunes.apple.com/app/\(appleID)"),
-                          UIApplication.shared.canOpenURL(url) else {
-                        return
-                    }
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            DispatchQueue.main.async {
+                guard let appleID = Bundle.main.object(forInfoDictionaryKey: "Apple_Id") as? String else {
+                    return
                 }
+
+                let modifiedAppleID = appleID.replacingOccurrences(of: "apple", with: "").trimmingCharacters(in: .whitespaces)
+
+                guard let url = URL(string: "itms-apps://itunes.apple.com/app/\(modifiedAppleID)"),
+                      UIApplication.shared.canOpenURL(url) else {
+                    return
+                }
+
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         })
         .onAppear {
-            versionService.verifyVersion { isForceUpdateRequired, isLatest  in
-                if isForceUpdateRequired {
+            categoryStore.fetchCategories()
+            performVersionChecking()
+        }
+    }
+}
+
+extension ContentView {
+    private func performVersionChecking() {
+        versionService.verifyVersion { isForceUpdateRequired, isLatest  in
+            if isLatest { // 최신버전
+                signStore.refreshToken { isSuccess in
+                    if isSuccess {
+                        userService.getUserInfo()
+                        userInfoStore.performSetSignType()
+                        path.append(PathType.home)
+                    }
+                }
+            } else { // 최신버전이 아님
+                if isForceUpdateRequired { // 최신버전 아닌데 필수 업데이트도 안함
                     isPopUpType = .forceUpdate
                     isPopUpView = true
-                } else {
-                    if isLatest {
-                        signStore.refreshToken { isSuccess in
-                            if isSuccess {
-                                userService.getUserInfo()
-                                userInfoStore.performSetSignType()
-                                categoryStore.fetchCategories()
-                                path.append(PathType.home)
-                            }
-                        }
-                    } else {
-                        isPopUpType = .latestVersion
-                        isPopUpView = true
-                    }
+                } else { // 최신 버전은 아닌데 필수 업데이트는 함
+                    isPopUpType = .latestVersion
+                    isPopUpView = true
                 }
             }
         }

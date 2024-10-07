@@ -49,6 +49,13 @@ extension View {
             )
         )
     }
+    func disablePressed(isDisabled: Binding<Bool>) -> some View {
+        self
+            .disabled(isDisabled.wrappedValue)
+            .onTapGesture {
+                isDisabled.wrappedValue = true
+            }
+    }
 }
 
 struct RoundedCorner: Shape {
@@ -82,5 +89,3 @@ extension UINavigationController: @retroactive UINavigationBarDelegate, @retroac
         
     }
 }
-
-

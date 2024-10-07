@@ -28,10 +28,11 @@ struct QuitView: View {
     @State private var etcText: String = ""
     @FocusState private var keyboardVisible: Bool
     private let quitTypeArray: [QuitType] = QuitType.allCases
-    
+    @State private var isSuccessperform: Bool = true
+
     var body: some View {
         VStack(spacing: 0) {
-            CommonTitle(top: "랜덤이름님", topFont: .bold, middle: "떠난다니 아쉬워요...", middleFont: .bold, footer: "사초생 탈퇴 사유를 알려주세요.", footerFont: .medium, isSuccessView: false)
+            CommonTitle(top: userInfoStore.currentUserState.nickname + "님", topFont: .bold, middle: "떠난다니 아쉬워요...", middleFont: .bold, footer: "사초생 탈퇴 사유를 알려주세요.", footerFont: .medium, isSuccessView: false)
             
             ScrollViewReader { reader in
                 ScrollView {
@@ -110,20 +111,23 @@ struct QuitView: View {
                 if keyboardVisible {
                     hideKeyboard()
                 } else {
-                    toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        tabBarStore.reset()
-                        isSign = true
-                        switch tappedQuitType {
-                            case .content, .service, .use:
-                                signStore.withdrawUserAccount(tappedQuitType?.rawValue ?? "sad")
-                            case .etc:
-                                signStore.withdrawUserAccount(etcText)
-                            case .none:
-                                toast = Toast(type: .quit, message: "탈퇴 실패 다시 시도해주세요.")
+                    if isSuccessperform  {
+                        isSuccessperform = false
+                        toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            tabBarStore.reset()
+                            isSign = true
+                            switch tappedQuitType {
+                                case .content, .service, .use:
+                                    signStore.withdrawUserAccount(tappedQuitType?.rawValue ?? "sad")
+                                case .etc:
+                                    signStore.withdrawUserAccount(etcText)
+                                case .none:
+                                    toast = Toast(type: .quit, message: "탈퇴 실패 다시 시도해주세요.")
+                            }
+                            path = .init()
                         }
-                        path = .init()
-                    }
+                    } 
                 }
             } label: {
                 if keyboardVisible {
@@ -138,6 +142,7 @@ struct QuitView: View {
                         .modifier(DesignForNext(isSelected: $isSelected))
                 }
             }
+            .disabled(!isSelected)
         }
         .onAppear(perform: {
             ViewTracker.shared.updateCurrentView(to: .quit)

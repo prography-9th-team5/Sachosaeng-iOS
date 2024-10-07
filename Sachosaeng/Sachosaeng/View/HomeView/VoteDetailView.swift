@@ -232,8 +232,7 @@ struct VoteDetailView: View {
                             presentationMode.wrappedValue.dismiss()
                         } else {
                             isLottie = true
-                            jhPrint(chosenVoteOptionId)
-                            voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { isSuccess in
+                            voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteId) { isSuccess in
                                 if isSuccess {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                         voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { _ in
@@ -250,22 +249,6 @@ struct VoteDetailView: View {
                                     toast = Toast(type: .quit, message: "투표 실패")
                                 }
                             }
-//                            voteStore.updateUserVoteChoices(voteId: voteId, chosenVoteOptionIds: chosenVoteOptionId) { isSuccess in
-//                                voteStore.fetchVoteDetail(voteId: voteId) {
-//                                    voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
-//                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                            if success {
-//                                                isLottie = false
-//                                                isVoted = true
-//                                                toast = Toast(type: .quit, message: "투표 완료!")
-//                                            } else {
-//                                                isLottie = false
-//                                                toast = Toast(type: .quit, message: "투표 실패")
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
                         }
                     } label: {
                         Text(isVoted ? "다른 투표 보기" : "확인")

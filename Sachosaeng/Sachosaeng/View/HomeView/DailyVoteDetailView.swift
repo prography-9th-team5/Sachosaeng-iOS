@@ -27,7 +27,7 @@ struct DailyVoteDetailView: View {
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
-            
+        
             if isLottie {
                 LottieView(animation: .named("stamplottie"))
                     .playing()
@@ -132,16 +132,6 @@ struct DailyVoteDetailView: View {
                                                         .stroke(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs3, lineWidth: 1)
                                                 }
                                                 .onTapGesture {
-//                                                    isSelected = true
-//                                                    chosenVoteIndex = vote.voteOptionId
-//                                                    
-//                                                    if chosenVoteIndex == vote.voteOptionId {
-//                                                        chosenVoteOptionId.append(vote.voteOptionId)
-//                                                    } else {
-//                                                        if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
-//                                                            chosenVoteOptionId.remove(at: index)
-//                                                        }
-//                                                    }
                                                     if voteStore.currentVoteDetail.isMultipleChoiceAllowed {
                                                         if isChosenOption {
                                                             if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
@@ -161,9 +151,20 @@ struct DailyVoteDetailView: View {
                                                             isSelected = false
                                                         } else {
                                                             chosenVoteIndex = vote.voteOptionId
-                                                            chosenVoteOptionId.append(vote.voteOptionId)
+                                                            chosenVoteOptionId = [vote.voteOptionId]
                                                             isSelected = true
                                                         }
+//                                                        if chosenVoteIndex == vote.voteOptionId {
+//                                                            if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
+//                                                                chosenVoteIndex = nil
+//                                                                chosenVoteOptionId.remove(at: index)
+//                                                            }
+//                                                            isSelected = false
+//                                                        } else {
+//                                                            chosenVoteIndex = vote.voteOptionId
+//                                                            chosenVoteOptionId.append(vote.voteOptionId)
+//                                                            isSelected = true
+//                                                        }
                                                     }
                                                 
                                                 
@@ -185,7 +186,7 @@ struct DailyVoteDetailView: View {
                         .navigationTitle("경조사")
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden()
-                        .customBackbutton()
+//                        .customBackbutton()
                     }//: ScrollView
                     
                     Button {
@@ -201,8 +202,8 @@ struct DailyVoteDetailView: View {
                             voteStore.searchInformation(categoryId: voteStore.currentVoteDetail.category.categoryId, voteId: voteStore.currentVoteDetail.voteId) { success in
                                 if success {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        isLottie = false
                                         voteStore.updateUserVoteChoices(voteId: voteStore.currentVoteDetail.voteId, chosenVoteOptionIds: chosenVoteOptionId) { isSuccess in
+                                            isLottie = false
                                             toast = Toast(type: .quit, message: "투표 완료!")
                                         }
                                     }
@@ -220,6 +221,7 @@ struct DailyVoteDetailView: View {
                             .cornerRadius(4)
                     }
                     .contentShape(Rectangle())
+                    .disabled(chosenVoteOptionId.isEmpty)
                 }
             } //: Vstack
             .showToastView(toast: $toast)

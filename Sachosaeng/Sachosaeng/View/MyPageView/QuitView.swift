@@ -111,7 +111,7 @@ struct QuitView: View {
                 if keyboardVisible {
                     hideKeyboard()
                 } else {
-                    if isSuccessperform {
+                    if isSuccessperform  {
                         isSuccessperform = false
                         toast = Toast(type: .quit, message: "탈퇴가 완료되었어요")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -142,6 +142,7 @@ struct QuitView: View {
                         .modifier(DesignForNext(isSelected: $isSelected))
                 }
             }
+            .disabled(!isSelected)
         }
         .onAppear(perform: {
             ViewTracker.shared.updateCurrentView(to: .quit)

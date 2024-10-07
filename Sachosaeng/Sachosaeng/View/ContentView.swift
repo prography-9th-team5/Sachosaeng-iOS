@@ -58,6 +58,7 @@ struct ContentView: View {
                         SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), path: $path, isSign: $isSign)
                     case .daily:
                         DailyVoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteStore.dailyVote.voteId, path: $path)
+                                .navigationBarBackButtonHidden()
                     case .usersFavorite:
                         FavoriteCategoryView(categoryStore: categoryStore, path: $path)
                     case .inquiry:

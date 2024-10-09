@@ -16,6 +16,7 @@ struct HotVoteCell: View {
     var body: some View {
         NavigationLink {
             VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: vote.voteId)
+            
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)

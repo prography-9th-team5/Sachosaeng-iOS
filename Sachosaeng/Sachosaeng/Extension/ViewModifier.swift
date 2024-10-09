@@ -24,6 +24,8 @@ public struct CustomBackButton: ViewModifier {
                         Image("backButton")
                             .foregroundColor(.black)
                     }
+                    .background(.clear)
+                    .frame(width: 30, height: 30)
                 }
             }
     }

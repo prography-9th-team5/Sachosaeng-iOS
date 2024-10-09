@@ -61,16 +61,10 @@ struct ContentView: View {
                                 .navigationBarBackButtonHidden()
                     case .usersFavorite:
                         FavoriteCategoryView(categoryStore: categoryStore, path: $path)
-                    case .inquiry:
+                    case .inquiry, .openSource, .userData, .service, .FAQ:
                         EmptyView()
-                    case .openSource:
-                        EmptyView()
-                    case .userData:
-                        EmptyView()
-                    case .service:
-                        EmptyView()
-                    case .FAQ:
-                        EmptyView()
+                    case .voteDetail(let voteId):
+                        VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteId)
                     }
                 }
         }

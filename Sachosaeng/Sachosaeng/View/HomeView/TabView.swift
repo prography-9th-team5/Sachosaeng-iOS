@@ -8,11 +8,7 @@
 import SwiftUI
 import FirebaseAnalytics
 
-enum TabItem {
-    case home
-    case bookMark
-    case edit
-}
+
 
 struct TabView: View {
     @ObservedObject var categoryStore: CategoryStore

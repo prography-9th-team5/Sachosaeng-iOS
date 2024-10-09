@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum PathType {
+enum PathType: Hashable {
     case sign
     case occupation
     case favorite
@@ -23,9 +23,16 @@ public enum PathType {
     case userData
     case service
     case FAQ
+    case voteDetail(Int)
+}
+
+enum TabType: Hashable {
+    case home
+    case bookMark
+    case edit
 }
 
 struct SachosaengPath: Hashable {
     let spath: PathType
-    let switchTab: TabItem
+    let switchTab: TabType
 }

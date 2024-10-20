@@ -185,7 +185,7 @@ struct MyPageView: View {
                 SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/FAQ-107a24e5b9e88045bd68c6bc5507fd4f")!)
             }
             .sheet(isPresented: $showingMailView) {
-                MailView(result: self.$mailResult, recipients: ["dasom8899981@gmail.com"], subject: "1:1 문의", messageBody: """
+                MailView(result: self.$mailResult, recipients: ["sachosaeng@gmail.com"], subject: "1:1 문의", messageBody: """
                                     문의할 사항을 입력해주세요. 
                                     
                                     

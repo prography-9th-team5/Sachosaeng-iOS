@@ -93,6 +93,7 @@
 		36EB01672BC400E400050CC7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB01662BC400E400050CC7 /* ContentView.swift */; };
 		36EB01692BC400E500050CC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36EB01682BC400E500050CC7 /* Assets.xcassets */; };
 		36EB016C2BC400E500050CC7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36EB016B2BC400E500050CC7 /* Preview Assets.xcassets */; };
+		36EEB5EA2CC504DB0023DEAC /* VoteRegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EEB5E92CC504DB0023DEAC /* VoteRegistrationView.swift */; };
 		36F049B12C5B9FC400732F1A /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 36F049B02C5B9FC400732F1A /* KakaoSDK */; };
 		36F049B32C5B9FC400732F1A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 36F049B22C5B9FC400732F1A /* KakaoSDKAuth */; };
 		36F049B52C5B9FC400732F1A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 36F049B42C5B9FC400732F1A /* KakaoSDKCommon */; };
@@ -188,6 +189,7 @@
 		36EB016B2BC400E500050CC7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		36EB01722BC4012F00050CC7 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		36EB01732BC401BE00050CC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		36EEB5E92CC504DB0023DEAC /* VoteRegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteRegistrationView.swift; sourceTree = "<group>"; };
 		36F8C37E2C1FFD33002B4AD7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		36F8D3E52C64ED1E006E4FA2 /* ConsentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentView.swift; sourceTree = "<group>"; };
 		36FD59B52C8F6EE100D8979D /* BookmarkStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkStore.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				3695C2C72C7B489E0057007E /* VoteDetailView.swift */,
 				3622FA172C9C5763000FDE03 /* DailyVoteDetailView.swift */,
 				363EFB652C834353009A70DA /* InformationView.swift */,
+				36EEB5E92CC504DB0023DEAC /* VoteRegistrationView.swift */,
 				3695C2C92C7B4FA70057007E /* HomeViewCell */,
 				36696B662C2B762F006BFCC0 /* CategoryCell */,
 			);
@@ -590,6 +593,7 @@
 				367B259D2C9717FF000AE532 /* Version.swift in Sources */,
 				36842BFF2C22D8960023473D /* CategoryCellView.swift in Sources */,
 				366053A92C538210000A1D8D /* CustomTextEditor.swift in Sources */,
+				36EEB5EA2CC504DB0023DEAC /* VoteRegistrationView.swift in Sources */,
 				36C12F912C914EFF00D91394 /* VotesBookmarkCell.swift in Sources */,
 				36949FAE2C51CA9D009E099E /* QuitView.swift in Sources */,
 				36CBA1532BC45C510073C50C /* SignView.swift in Sources */,
@@ -797,7 +801,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Prography.Sachosaeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -839,7 +843,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Prography.Sachosaeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

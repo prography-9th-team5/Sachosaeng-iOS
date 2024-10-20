@@ -466,8 +466,10 @@ final class AuthService {
     }
     // 사용자 회원가입
     func registerUser(isApple: Bool = false, completion: @escaping (AuthTypeKeys) -> Void) {
+        guard let email = KeychainService.shared.getUserEmail() else { return }
+        
         let body = [
-            "email": KeychainService.shared.getUserEmail()!,
+            "email": email,
             "userType": "STUDENT"
         ]
         let path = isApple ? "/api/v1/auth/join?type=APPLE" : "/api/v1/auth/join"
@@ -484,6 +486,7 @@ final class AuthService {
                 }
             }
         }
+        
     }
     
     /// 사용자 로그아웃

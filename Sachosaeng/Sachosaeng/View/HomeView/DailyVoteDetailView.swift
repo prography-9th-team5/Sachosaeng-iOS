@@ -230,7 +230,7 @@ struct DailyVoteDetailView: View {
             tabBarStore.switchTab = .bookMark
             path.append(PathType.home)
         })
-        .showToastView(toast: $toast)
+//        .showToastView(toast: $toast)
         .onAppear {
             Task {
                 voteStore.fetchVoteDetail(voteId: voteId) { _ in

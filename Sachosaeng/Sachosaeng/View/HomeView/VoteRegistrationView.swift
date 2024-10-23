@@ -14,85 +14,90 @@ struct VoteRegistrationView: View {
     @State private var titleText: String = ""
     @State private var choiceTextArray: [String] = ["", "", "", ""]
     @State private var chosenCategory: [Int] = []
+    @State private var toast: Toast? = nil
 
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
-            ScrollView(showsIndicators: false) {
-                HStack(spacing: 0) {
-                    Text("*사초생이 검토 후 투표에 등록할게요!")
-                        .font(.createFont(weight: .medium, size: 12))
-                        .foregroundStyle(CustomColor.GrayScaleColor.gs5)
-                    Spacer()
-                }
-                .padding(.bottom, 25)
-                
-                VStack(spacing: 0) {
-                    titleView(titleString: "투표 제목")
-                        .padding(.bottom, 12)
-                    
-                    TextField("투표 제목을 작성해 주세요", text: $titleText.max(100), axis: .vertical)
-                        .font(.createFont(weight: .medium, size: 12))
-                        .padding(16)
-                        .background(CustomColor.GrayScaleColor.white)
-                        .cornerRadius(8, corners: .allCorners)
-                        .lineLimit(2...2)
-                }
-                .padding(.bottom, 36)
-                
-                VStack(spacing: 0) {
+            VStack(spacing: 0) {
+                ScrollView(showsIndicators: false) {
                     HStack(spacing: 0) {
-                        titleView(titleString: "선택지")
-                            .padding(.bottom, 12)
-                        Button {
-                            let emptyStringCount = choiceTextArray.filter { $0 == "" }.count
-                            if emptyStringCount < 3 {
-                                isMultipleSelection.toggle()
-                            }
-                        } label: {
-                            HStack(spacing: 0) {
-                                Image(isMultipleSelection ? "checkCircle_true" : "checkCircle_false")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 16, height: 16)
-                                    .padding(.trailing, 6)
-                                Text("중복 선택 가능")
-                                    .font(.createFont(weight: .medium, size: 12))
-                                    .foregroundStyle(CustomColor.GrayScaleColor.gs5)
-                            }
-                        }
+                        Text("*사초생이 검토 후 투표에 등록할게요!")
+                            .font(.createFont(weight: .medium, size: 12))
+                            .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                        Spacer()
                     }
+                    .padding(.bottom, 25)
                     
-                    ForEach(choiceTextArray.indices, id: \.self) { text in
-                        TextField("선택지 \(text + 1)", text: $choiceTextArray[text].max(100), axis: .vertical)
+                    VStack(spacing: 0) {
+                        titleView(titleString: "투표 제목")
+                            .padding(.bottom, 12)
+                        
+                        TextField("투표 제목을 작성해 주세요", text: $titleText.max(100), axis: .vertical)
                             .font(.createFont(weight: .medium, size: 12))
                             .padding(16)
                             .background(CustomColor.GrayScaleColor.white)
                             .cornerRadius(8, corners: .allCorners)
-                            .lineLimit(1...2)
-                            .padding(.bottom, 8)
+                            .lineLimit(2...2)
                     }
-                }
-                .padding(.bottom, 36)
-                
-                LazyVStack(spacing: 0) {
-                    titleView(titleString: "카테고리")
-                        .padding(.bottom, 12)
-                    ForEach(categoryStore.categories.chunked(into: 3), id: \.self) { rowCategories in
-                        HStack(spacing: 0) {
-                            ForEach(rowCategories) { category in
-                                configCategoryButtons(category: category)
-                                    .padding(.trailing, 8)
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom, 8)
-                    }
-                }
-                .padding(.bottom, 27)
-                
-                Button {
+                    .padding(.bottom, 36)
                     
+                    VStack(spacing: 0) {
+                        HStack(spacing: 0) {
+                            titleView(titleString: "선택지")
+                                .padding(.bottom, 12)
+                            Button {
+                                let emptyStringCount = choiceTextArray.filter { $0 == "" }.count
+                                if emptyStringCount < 3 {
+                                    isMultipleSelection.toggle()
+                                }
+                            } label: {
+                                HStack(spacing: 0) {
+                                    Image(isMultipleSelection ? "checkCircle_true" : "checkCircle_false")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 16, height: 16)
+                                        .padding(.trailing, 6)
+                                    Text("중복 선택 가능")
+                                        .font(.createFont(weight: .medium, size: 12))
+                                        .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                                }
+                            }
+                        }
+                        
+                        ForEach(choiceTextArray.indices, id: \.self) { text in
+                            TextField("선택지 \(text + 1)", text: $choiceTextArray[text].max(100), axis: .vertical)
+                                .font(.createFont(weight: .medium, size: 12))
+                                .padding(16)
+                                .background(CustomColor.GrayScaleColor.white)
+                                .cornerRadius(8, corners: .allCorners)
+                                .lineLimit(1...2)
+                                .padding(.bottom, 8)
+                        }
+                    }
+                    .padding(.bottom, 36)
+                    
+                    LazyVStack(spacing: 0) {
+                        titleView(titleString: "카테고리")
+                            .padding(.bottom, 12)
+                        ForEach(categoryStore.categories.chunked(into: 3), id: \.self) { rowCategories in
+                            HStack(spacing: 0) {
+                                ForEach(rowCategories) { category in
+                                    configCategoryButtons(category: category)
+                                        .padding(.trailing, 8)
+                                }
+                                Spacer()
+                            }
+                            .padding(.bottom, 8)
+                        }
+                    }
+                    .padding(.bottom, 27)
+                    
+                    Spacer()
+                    
+                }
+                Button {
+                    toast = Toast(type: .quit, message: "등록한 투표는 관리자 검토 후 업로드돼요")
                 } label: {
                     Text("등록")
                         .font(.createFont(weight: .medium, size: 16))
@@ -101,10 +106,13 @@ struct VoteRegistrationView: View {
                         .background(isNext() ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                         .cornerRadius(4)
                 }
-                Spacer()
             }
-            .padding()
+            .padding(.horizontal)
+            .showToastView(toast: $toast)
         }
+        .navigationTitle("투표 등록")
+        .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 18)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -122,11 +130,7 @@ extension VoteRegistrationView {
             return false
         }
     }
-    
-//    private func checkMultipleChoise() -> Bool {
-//        
-//    }
-    
+
     @ViewBuilder
     private func titleView(titleString: String) -> some View {
         HStack(spacing: 0) {
@@ -173,18 +177,6 @@ extension VoteRegistrationView {
                             : CustomColor.GrayScaleColor.white)
                 .cornerRadius(4, corners: .allCorners)
                 
-                
             }
-    }
-}
-
-extension Binding where Value == String {
-    func max(_ limit: Int) -> Self {
-        if self.wrappedValue.count > limit {
-            DispatchQueue.main.async {
-                self.wrappedValue = String(self.wrappedValue.prefix(limit))
-            }
-        }
-        return self
     }
 }

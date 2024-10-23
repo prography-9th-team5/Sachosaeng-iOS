@@ -86,6 +86,7 @@
 		36C12F912C914EFF00D91394 /* VotesBookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C12F902C914EFF00D91394 /* VotesBookmarkCell.swift */; };
 		36CBA1532BC45C510073C50C /* SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CBA1522BC45C510073C50C /* SignView.swift */; };
 		36CEA3222C9301A00028F9DD /* stamplottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 36CEA3212C9301A00028F9DD /* stamplottie.json */; };
+		36D32A012CC9181C00007638 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D32A002CC9181C00007638 /* ArrayExtension.swift */; };
 		36E3E6C22C9F064D002A4872 /* ViewTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E3E6C12C9F064D002A4872 /* ViewTracker.swift */; };
 		36E72F762C78D0A200D1785F /* HotVoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E72F752C78D0A200D1785F /* HotVoteCell.swift */; };
 		36E72F782C78D87500D1785F /* HotVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E72F772C78D87500D1785F /* HotVote.swift */; };
@@ -178,6 +179,7 @@
 		36C12F902C914EFF00D91394 /* VotesBookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotesBookmarkCell.swift; sourceTree = "<group>"; };
 		36CBA1522BC45C510073C50C /* SignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignView.swift; sourceTree = "<group>"; };
 		36CEA3212C9301A00028F9DD /* stamplottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stamplottie.json; sourceTree = "<group>"; };
+		36D32A002CC9181C00007638 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		36E3E6C12C9F064D002A4872 /* ViewTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTracker.swift; sourceTree = "<group>"; };
 		36E72F752C78D0A200D1785F /* HotVoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotVoteCell.swift; sourceTree = "<group>"; };
 		36E72F772C78D87500D1785F /* HotVote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotVote.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 				36696B692C2B8241006BFCC0 /* ViewExtension.swift */,
 				365A12052C388EC500C18796 /* ViewModifier.swift */,
 				360B0CC22CA1E2FC00524C98 /* Image+.swift */,
+				36D32A002CC9181C00007638 /* ArrayExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 				36455ED92CAD40280006583B /* AnalyticsService.swift in Sources */,
 				36842BF92C22BA990023473D /* OccupationView.swift in Sources */,
 				360C2B202C35893B0000C0F8 /* CategoryStore.swift in Sources */,
+				36D32A012CC9181C00007638 /* ArrayExtension.swift in Sources */,
 				36980CE52CA65C13002C4AB3 /* AppleToken.swift in Sources */,
 				366587A82C6F432E00E85259 /* UserService.swift in Sources */,
 				362659842C92C17400A833BE /* InformationBookmarkCell.swift in Sources */,

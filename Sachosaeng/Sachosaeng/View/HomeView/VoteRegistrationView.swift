@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct VoteRegistrationView: View {
+    @ObservedObject var categoryStore: CategoryStore
+    @ObservedObject var voteStore: VoteStore
     @State private var isMultipleSelection: Bool = false
     @State private var titleText: String = ""
-    @State private var list1Text: String = ""
-    @State private var list2Text: String = ""
-    @State private var list3Text: String = ""
-    @State private var list4Text: String = ""
     @State private var choiceTextArray: [String] = ["", "", "", ""]
+    @State private var chosenCategory: [Int] = []
+
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
-            VStack(spacing: 0) {
+            ScrollView(showsIndicators: false) {
                 HStack(spacing: 0) {
                     Text("*사초생이 검토 후 투표에 등록할게요!")
                         .font(.createFont(weight: .medium, size: 12))
@@ -39,12 +39,32 @@ struct VoteRegistrationView: View {
                         .lineLimit(2...2)
                 }
                 .padding(.bottom, 36)
-
+                
                 VStack(spacing: 0) {
-                    titleView(titleString: "선택지")
-                        .padding(.bottom, 12)
+                    HStack(spacing: 0) {
+                        titleView(titleString: "선택지")
+                            .padding(.bottom, 12)
+                        Button {
+                            let emptyStringCount = choiceTextArray.filter { $0 == "" }.count
+                            if emptyStringCount < 3 {
+                                isMultipleSelection.toggle()
+                            }
+                        } label: {
+                            HStack(spacing: 0) {
+                                Image(isMultipleSelection ? "checkCircle_true" : "checkCircle_false")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 16, height: 16)
+                                    .padding(.trailing, 6)
+                                Text("중복 선택 가능")
+                                    .font(.createFont(weight: .medium, size: 12))
+                                    .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                            }
+                        }
+                    }
+                    
                     ForEach(choiceTextArray.indices, id: \.self) { text in
-                        TextField("선택지 \(text)", text: $choiceTextArray[text].max(100), axis: .vertical)
+                        TextField("선택지 \(text + 1)", text: $choiceTextArray[text].max(100), axis: .vertical)
                             .font(.createFont(weight: .medium, size: 12))
                             .padding(16)
                             .background(CustomColor.GrayScaleColor.white)
@@ -53,9 +73,35 @@ struct VoteRegistrationView: View {
                             .padding(.bottom, 8)
                     }
                 }
+                .padding(.bottom, 36)
                 
-                titleView(titleString: "카테고리")
-                    .padding(.bottom, 12)
+                LazyVStack(spacing: 0) {
+                    titleView(titleString: "카테고리")
+                        .padding(.bottom, 12)
+                    ForEach(categoryStore.categories.chunked(into: 3), id: \.self) { rowCategories in
+                        HStack(spacing: 0) {
+                            ForEach(rowCategories) { category in
+                                configCategoryButtons(category: category)
+                                    .padding(.trailing, 8)
+                            }
+                            Spacer()
+                        }
+                        .padding(.bottom, 8)
+                    }
+                }
+                .padding(.bottom, 27)
+                
+                Button {
+                    
+                } label: {
+                    Text("등록")
+                        .font(.createFont(weight: .medium, size: 16))
+                        .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
+                        .foregroundStyle(CustomColor.GrayScaleColor.white)
+                        .background(isNext() ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
+                        .cornerRadius(4)
+                }
+                Spacer()
             }
             .padding()
         }
@@ -63,6 +109,24 @@ struct VoteRegistrationView: View {
 }
 
 extension VoteRegistrationView {
+    private func isNext() -> Bool {
+        var textCount: Int = 0
+        for text in choiceTextArray {
+            if text != "" {
+                textCount += 1
+            }
+        }
+        if titleText != "" && textCount > 1 && !chosenCategory.isEmpty {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+//    private func checkMultipleChoise() -> Bool {
+//        
+//    }
+    
     @ViewBuilder
     private func titleView(titleString: String) -> some View {
         HStack(spacing: 0) {
@@ -72,6 +136,45 @@ extension VoteRegistrationView {
             Spacer()
         }
         
+    }
+    
+    @ViewBuilder
+    private func configCategoryButtons(category: Category) -> some View {
+            Button {
+                if !chosenCategory.contains(category.id) {
+                    chosenCategory.append(category.id)
+                } else {
+                    chosenCategory.removeAll { $0 == category.id }
+                }
+            } label: {
+                HStack(spacing: 0) {
+                    AsyncImage(url: URL(string: category.iconUrl)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 18, height: 18)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .padding(.trailing, 8)
+                    .grayscale(chosenCategory.contains(category.id) ? 0 : 1)
+                    .opacity(chosenCategory.contains(category.id) ? 1 : 0.25)
+                    
+                    Text(category.name)
+                        .font(.createFont(weight: .medium, size: 12))
+                        .foregroundStyle(chosenCategory.contains(category.id)
+                                         ? Color(hex: category.textColor)
+                                         : CustomColor.GrayScaleColor.gs4)
+                }
+                .padding(.horizontal, 12)
+                .frame(height: 36)
+                .background(chosenCategory.contains(category.id)
+                            ? Color(hex: category.backgroundColor)
+                            : CustomColor.GrayScaleColor.white)
+                .cornerRadius(4, corners: .allCorners)
+                
+                
+            }
     }
 }
 

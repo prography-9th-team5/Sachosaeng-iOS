@@ -61,8 +61,3 @@ struct CategoryCellView: View {
         }
     }
 }
-
-#Preview {
-    CategoryCellView(tapCount: .constant(0), category: Category(categoryId: 4, name: "비지니스 매너", iconUrl: "https://sachosaeng.store/icon/all-2x.png", backgroundColor: "#E4E7EC", textColor: "#FF9FAF00"), categoryNumber: 2)
-}
-

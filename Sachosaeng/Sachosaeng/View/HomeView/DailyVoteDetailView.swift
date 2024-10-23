@@ -65,7 +65,6 @@ struct DailyVoteDetailView: View {
                                         isBookmark = voteStore.currentVoteDetail.isBookmarked
                                         
                                         if isBookmark {
-                                            tabBarStore.isOpacity = false
                                             toast = Toast(type: .savedBookMark, message: "저장 완료!")
                                         }
                                     } label: {
@@ -192,7 +191,6 @@ struct DailyVoteDetailView: View {
                     Button {
                         if isVoted {
                             if isSuccessperform {
-                                tabBarStore.isOpacity = false
                                 isSuccessperform = false
                                 path.removeLast()
                             }

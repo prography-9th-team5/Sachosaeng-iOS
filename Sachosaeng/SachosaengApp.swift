@@ -82,7 +82,7 @@ struct SachosaengApp: App {
                      isBackground = false
                  }
              } else if newPhase == .inactive  {
-                jhPrint("비활성화 되기전 ")
+                jhPrint("비활성화 되기전")
                 withAnimation {
                     isBackground = true
                 }

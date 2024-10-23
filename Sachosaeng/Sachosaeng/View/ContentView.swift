@@ -24,16 +24,14 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             SignView(categoryStore: categoryStore, voteStore: voteStore, path: $path, isSign: $isSign)
-                .navigationDestination(for: PathType.self) { name in
-                    switch name {
+                .navigationDestination(for: PathType.self) { type in
+                    switch type {
                     case .occupation:
                         UserOccupationView(categoryStore: categoryStore, voteStore: voteStore, isSign: $isSign, path: $path)
                             .navigationBarBackButtonHidden()
                     case .favorite:
                         UserFavoriteCategoryView(categoryStore: categoryStore, voteStore: voteStore, isSign: $isSign, path: $path)
-                            .customBackbutton {
-//                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
-                            }
+                            .customBackbutton { }
                     case .signSuccess:
                         SignSuccessView(categoryStore: categoryStore, voteStore: voteStore, isSign: $isSign, path: $path)
                             .navigationBarBackButtonHidden()
@@ -41,30 +39,27 @@ struct ContentView: View {
                         TabView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, isSign: $isSign, path: $path)
                     case .myPage:
                         MyPageView(isSign: $isSign, path: $path)
-                            .customBackbutton {
-//                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
-                            }
+                            .customBackbutton { }
                     case .info:
                         EditMyInfoView(isSign: $isSign, path: $path)
-                            .customBackbutton {
-//                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
-                            }
+                            .customBackbutton { }
                     case .quit:
                         QuitView(isSign: $isSign, path: $path)
-                            .customBackbutton {
-//                                    jhPrint("😿 네비게이션 패스의 갯수: \(path.count)")
-                            }
+                            .customBackbutton { }
                     case .sign:
                         SignView(categoryStore: CategoryStore(), voteStore: VoteStore(), path: $path, isSign: $isSign)
                     case .daily:
                         DailyVoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteStore.dailyVote.voteId, path: $path)
-                                .navigationBarBackButtonHidden()
+                            .navigationBarBackButtonHidden()
                     case .usersFavorite:
                         FavoriteCategoryView(categoryStore: categoryStore, path: $path)
                     case .inquiry, .openSource, .userData, .service, .FAQ:
                         EmptyView()
                     case .voteDetail(let voteId):
                         VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteId)
+                    case .voteRegistration:
+                        VoteRegistrationView()
+                            .customBackbutton { }
                     }
                 }
         }

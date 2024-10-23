@@ -17,7 +17,8 @@ struct HomeView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var isSheet: Bool = false
-    @State var isShowDaily: Bool = false
+    @State private var isShowDaily: Bool = false
+    @State private var isRegistration: Bool = false
     @State private var isTouchedVoteIndex: Int?
     
     var body: some View {
@@ -244,6 +245,29 @@ struct HomeView: View {
                     }
                 }
             }
+            .overlay(alignment: .bottom) {
+                Button {
+                    isRegistration = true
+                } label: {
+                    HStack(spacing: 0) {
+                        Image("stampImage")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 19, height: 19)
+                            .padding(.leading, 20)
+                            .padding(.trailing, 6)
+                        
+                        Text("투표 등록")
+                            .font(.createFont(weight: .bold, size: 14))
+                            .foregroundStyle(CustomColor.GrayScaleColor.white)
+                            .padding(.trailing, 20)
+                    }
+                    .frame(height: 40)
+                    .background(CustomColor.GrayScaleColor.gs6)
+                    .cornerRadius(20, corners: .allCorners)
+                }
+                .padding(.bottom, 12)
+            }
             if isSheet {
                 CustomColor.GrayScaleColor.black.ignoresSafeArea()
                     .opacity(0.7)
@@ -253,7 +277,14 @@ struct HomeView: View {
         .showPopupView(isPresented: $isShowDaily, message: .dailyVote, primaryAction: {
             tabBarStore.isOpacity = true
         }, secondaryAction: {
+            tabBarStore.isOpacity = false
             path.append(PathType.daily)
+        })
+        .showPopupView(isPresented: $isRegistration, message: .registration, primaryAction: {
+            tabBarStore.isOpacity = true
+        }, secondaryAction: {
+            tabBarStore.isOpacity = false
+            path.append(PathType.voteRegistration)
         })
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .home)

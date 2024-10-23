@@ -14,10 +14,11 @@ enum PopupType: String {
     case logOut = "정말 로그아웃하시겠어요?"
     case latestVersion = "최신 버전을 사용하시겠어요?"
     case forceUpdate = "최신 버전을 다운받아야 합니다.\n확인 버튼을 누르면 앱스토어로 이동합니다."
+    case registration = "투표주제는 모든 사용자가 참여할 수 있도록 적절하고 건전한 내용을 작성해주세요. 등록된 내용은 관리자 검토 후 업로드 됩니다."
     
     var imageFrameWidth: CGFloat {
         switch self {
-            case .quit:
+            case .quit, .registration:
                 return 40
             case .dailyVote:
                 return 76
@@ -30,7 +31,7 @@ enum PopupType: String {
     
     var imageFrameHeight: CGFloat {
         switch self {
-            case .quit:
+            case .quit, .registration:
                 return 40
             case .dailyVote:
                 return 84
@@ -42,7 +43,7 @@ enum PopupType: String {
     }
     var topOfFirstVtackPadding: CGFloat {
         switch self {
-            case .quit:
+            case .quit, .registration:
                 return 40
             case .dailyVote:
                 return 42
@@ -59,7 +60,7 @@ enum PopupType: String {
         switch self {
             case .quit, .saved:
                 return 104
-            case .dailyVote, .forceUpdate:
+            case .dailyVote, .forceUpdate, .registration:
                 return 216
             case .logOut, .latestVersion:
                 return 104
@@ -70,7 +71,7 @@ enum PopupType: String {
         switch self {
             case .quit:
                 return "확인"
-            case .dailyVote, .forceUpdate:
+            case .dailyVote, .forceUpdate, .registration:
                 return ""
             case .saved, .latestVersion:
                 return "취소"
@@ -89,7 +90,7 @@ enum PopupType: String {
                 return "투표하기"
             case .logOut:
                 return "취소"
-            case .forceUpdate, .latestVersion:
+            case .forceUpdate, .latestVersion, .registration:
                 return "확인"
         }
     }
@@ -111,16 +112,16 @@ struct PopupView: View {
                         .padding(.bottom, 12)
                 }
                 Text(popupType.rawValue)
-                    .font(.createFont(weight: .medium, size: 14))
+                    .font(.createFont(weight: .medium, size: popupType == .registration ? 12 : 14))
                     .multilineTextAlignment(.center)
                     .lineLimit(3)
                     .lineSpacing(4)
             }
             .padding(.top, popupType.topOfFirstVtackPadding)
-            
+            .padding(.horizontal , 20)
             Spacer()
             HStack(spacing: 8) {
-                if popupType != .dailyVote && popupType != .forceUpdate {
+                if popupType != .dailyVote && popupType != .forceUpdate && popupType != .registration {
                     Button {
                         primaryAction()
                         isPresented = false
@@ -152,18 +153,18 @@ struct PopupView: View {
         .background(CustomColor.GrayScaleColor.gs3)
         .cornerRadius(8, corners: .allCorners)
         .onAppear{
-            if popupType == .dailyVote && isPresented == true {
+            if (popupType == .dailyVote || popupType == .registration) && isPresented {
                 primaryAction()
             }
         }
     }
     
 }
+
 extension PopupView {
-    
     private func setPopUpViewHeight() -> Bool {
         switch popupType {
-            case .dailyVote:
+            case .dailyVote, .registration:
                 return false
             case .forceUpdate:
                 return true

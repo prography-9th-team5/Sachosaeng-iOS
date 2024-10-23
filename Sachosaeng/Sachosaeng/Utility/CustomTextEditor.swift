@@ -9,10 +9,12 @@ import SwiftUI
 
 struct CustomTextEditor: UIViewRepresentable {
     @Binding var text: String
+    var backgroundColor: UIColor = UIColor(CustomColor.GrayScaleColor.gs2)
     private let maxLines = 6
+    
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
-        textView.backgroundColor = UIColor(CustomColor.GrayScaleColor.gs2)
+        textView.backgroundColor = backgroundColor
         textView.font = UIFont.systemFont(ofSize: 16)
         textView.layer.cornerRadius = 8
         textView.delegate = context.coordinator

@@ -49,6 +49,7 @@ struct CategorizedVotes: Codable, Identifiable {
     var id: Int { category.id }
 }
 
+
 let dummyVoteDetail = VoteDetail(
     voteId: 101,
     isClosed: false,

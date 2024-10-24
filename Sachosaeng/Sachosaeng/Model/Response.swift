@@ -39,9 +39,11 @@ struct ResponseInformation: Codable {
     let hasNext: Bool
     let nextCursor: Int?
 }
+
 struct ResponseAppleToken: Codable {
     let appleToken: String
 }
+
 struct ReponseVersion: Codable {
     let versions: [Version]
 }
@@ -50,6 +52,14 @@ struct ResponseWithTempData<T: Codable>: Codable {
     let code: Int
     let message: String
     let data: T?
+}
+
+struct ResponseHistory: Codable {
+    let code: Int
+    let message: String
+    let data: [History]
+    let hasNext: Bool
+    let nextCursor: Int
 }
 
 struct EmptyData: Codable {}

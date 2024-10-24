@@ -60,6 +60,12 @@ struct ContentView: View {
                     case .voteRegistration:
                         VoteRegistrationView(categoryStore: categoryStore, voteStore: voteStore)
                             .customBackbutton { }
+                    case .voteHistory:
+                        VoteHistoryView(voteStore: voteStore, path: $path)
+                            .customBackbutton { }
+                    case .registeredVotes:
+                        RegisteredVotesView()
+                            .customBackbutton { }
                     }
                 }
         }

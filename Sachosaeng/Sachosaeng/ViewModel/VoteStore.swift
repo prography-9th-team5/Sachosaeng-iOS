@@ -199,6 +199,45 @@ final class VoteStore: ObservableObject {
         }
     }
     
+    /// 유저가 투표를 등록할수 있게 하는 메서드
+    func registrationVote(title: String, isMulti: Bool, voteOptions: [String], categoryIds: [Int], completion: @escaping (Bool) -> Void) {
+        let path = "/api/v1/votes"
+        let body: [String: Any] = [
+            "title": title,
+            "isMultipleChoiceAllowed": isMulti,
+            "voteOptions": voteOptions,
+            "categoryIds": categoryIds
+        ]
+        networkService.performRequest(method: "POST", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) {(result: Result<Response<EmptyData>, NetworkError>) in
+            switch result {
+                case .success(_):
+                    jhPrint("등록성공")
+                    completion(true)
+                case .failure(let err):
+                    jhPrint(err.localizedDescription)
+                    completion(false)
+            }
+        }
+    }
+    
+    func fetchHistory(cursor: Int, size: Int) {
+        
+        let path = "/api/v1/votes/my?size=\(size)"
+        guard let token = KeychainService.shared.getSachosaengRefreshToken() else {
+            jhPrint("토큰이 존재하지 않습니다.")
+            return
+        }
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<ResponseHistory, NetworkError>) in
+            switch result {
+            case .success(let history):
+                jhPrint(history)
+            case .failure(let err):
+                jhPrint(err.localizedDescription)
+            }
+        }
+    }
+    
     func searchInformation(categoryId: Int, voteId: Int, completion: @escaping (Bool) -> Void) {
         let path = "/api/v1/similar-information?category-id=\(categoryId)&vote-id=\(voteId)"
         

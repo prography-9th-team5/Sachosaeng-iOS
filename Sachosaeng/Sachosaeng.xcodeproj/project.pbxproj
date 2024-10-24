@@ -25,6 +25,8 @@
 		36455ED92CAD40280006583B /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36455ED82CAD40280006583B /* AnalyticsService.swift */; };
 		36455EDB2CAD8B360006583B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36455EDA2CAD8B360006583B /* GoogleService-Info.plist */; };
 		364753A72C247F9100316779 /* CustomSliderProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */; };
+		364E84FB2CC9FDD300EEDAF5 /* VoteHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364E84FA2CC9FDD300EEDAF5 /* VoteHistoryView.swift */; };
+		364E84FD2CCA212600EEDAF5 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364E84FC2CCA212600EEDAF5 /* History.swift */; };
 		36562FAB2C210B80004D1836 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */; };
 		36562FAC2C210B80004D1836 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA32C210B7F004D1836 /* Pretendard-ExtraBold.otf */; };
 		36562FAD2C210B80004D1836 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 36562FA42C210B7F004D1836 /* Pretendard-SemiBold.otf */; };
@@ -123,6 +125,8 @@
 		36455ED82CAD40280006583B /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		36455EDA2CAD8B360006583B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		364753A62C247F9100316779 /* CustomSliderProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderProgressBarView.swift; sourceTree = "<group>"; };
+		364E84FA2CC9FDD300EEDAF5 /* VoteHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteHistoryView.swift; sourceTree = "<group>"; };
+		364E84FC2CCA212600EEDAF5 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		36562FA22C210B7F004D1836 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		36562FA32C210B7F004D1836 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		36562FA42C210B7F004D1836 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -228,6 +232,7 @@
 				369595F22C50425B0098920D /* EditMyInfoView.swift */,
 				36949FAD2C51CA9D009E099E /* QuitView.swift */,
 				365B5D5B2C9DCB0D00AB851D /* FavoriteCategoryView.swift */,
+				364E84FA2CC9FDD300EEDAF5 /* VoteHistoryView.swift */,
 			);
 			path = MyPageView;
 			sourceTree = "<group>";
@@ -394,6 +399,7 @@
 				36FD59B72C8F701200D8979D /* Bookmark.swift */,
 				367B259C2C9717FF000AE532 /* Version.swift */,
 				36980CE42CA65C13002C4AB3 /* AppleToken.swift */,
+				364E84FC2CCA212600EEDAF5 /* History.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -614,6 +620,8 @@
 				36FD59B82C8F701200D8979D /* Bookmark.swift in Sources */,
 				36A61B632C95713E008C6663 /* VersionService.swift in Sources */,
 				36949FA82C514C9E009E099E /* Utility.swift in Sources */,
+				364E84FD2CCA212600EEDAF5 /* History.swift in Sources */,
+				364E84FB2CC9FDD300EEDAF5 /* VoteHistoryView.swift in Sources */,
 				36562FB52C210BA6004D1836 /* FontExtension.swift in Sources */,
 				365B5D5C2C9DCB0D00AB851D /* FavoriteCategoryView.swift in Sources */,
 				36EB01652BC400E400050CC7 /* SachosaengApp.swift in Sources */,

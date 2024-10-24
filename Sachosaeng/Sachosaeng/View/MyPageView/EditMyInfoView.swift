@@ -73,11 +73,6 @@ struct EditMyInfoView: View {
                                         Spacer()
                                     }
                                 }
-//                                TextField("", text: $textField)
-//                                    .font(.createFont(weight: .medium, size: 15))
-//                                    .padding(16)
-//                                    .padding(.bottom, 34)
-//                                    .focused($keyboardVisible)
                             }
                         
                         HStack {

@@ -25,6 +25,8 @@ enum PathType: Hashable {
     case FAQ
     case voteDetail(Int)
     case voteRegistration
+    case voteHistory
+    case registeredVotes
 }
 
 enum TabType: Hashable {

@@ -97,7 +97,19 @@ struct VoteRegistrationView: View {
                     
                 }
                 Button {
-                    toast = Toast(type: .quit, message: "등록한 투표는 관리자 검토 후 업로드돼요")
+                    if isNext() {
+                        choiceTextArray.removeAll { $0 == "" }
+                        jhPrint(choiceTextArray)
+                        voteStore.registrationVote(title: titleText, isMulti: isMultipleSelection, voteOptions: choiceTextArray, categoryIds: chosenCategory) { isSuccess in
+                            if isSuccess {
+                                toast = Toast(type: .quit, message: "등록한 투표는 관리자 검토 후 업로드돼요")
+                            } else {
+                                toast = Toast(type: .quit, message: "등록실패")
+                            }
+                        }
+                    } else {
+                        toast = Toast(type: .quit, message: "모든 정보를 기입해 주세요.")
+                    }
                 } label: {
                     Text("등록")
                         .font(.createFont(weight: .medium, size: 16))
@@ -139,44 +151,42 @@ extension VoteRegistrationView {
                 .foregroundStyle(CustomColor.GrayScaleColor.black)
             Spacer()
         }
-        
     }
     
     @ViewBuilder
     private func configCategoryButtons(category: Category) -> some View {
-            Button {
-                if !chosenCategory.contains(category.id) {
-                    chosenCategory.append(category.id)
-                } else {
-                    chosenCategory.removeAll { $0 == category.id }
-                }
-            } label: {
-                HStack(spacing: 0) {
-                    AsyncImage(url: URL(string: category.iconUrl)) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 18, height: 18)
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    .padding(.trailing, 8)
-                    .grayscale(chosenCategory.contains(category.id) ? 0 : 1)
-                    .opacity(chosenCategory.contains(category.id) ? 1 : 0.25)
-                    
-                    Text(category.name)
-                        .font(.createFont(weight: .medium, size: 12))
-                        .foregroundStyle(chosenCategory.contains(category.id)
-                                         ? Color(hex: category.textColor)
-                                         : CustomColor.GrayScaleColor.gs4)
-                }
-                .padding(.horizontal, 12)
-                .frame(height: 36)
-                .background(chosenCategory.contains(category.id)
-                            ? Color(hex: category.backgroundColor)
-                            : CustomColor.GrayScaleColor.white)
-                .cornerRadius(4, corners: .allCorners)
-                
+        Button {
+            if !chosenCategory.contains(category.id) {
+                chosenCategory.append(category.id)
+            } else {
+                chosenCategory.removeAll { $0 == category.id }
             }
+        } label: {
+            HStack(spacing: 0) {
+                AsyncImage(url: URL(string: category.iconUrl)) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 18, height: 18)
+                } placeholder: {
+                    ProgressView()
+                }
+                .padding(.trailing, 8)
+                .grayscale(chosenCategory.contains(category.id) ? 0 : 1)
+                .opacity(chosenCategory.contains(category.id) ? 1 : 0.25)
+                
+                Text(category.name)
+                    .font(.createFont(weight: .medium, size: 12))
+                    .foregroundStyle(chosenCategory.contains(category.id)
+                                     ? Color(hex: category.textColor)
+                                     : CustomColor.GrayScaleColor.gs4)
+            }
+            .padding(.horizontal, 12)
+            .frame(height: 36)
+            .background(chosenCategory.contains(category.id)
+                        ? Color(hex: category.backgroundColor)
+                        : CustomColor.GrayScaleColor.white)
+            .cornerRadius(4, corners: .allCorners)
+        }
     }
 }

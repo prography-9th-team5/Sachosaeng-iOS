@@ -14,6 +14,7 @@
 		360C2B222C37184E0000C0F8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B212C37184E0000C0F8 /* User.swift */; };
 		360C2B242C3718D80000C0F8 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B232C3718D80000C0F8 /* UserInfoStore.swift */; };
 		360C2B272C372F330000C0F8 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360C2B262C372F330000C0F8 /* MyPageView.swift */; };
+		3619C66A2CCB681E002ABDBA /* RegisteredVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3619C6692CCB681E002ABDBA /* RegisteredVoteView.swift */; };
 		3622FA182C9C5763000FDE03 /* DailyVoteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3622FA172C9C5763000FDE03 /* DailyVoteDetailView.swift */; };
 		362659842C92C17400A833BE /* InformationBookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362659832C92C17400A833BE /* InformationBookmarkCell.swift */; };
 		362E14AC2C7AEB4700C053AB /* VoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362E14AB2C7AEB4700C053AB /* VoteCell.swift */; };
@@ -116,6 +117,7 @@
 		360C2B212C37184E0000C0F8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		360C2B232C3718D80000C0F8 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
 		360C2B262C372F330000C0F8 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		3619C6692CCB681E002ABDBA /* RegisteredVoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredVoteView.swift; sourceTree = "<group>"; };
 		3622FA172C9C5763000FDE03 /* DailyVoteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVoteDetailView.swift; sourceTree = "<group>"; };
 		362659832C92C17400A833BE /* InformationBookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationBookmarkCell.swift; sourceTree = "<group>"; };
 		362E14AB2C7AEB4700C053AB /* VoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCell.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				36949FAD2C51CA9D009E099E /* QuitView.swift */,
 				365B5D5B2C9DCB0D00AB851D /* FavoriteCategoryView.swift */,
 				364E84FA2CC9FDD300EEDAF5 /* VoteHistoryView.swift */,
+				3619C6692CCB681E002ABDBA /* RegisteredVoteView.swift */,
 			);
 			path = MyPageView;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				36980CE32CA63B14002C4AB3 /* UserDefaultService.swift in Sources */,
 				36842BF72C22B2CC0023473D /* UserOccupationView.swift in Sources */,
 				36D32A032CC91F7D00007638 /* Binding+.swift in Sources */,
+				3619C66A2CCB681E002ABDBA /* RegisteredVoteView.swift in Sources */,
 				36696B642C2B6900006BFCC0 /* CategoryModal.swift in Sources */,
 				365B5D592C9D6F2D00AB851D /* TabBarStore.swift in Sources */,
 				36E3E6C22C9F064D002A4872 /* ViewTracker.swift in Sources */,

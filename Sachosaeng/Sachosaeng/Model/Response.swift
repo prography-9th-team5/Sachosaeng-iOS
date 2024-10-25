@@ -54,12 +54,4 @@ struct ResponseWithTempData<T: Codable>: Codable {
     let data: T?
 }
 
-struct ResponseHistory: Codable {
-    let code: Int
-    let message: String
-    let data: [History]
-    let hasNext: Bool
-    let nextCursor: Int
-}
-
 struct EmptyData: Codable {}

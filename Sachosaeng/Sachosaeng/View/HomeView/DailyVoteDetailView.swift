@@ -153,20 +153,7 @@ struct DailyVoteDetailView: View {
                                                             chosenVoteOptionId = [vote.voteOptionId]
                                                             isSelected = true
                                                         }
-//                                                        if chosenVoteIndex == vote.voteOptionId {
-//                                                            if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
-//                                                                chosenVoteIndex = nil
-//                                                                chosenVoteOptionId.remove(at: index)
-//                                                            }
-//                                                            isSelected = false
-//                                                        } else {
-//                                                            chosenVoteIndex = vote.voteOptionId
-//                                                            chosenVoteOptionId.append(vote.voteOptionId)
-//                                                            isSelected = true
-//                                                        }
                                                     }
-                                                
-                                                
                                                 }
                                         }
                                     }
@@ -222,7 +209,6 @@ struct DailyVoteDetailView: View {
                     .disabled(chosenVoteOptionId.isEmpty)
                 }
             } //: Vstack
-            .showToastView(toast: $toast)
             .opacity(isLottie ? 0 : 1)
             .redacted(reason: isLoading ? .placeholder : [])
         } //: Zstack
@@ -230,7 +216,7 @@ struct DailyVoteDetailView: View {
             tabBarStore.switchTab = .bookMark
             path.append(PathType.home)
         })
-//        .showToastView(toast: $toast)
+        .showToastView(toast: $toast)
         .onAppear {
             Task {
                 voteStore.fetchVoteDetail(voteId: voteId) { _ in

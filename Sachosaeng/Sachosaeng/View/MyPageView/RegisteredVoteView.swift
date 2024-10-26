@@ -56,7 +56,6 @@ struct RegisteredVoteView: View {
                     }
                     .padding(.bottom, 36)
                     
-                    
                     LazyVStack(spacing: 0) {
                         titleView(titleString: "카테고리")
                             .padding(.bottom, 12)
@@ -90,10 +89,10 @@ struct RegisteredVoteView: View {
                         }
                     }
                     .padding(.bottom, 27)
-                    
                 }
                 if voteStore.currentRegisteredVote.status == HistoryType.approved.rawValue {
                     Button {
+                        path.append(PathType.home)
                         path.append(PathType.voteDetail(voteId))
                     } label: {
                         Text("투표하러 가기")

@@ -58,7 +58,7 @@ struct ContentView: View {
                     case .voteDetail(let voteId):
                         VoteDetailView(voteStore: voteStore, bookmarkStore: bookmarkStore, voteId: voteId)
                     case .voteRegistration:
-                        VoteRegistrationView(categoryStore: categoryStore, voteStore: voteStore)
+                            VoteRegistrationView(categoryStore: categoryStore, voteStore: voteStore, path: $path)
                             .customBackbutton { }
                     case .voteHistory:
                         VoteHistoryView(voteStore: voteStore, path: $path)

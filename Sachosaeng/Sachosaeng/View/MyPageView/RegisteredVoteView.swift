@@ -102,8 +102,7 @@ struct RegisteredVoteView: View {
                             .background(CustomColor.GrayScaleColor.black)
                             .cornerRadius(4)
                     }
-                }
-                
+                } 
             }
             .padding()
         }

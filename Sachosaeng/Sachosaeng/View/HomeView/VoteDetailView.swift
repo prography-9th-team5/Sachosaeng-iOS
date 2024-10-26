@@ -105,9 +105,7 @@ struct VoteDetailView: View {
                                                     .fill(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                                                     .frame(width: (PhoneSpace.screenWidth - 80) * (animatedPercentages[vote.voteOptionId] ?? 0), height: 50)
                                                     .clipShape(RoundedRectangle(cornerRadius: 4))
-                                                    .onAppear {
-                                                        
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                                    .onAppear {                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                                             withAnimation(.easeInOut(duration: 0.8)) {
                                                                 animatedPercentages[vote.voteOptionId] = votePercentage
                                                             }

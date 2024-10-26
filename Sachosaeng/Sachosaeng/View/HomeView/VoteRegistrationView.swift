@@ -10,12 +10,13 @@ import SwiftUI
 struct VoteRegistrationView: View {
     @ObservedObject var categoryStore: CategoryStore
     @ObservedObject var voteStore: VoteStore
+    @Binding var path: NavigationPath
     @State private var isMultipleSelection: Bool = false
     @State private var titleText: String = ""
     @State private var choiceTextArray: [String] = ["", "", "", ""]
     @State private var chosenCategory: [Int] = []
     @State private var toast: Toast? = nil
-
+    @State private var isRegistration: Bool = false
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -99,12 +100,17 @@ struct VoteRegistrationView: View {
                 Button {
                     if isNext() {
                         choiceTextArray.removeAll { $0 == "" }
-                        jhPrint(choiceTextArray)
-                        voteStore.registrationVote(title: titleText, isMulti: isMultipleSelection, voteOptions: choiceTextArray, categoryIds: chosenCategory) { isSuccess in
-                            if isSuccess {
-                                toast = Toast(type: .quit, message: "등록한 투표는 관리자 검토 후 업로드돼요")
-                            } else {
-                                toast = Toast(type: .quit, message: "등록실패")
+                        if !isRegistration {
+                            isRegistration = true
+                            voteStore.registrationVote(title: titleText, isMulti: isMultipleSelection, voteOptions: choiceTextArray, categoryIds: chosenCategory) { isSuccess in
+                                if isSuccess {
+                                    toast = Toast(type: .quit, message: "등록한 투표는 관리자 검토 후 업로드돼요")
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        path.append(PathType.home)
+                                    }
+                                } else {
+                                    toast = Toast(type: .quit, message: "등록실패")
+                                }
                             }
                         }
                     } else {

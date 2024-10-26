@@ -65,7 +65,6 @@ struct DailyVoteDetailView: View {
                                         isBookmark = voteStore.currentVoteDetail.isBookmarked
                                         
                                         if isBookmark {
-                                            tabBarStore.isOpacity = false
                                             toast = Toast(type: .savedBookMark, message: "저장 완료!")
                                         }
                                     } label: {
@@ -154,20 +153,7 @@ struct DailyVoteDetailView: View {
                                                             chosenVoteOptionId = [vote.voteOptionId]
                                                             isSelected = true
                                                         }
-//                                                        if chosenVoteIndex == vote.voteOptionId {
-//                                                            if let index = chosenVoteOptionId.firstIndex(of: vote.voteOptionId) {
-//                                                                chosenVoteIndex = nil
-//                                                                chosenVoteOptionId.remove(at: index)
-//                                                            }
-//                                                            isSelected = false
-//                                                        } else {
-//                                                            chosenVoteIndex = vote.voteOptionId
-//                                                            chosenVoteOptionId.append(vote.voteOptionId)
-//                                                            isSelected = true
-//                                                        }
                                                     }
-                                                
-                                                
                                                 }
                                         }
                                     }
@@ -192,7 +178,6 @@ struct DailyVoteDetailView: View {
                     Button {
                         if isVoted {
                             if isSuccessperform {
-                                tabBarStore.isOpacity = false
                                 isSuccessperform = false
                                 path.removeLast()
                             }
@@ -224,7 +209,6 @@ struct DailyVoteDetailView: View {
                     .disabled(chosenVoteOptionId.isEmpty)
                 }
             } //: Vstack
-            .showToastView(toast: $toast)
             .opacity(isLottie ? 0 : 1)
             .redacted(reason: isLoading ? .placeholder : [])
         } //: Zstack

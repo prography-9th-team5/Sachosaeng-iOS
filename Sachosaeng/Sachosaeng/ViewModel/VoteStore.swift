@@ -14,12 +14,16 @@ final class VoteStore: ObservableObject {
     @Published var currentVoteDetail: VoteDetail = dummyVoteDetail
     @Published var currentVoteInformation: [Information] = []
     @Published var currentVoteInformationDetail: InformationDetail = dummyInformationDetail
+    @Published var currentRegisteredVote: RegisteredVote = dummyRegisteredVote
     @Published var hotVotesWithSelectedCategory: HotVoteWithCategory = dummyHotVoteWithCategory
     @Published var hotVotesInCategory: [CategorizedVotes] = [dummyCategorizedVotes]
     @Published var latestVotes: LatestVote = dummyLatestVote
+    @Published var registeredHistory: [History] = []
     @Published var nextCursorForVote: Int?
     @Published var categoryName: String = "전체"
     @Published var categoryNameForBookmark: String = "ALL"
+    @Published var nextCursorForHistory: Int?
+    
     private var token = KeychainService.shared.getSachoSaengAccessToken()
     func reset() {
         hotVotes = dummyHotVote
@@ -195,6 +199,76 @@ final class VoteStore: ObservableObject {
             case .failure(let error):
                 completion(false)
                 jhPrint(error, isWarning: true)
+            }
+        }
+    }
+    
+    /// 유저가 투표를 등록할수 있게 하는 메서드
+    func registrationVote(title: String, isMulti: Bool, voteOptions: [String], categoryIds: [Int], completion: @escaping (Bool) -> Void) {
+        let path = "/api/v1/votes"
+        let body: [String: Any] = [
+            "title": title,
+            "isMultipleChoiceAllowed": isMulti,
+            "voteOptions": voteOptions,
+            "categoryIds": categoryIds
+        ]
+        networkService.performRequest(method: "POST", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) {(result: Result<Response<EmptyData>, NetworkError>) in
+            switch result {
+                case .success(_):
+                    jhPrint("등록성공")
+                    completion(true)
+                case .failure(let err):
+                    jhPrint(err.localizedDescription)
+                    completion(false)
+            }
+        }
+    }
+    
+    /// 사용자 투표 히스토리 조회
+    func fetchHistory(size: Int = 10) {
+        var path = "/api/v1/votes/my?size=\(size)"
+        
+        if let cursor = nextCursorForHistory {
+            path += "&cursor=\(cursor)"
+        }
+        
+        guard let token = KeychainService.shared.getSachoSaengAccessToken() else {
+            jhPrint("토큰이 존재하지 않습니다.")
+            return
+        }
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<HistoryData>, NetworkError>) in
+            switch result {
+            case .success(let history):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    if history.data.hasNext {
+                        self.nextCursorForHistory = history.data.nextCursor
+                    }
+                    self.registeredHistory = history.data.votes
+                }
+            case .failure(let err):
+                jhPrint(err.localizedDescription)
+            }
+        }
+    }
+    
+    /// 단일 등록된 투표 상세 조회 
+    func fetchRegisteredVote(voteId: Int) {
+        let path = "/api/v1/votes/my/\(voteId)"
+        guard let token = KeychainService.shared.getSachoSaengAccessToken() else {
+            jhPrint("토큰이 존재하지 않습니다.")
+            return
+        }
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<RegisteredVote>, NetworkError>) in
+            switch result {
+            case .success(let vote):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    currentRegisteredVote = vote.data
+                }
+            case .failure(let err):
+                jhPrint(err.localizedDescription)
             }
         }
     }

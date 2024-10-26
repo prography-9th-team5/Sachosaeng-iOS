@@ -17,9 +17,10 @@ struct HomeView: View {
     @Binding var isSign: Bool
     @Binding var path: NavigationPath
     @State private var isSheet: Bool = false
-    @State var isShowDaily: Bool = false
-    @State private var isTouched = false
-
+    @State private var isShowDaily: Bool = false
+    @State private var isRegistration: Bool = false
+    @State private var isTouchedVoteIndex: Int?
+    
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
@@ -74,11 +75,19 @@ struct HomeView: View {
                                 }
                                 .padding(.horizontal, 20)
                                 
-                                // 인기투표 3종이 나오는것
                                 VStack(spacing: 0) {
                                     ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
-                                        HotVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote, index: index + 1)
-                                            .padding(.horizontal, 20)
+                                        Button {
+                                            if isTouchedVoteIndex == nil {
+                                                isTouchedVoteIndex = vote.voteId
+                                                path.append(PathType.voteDetail(vote.voteId))
+                                            }
+                                        } label: {
+                                            setHotVoteCell(vote: vote, index: index)
+                                        }
+                                        .onAppear {
+                                            isTouchedVoteIndex = nil
+                                        }
                                     }
                                 }
                                 .padding(.bottom, 32)
@@ -107,13 +116,20 @@ struct HomeView: View {
                                         .padding(.bottom, 12)
                                         
                                         if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.id == hotVote.category.categoryId }) {
-                                            
                                             ForEach(categorizedVote.votes) { vote in
-                                                VoteCellWithOutIndex(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote)
-                                                    .padding(.bottom, 6)
+                                                Button {
+                                                    if isTouchedVoteIndex == nil {
+                                                        isTouchedVoteIndex = vote.voteId
+                                                        path.append(PathType.voteDetail(vote.voteId))
+                                                    }
+                                                } label: {
+                                                    setHotVoteWithCategory(vote: vote)
+                                                        .padding(.bottom, 6)
+                                                }
+                                                .onAppear {
+                                                    isTouchedVoteIndex = nil
+                                                }
                                             }
-                                        } else {
-                                            Text("투표가 없는뎅 ㅠㅠ ")
                                         }
                                     }
                                 }
@@ -149,9 +165,19 @@ struct HomeView: View {
                                     .padding(.bottom, 12)
                                 
                                 ForEach(Array(voteStore.hotVotesWithSelectedCategory.votes.enumerated()), id: \.element) { index, vote  in
-                                    VoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote, index: index + 1)
-                                        .padding(.horizontal, 20)
-                                        .padding(.bottom, 6)
+                                    Button {
+                                        if isTouchedVoteIndex == nil {
+                                            isTouchedVoteIndex = vote.voteId
+                                            path.append(PathType.voteDetail(vote.voteId))
+                                        }
+                                    } label: {
+                                        setHotVoteCellInCategory(vote: vote, index: index)
+                                            .padding(.horizontal, 20)
+                                            .padding(.bottom, 6)
+                                    }
+                                    .onAppear {
+                                        isTouchedVoteIndex = nil
+                                    }
                                 }
                                 
                                 VStack(spacing: 0) {
@@ -167,23 +193,31 @@ struct HomeView: View {
                                 .padding(.bottom, 14)
                                 
                                 ForEach(voteStore.latestVotes.votes) { vote in
-                                    VoteCellWithOutIndex(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote)
-                                        .padding(.horizontal, 20)
-                                        .padding(.bottom, 6)
-                                        .onAppear {
-                                            if vote == voteStore.latestVotes.votes.last {
-                                                if voteStore.latestVotes.hasNext {
-                                                    voteStore.fetchLatestVoteWithCursor(categoryId: voteStore.categoryID(voteStore.categoryName))
-                                                }
+//                                    VoteCellWithOutIndex(voteStore: voteStore, bookmarkStore: bookmarkStore, vote: vote)
+//                                        
+//
+                                    Button {
+                                        if isTouchedVoteIndex == nil {
+                                            isTouchedVoteIndex = vote.voteId
+                                            path.append(PathType.voteDetail(vote.voteId))
+                                        }
+                                    } label: {
+                                        setVoteCell(vote: vote)
+                                            .padding(.horizontal, 20)
+                                            .padding(.bottom, 6)
+                                    }
+                                    .onAppear {
+                                        isTouchedVoteIndex = nil
+                                        if vote == voteStore.latestVotes.votes.last {
+                                            if voteStore.latestVotes.hasNext {
+                                                voteStore.fetchLatestVoteWithCursor(categoryId: voteStore.categoryID(voteStore.categoryName))
                                             }
                                         }
+                                    }
                                 }
                             } //: Vstack
-                            
-
                         }
                     } //: ScrollView
-                    
                     .overlay(alignment: .bottomTrailing) {
                         Button {
                             withAnimation {
@@ -211,6 +245,29 @@ struct HomeView: View {
                     }
                 }
             }
+            .overlay(alignment: .bottom) {
+                Button {
+                    isRegistration = true
+                } label: {
+                    HStack(spacing: 0) {
+                        Image("stampImage")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 19, height: 19)
+                            .padding(.leading, 20)
+                            .padding(.trailing, 6)
+                        
+                        Text("투표 등록")
+                            .font(.createFont(weight: .bold, size: 14))
+                            .foregroundStyle(CustomColor.GrayScaleColor.white)
+                            .padding(.trailing, 20)
+                    }
+                    .frame(height: 40)
+                    .background(CustomColor.GrayScaleColor.gs6)
+                    .cornerRadius(20, corners: .allCorners)
+                }
+                .padding(.bottom, 12)
+            }
             if isSheet {
                 CustomColor.GrayScaleColor.black.ignoresSafeArea()
                     .opacity(0.7)
@@ -220,7 +277,14 @@ struct HomeView: View {
         .showPopupView(isPresented: $isShowDaily, message: .dailyVote, primaryAction: {
             tabBarStore.isOpacity = true
         }, secondaryAction: {
+            tabBarStore.isOpacity = false
             path.append(PathType.daily)
+        })
+        .showPopupView(isPresented: $isRegistration, message: .registration, primaryAction: {
+            tabBarStore.isOpacity = true
+        }, secondaryAction: {
+            tabBarStore.isOpacity = false
+            path.append(PathType.voteRegistration)
         })
         .onAppear {
             ViewTracker.shared.updateCurrentView(to: .home)
@@ -255,15 +319,173 @@ extension HomeView {
         }
         return ""
     }
-}
+    @ViewBuilder
+    private func setHotVoteCellInCategory(vote: VoteWithoutCategory, index: Int) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .frame(height: 60)
+                .foregroundStyle(vote.isVoted ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.white)
 
-struct DisableMultiTouch: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        view.isMultipleTouchEnabled = false  // 다중 터치 비활성화
-        
-        return view
+            HStack(spacing: 0) {
+                if vote.isVoted {
+                    Image("checkCircle")
+                        .circleImage(frame: 16)
+                        .padding(.leading, 16)
+                } else {
+                    Text("\(index + 1)")
+                        .font(.createFont(weight: .bold, size: 15))
+                        .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        .padding(.leading, 16)
+                }
+                VStack(spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text(vote.title)
+                            .font(.createFont(weight: .bold, size: 15))
+                            .foregroundStyle(CustomColor.GrayScaleColor.black)
+                            .lineLimit(1)
+                        Spacer()
+                    }
+                    
+                    HStack(spacing : 0) {
+                        if let participantCount = vote.participantCount, participantCount > 10 {
+                            HStack(spacing: 0) {
+                                Text("\(participantCount)명 참여 중")
+                                    .font(.createFont(weight: .medium, size: 12))
+                                    .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                Spacer()
+                            }
+                        }
+                    }
+                }
+                .padding(.leading, 10)
+            }
+        }
     }
-
-    func updateUIView(_ uiView: UIView, context: Context) {}
+    @ViewBuilder
+    private func setVoteCell(vote: VoteWithoutCategory) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .frame(height: 60)
+                .foregroundStyle(vote.isVoted ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.white)
+            
+            HStack(spacing: 0) {
+                if vote.isVoted {
+                    Image("checkCircle_true")
+                        .circleImage(frame: 16)
+                        .padding(.leading, 16)
+                }
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text(vote.title)
+                            .font(.createFont(weight: .bold, size: 15))
+                            .foregroundStyle(CustomColor.GrayScaleColor.black)
+                            .lineLimit(1)
+                        Spacer()
+                    }
+                    if let participantCount = vote.participantCount, participantCount > 10 {
+                        HStack(spacing: 0) {
+                            Text("\(participantCount)명 참여 중")
+                                .font(.createFont(weight: .medium, size: 12))
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(.leading, 10)
+            }
+        }
+    }
+    @ViewBuilder
+    private func setHotVoteWithCategory(vote: VoteWithoutCategory) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .frame(height: 60)
+                .foregroundStyle(vote.isVoted ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.white)
+            
+            HStack(spacing: 0) {
+                if vote.isVoted {
+                    Image("checkCircle_true")
+                        .circleImage(frame: 16)
+                        .padding(.leading, 16)
+                }
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text(vote.title)
+                            .font(.createFont(weight: .bold, size: 15))
+                            .foregroundStyle(CustomColor.GrayScaleColor.black)
+                            .lineLimit(1)
+                        Spacer()
+                    }
+                    if let participantCount = vote.participantCount, participantCount > 10 {
+                        HStack(spacing: 0) {
+                            Text("\(participantCount)명 참여 중")
+                                .font(.createFont(weight: .medium, size: 12))
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(.leading, 10)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func setHotVoteCell(vote: Vote, index: Int) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .frame(height: 60)
+                .foregroundStyle(vote.isVoted ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.white)
+            HStack(spacing: 0) {
+                if vote.isVoted {
+                    Image("checkCircle_true")
+                        .circleImage(frame: 16)
+                        .padding(.leading, 16)
+                } else {
+                    Text("\(index + 1)")
+                        .font(.createFont(weight: .bold, size: 15))
+                        .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        .padding(.leading, 16)
+                }
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text(vote.title)
+                            .font(.createFont(weight: .bold, size: 15))
+                            .foregroundStyle(CustomColor.GrayScaleColor.black)
+                            .lineLimit(1)
+                        Spacer()
+                    }
+                    
+                    HStack(spacing : 0) {
+                        if let participantCount = vote.participantCount, participantCount > 10 {
+                            HStack(spacing: 0) {
+                                Text("\(participantCount)명 참여 중")
+                                    .font(.createFont(weight: .medium, size: 12))
+                                    .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                Spacer()
+                            }
+                        }
+                    }
+                }
+                .padding(.leading, 10)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 4)
+                        .frame(width: 32, height: 32)
+                        .foregroundStyle(Color(hex: vote.category.backgroundColor))
+                    AsyncImage(url: URL(string: vote.category.iconUrl)) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18, height: 18)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    
+                }
+                .padding(.trailing, 16)
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.bottom, 6)
+    }
 }

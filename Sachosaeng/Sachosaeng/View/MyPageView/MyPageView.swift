@@ -12,6 +12,7 @@ import MessageUI
 enum myPageOption: String , CaseIterable {
     case usersFavorite = "관심사 설정"
     case inquiry = "1:1 문의"
+    case history = "투표 등록 히스토리"
 }
 
 enum settingOption: String, CaseIterable {
@@ -51,7 +52,6 @@ struct MyPageView: View {
                                 Image("settingMyInfoIcon")
                                     .padding(16)
                             }
-                            
                         }
                     HStack(spacing: 0) {
                         Image("온보딩_\(userStore.currentUserState.userType)")
@@ -79,6 +79,8 @@ struct MyPageView: View {
                             path.append(PathType.usersFavorite)
                         case .inquiry:
                             showingMailView.toggle()
+                        case .history:
+                            path.append(PathType.voteHistory)
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 8)
@@ -185,7 +187,7 @@ struct MyPageView: View {
                 SafariView(url: URL(string: "https://foregoing-hoof-160.notion.site/FAQ-107a24e5b9e88045bd68c6bc5507fd4f")!)
             }
             .sheet(isPresented: $showingMailView) {
-                MailView(result: self.$mailResult, recipients: ["dasom8899981@gmail.com"], subject: "1:1 문의", messageBody: """
+                MailView(result: self.$mailResult, recipients: ["sachosaeng@gmail.com"], subject: "1:1 문의", messageBody: """
                                     문의할 사항을 입력해주세요. 
                                     
                                     

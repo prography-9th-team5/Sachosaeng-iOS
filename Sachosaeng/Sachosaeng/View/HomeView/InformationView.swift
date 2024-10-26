@@ -17,45 +17,44 @@ struct InformationView: View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
             VStack(spacing: 0) {
-                ScrollViewReader { proxy in
-                    ScrollView {
+                HStack {
+                    Text("\(voteStore.currentVoteInformationDetail.title)")
+                        .font(.createFont(weight: .bold, size: 22))
+                        .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        .lineLimit(3)
+                    Spacer()
+                }
+                .padding(.top, 20)
+                .padding(.horizontal, 20)
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
                         VStack(spacing: 0) {
-                            HStack(spacing: 0) {
-                                Text("\(voteStore.currentVoteInformationDetail.title)")
-                                    .font(.createFont(weight: .bold, size: 22))
-                                    .foregroundStyle(CustomColor.GrayScaleColor.black)
-                                Spacer()
-                            }
-                            .padding(.bottom, 28)
+                            Text(voteStore.currentVoteInformationDetail.subtitle ?? "")
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                                .font(.createFont(weight: .medium, size: 16))
                             
-                            VStack(spacing: 0) {
-                                Text(voteStore.currentVoteInformationDetail.subtitle ?? "")
-                                    .foregroundStyle(CustomColor.GrayScaleColor.black)
-                                    .font(.createFont(weight: .medium, size: 16))
-                                
-                                let modifiedContent = voteStore.currentVoteInformationDetail.content
-                                    .replacingOccurrences(of: "\n", with: "\n")
-                                
-                                Text(modifiedContent)
-                                    .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                                    .font(.createFont(weight: .medium, size: 14))
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.top, 8)
-                            .padding(.bottom, 24)
-                            .background(CustomColor.GrayScaleColor.gs1)
-                            .cornerRadius(8, corners: [.allCorners])
+                            let modifiedContent = voteStore.currentVoteInformationDetail.content
+                                .replacingOccurrences(of: "\n", with: "\n")
                             
-                            HStack(spacing: 0) {
-                                Text(voteStore.currentVoteInformationDetail.referenceName)
-                                    .foregroundStyle(CustomColor.GrayScaleColor.gs5)
-                                    .font(.createFont(weight: .medium, size: 12))
-                                    .underline()
-                                Spacer()
-                            }
-                            .padding(.top, 20)
+                            Text(modifiedContent)
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                .font(.createFont(weight: .medium, size: 14))
                         }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 24)
+                        .background(CustomColor.GrayScaleColor.gs1)
+                        .cornerRadius(8, corners: [.allCorners])
                         
+                        HStack(spacing: 0) {
+                            Text(voteStore.currentVoteInformationDetail.referenceName)
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                                .font(.createFont(weight: .medium, size: 12))
+                                .underline()
+                            Spacer()
+                        }
+                        .padding(.top, 20)
                     }
                 }
                 .padding()

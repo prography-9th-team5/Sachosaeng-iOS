@@ -39,9 +39,11 @@ struct ResponseInformation: Codable {
     let hasNext: Bool
     let nextCursor: Int?
 }
+
 struct ResponseAppleToken: Codable {
     let appleToken: String
 }
+
 struct ReponseVersion: Codable {
     let versions: [Version]
 }

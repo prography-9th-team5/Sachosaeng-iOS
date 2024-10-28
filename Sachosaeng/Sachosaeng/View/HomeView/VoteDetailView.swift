@@ -64,6 +64,7 @@ struct VoteDetailView: View {
                                             bookmarkStore.updateVotesBookmark(voteId: voteId)
                                         }
                                         voteStore.currentVoteDetail.isBookmarked.toggle()
+                                        toast = Toast(type: voteStore.currentVoteDetail.isBookmarked ? .savedBookMark : .quit, message: voteStore.currentVoteDetail.isBookmarked ? "저장 완료!" : "북마크가 해제되었어요!")
                                     } label: {
                                         Image(voteStore.currentVoteDetail.isBookmarked ? "bookmark" : "bookmark_off")
                                             .frame(width: 16, height: 18)
@@ -260,10 +261,10 @@ struct VoteDetailView: View {
                     .disablePressed(isDisabled: $isButtonDisabled)
                 }
             } //: Vstack
-            .showToastView(toast: $toast)
             .opacity(isLottie ? 0 : 1)
             .redacted(reason: isLoading ? .placeholder : [])
         } //: Zstack
+        .showToastView(toast: $toast)
         .onAppear {
             Task {
                 ViewTracker.shared.updateCurrentView(to: .voteDetail)

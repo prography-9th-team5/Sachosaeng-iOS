@@ -204,13 +204,13 @@ final class VoteStore: ObservableObject {
     }
     
     /// 유저가 투표를 등록할수 있게 하는 메서드
-    func registrationVote(title: String, isMulti: Bool, voteOptions: [String], categoryIds: [Int], completion: @escaping (Bool) -> Void) {
+    func registrationVote(title: String, isMulti: Bool, voteOptions: [String], categoryIds: Int, completion: @escaping (Bool) -> Void) {
         let path = "/api/v1/votes"
         let body: [String: Any] = [
             "title": title,
             "isMultipleChoiceAllowed": isMulti,
             "voteOptions": voteOptions,
-            "categoryIds": categoryIds
+            "categoryIds": [categoryIds]
         ]
         networkService.performRequest(method: "POST", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) {(result: Result<Response<EmptyData>, NetworkError>) in
             switch result {

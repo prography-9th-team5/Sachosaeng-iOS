@@ -17,6 +17,7 @@ import FirebaseCrashlytics
 
 @main
 struct SachosaengApp: App {
+    
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     @AppStorage("isFirstLaunch") var isFirstLaunch: Bool = true
     @StateObject var userSerVice: UserService = UserService.shared

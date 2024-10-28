@@ -26,9 +26,9 @@ extension ToastStyle {
     var iconFileName: String {
         switch self {
             case .saved:
-                return "checkIcon"
+                return "QuitIcon"
             case .quit:
-                return "checkIcon"
+                return "QuitIcon"
             case .success:
                 return "SuccessIcon"
             case .savedBookMark:

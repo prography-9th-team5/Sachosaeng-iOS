@@ -130,7 +130,7 @@ struct VoteRegistrationView: View {
                         .cornerRadius(4)
                 }
             }
-            .padding(.horizontal)
+            .padding()
             .showToastView(toast: $toast)
         }
         .navigationTitle("투표 등록")

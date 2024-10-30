@@ -225,7 +225,31 @@ final class VoteStore: ObservableObject {
     }
     
     /// 사용자 투표 히스토리 조회
-    func fetchHistory(size: Int = 10) {
+    func fetchHistory() async {
+        let path = "/api/v1/votes/my"
+        
+        guard let token = KeychainService.shared.getSachoSaengAccessToken() else {
+            jhPrint("토큰이 존재하지 않습니다.")
+            return
+        }
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<HistoryData>, NetworkError>) in
+            switch result {
+            case .success(let history):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    if history.data.hasNext {
+                        nextCursorForHistory = history.data.nextCursor
+                    }
+                    registeredHistory = history.data.votes
+                }
+            case .failure(let err):
+                jhPrint(err.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchHistory(size: Int = 10, completion: @escaping (Bool) -> Void) {
         var path = "/api/v1/votes/my?size=\(size)"
         
         if let cursor = nextCursorForHistory {
@@ -242,13 +266,21 @@ final class VoteStore: ObservableObject {
             case .success(let history):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
+                    let cursor = history.data.nextCursor
+                    
                     if history.data.hasNext {
-                        self.nextCursorForHistory = history.data.nextCursor
+                        nextCursorForHistory = cursor
+                        registeredHistory.append(contentsOf: history.data.votes)
+                        completion(false)
+                    } else {
+                        registeredHistory.append(contentsOf: history.data.votes)
+                        jhPrint("false: \(history.data)")
+                        completion(true)
                     }
-                    self.registeredHistory = history.data.votes
                 }
             case .failure(let err):
                 jhPrint(err.localizedDescription)
+                completion(true)
             }
         }
     }

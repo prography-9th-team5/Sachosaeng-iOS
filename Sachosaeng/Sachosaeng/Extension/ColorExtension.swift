@@ -52,6 +52,12 @@ struct CustomColor {
         /// card 타이틀, card 본문, 선택된 아이콘에 쓰임
         static let black = Color(red: 12.0 / 255.0, green: 17.0 / 255.0, blue: 29.0 / 255.0)
     }
+    struct HistoryTextColor {
+        static let pendding = Color(red: 52.0 / 255.0, green: 64.0 / 255.0, blue: 84.0 / 255.0)
+        static let approved = Color(hex: "#0BA5EC")
+        static let rejected = Color(hex: "#F04438")
+        
+    }
     
     struct PrimaryColor {
         static let red = Color(red: 240.0 / 255.0, green: 68.0 / 255.0, blue: 56.0 / 255.0)

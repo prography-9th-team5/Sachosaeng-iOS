@@ -84,6 +84,9 @@ struct VoteDetailView: View {
                                     .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                                     .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)
                                     .padding(.bottom, 25)
+                                    .onAppear {
+//                                        jhPrint(voteStore.currentVoteDetail.chosenVoteOptionID)
+                                    }
                                 
                                 VStack(spacing: 8) {
                                     ForEach(voteStore.currentVoteDetail.voteOptions) { vote in

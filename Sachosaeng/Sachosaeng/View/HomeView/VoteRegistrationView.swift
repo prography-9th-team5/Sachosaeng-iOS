@@ -116,7 +116,6 @@ struct VoteRegistrationView: View {
                             } else {
                                 toast = Toast(type: .quit, message: "등록실패")
                             }
-                            
                         }
                     } else {
                         toast = Toast(type: .quit, message: "모든 정보를 기입해 주세요.")
@@ -124,15 +123,16 @@ struct VoteRegistrationView: View {
                 } label: {
                     Text("등록")
                         .font(.createFont(weight: .medium, size: 16))
-                        .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
+                        .frame(width: PhoneSpace.screenWidth - 40, height: 47)
                         .foregroundStyle(CustomColor.GrayScaleColor.white)
                         .background(isNext() ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                         .cornerRadius(4)
                 }
             }
-            .padding()
-            .showToastView(toast: $toast)
+            .padding(.top)
+            .padding(.horizontal)
         }
+        .showToastView(toast: $toast)
         .navigationTitle("투표 등록")
         .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 18)
         .navigationBarTitleDisplayMode(.inline)

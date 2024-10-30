@@ -18,7 +18,7 @@ struct RegisteredVoteView: View {
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
                     HStack(spacing: 0) {
-                        Text("투표가 등록되었어요! 추가된 투표에 참여해 보세요.")
+                        Text(setTitleText())
                             .font(.createFont(weight: .medium, size: 12))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs5)
                         Spacer()

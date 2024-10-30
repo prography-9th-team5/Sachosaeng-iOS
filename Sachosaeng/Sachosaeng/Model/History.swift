@@ -10,7 +10,7 @@ import Foundation
 struct HistoryData: Codable {
     let votes: [History]
     let hasNext: Bool
-    let nextCursor: Int
+    let nextCursor: Int?
 }
 
 struct History: Codable, Identifiable {

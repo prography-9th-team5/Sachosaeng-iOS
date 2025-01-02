@@ -33,6 +33,7 @@ enum TabType: Hashable {
     case home
     case bookMark
     case edit
+    case myPage
 }
 
 struct SachosaengPath: Hashable {

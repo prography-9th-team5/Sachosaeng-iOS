@@ -39,15 +39,15 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    Button {
-                        path.append(PathType.myPage)
-                    } label: {
-                        Image("온보딩_\(userInStore.currentUserState.userType)")
-                            .resizable()
-                            .scaledToFit()
-                            .clipShape(Circle())
-                            .frame(width: 40, height: 40)
-                    }
+//                    Button {
+//                        path.append(PathType.myPage)
+//                    } label: {
+//                        Image("온보딩_\(userInStore.currentUserState.userType)")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .clipShape(Circle())
+//                            .frame(width: 40, height: 40)
+//                    }
                 } //: Hstack
                 .padding(.all, 20)
                 

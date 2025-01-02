@@ -37,6 +37,13 @@ struct TabView: View {
                     }
                 }
                 .showToastView(toast: $toast)
+            case .myPage:
+                MyPageView(isSign: $isSign, path: $path)
+                    .onAppear {
+                        if tabBarStore.switchTab != .myPage {
+                            tabBarStore.switchTab = .myPage
+                        }
+                    }
             }
             
             ZStack {
@@ -67,6 +74,25 @@ struct TabView: View {
                         .padding(.bottom, 30)
                         .padding(.top, 18)
                         Spacer()
+                        
+                        Button {
+                            path.append(PathType.myPage)
+                        } label: {
+                            Image(tabBarStore.switchTab == .myPage ? "bookmark" : "HomeTab")
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs4)
+                        }
+                        .padding(.bottom, 30)
+                        .padding(.top, 18)
+                        Spacer()
+//                        Button {
+//                            path.append(PathType.myPage)
+//                        } label: {
+//                            Image("온보딩_\(userInStore.currentUserState.userType)")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .clipShape(Circle())
+//                                .frame(width: 40, height: 40)
+//                        }
                     }
                 }
             }

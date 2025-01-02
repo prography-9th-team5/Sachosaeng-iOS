@@ -53,7 +53,7 @@ struct HomeView: View {
                 
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
-                        if voteStore.categoryName == "전체" {
+                        if voteStore.categoryName == "카테고리" {
                             DailyVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
                                 .padding(.bottom, 32)
                                 .id("top")
@@ -234,7 +234,7 @@ struct HomeView: View {
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                             .onDisappear {
-                                if voteStore.categoryName == "전체" {
+                                if voteStore.categoryName == "카테고리" {
                                 
                                 } else {
                                     withAnimation {
@@ -295,7 +295,7 @@ struct HomeView: View {
                     isShowDaily = !isVoted
                 }
                 let categoryId = voteStore.categoryID(voteStore.categoryName)
-                if voteStore.categoryName != "전체" {
+                if voteStore.categoryName != "카테고리" {
                     voteStore.fetchHotVotesWithSelectedCategory(categoryId: categoryId)
                 }
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: categoryId)

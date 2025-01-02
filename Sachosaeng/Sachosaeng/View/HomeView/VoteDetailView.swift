@@ -275,7 +275,7 @@ struct VoteDetailView: View {
                 var categoryID: Int?
                 
                 if ViewTracker.shared.currentTap == .home {
-                    categoryID = voteStore.categoryName == "전체" ? nil : voteStore.categoryID(voteStore.categoryName)
+                    categoryID = voteStore.categoryName == "카테고리" ? nil : voteStore.categoryID(voteStore.categoryName)
                 } else {
                     categoryID = voteStore.categoryNameForBookmark == "ALL" ? nil : voteStore.categoryID(voteStore.categoryNameForBookmark)
                 }

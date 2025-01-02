@@ -20,7 +20,7 @@ final class VoteStore: ObservableObject {
     @Published var latestVotes: LatestVote = dummyLatestVote
     @Published var registeredHistory: [History] = []
     @Published var nextCursorForVote: Int?
-    @Published var categoryName: String = "전체"
+    @Published var categoryName: String = "카테고리"
     @Published var categoryNameForBookmark: String = "ALL"
     @Published var nextCursorForHistory: Int?
     
@@ -34,7 +34,7 @@ final class VoteStore: ObservableObject {
         hotVotesWithSelectedCategory = dummyHotVoteWithCategory
         hotVotesInCategory = [dummyCategorizedVotes]
         latestVotes = dummyLatestVote
-        categoryName = "전체"
+        categoryName = "카테고리"
         categoryNameForBookmark = "ALL"
     }
     

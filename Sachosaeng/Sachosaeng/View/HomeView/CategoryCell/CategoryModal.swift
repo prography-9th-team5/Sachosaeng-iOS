@@ -129,7 +129,7 @@ struct CategoryModal: View {
                             ForEach(categoryStore.allCatagory) { category in
                                 Button {
                                     if category.name == "전체 보기" {
-                                        categoryName = "전체"
+                                        categoryName = "카테고리"
                                     } else {
                                         categoryName = category.name
                                         voteStore.fetchHotVotesWithSelectedCategory(categoryId: voteStore.categoryID(category.name))

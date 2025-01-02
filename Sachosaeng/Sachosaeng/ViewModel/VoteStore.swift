@@ -261,7 +261,6 @@ final class VoteStore: ObservableObject {
             return
         }
         
-        
         networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<HistoryData>, NetworkError>) in
             switch result {
             case .success(let history):

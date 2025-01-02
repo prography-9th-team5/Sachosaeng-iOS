@@ -8,8 +8,6 @@
 import SwiftUI
 import FirebaseAnalytics
 
-
-
 struct TabView: View {
     @ObservedObject var categoryStore: CategoryStore
     @ObservedObject var voteStore: VoteStore
@@ -31,14 +29,14 @@ struct TabView: View {
                     }
                 }
                     
-                case .bookMark, .edit:
-                    BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, path: $path)
-                    .onAppear {
-                        if tabBarStore.switchTab != .bookMark {
-                            tabBarStore.switchTab = .bookMark
-                        }
+            case .bookMark, .edit:
+                BookmarkView(categoryStore: categoryStore, voteStore: voteStore, bookmarkStore: bookmarkStore, path: $path)
+                .onAppear {
+                    if tabBarStore.switchTab != .bookMark {
+                        tabBarStore.switchTab = .bookMark
                     }
-                    .showToastView(toast: $toast)
+                }
+                .showToastView(toast: $toast)
             }
             
             ZStack {

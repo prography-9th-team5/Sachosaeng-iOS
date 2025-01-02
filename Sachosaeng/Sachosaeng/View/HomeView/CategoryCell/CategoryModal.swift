@@ -16,9 +16,10 @@ struct CategoryModal: View {
     @State private var gridLayout: [GridItem] = [GridItem(.flexible())]
     @State private var gridColumn: Double = 3.0
     @State private var tapCount = 0
-    @State private var isMyCategory = true
+    @State private var isMyCategory = false
+    
     @State private var isEdit = false
-    @State private var isAll = false
+    @State private var isAll = true
     @State private var isSuccessperform: Bool = true
 
     var body: some View {
@@ -32,18 +33,6 @@ struct CategoryModal: View {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        Button {
-                            withAnimation {
-                                isMyCategory = true
-                                isEdit = false
-                                isAll = false
-                            }
-                        } label: {
-                            Text("내 카테고리")
-                                .font(.createFont(weight: isMyCategory ? .bold : .medium, size: 18))
-                                .foregroundStyle(isMyCategory ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
-                        }
-                        .padding(.trailing, 24)
                         
                         Button {
                             withAnimation {
@@ -55,6 +44,19 @@ struct CategoryModal: View {
                             Text("전체 카테고리")
                                 .font(.createFont(weight: isMyCategory ? .medium : .bold, size: 18))
                                 .foregroundStyle(isMyCategory ? CustomColor.GrayScaleColor.gs5 : CustomColor.GrayScaleColor.black)
+                        }
+                        .padding(.trailing, 24)
+                        
+                        Button {
+                            withAnimation {
+                                isMyCategory = true
+                                isEdit = false
+                                isAll = false
+                            }
+                        } label: {
+                            Text("내 카테고리")
+                                .font(.createFont(weight: isMyCategory ? .bold : .medium, size: 18))
+                                .foregroundStyle(isMyCategory ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs5)
                         }
                         
                         Spacer()
@@ -74,12 +76,13 @@ struct CategoryModal: View {
                 .padding(.leading, 1)
                 
                 HStack(spacing: 0) {
+                    
                     RoundedRectangle(cornerRadius: 32.24)
                         .foregroundStyle(.clear)
-                        .frame(width: isMyCategory ? 0 : 104.5, height: 2)
+                        .frame(width: isAll ? 0 : 110, height: 2)
                     RoundedRectangle(cornerRadius: 32.24)
                         .foregroundStyle(CustomColor.GrayScaleColor.black)
-                        .frame(width: isMyCategory ? 86 : 106, height: 2)
+                        .frame(width: isAll ? 104.5 : 104.5, height: 2)
                     Spacer()
                 }
                 .padding(.top, 14)

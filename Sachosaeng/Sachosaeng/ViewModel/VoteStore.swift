@@ -11,6 +11,7 @@ final class VoteStore: ObservableObject {
     
     @Published var hotVotes: HotVote = dummyHotVote
     @Published var dailyVote: Vote = dummyDailyVote
+    @Published var isVotedDailyVote: Bool = false
     @Published var currentVoteDetail: VoteDetail = dummyVoteDetail
     @Published var currentVoteInformation: [Information] = []
     @Published var currentVoteInformationDetail: InformationDetail = dummyInformationDetail
@@ -155,9 +156,14 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     dailyVote = vote.data
-//                    jhPrint("서버에서 사용자가 투표했나요?: \(dailyVote.isVoted)", isWarning: true)
-                    completion(dailyVote.isVoted)
+                    isVotedDailyVote = dailyVote.isVoted
                     
+                    if dailyVote.isVoted {
+                        fetchVoteDetail(voteId: dailyVote.voteId) { _ in
+                        }
+                    } else {
+                        completion(dailyVote.isVoted)
+                    }
                 }
             case .failure(let error):
                 jhPrint(error, isWarning: true)

@@ -90,7 +90,6 @@ struct HomeView: View {
                                                 }
                                             } label: {
                                                 // MARK: - 작업중
-
                                                 setHotVoteCell(vote: vote, index: index)
                                                     .padding(.trailing, 8)
                                             }
@@ -462,16 +461,16 @@ extension HomeView {
                 
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(spacing: 0) {
-                        HStack(spacing: 0) {
-                            if let participantCount = vote.participantCount, participantCount > 10 {
+                        if let participantCount = vote.participantCount, participantCount > 10 {
+                            HStack(spacing: 0) {
+                                
                                 Text("\(participantCount)명 참여 중")
                                     .font(.createFont(weight: .medium, size: 12))
                                     .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                                    
-                            }
-                            Spacer()
+                                Spacer()
+                            }.padding(.bottom, 10)
+                            
                         }
-                        
                         
                         HStack(spacing: 0) {
                             Text(vote.title)

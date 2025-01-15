@@ -162,6 +162,8 @@ final class VoteStore: ObservableObject {
                         fetchVoteDetail(voteId: dailyVote.voteId) { _ in
                         }
                     } else {
+                        fetchVoteDetail(voteId: dailyVote.voteId) { _ in
+                        }
                         completion(dailyVote.isVoted)
                     }
                 }

@@ -34,12 +34,12 @@ struct VoteRegistrationView: View {
                         titleView(titleString: "투표 제목")
                             .padding(.bottom, 12)
                         
-                        TextField("투표 제목을 작성해 주세요", text: $titleText.max(100), axis: .vertical)
+                        TextField("투표 제목을 작성해 주세요\n예시 : 사회초년생 첫 차로 좋은 차는?", text: $titleText.max(100), axis: .vertical)
                             .font(.createFont(weight: .medium, size: 12))
                             .padding(16)
                             .background(CustomColor.GrayScaleColor.white)
                             .cornerRadius(8, corners: .allCorners)
-                            .lineLimit(2...2)
+                            .lineLimit(2...3)
                     }
                     .padding(.bottom, 36)
                     
@@ -67,7 +67,7 @@ struct VoteRegistrationView: View {
                         }
                         
                         ForEach(choiceTextArray.indices, id: \.self) { text in
-                            TextField("선택지 \(text + 1)", text: $choiceTextArray[text].max(100), axis: .vertical)
+                            TextField("투표 선택 항목을 입력해 주세요.", text: $choiceTextArray[text].max(100), axis: .vertical)
                                 .font(.createFont(weight: .medium, size: 12))
                                 .padding(16)
                                 .background(CustomColor.GrayScaleColor.white)
@@ -79,8 +79,18 @@ struct VoteRegistrationView: View {
                     .padding(.bottom, 36)
                     
                     LazyVStack(spacing: 0) {
-                        titleView(titleString: "카테고리")
-                            .padding(.bottom, 12)
+                        HStack(spacing: 0) {
+                            Text("카테고리")
+                                .font(.createFont(weight: .semiBold, size: 15))
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                            Spacer()
+                            Text("*필수 선택")
+                                .font(.createFont(weight: .semiBold, size: 12))
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                
+                        }
+                        .padding(.bottom, 12)
+                        
                         ForEach(categoryStore.categories.chunked(into: 3), id: \.self) { rowCategories in
                             HStack(spacing: 0) {
                                 ForEach(rowCategories) { category in

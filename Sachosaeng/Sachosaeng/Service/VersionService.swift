@@ -48,7 +48,6 @@ final class VersionService: ObservableObject {
     
     func verifyVersion(completion: @escaping (_ forceUpdate: Bool, _ isLatest: Bool) -> Void) {
         let path = "/api/v1/versions/ios/\(version)"
-        
         networkService.performRequest(method: "GET", path: path, body: nil, token: nil) { (result: Result<Response<Version>, NetworkError>) in
             
             switch result {

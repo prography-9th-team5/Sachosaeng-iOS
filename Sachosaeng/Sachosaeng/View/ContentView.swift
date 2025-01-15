@@ -96,6 +96,7 @@ struct ContentView: View {
         .onAppear {
             categoryStore.fetchCategories()
             performVersionChecking()
+//            versionService.updateVersion()  업뎃마다 주석 풀고 사용하셈
         }
     }
 }

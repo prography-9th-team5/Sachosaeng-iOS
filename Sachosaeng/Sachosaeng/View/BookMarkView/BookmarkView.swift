@@ -38,15 +38,15 @@ struct BookmarkView: View {
                             .frame(height: 40)
                         
                         Spacer()
-                        Button {
-                            path.append(PathType.myPage)
-                        } label: {
-                            Image("온보딩_\(userInfoStore.currentUserState.userType)")
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(Circle())
-                                .frame(width: 40, height: 40)
-                        }
+//                        Button {
+//                            path.append(PathType.myPage)
+//                        } label: {
+//                            Image("온보딩_\(userInfoStore.currentUserState.userType)")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .clipShape(Circle())
+//                                .frame(width: 40, height: 40)
+//                        }
                     }
                     .padding(EdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20))
                     

@@ -89,7 +89,7 @@ struct TabView: View {
                         Spacer()
                         
                         Button {
-                            path.append(PathType.myPage)
+                            tabBarStore.switchTab = .myPage
                         } label: {
                             VStack(spacing: 0) {
                                 Image(tabBarStore.switchTab == .myPage ? "myPageIcon_on" : "myPageIcon_off")

@@ -462,6 +462,7 @@ extension HomeView {
             }
             .padding(.top, 20)
             .padding(.leading, 16)
+            .padding(.trailing, 16)
             
             Spacer()
             

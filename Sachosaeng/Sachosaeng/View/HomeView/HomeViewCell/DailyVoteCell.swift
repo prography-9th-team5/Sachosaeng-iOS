@@ -34,6 +34,7 @@ struct DailyVoteCell: View {
                             .font(.createFont(weight: .bold, size: 16))
                             .foregroundStyle(CustomColor.GrayScaleColor.white)
                             .padding(.bottom, 18)
+                            .multilineTextAlignment(.leading)
                         Spacer()
                     }
                 }

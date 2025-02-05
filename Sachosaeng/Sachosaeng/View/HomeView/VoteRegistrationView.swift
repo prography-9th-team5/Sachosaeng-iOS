@@ -10,21 +10,22 @@ import SwiftUI
 struct VoteRegistrationView: View {
     @ObservedObject var categoryStore: CategoryStore
     @ObservedObject var voteStore: VoteStore
+    @Binding var path: NavigationPath
     @State private var isMultipleSelection: Bool = false
     @State private var titleText: String = ""
     @State private var choiceTextArray: [String] = ["", "", "", ""]
-    @State private var chosenCategory: [Int] = []
+    @State private var chosenCategory: Int?
     @State private var toast: Toast? = nil
-
+    @State private var isRegistration: Bool = false
     var body: some View {
         ZStack {
             CustomColor.GrayScaleColor.gs2.ignoresSafeArea()
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
                     HStack(spacing: 0) {
-                        Text("*사초생이 검토 후 투표에 등록할게요!")
+                        Text("*등록한 투표 삭제는 1:1 문의에서 요청할 수 있어요!")
                             .font(.createFont(weight: .medium, size: 12))
-                            .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                            .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                         Spacer()
                     }
                     .padding(.bottom, 25)
@@ -33,12 +34,12 @@ struct VoteRegistrationView: View {
                         titleView(titleString: "투표 제목")
                             .padding(.bottom, 12)
                         
-                        TextField("투표 제목을 작성해 주세요", text: $titleText.max(100), axis: .vertical)
+                        TextField("투표 제목을 작성해 주세요\n예시 : 사회초년생 첫 차로 좋은 차는?", text: $titleText.max(100), axis: .vertical)
                             .font(.createFont(weight: .medium, size: 12))
                             .padding(16)
                             .background(CustomColor.GrayScaleColor.white)
                             .cornerRadius(8, corners: .allCorners)
-                            .lineLimit(2...2)
+                            .lineLimit(2...3)
                     }
                     .padding(.bottom, 36)
                     
@@ -58,15 +59,15 @@ struct VoteRegistrationView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 16, height: 16)
                                         .padding(.trailing, 6)
-                                    Text("중복 선택 가능")
+                                    Text("복수 선택 가능")
                                         .font(.createFont(weight: .medium, size: 12))
-                                        .foregroundStyle(CustomColor.GrayScaleColor.gs5)
+                                        .foregroundStyle(CustomColor.GrayScaleColor.black)
                                 }
                             }
                         }
                         
                         ForEach(choiceTextArray.indices, id: \.self) { text in
-                            TextField("선택지 \(text + 1)", text: $choiceTextArray[text].max(100), axis: .vertical)
+                            TextField("투표 선택 항목을 입력해 주세요.", text: $choiceTextArray[text].max(100), axis: .vertical)
                                 .font(.createFont(weight: .medium, size: 12))
                                 .padding(16)
                                 .background(CustomColor.GrayScaleColor.white)
@@ -78,8 +79,18 @@ struct VoteRegistrationView: View {
                     .padding(.bottom, 36)
                     
                     LazyVStack(spacing: 0) {
-                        titleView(titleString: "카테고리")
-                            .padding(.bottom, 12)
+                        HStack(spacing: 0) {
+                            Text("카테고리")
+                                .font(.createFont(weight: .semiBold, size: 15))
+                                .foregroundStyle(CustomColor.GrayScaleColor.black)
+                            Spacer()
+                            Text("*필수 선택")
+                                .font(.createFont(weight: .semiBold, size: 12))
+                                .foregroundStyle(CustomColor.GrayScaleColor.gs6)
+                                
+                        }
+                        .padding(.bottom, 12)
+                        
                         ForEach(categoryStore.categories.chunked(into: 3), id: \.self) { rowCategories in
                             HStack(spacing: 0) {
                                 ForEach(rowCategories) { category in
@@ -99,10 +110,19 @@ struct VoteRegistrationView: View {
                 Button {
                     if isNext() {
                         choiceTextArray.removeAll { $0 == "" }
-                        jhPrint(choiceTextArray)
-                        voteStore.registrationVote(title: titleText, isMulti: isMultipleSelection, voteOptions: choiceTextArray, categoryIds: chosenCategory) { isSuccess in
-                            if isSuccess {
-                                toast = Toast(type: .quit, message: "등록한 투표는 관리자 검토 후 업로드돼요")
+                        if !isRegistration {
+                            isRegistration = true
+                            if let chosenCategory {
+                                voteStore.registrationVote(title: titleText, isMulti: isMultipleSelection, voteOptions: choiceTextArray, categoryIds: chosenCategory) { isSuccess in
+                                    if isSuccess {
+                                        toast = Toast(type: .quit, message: "등록한 투표는 관리자 검토 후 업로드돼요")
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            path.append(PathType.home)
+                                        }
+                                    } else {
+                                        toast = Toast(type: .quit, message: "등록실패")
+                                    }
+                                }
                             } else {
                                 toast = Toast(type: .quit, message: "등록실패")
                             }
@@ -113,15 +133,16 @@ struct VoteRegistrationView: View {
                 } label: {
                     Text("등록")
                         .font(.createFont(weight: .medium, size: 16))
-                        .frame(width: PhoneSpace.screenWidth * 0.9, height: 47)
+                        .frame(width: PhoneSpace.screenWidth - 40, height: 47)
                         .foregroundStyle(CustomColor.GrayScaleColor.white)
                         .background(isNext() ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                         .cornerRadius(4)
                 }
             }
+            .padding(.top)
             .padding(.horizontal)
-            .showToastView(toast: $toast)
         }
+        .showToastView(toast: $toast)
         .navigationTitle("투표 등록")
         .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 18)
         .navigationBarTitleDisplayMode(.inline)
@@ -136,7 +157,7 @@ extension VoteRegistrationView {
                 textCount += 1
             }
         }
-        if titleText != "" && textCount > 1 && !chosenCategory.isEmpty {
+        if titleText != "" && textCount > 1 && chosenCategory != nil {
             return true
         } else {
             return false
@@ -156,10 +177,10 @@ extension VoteRegistrationView {
     @ViewBuilder
     private func configCategoryButtons(category: Category) -> some View {
         Button {
-            if !chosenCategory.contains(category.id) {
-                chosenCategory.append(category.id)
+            if chosenCategory != category.id {
+                chosenCategory = category.id
             } else {
-                chosenCategory.removeAll { $0 == category.id }
+                chosenCategory = nil
             }
         } label: {
             HStack(spacing: 0) {
@@ -172,18 +193,18 @@ extension VoteRegistrationView {
                     ProgressView()
                 }
                 .padding(.trailing, 8)
-                .grayscale(chosenCategory.contains(category.id) ? 0 : 1)
-                .opacity(chosenCategory.contains(category.id) ? 1 : 0.25)
+                .grayscale(chosenCategory == category.id ? 0 : 1)
+                .opacity(chosenCategory == category.id ? 1 : 0.25)
                 
                 Text(category.name)
                     .font(.createFont(weight: .medium, size: 12))
-                    .foregroundStyle(chosenCategory.contains(category.id)
+                    .foregroundStyle(chosenCategory == category.id
                                      ? Color(hex: category.textColor)
                                      : CustomColor.GrayScaleColor.gs4)
             }
             .padding(.horizontal, 12)
             .frame(height: 36)
-            .background(chosenCategory.contains(category.id)
+            .background(chosenCategory == category.id
                         ? Color(hex: category.backgroundColor)
                         : CustomColor.GrayScaleColor.white)
             .cornerRadius(4, corners: .allCorners)

@@ -64,6 +64,7 @@ struct VoteDetailView: View {
                                             bookmarkStore.updateVotesBookmark(voteId: voteId)
                                         }
                                         voteStore.currentVoteDetail.isBookmarked.toggle()
+                                        toast = Toast(type: voteStore.currentVoteDetail.isBookmarked ? .savedBookMark : .quit, message: voteStore.currentVoteDetail.isBookmarked ? "저장 완료!" : "북마크가 해제되었어요!")
                                     } label: {
                                         Image(voteStore.currentVoteDetail.isBookmarked ? "bookmark" : "bookmark_off")
                                             .frame(width: 16, height: 18)
@@ -83,6 +84,9 @@ struct VoteDetailView: View {
                                     .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                                     .frame(width: PhoneSpace.screenWidth - 80, alignment: .leading)
                                     .padding(.bottom, 25)
+                                    .onAppear {
+//                                        jhPrint(voteStore.currentVoteDetail.chosenVoteOptionID)
+                                    }
                                 
                                 VStack(spacing: 8) {
                                     ForEach(voteStore.currentVoteDetail.voteOptions) { vote in
@@ -105,9 +109,7 @@ struct VoteDetailView: View {
                                                     .fill(isChosenOption ? CustomColor.GrayScaleColor.black : CustomColor.GrayScaleColor.gs4)
                                                     .frame(width: (PhoneSpace.screenWidth - 80) * (animatedPercentages[vote.voteOptionId] ?? 0), height: 50)
                                                     .clipShape(RoundedRectangle(cornerRadius: 4))
-                                                    .onAppear {
-                                                        
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                                    .onAppear {                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                                             withAnimation(.easeInOut(duration: 0.8)) {
                                                                 animatedPercentages[vote.voteOptionId] = votePercentage
                                                             }
@@ -262,10 +264,10 @@ struct VoteDetailView: View {
                     .disablePressed(isDisabled: $isButtonDisabled)
                 }
             } //: Vstack
-            .showToastView(toast: $toast)
             .opacity(isLottie ? 0 : 1)
             .redacted(reason: isLoading ? .placeholder : [])
         } //: Zstack
+        .showToastView(toast: $toast)
         .onAppear {
             Task {
                 ViewTracker.shared.updateCurrentView(to: .voteDetail)
@@ -273,7 +275,7 @@ struct VoteDetailView: View {
                 var categoryID: Int?
                 
                 if ViewTracker.shared.currentTap == .home {
-                    categoryID = voteStore.categoryName == "전체" ? nil : voteStore.categoryID(voteStore.categoryName)
+                    categoryID = voteStore.categoryName == "카테고리" ? nil : voteStore.categoryID(voteStore.categoryName)
                 } else {
                     categoryID = voteStore.categoryNameForBookmark == "ALL" ? nil : voteStore.categoryID(voteStore.categoryNameForBookmark)
                 }

@@ -11,6 +11,7 @@ final class VoteStore: ObservableObject {
     
     @Published var hotVotes: HotVote = dummyHotVote
     @Published var dailyVote: Vote = dummyDailyVote
+    @Published var isVotedDailyVote: Bool = false
     @Published var currentVoteDetail: VoteDetail = dummyVoteDetail
     @Published var currentVoteInformation: [Information] = []
     @Published var currentVoteInformationDetail: InformationDetail = dummyInformationDetail
@@ -20,7 +21,7 @@ final class VoteStore: ObservableObject {
     @Published var latestVotes: LatestVote = dummyLatestVote
     @Published var registeredHistory: [History] = []
     @Published var nextCursorForVote: Int?
-    @Published var categoryName: String = "전체"
+    @Published var categoryName: String = "카테고리"
     @Published var categoryNameForBookmark: String = "ALL"
     @Published var nextCursorForHistory: Int?
     
@@ -34,7 +35,7 @@ final class VoteStore: ObservableObject {
         hotVotesWithSelectedCategory = dummyHotVoteWithCategory
         hotVotesInCategory = [dummyCategorizedVotes]
         latestVotes = dummyLatestVote
-        categoryName = "전체"
+        categoryName = "카테고리"
         categoryNameForBookmark = "ALL"
     }
     
@@ -155,9 +156,16 @@ final class VoteStore: ObservableObject {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
                     dailyVote = vote.data
-//                    jhPrint("서버에서 사용자가 투표했나요?: \(dailyVote.isVoted)", isWarning: true)
-                    completion(dailyVote.isVoted)
+                    isVotedDailyVote = dailyVote.isVoted
                     
+                    if dailyVote.isVoted {
+                        fetchVoteDetail(voteId: dailyVote.voteId) { _ in
+                        }
+                    } else {
+                        fetchVoteDetail(voteId: dailyVote.voteId) { _ in
+                        }
+                        completion(dailyVote.isVoted)
+                    }
                 }
             case .failure(let error):
                 jhPrint(error, isWarning: true)
@@ -204,13 +212,13 @@ final class VoteStore: ObservableObject {
     }
     
     /// 유저가 투표를 등록할수 있게 하는 메서드
-    func registrationVote(title: String, isMulti: Bool, voteOptions: [String], categoryIds: [Int], completion: @escaping (Bool) -> Void) {
+    func registrationVote(title: String, isMulti: Bool, voteOptions: [String], categoryIds: Int, completion: @escaping (Bool) -> Void) {
         let path = "/api/v1/votes"
         let body: [String: Any] = [
             "title": title,
             "isMultipleChoiceAllowed": isMulti,
             "voteOptions": voteOptions,
-            "categoryIds": categoryIds
+            "categoryIds": [categoryIds]
         ]
         networkService.performRequest(method: "POST", path: path, body: body, token: KeychainService.shared.getSachoSaengAccessToken()!) {(result: Result<Response<EmptyData>, NetworkError>) in
             switch result {
@@ -225,7 +233,31 @@ final class VoteStore: ObservableObject {
     }
     
     /// 사용자 투표 히스토리 조회
-    func fetchHistory(size: Int = 10) {
+    func fetchHistory() async {
+        let path = "/api/v1/votes/my"
+        
+        guard let token = KeychainService.shared.getSachoSaengAccessToken() else {
+            jhPrint("토큰이 존재하지 않습니다.")
+            return
+        }
+        
+        networkService.performRequest(method: "GET", path: path, body: nil, token: token) { (result: Result<Response<HistoryData>, NetworkError>) in
+            switch result {
+            case .success(let history):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    if history.data.hasNext {
+                        nextCursorForHistory = history.data.nextCursor
+                    }
+                    registeredHistory = history.data.votes
+                }
+            case .failure(let err):
+                jhPrint(err.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchHistory(size: Int = 10, completion: @escaping (Bool) -> Void) {
         var path = "/api/v1/votes/my?size=\(size)"
         
         if let cursor = nextCursorForHistory {
@@ -242,13 +274,21 @@ final class VoteStore: ObservableObject {
             case .success(let history):
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
+                    let cursor = history.data.nextCursor
+                    
                     if history.data.hasNext {
-                        self.nextCursorForHistory = history.data.nextCursor
+                        nextCursorForHistory = cursor
+                        registeredHistory.append(contentsOf: history.data.votes)
+                        completion(false)
+                    } else {
+                        registeredHistory.append(contentsOf: history.data.votes)
+                        jhPrint("false: \(history.data)")
+                        completion(true)
                     }
-                    self.registeredHistory = history.data.votes
                 }
             case .failure(let err):
                 jhPrint(err.localizedDescription)
+                completion(true)
             }
         }
     }

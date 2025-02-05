@@ -198,8 +198,8 @@ struct MyPageView: View {
                                     """)
             }
             .scrollIndicators(.hidden)
-            .navigationTitle("마이페이지")
-            .navigationBarTitleDisplayMode(.inline)
+//            .navigationTitle("마이페이지")
+//            .navigationBarTitleDisplayMode(.inline)
         }
         .showPopupView(isPresented: $isPopUpView, message: .logOut, primaryAction: {
             signStore.logOut()

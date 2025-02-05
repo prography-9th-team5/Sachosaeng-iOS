@@ -33,7 +33,7 @@ struct UserFavoriteCategoryView: View {
             .padding(.horizontal, 20)
             
             HStack(spacing: 0) {
-                CommonTitle(top: "선호하는 카테고리를",
+                CommonTitle(top: "관심 있는 주제를",
                             topFont: .bold,
                             middle: "모두 선택해 주세요",
                             middleFont: .bold,
@@ -90,7 +90,7 @@ struct UserFavoriteCategoryView: View {
             .disabled(tapCount == 0)
             Spacer()
         } //:Vstack
-        .navigationTitle("카테고리 선택")
+        .navigationTitle("관심 주제 선택")
         .navigationBarTitleTextColor(CustomColor.GrayScaleColor.gs6, .medium, size: 16)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {

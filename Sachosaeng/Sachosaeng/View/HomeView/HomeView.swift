@@ -38,22 +38,12 @@ struct HomeView: View {
                     }
                     
                     Spacer()
-                    
-                    Button {
-                        path.append(PathType.myPage)
-                    } label: {
-                        Image("온보딩_\(userInStore.currentUserState.userType)")
-                            .resizable()
-                            .scaledToFit()
-                            .clipShape(Circle())
-                            .frame(width: 40, height: 40)
-                    }
                 } //: Hstack
                 .padding(.all, 20)
                 
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
-                        if voteStore.categoryName == "전체" {
+                        if voteStore.categoryName == "카테고리" {
                             DailyVoteCell(voteStore: voteStore, bookmarkStore: bookmarkStore)
                                 .padding(.bottom, 32)
                                 .id("top")
@@ -75,21 +65,26 @@ struct HomeView: View {
                                 }
                                 .padding(.horizontal, 20)
                                 
-                                VStack(spacing: 0) {
-                                    ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
-                                        Button {
-                                            if isTouchedVoteIndex == nil {
-                                                isTouchedVoteIndex = vote.voteId
-                                                path.append(PathType.voteDetail(vote.voteId))
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 0) {
+                                        ForEach(Array(voteStore.hotVotes.votes.enumerated()), id: \.element) { index, vote in
+                                            Button {
+                                                if isTouchedVoteIndex == nil {
+                                                    isTouchedVoteIndex = vote.voteId
+                                                    path.append(PathType.voteDetail(vote.voteId))
+                                                }
+                                            } label: {
+                                                setHotVoteCell(vote: vote, index: index)
+                                                    .padding(.trailing, 8)
                                             }
-                                        } label: {
-                                            setHotVoteCell(vote: vote, index: index)
-                                        }
-                                        .onAppear {
-                                            isTouchedVoteIndex = nil
+                                            .onAppear {
+                                                isTouchedVoteIndex = nil
+                                            }
                                         }
                                     }
+                                    
                                 }
+                                .padding(.leading, 20)
                                 .padding(.bottom, 32)
                                 
                                 ForEach(voteStore.hotVotesInCategory) { hotVote in
@@ -116,20 +111,31 @@ struct HomeView: View {
                                         .padding(.bottom, 12)
                                         
                                         if let categorizedVote = voteStore.hotVotesInCategory.first(where: { $0.category.id == hotVote.category.categoryId }) {
-                                            ForEach(categorizedVote.votes) { vote in
-                                                Button {
-                                                    if isTouchedVoteIndex == nil {
-                                                        isTouchedVoteIndex = vote.voteId
-                                                        path.append(PathType.voteDetail(vote.voteId))
+                                            VStack(spacing: 0) {
+                                                ForEach(categorizedVote.votes.indices, id: \.self) { index in
+                                                    let vote = categorizedVote.votes[index]
+                                                    Button {
+                                                        if isTouchedVoteIndex == nil {
+                                                            isTouchedVoteIndex = vote.voteId
+                                                            path.append(PathType.voteDetail(vote.voteId))
+                                                        }
+                                                    } label: {
+                                                        setHotVoteWithCategory(vote: vote)
+                                                            .overlay(alignment: .bottom) {
+                                                                if index < categorizedVote.votes.count - 1 {
+                                                                    Divider()
+                                                                        .frame(width: PhoneSpace.screenWidth * 0.8)
+                                                                }
+                                                                
+                                                            }
                                                     }
-                                                } label: {
-                                                    setHotVoteWithCategory(vote: vote)
-                                                        .padding(.bottom, 6)
-                                                }
-                                                .onAppear {
-                                                    isTouchedVoteIndex = nil
+                                                    .onAppear {
+                                                        isTouchedVoteIndex = nil
+                                                    }
                                                 }
                                             }
+                                            .background(CustomColor.GrayScaleColor.white)
+                                            .cornerRadius(12)
                                         }
                                     }
                                 }
@@ -234,7 +240,7 @@ struct HomeView: View {
                             .cornerRadius(12)
                             .presentationDetents([.height(PhoneSpace.screenHeight - 150)])
                             .onDisappear {
-                                if voteStore.categoryName == "전체" {
+                                if voteStore.categoryName == "카테고리" {
                                 
                                 } else {
                                     withAnimation {
@@ -295,7 +301,7 @@ struct HomeView: View {
                     isShowDaily = !isVoted
                 }
                 let categoryId = voteStore.categoryID(voteStore.categoryName)
-                if voteStore.categoryName != "전체" {
+                if voteStore.categoryName != "카테고리" {
                     voteStore.fetchHotVotesWithSelectedCategory(categoryId: categoryId)
                 }
                 voteStore.fetchLatestVotesInSelectedCategory(categoryId: categoryId)
@@ -398,10 +404,10 @@ extension HomeView {
     @ViewBuilder
     private func setHotVoteWithCategory(vote: VoteWithoutCategory) -> some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 8)
-                .frame(height: 60)
+            Rectangle()
+                .frame(height: 71)
                 .foregroundStyle(vote.isVoted ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.white)
-            
+                
             HStack(spacing: 0) {
                 if vote.isVoted {
                     Image("checkCircle_true")
@@ -432,60 +438,49 @@ extension HomeView {
     
     @ViewBuilder
     private func setHotVoteCell(vote: Vote, index: Int) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 8)
-                .frame(height: 60)
-                .foregroundStyle(vote.isVoted ? CustomColor.GrayScaleColor.gs3 : CustomColor.GrayScaleColor.white)
-            HStack(spacing: 0) {
-                if vote.isVoted {
-                    Image("checkCircle_true")
-                        .circleImage(frame: 16)
-                        .padding(.leading, 16)
-                } else {
-                    Text("\(index + 1)")
-                        .font(.createFont(weight: .bold, size: 15))
-                        .foregroundStyle(CustomColor.GrayScaleColor.black)
-                        .padding(.leading, 16)
-                }
-                VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
+            VStack(spacing: 0) {
+                if let participantCount = vote.participantCount, participantCount > 10 {
                     HStack(spacing: 0) {
-                        Text(vote.title)
-                            .font(.createFont(weight: .bold, size: 15))
-                            .foregroundStyle(CustomColor.GrayScaleColor.black)
-                            .lineLimit(1)
+                        
+                        Text("\(participantCount)명 참여 중")
+                            .font(.createFont(weight: .medium, size: 12))
+                            .foregroundStyle(CustomColor.GrayScaleColor.gs6)
                         Spacer()
-                    }
+                    }.padding(.bottom, 10)
                     
-                    HStack(spacing : 0) {
-                        if let participantCount = vote.participantCount, participantCount > 10 {
-                            HStack(spacing: 0) {
-                                Text("\(participantCount)명 참여 중")
-                                    .font(.createFont(weight: .medium, size: 12))
-                                    .foregroundStyle(CustomColor.GrayScaleColor.gs6)
-                                Spacer()
-                            }
-                        }
-                    }
                 }
-                .padding(.leading, 10)
-                ZStack {
-                    RoundedRectangle(cornerRadius: 4)
+                
+                HStack(spacing: 0) {
+                    Text(vote.title)
+                        .font(.createFont(weight: .semiBold, size: 15))
+                        .foregroundStyle(CustomColor.GrayScaleColor.black)
+                        .lineLimit(3)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
+                }
+            }
+            .padding(.top, 20)
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
+            
+            Spacer()
+            
+            HStack(spacing: 0) {
+                Spacer()
+                AsyncImage(url: URL(string: vote.category.iconUrl)) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 32, height: 32)
-                        .foregroundStyle(Color(hex: vote.category.backgroundColor))
-                    AsyncImage(url: URL(string: vote.category.iconUrl)) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 18, height: 18)
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    
+                } placeholder: {
+                    ProgressView()
                 }
-                .padding(.trailing, 16)
+                .padding(16)
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.bottom, 6)
+        .background(Color(hex: vote.category.backgroundColor))
+        .cornerRadius(8, corners: .allCorners)
+        .frame(width: 156, height: 176)
     }
 }

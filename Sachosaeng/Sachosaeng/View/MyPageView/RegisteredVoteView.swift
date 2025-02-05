@@ -18,7 +18,7 @@ struct RegisteredVoteView: View {
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
                     HStack(spacing: 0) {
-                        Text("투표가 등록되었어요! 추가된 투표에 참여해 보세요.")
+                        Text(setTitleText())
                             .font(.createFont(weight: .medium, size: 12))
                             .foregroundStyle(CustomColor.GrayScaleColor.gs5)
                         Spacer()
@@ -102,8 +102,7 @@ struct RegisteredVoteView: View {
                             .background(CustomColor.GrayScaleColor.black)
                             .cornerRadius(4)
                     }
-                }
-                
+                } 
             }
             .padding()
         }
@@ -126,6 +125,18 @@ extension RegisteredVoteView {
                     .font(.createFont(weight: .medium, size: 12))
                     .foregroundStyle(CustomColor.GrayScaleColor.gs5)
             }
+        }
+    }
+    private func setTitleText() -> String {
+        switch voteStore.currentRegisteredVote.status {
+            case "REJECTED":
+                return "*아쉽게도 투표 등록에 실패했어요. 다른 투표 주제를 등록해 보세요."
+            case "PENDING":
+                return "*투표를 검토 중이에요! 조금만 기다려 주세요."
+            case "APPROVED":
+                return "*투표가 등록되었어요! 추가된 투표에 참여해 보세요."
+            default:
+                return ""
         }
     }
 }
